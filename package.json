@@ -11,6 +11,11 @@
     "build:vue3": "vite build --config vue3-build.config.js",
     "build": "npm run build:vue2 && npm run build:vue3"
   },
+  "dependencies": {
+    "@bimdata/design-system": "^1.2.0",
+    "@bimdata/typescript-fetch-api-client": "^7.4.2",
+    "async": "^3.2.3"
+  },
   "peerDependencies": {
     "@vue/composition-api": "^1.4.9",
     "vue": "^2.6 || >=3"
