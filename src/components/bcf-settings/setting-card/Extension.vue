@@ -95,8 +95,8 @@ import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMD
 import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataIcon.js";
 import BIMDataInput from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataInput.js";
 
-// TODO: handle this
-import ColorSelector from "@/components/generic/color-selector/ColorSelector.vue";
+// TODO: should be imported from DS
+import ColorSelector from "../../color-selector/ColorSelector.vue";
 
 const typeFieldMap = {
   Stage: "stage",

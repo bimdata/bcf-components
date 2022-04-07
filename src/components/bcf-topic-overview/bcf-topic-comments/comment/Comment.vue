@@ -104,9 +104,8 @@ import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDat
 import BIMDataLoading from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataLoading.js";
 import BIMDataTextarea from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataTextarea.js";
 
-// TODO: handle this
-import { useProjects } from "@/state/projects.js";
-import UserAvatar from "@/components/specific/users/user-avatar/UserAvatar";
+// TODO: should be imported from DS
+import UserAvatar from "../../../user-avatar/UserAvatar.vue";
 
 export default {
   components: {
@@ -121,6 +120,10 @@ export default {
       type: Object,
       required: true
     },
+    users: {
+      type: Array,
+      required: true
+    },
     bcfTopic: {
       type: Object,
       required: true
@@ -131,7 +134,6 @@ export default {
     },
   },
   setup(props) {
-    const { projectUsers } = useProjects();
     const { deleteComment, updateComment } = useBcf();
 
     const showMenu = ref(false);
@@ -141,7 +143,7 @@ export default {
     const loading = ref(false);
     const commentContent = ref(props.comment.comment);
 
-    const authorDetail = projectUsers.value.find(
+    const authorDetail = props.users.find(
       projectUser => projectUser.email === props.comment.author
     );
 

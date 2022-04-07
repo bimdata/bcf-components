@@ -30,16 +30,13 @@
 </template>
 
 <script>
-import { ref, watch } from "@vue/composition-api";
+import { ref } from "@vue/composition-api";
 import columnsDef from "./columns.js";
 // Components
 import BIMDataTable from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataTable.js";
 import BIMDataTextbox from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataTextbox.js";
 import BcfTopicActionsCell from "./bcf-topic-actions-cell/BcfTopicActionsCell.vue";
 import BcfTopicPriorityCell from "./bcf-topic-priority-cell/BcfTopicPriorityCell.vue";
-
-// TODO: handle this
-import { useI18n } from "vue-i18n";
 
 export default {
   components: {
@@ -55,19 +52,7 @@ export default {
     }
   },
   setup() {
-    const { locale, t } = useI18n();
-
-    const columns = ref([]);
-    watch(
-      () => locale.value,
-      () => {
-        columns.value = columnsDef.map(col => ({
-          ...col,
-          label: col.label || t(`BcfTopicsList.headers.${col.id}`)
-        }));
-      },
-      { immediate: true }
-    );
+    const columns = ref(columnsDef);
 
     return {
       columns

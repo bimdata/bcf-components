@@ -253,9 +253,8 @@ import BIMDataTextbox from "@bimdata/design-system/dist/js/BIMDataComponents/BIM
 import BcfTopicComments from "./bcf-topic-comments/BcfTopicComments.vue";
 import BcfTopicDefaultImage from "../bcf-topic-card/BcfTopicDefaultImage.vue";
 
-// TODO: handle this
-import { useModels } from "@/state/models.js";
-import SafeZoneModal from "@/components/generic/safe-zone-modal/SafeZoneModal.vue";
+// TODO: this could be externalized .. ?
+import SafeZoneModal from "../safe-zone-modal/SafeZoneModal.vue";
 
 export default {
   components: {
@@ -272,6 +271,10 @@ export default {
       type: Object,
       required: true
     },
+    models: {
+      type: Array,
+      required: true
+    },
     bcfTopic: {
       type: Object,
       required: true
@@ -284,7 +287,6 @@ export default {
   emits: ["close", "view-bcf-topic"],
   setup(props) {
     const { deleteTopic } = useBcf();
-    const { projectModels } = useModels();
 
     const loading = ref(false);
     const showDeleteModal = ref(false);
@@ -344,7 +346,7 @@ export default {
       if (props.bcfTopic.ifcs?.length) {
         ids = props.bcfTopic.ifcs;
       } else {
-        const ifcs = projectModels.value
+        const ifcs = props.models
           .filter(model => model.type === MODEL_TYPE.IFC)
           .filter(model => model.status === MODEL_STATUS.COMPLETED)
           .sort((a, b) =>

@@ -81,8 +81,8 @@ import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDat
 import BIMDataInput from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataInput.js";
 import Extension from "./Extension.vue";
 
-// TODO: handle this
-import { getRandomHexColor } from "@/components/generic/color-selector/colors.js";
+// TODO: should be imported from DS
+import { getRandomHexColor } from "../../color-selector/colors.js";
 
 export default {
   components: {
