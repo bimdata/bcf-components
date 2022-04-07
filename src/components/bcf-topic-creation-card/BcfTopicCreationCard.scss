@@ -1,0 +1,14 @@
+.bcf-topic-creation-card {
+  &:deep() {
+    .bimdata-card__content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      p {
+        font-size: 14px;
+      }
+    }
+  }
+}

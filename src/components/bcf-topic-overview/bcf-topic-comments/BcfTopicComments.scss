@@ -1,0 +1,11 @@
+.bcf-topic-comments {
+  p {
+    font-weight: 700;
+  }
+
+  &:deep() {
+    .bimdata-textarea {
+      width: 100%;
+    }
+  }
+}
