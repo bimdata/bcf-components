@@ -8,7 +8,7 @@
       radius
       @click="isOpen = true"
     >
-      {{ $t("Poster un commentaire") }}
+      Poster un commentaire
     </BIMDataButton>
 
     <div
@@ -16,7 +16,7 @@
       class="bcf-topic-comments__post-comment m-t-24"
     >
       <p class="color-granite m-b-24">
-        {{ $t("Commentaire") }}
+        Commentaire
       </p>
       <div class="bcf-comment-input m-t-24">
         <BIMDataTextarea
@@ -24,7 +24,7 @@
           width="100%"
           autofocus
           resizable
-          :label="$t('Poster un commentaire')"
+          label="Poster un commentaire"
           name="example"
           v-model="topicComment"
         />
@@ -37,7 +37,7 @@
             class="m-r-6"
             @click="isOpen = false"
           >
-            {{ $t("Annuler") }}
+            Annuler
           </BIMDataButton>
           <BIMDataButton
             color="primary"
@@ -46,7 +46,7 @@
             width="135px"
             @click="publishComment"
           >
-            {{ $t("Publier") }}
+            Publier
           </BIMDataButton>
         </div>
       </div>
@@ -54,14 +54,15 @@
 
     <div class="bcf-topic-comments__list m-t-18">
       <p class="color-granite">
-        {{ bcfTopic.comments?.length || 0 }}
-        {{ $t("Commentaires") }}
+        {{ bcfTopic.comments && bcfTopic.comments.length || 0 }}
+        Commentaires
       </p>
-      <div v-if="bcfTopic.comments?.length">
+      <div v-if="bcfTopic.comments && bcfTopic.comments.length">
         <Comment
           v-for="comment in bcfTopic.comments"
           :key="comment"
           :project="project"
+          :users="users"
           :bcfTopic="bcfTopic"
           :comment="comment"
         />
@@ -76,12 +77,12 @@
 
 <script>
 import { ref, watch } from "@vue/composition-api";
-import { useBcf } from "../../composables/bcf.js";
+import { useBcf } from "../../../composables/bcf.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
 import BIMDataLoading from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataLoading.js";
 import BIMDataTextarea from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataTextarea.js";
-import Comment from "../comment/Comment.vue";
+import Comment from "./comment/Comment.vue";
 
 export default {
   components: {
@@ -95,12 +96,17 @@ export default {
       type: Object,
       required: true
     },
+    users: {
+      type: Array,
+      required: true
+    },
     bcfTopic: {
       type: Object,
       required: true
     }
   },
   setup(props) {
+    // TODO: could be provided by parent ?
     const { createComment } = useBcf();
 
     const isOpen = ref(false);
@@ -111,7 +117,6 @@ export default {
     watch(isOpen, () =>
       setTimeout(() => isOpen.value && commentInput.value.focus(), 100)
     );
-
 
     const publishComment = async () => {
       try {

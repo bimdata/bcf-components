@@ -201,13 +201,17 @@
             {{
               topicTags.length
                 ? topicTags.join(", ")
-                : t("OpenTopicIssue.noTags")
+                : $t("OpenTopicIssue.noTags")
             }}
           </span>
         </div>
       </div>
       <div class="bcf-topic-overview__comment m-t-12">
-        <BcfTopicComments :project="project" :bcfTopic="bcfTopic" />
+        <BcfTopicComments
+          :project="project"
+          :users="users"
+          :bcfTopic="bcfTopic"
+        />
       </div>
     </div>
     <SafeZoneModal v-if="showDeleteModal">
@@ -234,6 +238,7 @@
         </BIMDataButton>
       </template>
     </SafeZoneModal>
+
     <div v-if="loading">
       <BIMDataLoading />
     </div>
@@ -253,7 +258,7 @@ import BIMDataTextbox from "@bimdata/design-system/dist/js/BIMDataComponents/BIM
 import BcfTopicComments from "./bcf-topic-comments/BcfTopicComments.vue";
 import BcfTopicDefaultImage from "../bcf-topic-card/BcfTopicDefaultImage.vue";
 
-// TODO: this could be externalized .. ?
+// TODO: could be externalized ?
 import SafeZoneModal from "../safe-zone-modal/SafeZoneModal.vue";
 
 export default {
@@ -275,6 +280,10 @@ export default {
       type: Array,
       required: true
     },
+    users: {
+      type: Array,
+      required: true
+    },
     bcfTopic: {
       type: Object,
       required: true
@@ -286,6 +295,7 @@ export default {
   },
   emits: ["close", "view-bcf-topic"],
   setup(props) {
+    // TODO: could be provided by parent ?
     const { deleteTopic } = useBcf();
 
     const loading = ref(false);

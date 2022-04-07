@@ -12,6 +12,7 @@
         {{ $d(new Date(), "short") }}
       </div>
     </div>
+
     <div
       class="bcf-topic-create__image flex items-center justify-center m-t-24"
       :class="{ 'no-img': !viewpoints.length > 0 }"
@@ -24,12 +25,12 @@
         >
           <img :src="viewpoint.snapshot.snapshot_data" loading="lazy" />
           <BIMDataButton
+            class="remove-viewpoint"
             color="default"
             fill
             rounded
             icon
             @click="removeViewpoint(i)"
-            class="remove-viewpoint"
           >
             <BIMDataIcon name="delete" size="xs" fill color="high" />
           </BIMDataButton>
@@ -37,29 +38,31 @@
       </div>
       <div class="img-input" v-else>
         <div class="img-input__title">
-          <!-- {{ $t("CreateBcfTopic.dragDropImageText") }} -->
-          <label for="files">Parcourir</label>
+          <label for="files">
+            Parcourir
+          </label>
           <input
-            type="file"
-            accept="image/png, image/jpeg"
-            multiple
-            @change="upload"
-            id="files"
             style="display: none"
+            id="files"
+            type="file"
+            multiple
+            accept="image/png, image/jpeg"
+            @change="upload"
           />
         </div>
       </div>
     </div>
+
     <div
-      class="bcf-topic-create__add-img flex justify-center m-t-18"
       v-if="viewpoints.length > 0"
+      class="bcf-topic-create__add-img flex justify-center m-t-18"
     >
       <BIMDataButton
+        :disabled="viewpoints.length >= 4"
         width="100%"
         color="primary"
         fill
         radius
-        :disabled="viewpoints.length >= 4"
       >
         <label
           for="files"
@@ -70,13 +73,13 @@
           Ajouter une image
         </label>
         <input
-          type="file"
-          accept="image/png, image/jpeg"
-          multiple
-          @change="upload"
-          id="files"
           style="display: none"
           :disabled="viewpoints.length >= 4"
+          id="files"
+          type="file"
+          multiple
+          accept="image/png, image/jpeg"
+          @change="upload"
         />
       </BIMDataButton>
     </div>
@@ -84,9 +87,9 @@
     <div class="bcf-topic-create__content m-t-36">
       <BIMDataInput
         placeholder="Title*"
-        v-model="topicTitle"
         :error="hasError"
         errorMessage="Titre manquant"
+        v-model="topicTitle"
         @keyup.enter.stop="submit"
       />
       <BIMDataSelect
@@ -130,24 +133,26 @@
       <div class="due-date">
         <BIMDataInput
           margin="0"
-          v-model="topicDate"
           :placeholder="$t('CreateBcfTopic.dueDateLabel')"
           :error="hasDateError"
           errorMessage="Format de date ou date incorrecte"
+          v-model="topicDate"
         />
-        <p class="m-y-6">{{ $t("CreateBcfTopic.dateExample") }}</p>
+        <p class="m-y-6">
+          {{ $t("CreateBcfTopic.dateExample") }}
+        </p>
       </div>
       <BIMDataTextarea
-        :label="$t('CreateBcfTopic.descriptionLabel')"
-        name="description"
-        v-model="topicDescription"
         width="100%"
+        name="description"
+        :label="$t('CreateBcfTopic.descriptionLabel')"
+        v-model="topicDescription"
         fitContent
         resizable
       />
       <BIMDataSelect
-        :multi="true"
         width="100%"
+        :multi="true"
         :label="$t('CreateBcfTopic.tagsLabel')"
         :options="detailedExtensions.topicLabels"
         optionKey="id"
@@ -155,18 +160,20 @@
         v-model="topicTags"
       />
     </div>
+
     <div class="bcf-topic-create__footer m-t-24">
       <BIMDataButton
+        :disabled="topicTitle === ''"
         width="100%"
         color="primary"
         fill
         radius
         @click="submit"
-        :disabled="topicTitle === ''"
       >
         {{ $t("CreateBcfTopic.validateButton") }}
       </BIMDataButton>
     </div>
+
     <div v-if="loading" class="overlay flex items-center justify-center">
       <BIMDataLoading />
     </div>
@@ -182,6 +189,7 @@ import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMD
 import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataIcon.js";
 import BIMDataInput from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataInput.js";
 import BIMDataLoading from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataLoading.js";
+import BIMDataSelect from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataSelect.js";
 import BIMDataTextarea from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataTextarea.js";
 
 export default {
@@ -201,17 +209,20 @@ export default {
     bcfTopics: {
       type: Array,
       required: true
-    }
+    },
+    extensions: {
+      type: Object,
+      required: true
+    },
+    detailedExtensions: {
+      type: Object,
+      required: true
+    },
   },
   emits: ["submit"],
   setup(props) {
-    const {
-      extensions,
-      detailedExtensions,
-      loadBcfTopics,
-      loadExtensions,
-      createFullTopic,
-    } = useBcf();
+    // TODO: could be provided by parent ?
+    const { createFullTopic } = useBcf();
 
     const nextIndex = computed(() => {
       if (props.bcfTopics && props.bcfTopics.length > 0) {
@@ -225,12 +236,6 @@ export default {
         return 1;
       }
     });
-
-    watch(
-      () => props.project,
-      async project => (await loadExtensions(project)),
-      { immediate: true }
-    );
 
     const viewpoints = ref([]);
     const upload = event => {
@@ -299,7 +304,6 @@ export default {
       }
       loading.value = true;
       await createFullTopic(props.project, body);
-      await loadBcfTopics(props.project);
       topicTitle.value = "";
       topicType.value = null;
       topicPriority.value = null;
@@ -316,8 +320,6 @@ export default {
 
     return {
       // References
-      detailedExtensions,
-      extensions,
       hasDateError,
       hasError,
       loading,

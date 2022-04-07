@@ -128,6 +128,7 @@ export default {
     }
   },
   setup(props) {
+    // TODO: could be provided by parent ?
     const { updateExtension, deleteExtension } = useBcf();
 
     const editExtension = ref(false);

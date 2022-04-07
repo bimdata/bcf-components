@@ -63,9 +63,10 @@
       <ul class="setting-card__content bimdata-list">
         <Extension
           v-for="extension in availableExtensions"
-          :extensionType="extensionType"
-          :extension="extension"
           :key="extension.id"
+          :project="project"
+          :extension="extension"
+          :extensionType="extensionType"
         />
       </ul>
     </div>
@@ -104,6 +105,7 @@ export default {
     }
   },
   setup(props) {
+    // TODO: could be provided by parent ?
     const { createExtension } = useBcf();
 
     const isOpen = ref(false);

@@ -169,7 +169,6 @@ export default {
     return {
       // References
       priorityColor,
-      showSidePanel,
       statusColor,
       topicElements,
       viewpointsWithSnapshot,

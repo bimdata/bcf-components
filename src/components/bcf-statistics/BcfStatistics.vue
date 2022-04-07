@@ -58,7 +58,7 @@ import { DEFAULT_PRIORITY_COLOR } from "../../config";
 import BIMDataSpinner from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataSpinner.js";
 import BcfStatisticsEmptyImage from "./BcfStatisticsEmptyImage.vue";
 
-// TODO: this could be externalized .. ?
+// TODO: this could be externalized ?
 import Graph from "../graph/Graph.vue";
 
 export default {
@@ -116,4 +116,4 @@ export default {
 };
 </script>
 
-<style scoped lang="scss" src="./BcfStatisctics.scss"></style>
+<style scoped lang="scss" src="./BcfStatistics.scss"></style>

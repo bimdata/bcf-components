@@ -29,24 +29,29 @@
           eiusmod tempor incididunt ut labore et dolore magna aliqua.
         </p>
         <SettingCard
-          extensionType="Priority"
+          :project="project"
           :availableExtensions="detailedExtensions.priorities"
+          extensionType="Priority"
         />
         <SettingCard
-          extensionType="Type"
+          :project="project"
           :availableExtensions="detailedExtensions.topicTypes"
+          extensionType="Type"
         />
         <SettingCard
-          extensionType="Stage"
+          :project="project"
           :availableExtensions="detailedExtensions.stages"
+          extensionType="Stage"
         />
         <SettingCard
-          extensionType="Status"
+          :project="project"
           :availableExtensions="detailedExtensions.topicStatuses"
+          extensionType="Status"
         />
         <SettingCard
-          extensionType="Label"
+          :project="project"
           :availableExtensions="detailedExtensions.topicLabels"
+          extensionType="Label"
         />
       </div>
     </div>
@@ -54,8 +59,6 @@
 </template>
 
 <script>
-import { watch } from "@vue/composition-api";
-import { useBcf } from "../../composables/bcf.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
 import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataIcon.js";
@@ -71,22 +74,13 @@ export default {
     project: {
       type: Object,
       required: true
-    }
+    },
+    detailedExtensions: {
+      type: Object,
+      required: true
+    },
   },
-  emits: ["close"],
-  setup(props) {
-    const { detailedExtensions, loadDetailedExtensions } = useBcf();
-
-    watch(
-      () => props.project,
-      async () => (await loadDetailedExtensions(props.project)),
-      { immediate: true }
-    );
-
-    return {
-      detailedExtensions
-    };
-  }
+  emits: ["close"]
 };
 </script>
 
