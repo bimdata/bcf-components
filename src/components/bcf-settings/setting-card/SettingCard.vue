@@ -40,6 +40,7 @@
       <transition name="list">
         <div v-if="showAddExtension" class="m-b-12">
           <BIMDataInput
+            ref="input"
             :placeholder="$t(`SettingCard.input.${extensionType}`)"
             v-model="newExtensionName"
             @keyup.enter.stop="addExtension"
@@ -74,7 +75,7 @@
 </template>
 
 <script>
-import { ref } from "@vue/composition-api";
+import { ref, watch } from "@vue/composition-api";
 import { useBcf } from "../../../composables/bcf.js";
 // Compopnents
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
@@ -84,6 +85,8 @@ import Extension from "./Extension.vue";
 
 // TODO: should be imported from DS
 import { getRandomHexColor } from "../../color-selector/colors.js";
+
+const typesWithColor = ["Status", "Priority"];
 
 export default {
   components: {
@@ -112,6 +115,7 @@ export default {
     const close = () => isOpen.value = false;
     const toggle = () => isOpen.value = !isOpen.value;
 
+    
     const showAddExtension = ref(false);
     const closeAddExtension = () => {
       newExtensionName.value = "";
@@ -121,18 +125,33 @@ export default {
       showAddExtension.value = !showAddExtension.value;
     };
 
+    const input = ref(null);
     const newExtensionName = ref("");
 
+    watch(showAddExtension, () =>
+      setTimeout(() => showAddExtension.value && input.value.focus(), 100)
+    );
+
     const addExtension = async () => {
-      await createExtension(props.project, props.extensionType, {
-        priority: newExtensionName.value,
-        color: getRandomHexColor()
-      });
-      closeAddExtension();
+      if (typesWithColor.includes(props.extensionType)) {
+        const data = {
+          [extensionValue.value]: newExtensionName.value,
+          color: getRandomHexColor()
+        };
+        await createExtension(props.project, props.extensionType, data);
+        closeAddExtension();
+      } else {
+        const data = {
+          [extensionValue.value]: newExtensionName.value
+        };
+        await createExtension(props.project, props.extensionType, data);
+        closeAddExtension();
+      }
     };
 
     return {
       // References
+      input,
       isOpen,
       newExtensionName,
       showAddExtension,

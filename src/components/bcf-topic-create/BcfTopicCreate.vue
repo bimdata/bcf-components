@@ -17,7 +17,7 @@
       class="bcf-topic-create__image flex items-center justify-center m-t-24"
       :class="{ 'no-img': !viewpoints.length > 0 }"
     >
-      <div class="img-previews flex" v-if="viewpoints.length > 0">
+      <div v-if="viewpoints.length > 0" class="img-previews flex">
         <div
           class="img-preview"
           v-for="(viewpoint, i) in viewpoints.slice(0, 4)"
@@ -36,10 +36,13 @@
           </BIMDataButton>
         </div>
       </div>
-      <div class="img-input" v-else>
-        <div class="img-input__title">
+      <div v-else class="img-input flex flex-col items-center justify-center">
+        <span class="flex items-center justify-center">
+          <BIMDataIcon name="unarchive" fill color="default" size="m" />
+        </span>
+        <BIMDataButton color="primary" outline radius class="m-t-18">
           <label for="files">
-            Parcourir
+            {{ $t("CreateBcfTopic.dragDropImageText") }}
           </label>
           <input
             style="display: none"
@@ -49,7 +52,7 @@
             accept="image/png, image/jpeg"
             @change="upload"
           />
-        </div>
+        </BIMDataButton>
       </div>
     </div>
 
@@ -64,14 +67,6 @@
         fill
         radius
       >
-        <label
-          for="files"
-          class="flex items-center justify-center"
-          :disabled="viewpoints.length >= 4"
-        >
-          <BIMDataIcon name="camera" size="xs" margin="0 12px 0 0" />
-          Ajouter une image
-        </label>
         <input
           style="display: none"
           :disabled="viewpoints.length >= 4"
@@ -81,14 +76,18 @@
           accept="image/png, image/jpeg"
           @change="upload"
         />
+        <label for="files" class="flex items-center justify-center">
+          <BIMDataIcon name="camera" size="xs" margin="0 12px 0 0" />
+          {{ $t("CreateBcfTopic.addPictureButton") }}
+        </label>
       </BIMDataButton>
     </div>
 
     <div class="bcf-topic-create__content m-t-36">
       <BIMDataInput
-        placeholder="Title*"
+        :placeholder="$t('CreateBcfTopic.titlePlaceholder')"
         :error="hasError"
-        errorMessage="Titre manquant"
+        :errorMessage="$t('CreateBcfTopic.titleErrorMessage')"
         v-model="topicTitle"
         @keyup.enter.stop="submit"
       />
@@ -135,7 +134,7 @@
           margin="0"
           :placeholder="$t('CreateBcfTopic.dueDateLabel')"
           :error="hasDateError"
-          errorMessage="Format de date ou date incorrecte"
+          :errorMessage="$t('CreateBcfTopic.dateErrorMessage')"
           v-model="topicDate"
         />
         <p class="m-y-6">

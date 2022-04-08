@@ -39,23 +39,18 @@
       }
 
       &__status {
-        border-radius: 3px;
         position: absolute;
-        left: 6px;
         top: 6px;
+        left: 6px;
+        border-radius: 3px;
+      }
 
-        &.closed {
-          background-color: var(--color-high);
-          color: var(--color-white);
-        }
-        &.opened {
-          background-color: var(--color-success);
-          color: var(--color-white);
-        }
-        &.resolved {
-          background-color: var(--color-granite-light);
-          color: var(--color-white);
-        }
+      &__date {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        font-size: 11px;
+        background-color: var(--color-white);
       }
     }
   }

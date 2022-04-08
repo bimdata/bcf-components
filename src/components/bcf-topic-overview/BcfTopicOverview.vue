@@ -14,7 +14,7 @@
           ripple
           rounded
           icon
-          @click="isOpenEditTopic = !isOpenEditTopic"
+          @click="$emit('edit-bcf-topic', bcfTopic)"
         >
           <BIMDataIcon name="edit" fill color="default" size="xxs" />
         </BIMDataButton>
@@ -60,7 +60,7 @@
       <div
         class="bcf-topic-overview__content__img text-center m-t-12"
         :class="{
-          'no-img': viewpointsWithSnapshot.length === 0
+          'flex items-center justify-center': viewpointsWithSnapshot.length === 0
         }"
       >
         <div
@@ -75,6 +75,7 @@
           <span class="m-l-6">{{ bcfTopic.topicStatus }}</span>
         </div>
         <div class="img-previews flex" v-if="viewpointsWithSnapshot.length > 0">
+        <!-- <CarouselList v-if="viewpointsWithSnapshot.length > 0" :sliderPadding="0"> -->
           <div
             class="img-preview"
             v-for="viewpoint in viewpointsWithSnapshot"
@@ -85,6 +86,7 @@
               :src="viewpoint.snapshot.snapshotData"
             />
           </div>
+        <!-- </CarouselList> -->
         </div>
         <BcfTopicDefaultImage v-else class="no-img-topic" />
       </div>
@@ -193,6 +195,14 @@
             {{ bcfTopic.priority || $t("OpenTopicIssue.priorityNotDefined") }}
           </span>
         </div>
+        <div>
+          <span class="color-primary">
+            Auteur :
+          </span>
+          <span class="color-granite">
+            {{ bcfTopic.creationAuthor }}
+          </span>
+        </div>
         <div class="m-t-12">
           <span class="color-primary">
             {{ $t("OpenTopicIssue.tags") }}
@@ -259,10 +269,12 @@ import BcfTopicComments from "./bcf-topic-comments/BcfTopicComments.vue";
 import BcfTopicDefaultImage from "../bcf-topic-card/BcfTopicDefaultImage.vue";
 
 // TODO: could be externalized ?
+// import CarouselList from "@/components/generic/carousel-list/CarouselList";
 import SafeZoneModal from "../safe-zone-modal/SafeZoneModal.vue";
 
 export default {
   components: {
+    // CarouselList,
     BcfTopicComments,
     BcfTopicDefaultImage,
     BIMDataButton,
@@ -271,6 +283,7 @@ export default {
     BIMDataTextbox,
     SafeZoneModal,
   },
+  emit: ["edit-bcf-topic", "view-bcf-topic"],
   props: {
     project: {
       type: Object,
@@ -291,6 +304,10 @@ export default {
     detailedExtensions: {
       type: Object,
       required: true
+    },
+    isCarousel: {
+      type: Boolean,
+      default: false
     }
   },
   emits: ["close", "view-bcf-topic"],

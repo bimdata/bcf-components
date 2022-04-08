@@ -6,7 +6,7 @@
           class="bcf-topic-card__header__infos__index flex items-center justify-center"
           :style="{
             'background-color': `#${priorityColor}`,
-            color: adjustColor(`#${priorityColor}`, '#ffffff', '#2f374a')
+            color: adjustColor(`#${priorityColor}`, '#ffffff', 'var(--color-text)')
           }"
         >
           {{ bcfTopic.index }}
@@ -21,12 +21,17 @@
           class="bcf-topic-card__header__img__status flex p-6"
           :style="{
             'background-color': `#${statusColor}`,
-            color: adjustColor(`#${statusColor}`, '#ffffff', '#2f374a')
+            color: adjustColor(`#${statusColor}`, '#ffffff', 'var(--color-text)')
           }"
         >
           <BIMDataIcon name="information" fill color="default" />
           <span class="m-l-6">{{ bcfTopic.topicStatus }}</span>
         </div>
+
+        <div class="bcf-topic-card__header__img__date p-6">
+          {{ $d(bcfTopic.creationDate, "short") }}
+        </div>
+
         <img
           v-if="viewpointsWithSnapshot.length > 0"
           :src="viewpointsWithSnapshot[0].snapshot.snapshotData"

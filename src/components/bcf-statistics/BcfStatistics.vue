@@ -22,7 +22,7 @@
           </div>
         </Graph>
         <div
-          class="bcf-statistics__content__legend flex items-start justify-center m-l-12"
+          class="bcf-statistics__content__legend flex items-start justify-center"
         >
           <div
             v-for="barData in barsData"

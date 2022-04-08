@@ -1,5 +1,5 @@
 const DEFAULT_PRIORITY_COLOR = "D8D8D8";
-const DEFAULT_STATUS_COLOR = "";
+const DEFAULT_STATUS_COLOR = "D8D8D8";
 
 const MODEL_TYPE = Object.freeze({
   BFX: "BFX",

@@ -25,7 +25,9 @@
         <div
           class="bcf-filters__container__header flex items-center justify-between"
         >
-          <div class="bcf-filters__container__header__title">Filters</div>
+          <div class="bcf-filters__container__header__title">
+            {{ $t("BcfFilters.filtersTitle") }}
+          </div>
           <BIMDataButton color="primary" ghost rounded icon>
             <BIMDataIcon
               name="close"
@@ -82,7 +84,7 @@
           class="m-t-24"
           width="100%"
           :multi="true"
-          label="Assigned to"
+          :label="$t('BcfFilters.assignedToLabel')"
           :options="userOptions"
           optionKey="value"
           optionLabelKey="label"

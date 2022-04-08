@@ -4,7 +4,7 @@
       color="primary"
       outline
       radius
-      @click="$emit('open-bcf-topic')"
+      @click="$emit('open-bcf-topic', bcfTopic)"
     >
       {{ $t("BcfActionsCell.seeButton") }}
     </BIMDataButton>

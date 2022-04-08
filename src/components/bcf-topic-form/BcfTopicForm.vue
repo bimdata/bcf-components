@@ -36,7 +36,7 @@
           'no-img': viewpointsWithSnapshot.length === 0
         }"
       >
-        <div class="img-previews flex" v-if="viewpointsWithSnapshot.length > 0">
+        <div v-if="viewpointsWithSnapshot.length > 0" class="img-previews flex">
           <div
             class="img-preview"
             v-for="viewpoint in viewpointsWithSnapshot.slice(0, 4)"
@@ -58,18 +58,23 @@
             </BIMDataButton>
           </div>
         </div>
-        <div class="img-input" v-else>
-          <div class="img-input__title">
-            <label for="files">Parcourir</label>
+        <div v-else class="img-input flex flex-col items-center justify-center">
+          <span class="flex items-center justify-center">
+            <BIMDataIcon name="unarchive" fill color="default" size="m" />
+          </span>
+          <BIMDataButton color="primary" outline radius class="m-t-18">
+            <label for="files">
+              {{ $t("EditBcfTopic.dragDropImageText") }}
+            </label>
             <input
-              type="file"
-              accept="image/png, image/jpeg"
-              multiple
-              @change="upload"
-              id="files"
               style="display: none"
+              id="files"
+              type="file"
+              multiple
+              accept="image/png, image/jpeg"
+              @change="upload"
             />
-          </div>
+          </BIMDataButton>
         </div>
       </div>
       <div
@@ -83,14 +88,6 @@
           radius
           :disabled="viewpointsWithSnapshot.length >= 4"
         >
-          <label
-            for="files"
-            class="flex items-center justify-center"
-            :disabled="viewpointsWithSnapshot.length >= 4"
-          >
-            <BIMDataIcon name="camera" size="xs" margin="0 12px 0 0" />
-            Ajouter une image
-          </label>
           <input
             type="file"
             accept="image/png, image/jpeg"
@@ -100,14 +97,22 @@
             style="display: none"
             :disabled="viewpointsWithSnapshot.length >= 4"
           />
+          <label
+            for="files"
+            class="flex items-center justify-center"
+            :disabled="viewpointWithSnapshot.length >= 4"
+          >
+            <BIMDataIcon name="camera" size="xs" margin="0 12px 0 0" />
+            {{ $t("EditBcfTopic.addPictureButton") }}
+          </label>
         </BIMDataButton>
       </div>
 
       <div class="bcf-topic-form__content__content m-t-36">
         <BIMDataInput
           :placeholder="$t('EditBcfTopic.titlePlaceholder')"
+          :errorMessage="$t('EditBcfTopic.titleErrorMessage')"
           v-model="topicTitle"
-          errorMessage="Titre manquant"
         />
         <BIMDataSelect
           width="100%"
@@ -139,6 +144,18 @@
           :options="extensions.userIdType"
           v-model="topicAssignedTo"
         />
+        <div class="due-date m-b-30">
+          <BIMDataInput
+            margin="0"
+            :placeholder="$t('CreateBcfTopic.dueDateLabel')"
+            :error="hasDateError"
+            :errorMessage="$t('CreateBcfTopic.dateErrorMessage')"
+            v-model="topicDate"
+          />
+          <p class="m-y-6">
+            {{ $t("CreateBcfTopic.dateExample") }}
+          </p>
+        </div>
         <BIMDataTextarea
           :label="$t('EditBcfTopic.descriptionLabel')"
           name="description"
@@ -198,8 +215,9 @@
 
 <script>
 import { computed, ref, watch } from "@vue/composition-api";
-import { isArray, isObject, snakeCase, transform } from "lodash";
+import { isArray, isDate, isObject, snakeCase, transform } from "lodash";
 import { useBcf } from "../../composables/bcf.js";
+import { formatToDateObject, regexDate, formatDate } from "../../utils/date.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
 import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataIcon.js";
@@ -253,8 +271,10 @@ export default {
     const topicStatus = ref("");
     const topicPhase = ref("");
     const topicAssignedTo = ref("");
+    const topicDate = ref("");
     const topicDescription = ref("");
     const topicTags = ref([]);
+    const hasDateError = ref(false);
     const viewpointsToDelete = ref([]);
 
     const viewpoints = ref(props.bcfTopic.viewpoints);
@@ -307,6 +327,11 @@ export default {
         } else {
           topicAssignedTo.value = null;
         }
+        if (props.bcfTopic.dueDate) {
+          topicDate.value = props.bcfTopic.dueDate;
+        } else {
+          topicDate.value = null;
+        }
         if (props.bcfTopic.description) {
           topicDescription.value = props.bcfTopic.description;
         } else {
@@ -332,11 +357,28 @@ export default {
       transform(obj, (acc, value, key, target) => {
         const snakeKey = isArray(target) ? key : snakeCase(key);
 
-        acc[snakeKey] = isObject(value) ? snakeify(value) : value;
+        acc[snakeKey] = isObject(value) && !isDate(value) ? snakeify(value) : value;
       });
+    
+    const isDateConform = date => {
+      if (!date) {
+        return true;
+      }
+      if (!date.match(regexDate)) {
+        return false;
+      }
+      const dateToCompare = formatToDateObject(date);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      return dateToCompare.getTime() >= today.getTime();
+    };
 
     const updateBcfTopic = async () => {
-      try {
+      if (!isDateConform(topicDate.value)) {
+        hasDateError.value = true;
+        return;
+      }
+      if (topicTitle.value) {
         loading.value = true;
         const viewpoints_json = viewpoints.value.map(viewpoint => {
           const viewpoint_json = { ...viewpoint };
@@ -363,6 +405,9 @@ export default {
           labels: topicTags.value,
           viewpoints: viewpoints_json
         };
+        if (topicDate.value) {
+          body.dueDate = formatDate(topicDate.value);
+        }
         if (viewpointsToDelete.value.length > 0) {
           await Promise.all(
             viewpointsToDelete.value.map(viewpoint =>
@@ -371,7 +416,6 @@ export default {
           );
         }
         await updateTopic(props.project, props.bcfTopic, snakeify(body));
-      } finally {
         loading.value = false;
       }
     };
@@ -395,9 +439,11 @@ export default {
     };
 
     return {
+      hasDateError,
       loading,
       openModal,
       topicAssignedTo,
+      topicDate,
       topicDescription,
       topicPhase,
       topicPriority,

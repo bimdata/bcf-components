@@ -56,11 +56,11 @@
           class="comment__header__right__delete p-x-12"
         >
           <span>
-            {{ $t("Supprimer ce commentaire ?") }}
+            {{ $t("BcfComment.deleteCommentText") }}
           </span>
           <div class="flex items-center">
             <BIMDataButton class="m-r-6" color="high" fill radius @click="confirmDelete">
-              {{ $t("Supprimer") }}
+              {{ $t("BcfComment.deleteButton") }}
             </BIMDataButton>
             <BIMDataButton ghost rounded icon @click="isDeleting = false">
               <BIMDataIcon name="close" size="xxs" fill color="primary" />
@@ -79,13 +79,13 @@
       <BIMDataTextarea
         :class="{ editing: isEditing }"
         width="100%"
+        rows="1"
+        name="comment"
+        v-model="commentContent"
         fitContent
         autofocus
         :resizable="false"
         :readonly="!isEditing"
-        rows="1"
-        name="comment"
-        v-model="commentContent"
       />
     </div>
 

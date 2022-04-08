@@ -5,7 +5,11 @@
     </span>
 
     <transition v-else>
-      <BIMDataInput v-model="extensionValue" @keyup.enter.stop="submitValue" />
+      <BIMDataInput
+        ref="input"
+        v-model="extensionValue"
+        @keyup.enter.stop="submitValue"
+      />
     </transition>
 
     <div class="flex items-center">
@@ -59,7 +63,9 @@
         class="setting-card-item__delete__safe-zone flex items-center justify-between p-x-12"
         v-if="isDeleteSafeZoneOpen"
       >
-        <p>Supprimer cette {{ extensionType }}</p>
+        <p>
+          {{ $t("Extension.deleteExtensionText") }}
+        </p>
         <div class="flex items-center">
           <BIMDataButton
             class="m-r-6"
@@ -69,7 +75,7 @@
             radius
             @click="submitDelete(extension)"
           >
-            Supprimer
+            {{ $t("Extension.deleteButton") }}
           </BIMDataButton>
           <BIMDataButton
             color="primary"
@@ -87,7 +93,7 @@
 </template>
 
 <script>
-import { ref } from "@vue/composition-api";
+import { ref, watch } from "@vue/composition-api";
 import { useBcf } from "../../../composables/bcf.js";
 import { adjustBorderColor } from "../../../utils/adjustColor.js";
 // Components
@@ -140,6 +146,11 @@ export default {
     );
     const extensionColor = ref(props.extension.color);
 
+    const input = ref(null);
+    watch(editExtension, () =>
+      setTimeout(() => editExtension.value && input.value.focus(), 50)
+    );
+
     const submitValue = async () => {
       if (
         extensionValue.value !==
@@ -186,6 +197,7 @@ export default {
       editExtension,
       extensionColor,
       extensionValue,
+      input,
       isDeleteSafeZoneOpen,
       typeFieldMap,
       typesWithColor,
