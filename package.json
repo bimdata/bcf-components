@@ -12,8 +12,8 @@
     "build": "npm run build:vue2 && npm run build:vue3"
   },
   "dependencies": {
-    "@bimdata/design-system": "^1.2.0",
-    "@bimdata/typescript-fetch-api-client": "^7.4.2",
+    "@bimdata/design-system": "1.4.0-rc.4",
+    "@bimdata/typescript-fetch-api-client": "7.4.2",
     "async": "^3.2.3",
     "lodash": "^4.17.21"
   },

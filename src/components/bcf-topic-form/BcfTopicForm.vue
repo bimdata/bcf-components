@@ -1,73 +1,51 @@
 <template>
   <div class="bcf-topic-form">
-    <div class="bcf-topic-form__header flex items-center justify-between">
-      <BIMDataButton color="default" ripple icon @click="goBack">
-        <BIMDataIcon
-          name="arrow"
-          fill
-          color="granite-light"
-          size="xxs"
-          margin="0 6px 0 0"
-        />
-        {{ $t("EditBcfTopic.goBackButton") }}
-      </BIMDataButton>
-      <span class="text-center">
-        <BIMDataTextbox maxWidth="80%" :text="bcfTopic.title" />
-      </span>
-    </div>
-    <div class="bcf-topic-form__content p-r-6">
-      <div
-        class="bcf-topic-form__content__subheader flex items-center justify-between m-t-12"
-      >
-        <div
-          class="bcf-topic-form__content__subheader__index flex items-center justify-center p-x-6"
-        >
+    <div class="bcf-topic-form__content">
+      <div class="bcf-topic-form__content__subheader">
+        <div class="bcf-topic-form__content__subheader__index">
           {{ bcfTopic.index }}
         </div>
-        <div
-          class="bcf-topic-form__content__subheader__date flex items-center justify-center p-x-6"
-        >
+        <div class="bcf-topic-form__content__subheader__date">
           {{ $d(bcfTopic.creationDate, "short") }}
         </div>
       </div>
+
       <div
-        class="bcf-topic-form__content__image flex items-center justify-center m-t-12"
-        :class="{
-          'no-img': viewpointsWithSnapshot.length === 0
-        }"
+        v-if="viewpointsWithSnapshot.length > 0"
+        class="bcf-topic-form__content__image"
       >
-        <div v-if="viewpointsWithSnapshot.length > 0" class="img-previews flex">
-          <div
-            class="img-preview"
-            v-for="viewpoint in viewpointsWithSnapshot.slice(0, 4)"
-            :key="viewpoint.guid"
+        <div
+          class="snapshot-preview"
+          v-for="viewpoint in viewpointsWithSnapshot.slice(0, 4)"
+          :key="viewpoint.guid"
+        >
+          <img
+            v-if="viewpoint.snapshot.snapshotData"
+            :src="viewpoint.snapshot.snapshotData"
+          />
+          <BIMDataButton
+            class="btn-delete"
+            fill
+            rounded
+            icon
+            @click="removeViewpoint(viewpoint)"
           >
-            <img
-              v-if="viewpoint.snapshot.snapshotData"
-              :src="viewpoint.snapshot.snapshotData"
-            />
-            <BIMDataButton
-              color="default"
-              fill
-              rounded
-              icon
-              @click="removeViewpoint(viewpoint)"
-              class="remove-viewpoint"
-            >
-              <BIMDataIcon name="delete" size="xs" fill color="high" />
-            </BIMDataButton>
-          </div>
+            <BIMDataIcon name="delete" size="xs" fill color="high" />
+          </BIMDataButton>
         </div>
-        <div v-else class="img-input flex flex-col items-center justify-center">
-          <span class="flex items-center justify-center">
+      </div>
+
+      <div v-else class="bcf-topic-form__content__no-image">
+        <!-- <div class="img-input"> -->
+          <span class="btn-upload">
             <BIMDataIcon name="unarchive" fill color="default" size="m" />
           </span>
-          <BIMDataButton color="primary" outline radius class="m-t-18">
+          <BIMDataButton color="primary" outline radius>
             <label for="files">
               {{ $t("EditBcfTopic.dragDropImageText") }}
             </label>
             <input
-              style="display: none"
+              hidden
               id="files"
               type="file"
               multiple
@@ -75,10 +53,11 @@
               @change="upload"
             />
           </BIMDataButton>
-        </div>
+        <!-- </div> -->
       </div>
+
       <div
-        class="bcf-topic-form__content__add-img flex justify-center m-t-18"
+        class="bcf-topic-form__content__add-img flex justify-center"
         v-if="viewpoints.length > 0 || bcfTopic.viewpoints.length > 0"
       >
         <BIMDataButton
@@ -89,18 +68,16 @@
           :disabled="viewpointsWithSnapshot.length >= 4"
         >
           <input
-            type="file"
-            accept="image/png, image/jpeg"
-            multiple
-            @change="upload"
+            hidden
             id="files"
-            style="display: none"
-            :disabled="viewpointsWithSnapshot.length >= 4"
+            type="file"
+            multiple
+            accept="image/png, image/jpeg"
+            @change="upload"
           />
           <label
-            for="files"
             class="flex items-center justify-center"
-            :disabled="viewpointWithSnapshot.length >= 4"
+            for="files"
           >
             <BIMDataIcon name="camera" size="xs" margin="0 12px 0 0" />
             {{ $t("EditBcfTopic.addPictureButton") }}
@@ -108,7 +85,7 @@
         </BIMDataButton>
       </div>
 
-      <div class="bcf-topic-form__content__content m-t-36">
+      <div class="bcf-topic-form__content__content">
         <BIMDataInput
           :placeholder="$t('EditBcfTopic.titlePlaceholder')"
           :errorMessage="$t('EditBcfTopic.titleErrorMessage')"
@@ -167,7 +144,8 @@
         <TagsInput v-model="topicTags" class="m-t-24" />
       </div>
     </div>
-    <div class="bcf-topic-form__footer m-t-12">
+
+    <div class="bcf-topic-form__footer">
       <BIMDataButton
         width="100%"
         color="primary"
@@ -254,7 +232,7 @@ export default {
       reuiqred: true
     }
   },
-  emits: ["close"],
+  emits: ["close", "update-bcf-topic"],
   setup(props, { emit }) {
     // TODO: could be provided by parent ?
     const { updateTopic, deleteViewpoint } = useBcf();

@@ -77,14 +77,12 @@
 <script>
 import { ref, watch } from "@vue/composition-api";
 import { useBcf } from "../../../composables/bcf.js";
+import { getRandomHexColor } from "../../../utils/colors.js";
 // Compopnents
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
 import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataIcon.js";
 import BIMDataInput from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataInput.js";
 import Extension from "./Extension.vue";
-
-// TODO: should be imported from DS
-import { getRandomHexColor } from "../../color-selector/colors.js";
 
 const typesWithColor = ["Status", "Priority"];
 
@@ -114,7 +112,6 @@ export default {
     const isOpen = ref(false);
     const close = () => isOpen.value = false;
     const toggle = () => isOpen.value = !isOpen.value;
-
     
     const showAddExtension = ref(false);
     const closeAddExtension = () => {

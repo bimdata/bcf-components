@@ -50,7 +50,7 @@
           @click="displayColorSelector = true"
         >
         </span>
-        <ColorSelector
+        <BIMDataColorSelector
           v-if="displayColorSelector"
           v-click-away="() => (displayColorSelector = false)"
           class="setting-card-item__color-selector"
@@ -95,14 +95,12 @@
 <script>
 import { ref, watch } from "@vue/composition-api";
 import { useBcf } from "../../../composables/bcf.js";
-import { adjustBorderColor } from "../../../utils/adjustColor.js";
+import { adjustBorderColor } from "../../../utils/colors.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
+import BIMDataColorSelector from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataColorSelector.js";
 import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataIcon.js";
 import BIMDataInput from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataInput.js";
-
-// TODO: should be imported from DS
-import ColorSelector from "../../color-selector/ColorSelector.vue";
 
 const typeFieldMap = {
   Stage: "stage",
@@ -117,9 +115,9 @@ const typesWithColor = ["Status", "Priority"];
 export default {
   components: {
     BIMDataButton,
+    BIMDataColorSelector,
     BIMDataIcon,
     BIMDataInput,
-    ColorSelector,
   },
   props: {
     project: {

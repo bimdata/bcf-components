@@ -80,4 +80,5 @@ export default {
   }
 };
 </script>
+
 <style scoped lang="scss" src="./TagsInput.scss"></style>

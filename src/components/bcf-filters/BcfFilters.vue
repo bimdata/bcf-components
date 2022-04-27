@@ -67,7 +67,9 @@
               :error="hasStartDateError"
               errorMessage="Error"
             />
-            <p class="m-y-6">{{ $t("BcfFilters.startDateExample") }}</p>
+            <p class="m-y-6">
+              {{ $t("BcfFilters.startDateExample") }}
+            </p>
           </div>
           <div>
             <BIMDataInput
@@ -77,7 +79,9 @@
               :error="hasEndDateError"
               errorMessage="Error"
             />
-            <p class="m-y-6">{{ $t("BcfFilters.endDateExample") }}</p>
+            <p class="m-y-6">
+              {{ $t("BcfFilters.endDateExample") }}
+            </p>
           </div>
         </div>
         <BIMDataSelect
@@ -89,6 +93,16 @@
           optionKey="value"
           optionLabelKey="label"
           v-model="users"
+        />
+        <BIMDataSelect
+          class="m-t-24"
+          width="100%"
+          :multi="true"
+          :label="$t('BcfFilters.creators')"
+          :options="creatorOptions"
+          optionKey="value"
+          optionLabelKey="label"
+          v-model="creators"
         />
         <BIMDataSelect
           class="m-t-24"
@@ -181,31 +195,6 @@ export default {
         });
     });
 
-    // tags list
-    const tags = ref([]);
-    const tagOptions = computed(() => {
-      return Array.from(
-        new Set(props.bcfTopics.flatMap(bcfTopic => bcfTopic.labels))
-      )
-        .flat()
-        .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }));
-    });
-
-    // assigned to list
-    const users = ref([]);
-    const userOptions = computed(() => {
-      return Array.from(
-        new Set(props.bcfTopics.map(bcfTopic => bcfTopic.assignedTo))
-      )
-        .sort((a, b) => (a > b ? 1 : -1))
-        .map(userOption => {
-          return {
-            label: userOption || "Non défini",
-            value: userOption
-          };
-        });
-    });
-
     // date
     const startDateInput = ref("");
     const endDateInput = ref("");
@@ -230,6 +219,46 @@ export default {
       }
     };
 
+    // assigned to list
+    const users = ref([]);
+    const userOptions = computed(() => {
+      return Array.from(
+        new Set(props.bcfTopics.map(bcfTopic => bcfTopic.assignedTo))
+      )
+        .sort((a, b) => (a > b ? 1 : -1))
+        .map(userOption => {
+          return {
+            label: userOption || "Non défini",
+            value: userOption
+          };
+        });
+    });
+
+    // creator's list
+    const creators = ref([]);
+    const creatorOptions = computed(() => {
+      return Array.from(
+        new Set(props.bcfTopics.map(bcfTopic => bcfTopic.creationAuthor))
+      )
+        .sort((a, b) => (a > b ? 1 : -1))
+        .map(creatorOption => {
+          return {
+            label: creatorOption || "Non défini",
+            value: creatorOption
+          };
+        });
+    });
+
+    // tags list
+    const tags = ref([]);
+    const tagOptions = computed(() => {
+      return Array.from(
+        new Set(props.bcfTopics.flatMap(bcfTopic => bcfTopic.labels))
+      )
+        .flat()
+        .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }));
+    });
+
     // Validation date + emit formulaire
     const submitFilters = () => {
       const startDateConform = isStartDateConform(startDateInput);
@@ -238,17 +267,19 @@ export default {
       if (
         priorities.value.length ||
         status.value.length ||
-        tags.value.length ||
+        (startDateConform && endDateConform) ||
         users.value.length ||
-        (startDateConform && endDateConform)
+        creators.value.length ||
+        tags.value.length
       ) {
         emit("submit", {
           priorities: priorities.value.map(p => p.value),
           status: status.value.map(s => s.value),
-          tags: tags.value,
-          users: users.value.map(u => u.value),
           startDate: startDateInput.value,
-          endDate: endDateInput.value
+          endDate: endDateInput.value,
+          users: users.value.map(u => u.value),
+          creators: creators.value.map(creator => creator.value),
+          tags: tags.value,
         });
         showFilters.value = false;
       } else if (
@@ -259,25 +290,26 @@ export default {
       ) {
         hasStartDateError.value = true;
         hasEndDateError.value = true;
-      } else {
-        console.log("message d'erreur ici");
       }
     };
+
     const resetFilters = () => {
       priorities.value = [];
       status.value = [];
-      tags.value = [];
-      users.value = [];
       startDateInput.value = "";
       endDateInput.value = "";
+      users.value = [];
+      creators.value = [];
+      tags.value = [];
 
       emit("submit", {
         priorities: priorities.value,
         status: status.value,
-        tags: tags.value,
-        users: users.value,
         startDate: startDateInput.value,
-        endDate: endDateInput.value
+        endDate: endDateInput.value,
+        users: users.value,
+        creators: creators.value,
+        tags: tags.value,
       });
       hasStartDateError.value = false;
       hasEndDateError.value = false;
@@ -285,6 +317,8 @@ export default {
 
     return {
       // References
+      creators,
+      creatorOptions,
       priorities,
       priorityOptions,
       status,

@@ -83,7 +83,7 @@
           color="primary"
           fill
           radius
-          @click="openBcfTopic(bcfTopic)"
+          @click="$emit('open-bcf-topic', bcfTopic)"
         >
           {{ $t("BcfTopicGridItem.see") }}
         </BIMDataButton>
@@ -95,7 +95,7 @@
 <script>
 import { computed } from "@vue/composition-api";
 import { DEFAULT_PRIORITY_COLOR, DEFAULT_STATUS_COLOR } from "../../config";
-import { adjustColor } from "../../utils/adjustColor.js";
+import { adjustColor } from "../../utils/colors.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
 import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataIcon.js";
@@ -167,10 +167,6 @@ export default {
       }
     });
 
-    const openBcfTopic = () => {
-      emit("open-bcf-topic", props.bcfTopic);
-    };
-
     return {
       // References
       priorityColor,
@@ -178,8 +174,7 @@ export default {
       topicElements,
       viewpointsWithSnapshot,
       // Methods
-      adjustColor,
-      openBcfTopic
+      adjustColor
     };
   }
 };

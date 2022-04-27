@@ -1,105 +1,118 @@
 <template>
   <div class="bcf-statistics">
-    <template v-if="loading">
-      <div class="bcf-statistics__loading flex items-center justify-center">
-        <BIMDataSpinner />
-      </div>
-    </template>
+    <div class="bcf-statistics__content">
+      <BIMDataSimplePieChart
+        class="bcf-statistics__content__chart"
+        :barsData="barsData"
+        :placeholder="true"
+        :placeholderStrokeWidth="10"
+        :graphDrawTime="2.5"
+      />
 
-    <template v-else-if="bcfTopics.length === 0">
-      <div class="flex items-center justify-center">
-        <BcfStatisticsEmptyImage class="m-r-42" />
-        <p>{{ $t("BcfTopicsMetrics.emptyText") }}</p>
-      </div>
-    </template>
-
-    <template v-else>
-      <div class="bcf-statistics__content flex justify-around">
-        <Graph :barsData="barsData" :size="245">
-          <div class="bcf-statistics__content__total flex items-center">
-            <strong>{{ bcfTopics.length }}</strong>
-            <span>{{ $t("BcfTopicsMetrics.issues") }}</span>
-          </div>
-        </Graph>
-        <div
-          class="bcf-statistics__content__legend flex items-start justify-center"
-        >
-          <div
-            v-for="barData in barsData"
-            :key="barData"
-            class="flex items-center"
-          >
-            <div
-              :style="{
-                width: '10px',
-                height: '10px',
-                'border-radius': '50px',
-                'background-color': barData.color
-              }"
-            ></div>
-            <strong class="m-x-6">
-              {{ barData.percentage }} %
-            </strong>
-            <span>
-              {{ barData.label && $t("BcfTopicsMetrics.priority") }}
-              {{ barData.label || $t("BcfTopicsMetrics.notDefined") }}
-            </span>
-          </div>
+      <div
+        class="bcf-statistics__content__legend"
+      >
+        <div class="bcf-statistics__content__legend__title">
+          {{ $t(`BcfTopicsMetrics.extension.${extensionType}Title`) }}
         </div>
+        <BIMDataPaginatedList
+          :list="barsData"
+          :perPage="6"
+          :first="false"
+          :last="false"
+          :numberDataElements="false"
+          :backgroundColor="'transparent'"
+        >
+          <template #element="{ element: barData }">
+            <div class="bcf-statistics__content__legend__item">
+              <span
+                class="bcf-statistics__content__legend__item__mark"
+                :style="{ borderColor: barData.color }"
+              ></span>
+              <span class="bcf-statistics__content__legend__item__percent">
+                {{ barData.percentage.toFixed(0) }} %
+              </span>
+              <span class="bcf-statistics__content__legend__item__text">
+                {{
+                  barData.label &&
+                  $t(`BcfTopicsMetrics.extension.${extensionType}`)
+                }}
+                {{
+                  barData.label ||
+                  $t(`BcfTopicsMetrics.extension.${extensionType}NotDefined`)
+                }}
+                <span class="total">({{ barData.total }})</span>
+              </span>
+            </div>
+          </template>
+        </BIMDataPaginatedList>
       </div>
-    </template>
+    </div>
   </div>
 </template>
 
 <script>
-import { computed } from "@vue/composition-api";
+import { ref, computed } from "vue";
 import { DEFAULT_PRIORITY_COLOR } from "../../config";
 // Components
-import BIMDataSpinner from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataSpinner.js";
-import BcfStatisticsEmptyImage from "./BcfStatisticsEmptyImage.vue";
+import BIMDataPaginatedList from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataPaginatedList.js";
+import BIMDataSimplePieChart from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataSimplePieChart.js";
 
-// TODO: this could be externalized ?
-import Graph from "../graph/Graph.vue";
+const typeFieldMap = {
+  Priority: "priority",
+  Status: "topicStatus"
+};
 
 export default {
   components: {
-    BcfStatisticsEmptyImage,
-    BIMDataSpinner,
-    Graph
+    BIMDataPaginatedList,
+    BIMDataSimplePieChart,
   },
   props: {
     bcfTopics: {
       type: Array,
       required: true
     },
-    priorities: {
-      type: Object,
-      required: true
+    extensionType: {
+      type: String
     },
-    loading: {
-      type: Boolean
+    availableExtensions: {
+      type: Array,
+      required: true
     }
   },
   setup(props) {
+    const extensionValue = ref([typeFieldMap[props.extensionType]]);
+
     const barsData = computed(() => {
       if (props.bcfTopics.length) {
         // Add empty priority to match topics without priorities
-        const shownPriorities = [...props.priorities, { priority: undefined }];
+        const shownExtensions = [...props.availableExtensions];
 
-        return shownPriorities
-          .map(priority => {
+        shownExtensions.push({
+          [extensionValue.value]: undefined
+        });
+
+        return shownExtensions
+          .map(shownExtension => {
             let barData = {};
-            if (priority.color !== undefined) {
-              barData.color = `#${priority.color}`;
+            if (shownExtension.color !== undefined) {
+              barData.color = `#${shownExtension.color}`;
             } else {
-              barData.color = `#${DEFAULT_PRIORITY_COLOR}`;
+              barData.color = DEFAULT_PRIORITY_COLOR;
             }
+
             const topicCount = props.bcfTopics.filter(
-              bcfTopic => bcfTopic.priority === priority.priority
+              bcfTopic =>
+                bcfTopic[extensionValue.value] ===
+                shownExtension[extensionValue.value]
             ).length;
-            const calcPercentage = (topicCount * 100) / props.bcfTopics.length;
-            barData.percentage = calcPercentage.toFixed(0);
-            barData.label = priority.priority;
+
+            barData.percentage = (topicCount * 100) / props.bcfTopics.length;
+
+            barData.label = shownExtension[extensionValue.value];
+
+            barData.total = topicCount;
             return barData;
           })
           .sort((a, b) =>
@@ -108,8 +121,8 @@ export default {
       }
       return [];
     });
-
     return {
+      typeFieldMap,
       barsData
     };
   }

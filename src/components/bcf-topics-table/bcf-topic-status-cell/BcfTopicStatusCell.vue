@@ -13,7 +13,7 @@
 <script>
 import { computed } from "@vue/composition-api";
 import { DEFAULT_STATUS_COLOR } from "../../../config";
-import { adjustColor } from "../../../utils/adjustColor.js";
+import { adjustColor } from "../../../utils/colors.js";
 
 export default {
   props: {

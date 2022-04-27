@@ -1,14 +1,10 @@
 <template>
   <div class="bcf-topic-overview">
-    <div class="bcf-topic-overview__header flex items-center justify-between">
-      <div
-        class="bcf-topic-overview__header__title flex justify-center items-center p-x-6"
-      >
+    <div class="bcf-topic-overview__header">
+      <div class="bcf-topic-overview__header__title">
         <BIMDataTextbox maxWidth="250px" :text="bcfTopic.title" />
       </div>
-      <div
-        class="bcf-topic-overview__header__actions flex justify-center items-center"
-      >
+      <div class="bcf-topic-overview__header__actions">
         <BIMDataButton
           color="default"
           ripple
@@ -38,12 +34,13 @@
         </BIMDataButton>
       </div>
     </div>
-    <div class="bcf-topic-overview__content p-r-6 p-b-6 p-l-6">
+
+    <div class="bcf-topic-overview__content">
       <div
-        class="bcf-topic-overview__content__subheader flex items-center justify-between m-t-12"
+        class="bcf-topic-overview__content__subheader"
       >
         <div
-          class="bcf-topic-overview__content__subheader__index flex justify-center items-center p-x-6"
+          class="bcf-topic-overview__content__subheader__index"
           :style="{
             'background-color': `#${priorityColor}`,
             color: adjustColor(`#${priorityColor}`, '#ffffff', '#2f374a')
@@ -52,59 +49,67 @@
           {{ bcfTopic.index }}
         </div>
         <div
-          class="bcf-topic-overview__content__subheader__date flex justify-center items-center"
+          class="bcf-topic-overview__content__subheader__date"
         >
           {{ $d(bcfTopic.creationDate, "short") }}
         </div>
       </div>
+
       <div
-        class="bcf-topic-overview__content__img text-center m-t-12"
+        class="bcf-topic-overview__content__image"
         :class="{
           'flex items-center justify-center': viewpointsWithSnapshot.length === 0
         }"
       >
         <div
           v-if="bcfTopic.topicStatus"
-          class="bcf-topic-overview__content__img__status flex p-6"
+          class="status-badge"
           :style="{
             'background-color': `#${statusColor}`,
             color: adjustColor(`#${statusColor}`, '#ffffff', '#2f374a')
           }"
         >
           <BIMDataIcon name="information" fill color="default" />
-          <span class="m-l-6">{{ bcfTopic.topicStatus }}</span>
+          <span>{{ bcfTopic.topicStatus }}</span>
         </div>
-        <div class="img-previews flex" v-if="viewpointsWithSnapshot.length > 0">
-        <!-- <CarouselList v-if="viewpointsWithSnapshot.length > 0" :sliderPadding="0"> -->
-          <div
-            class="img-preview"
-            v-for="viewpoint in viewpointsWithSnapshot"
-            :key="viewpoint.guid"
-          >
-            <img
-              v-if="viewpoint.snapshot.snapshotData"
-              :src="viewpoint.snapshot.snapshotData"
-            />
-          </div>
-        <!-- </CarouselList> -->
-        </div>
-        <BcfTopicDefaultImage v-else class="no-img-topic" />
+        <template v-if="viewpointsWithSnapshot.length > 0">
+          <BIMDataCarousel :sliderPadding="0">
+            <div
+              class="snapshot-preview"
+              v-for="viewpoint in viewpointsWithSnapshot"
+              :key="viewpoint.guid"
+            >
+              <img
+                v-if="viewpoint.snapshot.snapshotData"
+                :src="viewpoint.snapshot.snapshotData"
+              />
+            </div>
+          </BIMDataCarousel>
+        </template>
+        <template v-else>
+          <BcfTopicDefaultImage class="default-image" />
+        </template>
       </div>
-      <div class="m-t-12">
-        <BIMDataButton width="100%" color="primary" fill radius @click="$emit('view-bcf-topic', bcfTopic)">
-          {{ $t("OpenTopicIssue.openViewer") }}
-        </BIMDataButton>
-      </div>
-      <div class="bcf-topic-overview__content__card m-t-12 p-12 text-left">
-        <div class="flex items-center m-b-12">
+
+      <BIMDataButton
+        width="100%" 
+        color="primary"
+        fill
+        radius
+        @click="$emit('view-bcf-topic', bcfTopic)"
+      >
+        {{ $t("OpenTopicIssue.openViewer") }}
+      </BIMDataButton>
+
+      <div class="bcf-topic-overview__content__card">
+        <div class="title">
           <BIMDataIcon
             name="model3d"
             size="xs"
             fill
             color="default"
-            margin="0 6px 0 0"
           />
-          <span class="m-r-6" v-if="topicElements.length > 0">
+          <span v-if="topicElements.length > 0">
             {{ topicElements.length }}
           </span>
           <span>
@@ -115,11 +120,11 @@
             }}
           </span>
         </div>
-        <div>
-          <span class="color-primary">
+        <div class="line">
+          <span class="label">
             {{ $t("OpenTopicIssue.type") }}
           </span>
-          <span class="color-granite">
+          <span class="value">
             {{
               bcfTopic.topicType
                 ? bcfTopic.topicType
@@ -127,11 +132,11 @@
             }}
           </span>
         </div>
-        <div>
-          <span class="color-primary">
+        <div class="line">
+          <span class="label">
             {{ $t("OpenTopicIssue.description") }}
           </span>
-          <span class="color-granite">
+          <span class="value">
             {{
               bcfTopic.description
                 ? bcfTopic.description
@@ -139,11 +144,11 @@
             }}
           </span>
         </div>
-        <div>
-          <span class="color-primary">
+        <div class="line">
+          <span class="label">
             {{ $t("OpenTopicIssue.assignedTo") }}
           </span>
-          <span class="color-granite">
+          <span class="value">
             {{
               bcfTopic.assignedTo
                 ? bcfTopic.assignedTo
@@ -151,11 +156,11 @@
             }}
           </span>
         </div>
-        <div>
-          <span class="color-primary">
+        <div class="line">
+          <span class="label">
             {{ $t("OpenTopicIssue.dueDate") }}
           </span>
-          <span class="color-granite">
+          <span class="value">
             {{
               bcfTopic.dueDate
                 ? $d(bcfTopic.dueDate, "short")
@@ -164,50 +169,51 @@
           </span>
         </div>
       </div>
-      <div class="bcf-topic-overview__content__card m-t-12 p-12 text-left">
-        <div class="flex items-center m-b-12">
+
+      <div class="bcf-topic-overview__content__card">
+        <div class="title">
           <BIMDataIcon name="bcf" fill color="default" />
-          <span class="m-l-6">
+          <span>
             {{ $t("OpenTopicIssue.informations") }}
           </span>
         </div>
-        <div>
-          <span class="color-primary">
+        <div class="line">
+          <span class="label">
             {{ $t("OpenTopicIssue.status") }}
           </span>
-          <span class="color-granite">
+          <span class="value">
             {{ bcfTopic.topicStatus || $t("OpenTopicIssue.noStatusSpecified") }}
           </span>
         </div>
-        <div>
-          <span class="color-primary">
+        <div class="line">
+          <span class="label">
             {{ $t("OpenTopicIssue.stage") }}
           </span>
-          <span class="color-granite">
+          <span class="value">
             {{ bcfTopic.stage || $t("OpenTopicIssue.noStageProvided") }}
           </span>
         </div>
-        <div>
-          <span class="color-primary">
+        <div class="line">
+          <span class=" label">
             {{ $t("OpenTopicIssue.priority") }}
           </span>
-          <span class="color-granite">
+          <span class=" value">
             {{ bcfTopic.priority || $t("OpenTopicIssue.priorityNotDefined") }}
           </span>
         </div>
-        <div>
-          <span class="color-primary">
+        <div class="line">
+          <span class=" label">
             Auteur :
           </span>
-          <span class="color-granite">
+          <span class="value">
             {{ bcfTopic.creationAuthor }}
           </span>
         </div>
-        <div class="m-t-12">
-          <span class="color-primary">
+        <div class="line m-t-12">
+          <span class="label">
             {{ $t("OpenTopicIssue.tags") }}
           </span>
-          <span class="color-granite">
+          <span class="value">
             {{
               topicTags.length
                 ? topicTags.join(", ")
@@ -216,24 +222,24 @@
           </span>
         </div>
       </div>
-      <div class="bcf-topic-overview__comment m-t-12">
-        <BcfTopicComments
-          :project="project"
-          :users="users"
-          :bcfTopic="bcfTopic"
-        />
-      </div>
+
+      <BcfTopicComments
+        :project="project"
+        :users="users"
+        :bcfTopic="bcfTopic"
+      />
     </div>
-    <SafeZoneModal v-if="showDeleteModal">
+
+    <BIMDataSafeZoneModal v-if="showDeleteModal" class="delete-modal">
       <template #text>
         {{ $t("ModalDeleteTopic.deleteText", { name: bcfTopic.title }) }}
       </template>
       <template #actions>
         <BIMDataButton
+          class="m-r-12"
           color="high"
           fill
           radius
-          class="m-r-12"
           @click="removeTopic"
         >
           {{ $t("ModalDeleteTopic.deleteBcfButton") }}
@@ -247,7 +253,7 @@
           {{ $t("ModalDeleteTopic.keepBcfButton") }}
         </BIMDataButton>
       </template>
-    </SafeZoneModal>
+    </BIMDataSafeZoneModal>
 
     <div v-if="loading">
       <BIMDataLoading />
@@ -259,31 +265,28 @@
 import { computed, ref } from "@vue/composition-api";
 import { useBcf } from "../../composables/bcf.js";
 import { DEFAULT_PRIORITY_COLOR, DEFAULT_STATUS_COLOR, MODEL_TYPE, MODEL_STATUS } from "../../config";
-import { adjustColor } from "../../utils/adjustColor.js";
+import { adjustColor } from "../../utils/colors.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
+import BIMDataCarousel from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataCarousel.js";
 import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataIcon.js";
 import BIMDataLoading from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataLoading.js";
+import BIMDataSafeZoneModal from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataSafeZoneModal.js";
 import BIMDataTextbox from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataTextbox.js";
 import BcfTopicComments from "./bcf-topic-comments/BcfTopicComments.vue";
 import BcfTopicDefaultImage from "../bcf-topic-card/BcfTopicDefaultImage.vue";
 
-// TODO: could be externalized ?
-// import CarouselList from "@/components/generic/carousel-list/CarouselList";
-import SafeZoneModal from "../safe-zone-modal/SafeZoneModal.vue";
-
 export default {
   components: {
-    // CarouselList,
     BcfTopicComments,
     BcfTopicDefaultImage,
     BIMDataButton,
+    BIMDataCarousel,
     BIMDataIcon,
     BIMDataLoading,
+    BIMDataSafeZoneModal,
     BIMDataTextbox,
-    SafeZoneModal,
   },
-  emit: ["edit-bcf-topic", "view-bcf-topic"],
   props: {
     project: {
       type: Object,
@@ -310,7 +313,7 @@ export default {
       default: false
     }
   },
-  emits: ["close", "view-bcf-topic"],
+  emits: ["close", "delete-bcf-topic", "edit-bcf-topic", "view-bcf-topic"],
   setup(props) {
     // TODO: could be provided by parent ?
     const { deleteTopic } = useBcf();

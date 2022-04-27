@@ -1,40 +1,54 @@
 .bcf-statistics {
-  height: 100%;
-
-  &__loading {
-    height: 100%;
-  }
+  width: 400px;
 
   &__content {
     position: relative;
-    height: inherit;
+    display: flex;
 
-    .bimdata-graph {
+    &__chart {
       flex: 1;
-    }
-
-    &__total {
-      width: 100%;
-      position: absolute;
-      top: calc((245px / 2) - (32px / 2));
-      left: 0;
-      flex-direction: column;
-      line-height: 1;
-
-      strong {
-        font-size: 20px;
-      }
     }
 
     &__legend {
-      height: 100%;
-      max-width: 300px;
-      flex-wrap: wrap;
       flex: 1;
-      gap: 12px;
+      height: 100%;
+      display: flex;
       flex-direction: column;
+      gap: var(--spacing-unit);
+      margin-left: var(--spacing-unit);
       font-size: 14px;
-      overflow: auto;
+
+      &__title {
+        font-weight: bold;
+      }
+
+      &__item {
+        display: flex;
+        align-items: center;
+        line-height: 24px;
+
+        &__mark {
+          width: 10px;
+          height: 10px;
+          border: 3px solid;
+          border-radius: 50px;
+        }
+
+        &__percent {
+          margin: 0 calc(var(--spacing-unit) / 2);
+          font-weight: bold;
+        }
+
+        &__text .total {
+          font-size: 13px;
+        }
+      }
+
+      .bimdata-paginated-list:deep() {
+        ul:first-child {
+          height: 144px;
+        }
+      }
     }
   }
 }
