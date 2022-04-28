@@ -8,7 +8,7 @@
       radius
       @click="isOpen = true"
     >
-      {{ $t("BcfComments.commentButton") }}
+      {{ $t("BcfComponents.BcfTopicComments.commentButton") }}
     </BIMDataButton>
 
     <div
@@ -16,14 +16,14 @@
       class="bcf-topic-comments__post-comment m-t-24"
     >
       <p class="color-granite m-b-24">
-        {{ $t("BcfComments.commentText") }}
+        {{ $t("BcfComponents.BcfTopicComments.commentText") }}
       </p>
       <div class="bcf-comment-input m-t-24">
         <BIMDataTextarea
           ref="commentInput"
           width="100%"
           name="comment"
-          :label="$t('BcfComments.commentLabel')"
+          :label="$t('BcfComponents.BcfTopicComments.commentLabel')"
           v-model="topicComment"
           autofocus
           resizable
@@ -37,7 +37,7 @@
             class="m-r-6"
             @click="isOpen = false"
           >
-            {{ $t("BcfComments.cancelButton") }}
+            {{ $t("BcfComponents.BcfTopicComments.cancelButton") }}
           </BIMDataButton>
           <BIMDataButton
             color="primary"
@@ -46,7 +46,7 @@
             width="135px"
             @click="publishComment"
           >
-            {{ $t("BcfComments.publishButton") }}
+            {{ $t("BcfComponents.BcfTopicComments.publishButton") }}
           </BIMDataButton>
         </div>
       </div>
@@ -54,7 +54,7 @@
 
     <div class="bcf-topic-comments__list m-t-18">
       <p class="color-granite">
-        {{ (bcfTopic.comments ? bcfTopic.comments.length : 0) + " " + $t("BcfComments.commentsText") }}
+        {{ (bcfTopic.comments ? bcfTopic.comments.length : 0) + " " + $t("BcfComponents.BcfTopicComments.commentsText") }}
       </p>
       <div v-if="bcfTopic.comments && bcfTopic.comments.length">
         <Comment

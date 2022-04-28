@@ -1,7 +1,7 @@
 <template>
   <div class="bcf-settings">
-    <div class="bcf-settings__header flex items-center justify-between p-x-18">
-      <BIMDataButton color="default" ripple radius icon @click="$emit('close')">
+    <div class="bcf-settings__header">
+      <BIMDataButton color="default" ripple radius @click="$emit('close')">
         <BIMDataIcon
           name="arrow"
           size="xxs"
@@ -9,10 +9,10 @@
           color="default"
           margin="0 6px 0 0"
         />
-        <span>{{ $t("BcfSettings.goBackButton") }}</span>
+        <span>{{ $t("BcfComponents.BcfSettings.goBackButton") }}</span>
       </BIMDataButton>
       <span>
-        {{ $t("BcfSettings.title") }}
+        {{ $t("BcfComponents.BcfSettings.title") }}
       </span>
       <BIMDataIcon
         name="close"
@@ -22,38 +22,35 @@
         @click="$emit('close')"
       />
     </div>
-    <div class="bcf-settings__content flex justify-between p-b-18">
-      <div class="bcf-settings__content__settings p-18">
-        <p class="m-b-24 p-x-48 text-center color-granite">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        </p>
-        <SettingCard
-          :project="project"
-          :availableExtensions="detailedExtensions.priorities"
-          extensionType="Priority"
-        />
-        <SettingCard
-          :project="project"
-          :availableExtensions="detailedExtensions.topicTypes"
-          extensionType="Type"
-        />
-        <SettingCard
-          :project="project"
-          :availableExtensions="detailedExtensions.stages"
-          extensionType="Stage"
-        />
-        <SettingCard
-          :project="project"
-          :availableExtensions="detailedExtensions.topicStatuses"
-          extensionType="Status"
-        />
-        <SettingCard
-          :project="project"
-          :availableExtensions="detailedExtensions.topicLabels"
-          extensionType="Label"
-        />
+    <div class="bcf-settings__content">
+      <div class="bcf-settings__content__text">
+        {{ $t("BcfComponents.BcfSettings.text") }}
       </div>
+      <SettingCard
+        :project="project"
+        :availableExtensions="detailedExtensions.priorities"
+        extensionType="Priority"
+      />
+      <SettingCard
+        :project="project"
+        :availableExtensions="detailedExtensions.topicTypes"
+        extensionType="Type"
+      />
+      <SettingCard
+        :project="project"
+        :availableExtensions="detailedExtensions.stages"
+        extensionType="Stage"
+      />
+      <SettingCard
+        :project="project"
+        :availableExtensions="detailedExtensions.topicStatuses"
+        extensionType="Status"
+      />
+      <SettingCard
+        :project="project"
+        :availableExtensions="detailedExtensions.topicLabels"
+        extensionType="Label"
+      />
     </div>
   </div>
 </template>

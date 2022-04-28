@@ -13,7 +13,7 @@
         class="bcf-statistics__content__legend"
       >
         <div class="bcf-statistics__content__legend__title">
-          {{ $t(`BcfTopicsMetrics.extension.${extensionType}Title`) }}
+          {{ $t(`BcfComponents.BcfStatistics.extension.${extensionType}Title`) }}
         </div>
         <BIMDataPaginatedList
           :list="barsData"
@@ -35,11 +35,11 @@
               <span class="bcf-statistics__content__legend__item__text">
                 {{
                   barData.label &&
-                  $t(`BcfTopicsMetrics.extension.${extensionType}`)
+                  $t(`BcfComponents.BcfStatistics.extension.${extensionType}`)
                 }}
                 {{
                   barData.label ||
-                  $t(`BcfTopicsMetrics.extension.${extensionType}NotDefined`)
+                  $t(`BcfComponents.BcfStatistics.extension.${extensionType}NotDefined`)
                 }}
                 <span class="total">({{ barData.total }})</span>
               </span>

@@ -2,7 +2,7 @@
   <div class="bcf-topic-creation-card">
     <BcfTopicCreationCardImage />
     <div class="bcf-topic-creation-card__text">
-      {{ $t("BcfTopicCreationCard.text") }}
+      {{ $t("BcfComponents.BcfTopicCreationCard.text") }}
     </div>
     <BIMDataButton
       width="48px"

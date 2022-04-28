@@ -3,7 +3,7 @@
     class="bcf-topic-priority-cell flex items-center justify-center p-x-6"
     :style="{ color: `#${priorityColor}` }"
   >
-    {{ bcfTopic.priority || $t("BcfTopicGridItem.noPriority") }}
+    {{ bcfTopic.priority || $t("BcfComponents.BcfTopicPriorityCell.noPriority") }}
   </span>
 </template>
 

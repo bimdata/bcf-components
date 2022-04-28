@@ -64,7 +64,7 @@
         v-if="isDeleteSafeZoneOpen"
       >
         <p>
-          {{ $t("Extension.deleteExtensionText") }}
+          {{ $t("BcfComponents.Extension.deleteExtensionText") }}
         </p>
         <div class="flex items-center">
           <BIMDataButton
@@ -75,7 +75,7 @@
             radius
             @click="submitDelete(extension)"
           >
-            {{ $t("Extension.deleteButton") }}
+            {{ $t("BcfComponents.Extension.deleteButton") }}
           </BIMDataButton>
           <BIMDataButton
             color="primary"

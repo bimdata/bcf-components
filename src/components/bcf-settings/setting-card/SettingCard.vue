@@ -4,7 +4,7 @@
       class="setting-card__header flex items-center justify-between"
       @click="toggle"
     >
-      <strong>{{ $t(`SettingCard.title.${extensionType}`) }}</strong>
+      <strong>{{ $t(`BcfComponents.SettingCard.title.${extensionType}`) }}</strong>
       <div class="flex items-center">
         <div
           v-if="availableExtensions"
@@ -25,7 +25,7 @@
       <div
         class="setting-card__subheader flex items-center justify-between m-t-6 m-b-12"
       >
-        {{ $t(`SettingCard.text.${extensionType}`) }}
+        {{ $t(`BcfComponents.SettingCard.text.${extensionType}`) }}
         <BIMDataButton color="default" fill radius @click="toggleAddExtension">
           <BIMDataIcon
             name="plus"
@@ -34,14 +34,14 @@
             color="default"
             margin="0 6px 0 0"
           />
-          <span>{{ $t("SettingCard.addButton") }}</span>
+          <span>{{ $t("BcfComponents.SettingCard.addButton") }}</span>
         </BIMDataButton>
       </div>
       <transition name="list">
         <div v-if="showAddExtension" class="m-b-12">
           <BIMDataInput
             ref="input"
-            :placeholder="$t(`SettingCard.input.${extensionType}`)"
+            :placeholder="$t(`BcfComponents.SettingCard.input.${extensionType}`)"
             v-model="newExtensionName"
             @keyup.enter.stop="addExtension"
           />
@@ -53,10 +53,10 @@
               radius
               @click="closeAddExtension"
             >
-              {{ $t("SettingCard.cancelButton") }}
+              {{ $t("BcfComponents.SettingCard.cancelButton") }}
             </BIMDataButton>
             <BIMDataButton color="primary" fill radius @click="addExtension">
-              {{ $t("SettingCard.validateButton") }}
+              {{ $t("BcfComponents.SettingCard.validateButton") }}
             </BIMDataButton>
           </div>
         </div>

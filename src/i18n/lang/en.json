@@ -1,0 +1,172 @@
+{
+  "BcfComponents": {
+    "BcfFilters": {
+      "filtersButton": "Filters",
+      "filtersTitle": "Filters",
+      "priorityLabel": "Priority",
+      "statusLabel": "Status",
+      "startDatePlaceholder": "Start date",
+      "startDateExample": "(Ex: 28/04/2022)",
+      "endDatePlaceholder": "End date",
+      "endDateExample": "(Ex: 28/05/2022)",
+      "assignedToLabel": "Assigned to",
+      "creatorsLabel": "Created by",
+      "tagsLabel": "Tags",
+      "resetButton": "Reset",
+      "searchButton": "Search",
+      "noPriority": "No priority",
+      "undefinedStatus": "Undefined",
+      "undefinedUser": "Undefined",
+      "undefinedCreator": "Undefined"
+    },
+    "BcfSettings": {
+      "goBackButton": "Back",
+      "title": "BCF Settings",
+      "validateButton": "Validate BCF settings"
+    },
+    "BcfStatistics": {
+      "emptyText": "Add BCF Topics to start to have some stats here.",
+      "issues": "issues",
+      "extension": {
+        "Priority": "Priority",
+        "PriorityNotDefined": "No priority",
+        "PriorityTitle": "Priorities",
+        "Status": "Status",
+        "StatusNotDefined": "No status",
+        "StatusTitle": "Status"
+      }
+    },
+    "BcfTopicCard": {
+      "priority": "Priority: ",
+      "assignedTo": "Assigned to: ",
+      "noPriority": "None",
+      "notSpecified": "Not specified",
+      "elements": "Elements",
+      "noElements": "0 Element",
+      "see": "See"
+    },
+    "BcfTopicCreate": {
+      "dragDropImageText": "Please select a file",
+      "addPictureButton": "Add a picture",
+      "titlePlaceholder": "Title *",
+      "titleErrorMessage": "Missing title",
+      "typeLabel": "Type",
+      "priorityLabel": "Priority",
+      "statusLabel": "Status",
+      "stageLabel": "Stage",
+      "assignedToLabel": "Assigned to",
+      "dueDateLabel": "Due date",
+      "dateErrorMessage": "Date format or incorrect date",
+      "dateExample": "(Ex: 28/04/2022)",
+      "descriptionLabel": "Description",
+      "tagsLabel": "Tags",
+      "validateButton": "Validate"
+    },
+    "BcfTopicCreationCard": {
+      "text": "Create a new BCF topic",
+      "createBcfSideTitle": "Report a problem"
+    },
+    "BcfTopicForm": {
+      "goBackButton": "Back",
+      "dragDropImageText": "Please select a file",
+      "addPictureButton": "Add a picture",
+      "titlePlaceholder": "Title*",
+      "titleErrorMessage": "Missing title",
+      "typeLabel": "Type",
+      "priorityLabel": "Priority",
+      "statusLabel": "Status",
+      "stageLabel": "Stage",
+      "assignedToLabel": "Assigned to",
+      "descriptionLabel": "Description",
+      "tagsPlaceholder": "Tags",
+      "editButton": "Modify this BCF",
+      "modalText": "You are about to quit editing issue {name} but there are unsaved changes.",
+      "cancelButton": "Discard changes",
+      "continueButton": "Continue editing"
+    },
+    "BcfTopicOverview": {
+      "openViewer": "Open in viewer",
+      "openViewerNoModels": "No model to open",
+      "elements": "Elements",
+      "noElements": "0 Element",
+      "type": "Type:",
+      "noTypeSpecified": "No type specified",
+      "description": "Description: ",
+      "noDescriptionProvided": "No description provided",
+      "assignedTo": "Assigned to:",
+      "notAssigned": "Not assigned",
+      "dueDate": "Due date:",
+      "noDueDate": "No due date",
+      "informations": "Informations",
+      "status": "Status:",
+      "noStatusSpecified": "No status specified",
+      "stage": "Stage:",
+      "noStageProvided": "No stage provided",
+      "priority": "Priority:",
+      "priorityNotDefined": "Not defined",
+      "tags": "Tags:",
+      "noTags": "No tags",
+      "deleteText": "You are about to delete {name}",
+      "deleteBcfButton": "Delete this BCF",
+      "keepBcfButton": "Keep this BCF"
+    },
+    "BcfTopicsTable": {
+      "headers": {
+        "index": "#",
+        "priority": "Priority",
+        "status": "Status",
+        "title": "Title",
+        "creator": "Created by",
+        "date": "Date",
+        "actions": "Actions"
+      }
+    },
+
+    "BcfTopicActionsCell": {
+      "seeButton": "See"
+    },
+    "BcfTopicComments": {
+      "commentButton": "Post a comment",
+      "commentLabel": "Post a comment",
+      "commentText": "Comment",
+      "cancelButton": "Cancel",
+      "publishButton": "Publish",
+      "commentsText": "Comments",
+      "deleteCommentText": "Delete this comment ?",
+      "deleteButton": "Delete"
+    },
+    "BcfTopicPriorityCell": {
+      "noPriority": "None"
+    },
+    "Extension": {
+      "deleteExtensionText": "Remove this setting",
+      "deleteButton": "Delete"
+    },
+    "SettingCard": {
+      "addButton": "add an element",
+      "cancelButton": "Cancel",
+      "validateButton": "Validate",
+      "title": {
+        "Priority": "Priorities",
+        "Label": "Labels",
+        "Status": "Status",
+        "Type": "Types",
+        "Stage": "Stages"
+      },
+      "input": {
+        "Priority": "Add a new priority",
+        "Label": "Add a new label",
+        "Status": "Add new status",
+        "Type": "Add a new type",
+        "Stage": "Add a new stage"
+      },
+      "text": {
+        "Priority": "Priority list",
+        "Label": "Labels list",
+        "Status": "Status list",
+        "Type": "Type list",
+        "Stage": "Stage list"
+      }
+    }
+  }
+}

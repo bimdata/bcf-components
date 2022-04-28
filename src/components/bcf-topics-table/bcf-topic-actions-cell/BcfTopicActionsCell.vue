@@ -6,7 +6,7 @@
       radius
       @click="$emit('open-bcf-topic', bcfTopic)"
     >
-      {{ $t("BcfActionsCell.seeButton") }}
+      {{ $t("BcfComponents.BcfTopicActionsCell.seeButton") }}
     </BIMDataButton>
   </div>
 </template>

@@ -1,18 +1,18 @@
 <template>
   <div class="bcf-topic-form">
     <div class="bcf-topic-form__content">
-      <div class="bcf-topic-form__content__subheader">
-        <div class="bcf-topic-form__content__subheader__index">
+      <div class="bcf-topic-form__content__head">
+        <div class="bcf-topic-form__content__head__index">
           {{ bcfTopic.index }}
         </div>
-        <div class="bcf-topic-form__content__subheader__date">
+        <div class="bcf-topic-form__content__head__date">
           {{ $d(bcfTopic.creationDate, "short") }}
         </div>
       </div>
 
       <div
         v-if="viewpointsWithSnapshot.length > 0"
-        class="bcf-topic-form__content__image"
+        class="bcf-topic-form__content__images"
       >
         <div
           class="snapshot-preview"
@@ -35,38 +35,17 @@
         </div>
       </div>
 
-      <div v-else class="bcf-topic-form__content__no-image">
-        <!-- <div class="img-input"> -->
-          <span class="btn-upload">
-            <BIMDataIcon name="unarchive" fill color="default" size="m" />
-          </span>
-          <BIMDataButton color="primary" outline radius>
-            <label for="files">
-              {{ $t("EditBcfTopic.dragDropImageText") }}
-            </label>
-            <input
-              hidden
-              id="files"
-              type="file"
-              multiple
-              accept="image/png, image/jpeg"
-              @change="upload"
-            />
-          </BIMDataButton>
-        <!-- </div> -->
-      </div>
-
       <div
-        class="bcf-topic-form__content__add-img flex justify-center"
-        v-if="viewpoints.length > 0 || bcfTopic.viewpoints.length > 0"
+        v-else
+        class="bcf-topic-form__content__upload"
       >
-        <BIMDataButton
-          width="100%"
-          color="primary"
-          fill
-          radius
-          :disabled="viewpointsWithSnapshot.length >= 4"
-        >
+        <span class="icon">
+          <BIMDataIcon name="unarchive" fill color="default" size="m" />
+        </span>
+        <BIMDataButton class="btn-upload" color="primary" outline radius>
+          <label for="files">
+            {{ $t("BcfComponents.BcfTopicForm.dragDropImageText") }}
+          </label>
           <input
             hidden
             id="files"
@@ -75,53 +54,69 @@
             accept="image/png, image/jpeg"
             @change="upload"
           />
-          <label
-            class="flex items-center justify-center"
-            for="files"
-          >
-            <BIMDataIcon name="camera" size="xs" margin="0 12px 0 0" />
-            {{ $t("EditBcfTopic.addPictureButton") }}
-          </label>
         </BIMDataButton>
       </div>
 
-      <div class="bcf-topic-form__content__content">
+      <BIMDataButton
+        v-if="bcfTopic.viewpoints.length > 0 || viewpoints.length > 0"
+        :disabled="viewpointsWithSnapshot.length >= 4"
+        class="btn-upload"
+        width="100%"
+        color="primary"
+        fill
+        radius
+      >
+        <label for="files">
+          <BIMDataIcon name="camera" size="xs" margin="0 6px 0 0" />
+          {{ $t("BcfComponents.BcfTopicForm.addPictureButton") }}
+        </label>
+        <input
+          hidden
+          id="files"
+          type="file"
+          multiple
+          accept="image/png, image/jpeg"
+          @change="upload"
+        />
+      </BIMDataButton>
+
+      <div class="bcf-topic-form__content__body">
         <BIMDataInput
-          :placeholder="$t('EditBcfTopic.titlePlaceholder')"
-          :errorMessage="$t('EditBcfTopic.titleErrorMessage')"
+          :placeholder="$t('BcfComponents.BcfTopicForm.titlePlaceholder')"
+          :errorMessage="$t('BcfComponents.BcfTopicForm.titleErrorMessage')"
           v-model="topicTitle"
         />
         <BIMDataSelect
           width="100%"
-          :label="$t('EditBcfTopic.typeLabel')"
+          :label="$t('BcfComponents.BcfTopicForm.typeLabel')"
           :options="extensions.topicType"
           v-model="topicType"
         />
         <BIMDataSelect
           width="100%"
-          :label="$t('EditBcfTopic.priorityLabel')"
+          :label="$t('BcfComponents.BcfTopicForm.priorityLabel')"
           :options="extensions.priority"
           v-model="topicPriority"
         />
         <BIMDataSelect
           width="100%"
-          :label="$t('EditBcfTopic.statusLabel')"
+          :label="$t('BcfComponents.BcfTopicForm.statusLabel')"
           :options="extensions.topicStatus"
           v-model="topicStatus"
         />
         <BIMDataSelect
           width="100%"
-          :label="$t('EditBcfTopic.stageLabel')"
+          :label="$t('BcfComponents.BcfTopicForm.stageLabel')"
           :options="extensions.stage"
           v-model="topicPhase"
         />
         <BIMDataSelect
           width="100%"
-          :label="$t('EditBcfTopic.assignedToLabel')"
+          :label="$t('BcfComponents.BcfTopicForm.assignedToLabel')"
           :options="extensions.userIdType"
           v-model="topicAssignedTo"
         />
-        <div class="due-date m-b-30">
+        <div class="m-b-30">
           <BIMDataInput
             margin="0"
             :placeholder="$t('CreateBcfTopic.dueDateLabel')"
@@ -129,15 +124,15 @@
             :errorMessage="$t('CreateBcfTopic.dateErrorMessage')"
             v-model="topicDate"
           />
-          <p class="m-y-6">
+          <div>
             {{ $t("CreateBcfTopic.dateExample") }}
-          </p>
+          </div>
         </div>
         <BIMDataTextarea
-          :label="$t('EditBcfTopic.descriptionLabel')"
-          name="description"
-          v-model="topicDescription"
           width="100%"
+          name="description"
+          :label="$t('BcfComponents.BcfTopicForm.descriptionLabel')"
+          v-model="topicDescription"
           fitContent
           resizable
         />
@@ -153,41 +148,38 @@
         radius
         @click="updateBcfTopic"
       >
-        {{ $t("EditBcfTopic.editButton") }}
+        {{ $t("BcfComponents.BcfTopicForm.editButton") }}
       </BIMDataButton>
     </div>
 
-    <div v-if="openModal" class="overlay flex items-center justify-center">
-      <div class="edit-modal flex items-center justify-center p-y-18 p-x-12">
-        <BIMDataIcon name="warning" size="xs" fill color="high" />
-        <span class="text-center m-y-12">
-          {{ $t("EditBcfTopicModal.modalText", { name: bcfTopic.title }) }}
-        </span>
-        <div class="edit-modal__btns flex justify-center items-center">
-          <BIMDataButton
-            class="m-r-12"
-            color="high"
-            fill
-            radius
-            @click="$emit('close')"
-          >
-            {{ $t("EditBcfTopicModal.cancelButton") }}
-          </BIMDataButton>
-          <BIMDataButton
-            color="primary"
-            outline
-            radius
-            @click="openModal = false"
-          >
-            {{ $t("EditBcfTopicModal.continueButton") }}
-          </BIMDataButton>
-        </div>
-      </div>
-    </div>
-
-    <div v-if="loading" class="overlay flex items-center justify-center">
+    <div v-if="loading" class="bcf-topic-form__loader">
       <BIMDataLoading />
     </div>
+
+    <BIMDataSafeZoneModal v-if="openModal">
+      <template #text>
+        {{ $t("BcfComponents.BcfTopicForm.modalText", { name: bcfTopic.title }) }}
+      </template>
+      <template #actions>
+        <BIMDataButton
+          class="m-r-12"
+          color="high"
+          fill
+          radius
+          @click="$emit('close')"
+        >
+          {{ $t("BcfComponents.BcfTopicForm.cancelButton") }}
+        </BIMDataButton>
+        <BIMDataButton
+          color="primary"
+          outline
+          radius
+          @click="openModal = false"
+        >
+          {{ $t("BcfComponents.BcfTopicForm.continueButton") }}
+        </BIMDataButton>
+      </template>
+    </BIMDataSafeZoneModal>
   </div>
 </template>
 
@@ -201,6 +193,7 @@ import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMD
 import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataIcon.js";
 import BIMDataInput from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataInput.js";
 import BIMDataLoading from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataLoading.js";
+import BIMDataSafeZoneModal from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataSafeZoneModal.js";
 import BIMDataSelect from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataSelect.js";
 import BIMDataTextarea from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataTextarea.js";
 import BIMDataTextbox from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataTextbox.js";
@@ -213,6 +206,7 @@ export default {
     BIMDataIcon,
     BIMDataInput,
     BIMDataLoading,
+    BIMDataSafeZoneModal,
     BIMDataSelect,
     BIMDataTextarea,
     BIMDataTextbox,
@@ -278,53 +272,18 @@ export default {
 
     watch(
       () => props.bcfTopic,
-      () => {
-        topicTitle.value = props.bcfTopic.title;
-        if (props.bcfTopic.topicType) {
-          topicType.value = props.bcfTopic.topicType;
-        } else {
-          topicType.value = null;
-        }
-        if (props.bcfTopic.priority) {
-          topicPriority.value = props.bcfTopic.priority;
-        } else {
-          topicPriority.value = null;
-        }
-        if (props.bcfTopic.topicStatus) {
-          topicStatus.value = props.bcfTopic.topicStatus;
-        } else {
-          topicStatus.value = null;
-        }
-        if (props.bcfTopic.stage) {
-          topicPhase.value = props.bcfTopic.stage;
-        } else {
-          topicPhase.value = null;
-        }
-        if (props.bcfTopic.assignedTo) {
-          topicAssignedTo.value = props.bcfTopic.assignedTo;
-        } else {
-          topicAssignedTo.value = null;
-        }
-        if (props.bcfTopic.dueDate) {
-          topicDate.value = props.bcfTopic.dueDate;
-        } else {
-          topicDate.value = null;
-        }
-        if (props.bcfTopic.description) {
-          topicDescription.value = props.bcfTopic.description;
-        } else {
-          topicDescription.value = null;
-        }
-        if (props.bcfTopic.labels) {
-          topicTags.value = props.bcfTopic.labels;
-        } else {
-          topicTags.value = [];
-        }
-        if (props.bcfTopic.viewpoints) {
-          viewpoints.value = props.bcfTopic.viewpoints;
-        } else {
-          viewpoints.value = [];
-        }
+      topic => {
+        topicTitle.value = topic.title;
+        topicType.value = topic.topicType || null;
+        topicPriority.value = topic.priority || null;
+        topicStatus.value = topic.topicStatus || null;
+        topicPhase.value = topic.stage || null;
+        topicAssignedTo.value = topic.assignedTo || null;
+        topicDate.value = topic.dueDate || null;
+        topicDescription.value = topic.description || null;
+        topicType.value = topic.topicType || null;
+        topicTags.value = topic.labels || [];
+        viewpoints.value = topic.viewpoints || [];
       },
       { immediate: true }
     );
@@ -399,22 +358,22 @@ export default {
     };
 
     const openModal = ref(false);
-    const goBack = () => {
-      if (
-        topicTitle.value !== props.bcfTopic.title ||
-        topicType.value !== (props.bcfTopic.topicType || null) ||
-        topicPriority.value !== (props.bcfTopic.priority || null) ||
-        topicStatus.value !== (props.bcfTopic.topicStatus || null) ||
-        topicPhase.value !== (props.bcfTopic.stage || null) ||
-        topicAssignedTo.value !== (props.bcfTopic.assignedTo || null) ||
-        topicDescription.value !== (props.bcfTopic.description || "" || null) ||
-        viewpoints.value !== (props.bcfTopic.viewpoints || [])
-      ) {
-        openModal.value = true;
-      } else {
-        emit("close");
-      }
-    };
+    // const goBack = () => {
+    //   if (
+    //     topicTitle.value !== props.bcfTopic.title ||
+    //     topicType.value !== (props.bcfTopic.topicType || null) ||
+    //     topicPriority.value !== (props.bcfTopic.priority || null) ||
+    //     topicStatus.value !== (props.bcfTopic.topicStatus || null) ||
+    //     topicPhase.value !== (props.bcfTopic.stage || null) ||
+    //     topicAssignedTo.value !== (props.bcfTopic.assignedTo || null) ||
+    //     topicDescription.value !== (props.bcfTopic.description || "" || null) ||
+    //     viewpoints.value !== (props.bcfTopic.viewpoints || [])
+    //   ) {
+    //     openModal.value = true;
+    //   } else {
+    //     emit("close");
+    //   }
+    // };
 
     return {
       hasDateError,
@@ -432,7 +391,7 @@ export default {
       viewpoints,
       viewpointsWithSnapshot,
       // Methods
-      goBack,
+      // goBack,
       removeViewpoint,
       updateBcfTopic,
       upload

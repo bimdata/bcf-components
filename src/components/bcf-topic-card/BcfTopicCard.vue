@@ -44,18 +44,18 @@
     <div class="bcf-topic-card__content p-12">
       <div class="bcf-topic-card__content__priority">
         <strong>
-          {{ $t("BcfTopicGridItem.priority") }}
+          {{ $t("BcfComponents.BcfTopicCard.priority") }}
         </strong>
         <span :style="{ color: `#${priorityColor}` }">
-          {{ bcfTopic.priority || $t("BcfTopicGridItem.noPriority") }}
+          {{ bcfTopic.priority || $t("BcfComponents.BcfTopicCard.noPriority") }}
         </span>
       </div>
       <div>
         <strong>
-          {{ $t("BcfTopicGridItem.assignedTo") }}
+          {{ $t("BcfComponents.BcfTopicCard.assignedTo") }}
         </strong>
         <span>
-          {{ bcfTopic.assignedTo || $t("BcfTopicGridItem.notSpecified") }}
+          {{ bcfTopic.assignedTo || $t("BcfComponents.BcfTopicCard.notSpecified") }}
         </span>
       </div>
       <div class="flex justify-around m-t-12">
@@ -73,8 +73,8 @@
           <span>
             {{
               topicElements.length
-                ? $t("BcfTopicGridItem.elements")
-                : $t("BcfTopicGridItem.noElements")
+                ? $t("BcfComponents.BcfTopicCard.elements")
+                : $t("BcfComponents.BcfTopicCard.noElements")
             }}
           </span>
         </div>
@@ -85,7 +85,7 @@
           radius
           @click="$emit('open-bcf-topic', bcfTopic)"
         >
-          {{ $t("BcfTopicGridItem.see") }}
+          {{ $t("BcfComponents.BcfTopicCard.see") }}
         </BIMDataButton>
       </div>
     </div>

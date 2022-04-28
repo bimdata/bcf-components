@@ -98,7 +98,7 @@
         radius
         @click="$emit('view-bcf-topic', bcfTopic)"
       >
-        {{ $t("OpenTopicIssue.openViewer") }}
+        {{ $t("BcfComponents.BcfTopicOverview.openViewer") }}
       </BIMDataButton>
 
       <div class="bcf-topic-overview__content__card">
@@ -115,56 +115,56 @@
           <span>
             {{
               topicElements.length
-                ? $t("OpenTopicIssue.elements")
-                : $t("OpenTopicIssue.noElements")
+                ? $t("BcfComponents.BcfTopicOverview.elements")
+                : $t("BcfComponents.BcfTopicOverview.noElements")
             }}
           </span>
         </div>
         <div class="line">
           <span class="label">
-            {{ $t("OpenTopicIssue.type") }}
+            {{ $t("BcfComponents.BcfTopicOverview.type") }}
           </span>
           <span class="value">
             {{
               bcfTopic.topicType
                 ? bcfTopic.topicType
-                : $t("OpenTopicIssue.noTypeSpecified")
+                : $t("BcfComponents.BcfTopicOverview.noTypeSpecified")
             }}
           </span>
         </div>
         <div class="line">
           <span class="label">
-            {{ $t("OpenTopicIssue.description") }}
+            {{ $t("BcfComponents.BcfTopicOverview.description") }}
           </span>
           <span class="value">
             {{
               bcfTopic.description
                 ? bcfTopic.description
-                : $t("OpenTopicIssue.noDescriptionProvided")
+                : $t("BcfComponents.BcfTopicOverview.noDescriptionProvided")
             }}
           </span>
         </div>
         <div class="line">
           <span class="label">
-            {{ $t("OpenTopicIssue.assignedTo") }}
+            {{ $t("BcfComponents.BcfTopicOverview.assignedTo") }}
           </span>
           <span class="value">
             {{
               bcfTopic.assignedTo
                 ? bcfTopic.assignedTo
-                : $t("OpenTopicIssue.notAssigned")
+                : $t("BcfComponents.BcfTopicOverview.notAssigned")
             }}
           </span>
         </div>
         <div class="line">
           <span class="label">
-            {{ $t("OpenTopicIssue.dueDate") }}
+            {{ $t("BcfComponents.BcfTopicOverview.dueDate") }}
           </span>
           <span class="value">
             {{
               bcfTopic.dueDate
                 ? $d(bcfTopic.dueDate, "short")
-                : $t("OpenTopicIssue.noDueDate")
+                : $t("BcfComponents.BcfTopicOverview.noDueDate")
             }}
           </span>
         </div>
@@ -174,31 +174,31 @@
         <div class="title">
           <BIMDataIcon name="bcf" fill color="default" />
           <span>
-            {{ $t("OpenTopicIssue.informations") }}
+            {{ $t("BcfComponents.BcfTopicOverview.informations") }}
           </span>
         </div>
         <div class="line">
           <span class="label">
-            {{ $t("OpenTopicIssue.status") }}
+            {{ $t("BcfComponents.BcfTopicOverview.status") }}
           </span>
           <span class="value">
-            {{ bcfTopic.topicStatus || $t("OpenTopicIssue.noStatusSpecified") }}
+            {{ bcfTopic.topicStatus || $t("BcfComponents.BcfTopicOverview.noStatusSpecified") }}
           </span>
         </div>
         <div class="line">
           <span class="label">
-            {{ $t("OpenTopicIssue.stage") }}
+            {{ $t("BcfComponents.BcfTopicOverview.stage") }}
           </span>
           <span class="value">
-            {{ bcfTopic.stage || $t("OpenTopicIssue.noStageProvided") }}
+            {{ bcfTopic.stage || $t("BcfComponents.BcfTopicOverview.noStageProvided") }}
           </span>
         </div>
         <div class="line">
           <span class=" label">
-            {{ $t("OpenTopicIssue.priority") }}
+            {{ $t("BcfComponents.BcfTopicOverview.priority") }}
           </span>
           <span class=" value">
-            {{ bcfTopic.priority || $t("OpenTopicIssue.priorityNotDefined") }}
+            {{ bcfTopic.priority || $t("BcfComponents.BcfTopicOverview.priorityNotDefined") }}
           </span>
         </div>
         <div class="line">
@@ -211,13 +211,13 @@
         </div>
         <div class="line m-t-12">
           <span class="label">
-            {{ $t("OpenTopicIssue.tags") }}
+            {{ $t("BcfComponents.BcfTopicOverview.tags") }}
           </span>
           <span class="value">
             {{
               topicTags.length
                 ? topicTags.join(", ")
-                : $t("OpenTopicIssue.noTags")
+                : $t("BcfComponents.BcfTopicOverview.noTags")
             }}
           </span>
         </div>
@@ -232,7 +232,7 @@
 
     <BIMDataSafeZoneModal v-if="showDeleteModal" class="delete-modal">
       <template #text>
-        {{ $t("ModalDeleteTopic.deleteText", { name: bcfTopic.title }) }}
+        {{ $t("BcfComponents.BcfTopicOverview.deleteText", { name: bcfTopic.title }) }}
       </template>
       <template #actions>
         <BIMDataButton
@@ -242,7 +242,7 @@
           radius
           @click="removeTopic"
         >
-          {{ $t("ModalDeleteTopic.deleteBcfButton") }}
+          {{ $t("BcfComponents.BcfTopicOverview.deleteBcfButton") }}
         </BIMDataButton>
         <BIMDataButton
           color="primary"
@@ -250,7 +250,7 @@
           radius
           @click="showDeleteModal = false"
         >
-          {{ $t("ModalDeleteTopic.keepBcfButton") }}
+          {{ $t("BcfComponents.BcfTopicOverview.keepBcfButton") }}
         </BIMDataButton>
       </template>
     </BIMDataSafeZoneModal>

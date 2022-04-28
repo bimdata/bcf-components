@@ -56,11 +56,11 @@
           class="comment__header__right__delete p-x-12"
         >
           <span>
-            {{ $t("BcfComment.deleteCommentText") }}
+            {{ $t("BcfComponents.BcfTopicComments.deleteCommentText") }}
           </span>
           <div class="flex items-center">
             <BIMDataButton class="m-r-6" color="high" fill radius @click="confirmDelete">
-              {{ $t("BcfComment.deleteButton") }}
+              {{ $t("BcfComponents.BcfTopicComments.deleteButton") }}
             </BIMDataButton>
             <BIMDataButton ghost rounded icon @click="isDeleting = false">
               <BIMDataIcon name="close" size="xxs" fill color="primary" />

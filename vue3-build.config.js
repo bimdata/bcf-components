@@ -1,6 +1,7 @@
 import { resolve } from "path";
 import { defineConfig } from "vite";
 import libCss from "vite-plugin-libcss";
+import copy from "rollup-plugin-copy";
 
 // Vite plugins for Vue 3
 import replace from "@rollup/plugin-replace";
@@ -16,6 +17,11 @@ const config = defineConfig({
     }),
     vue(),
     libCss(),
+    copy({
+      targets: [
+        { src: "src/i18n", dest: "dist" }
+      ]
+    }),
   ],
   build: {
     outDir: "dist/vue3",

@@ -1,24 +1,21 @@
 .bcf-settings {
   height: 100%;
+  padding: var(--spacing-unit);
 
   &__header {
     height: 60px;
-    & > svg {
-      cursor: pointer;
-    }
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
   &__content {
     height: 100%;
-    flex-direction: column;
 
-    &__settings {
-      height: calc(100% - 32px - 12px);
-      overflow: auto;
-
-      p {
-        margin-top: 0;
-      }
+    &__text {
+      padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 4);
+      text-align: center;
+      color: var(--color-granite);
     }
   }
 }

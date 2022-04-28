@@ -42,7 +42,7 @@
         </span>
         <BIMDataButton color="primary" outline radius class="m-t-18">
           <label for="files">
-            {{ $t("CreateBcfTopic.dragDropImageText") }}
+            {{ $t("BcfComponents.BcfTopicCreate.dragDropImageText") }}
           </label>
           <input
             style="display: none"
@@ -78,22 +78,22 @@
         />
         <label for="files" class="flex items-center justify-center">
           <BIMDataIcon name="camera" size="xs" margin="0 12px 0 0" />
-          {{ $t("CreateBcfTopic.addPictureButton") }}
+          {{ $t("BcfComponents.BcfTopicCreate.addPictureButton") }}
         </label>
       </BIMDataButton>
     </div>
 
     <div class="bcf-topic-create__content m-t-36">
       <BIMDataInput
-        :placeholder="$t('CreateBcfTopic.titlePlaceholder')"
+        :placeholder="$t('BcfComponents.BcfTopicCreate.titlePlaceholder')"
         :error="hasError"
-        :errorMessage="$t('CreateBcfTopic.titleErrorMessage')"
+        :errorMessage="$t('BcfComponents.BcfTopicCreate.titleErrorMessage')"
         v-model="topicTitle"
         @keyup.enter.stop="submit"
       />
       <BIMDataSelect
         width="100%"
-        :label="$t('CreateBcfTopic.typeLabel')"
+        :label="$t('BcfComponents.BcfTopicCreate.typeLabel')"
         :options="detailedExtensions.topicTypes"
         optionKey="id"
         optionLabelKey="topicType"
@@ -101,7 +101,7 @@
       />
       <BIMDataSelect
         width="100%"
-        :label="$t('CreateBcfTopic.priorityLabel')"
+        :label="$t('BcfComponents.BcfTopicCreate.priorityLabel')"
         :options="detailedExtensions.priorities"
         optionKey="id"
         optionLabelKey="priority"
@@ -109,7 +109,7 @@
       />
       <BIMDataSelect
         width="100%"
-        :label="$t('CreateBcfTopic.statusLabel')"
+        :label="$t('BcfComponents.BcfTopicCreate.statusLabel')"
         :options="detailedExtensions.topicStatuses"
         optionKey="id"
         optionLabelKey="topicStatus"
@@ -117,7 +117,7 @@
       />
       <BIMDataSelect
         width="100%"
-        :label="$t('CreateBcfTopic.stageLabel')"
+        :label="$t('BcfComponents.BcfTopicCreate.stageLabel')"
         :options="detailedExtensions.stages"
         optionKey="id"
         optionLabelKey="stage"
@@ -125,26 +125,26 @@
       />
       <BIMDataSelect
         width="100%"
-        :label="$t('CreateBcfTopic.assignedToLabel')"
+        :label="$t('BcfComponents.BcfTopicCreate.assignedToLabel')"
         :options="extensions.userIdType"
         v-model="topicAssignedTo"
       />
       <div class="due-date">
         <BIMDataInput
           margin="0"
-          :placeholder="$t('CreateBcfTopic.dueDateLabel')"
+          :placeholder="$t('BcfComponents.BcfTopicCreate.dueDateLabel')"
           :error="hasDateError"
-          :errorMessage="$t('CreateBcfTopic.dateErrorMessage')"
+          :errorMessage="$t('BcfComponents.BcfTopicCreate.dateErrorMessage')"
           v-model="topicDate"
         />
         <p class="m-y-6">
-          {{ $t("CreateBcfTopic.dateExample") }}
+          {{ $t("BcfComponents.BcfTopicCreate.dateExample") }}
         </p>
       </div>
       <BIMDataTextarea
         width="100%"
         name="description"
-        :label="$t('CreateBcfTopic.descriptionLabel')"
+        :label="$t('BcfComponents.BcfTopicCreate.descriptionLabel')"
         v-model="topicDescription"
         fitContent
         resizable
@@ -152,7 +152,7 @@
       <BIMDataSelect
         width="100%"
         :multi="true"
-        :label="$t('CreateBcfTopic.tagsLabel')"
+        :label="$t('BcfComponents.BcfTopicCreate.tagsLabel')"
         :options="detailedExtensions.topicLabels"
         optionKey="id"
         optionLabelKey="label"
@@ -169,7 +169,7 @@
         radius
         @click="submit"
       >
-        {{ $t("CreateBcfTopic.validateButton") }}
+        {{ $t("BcfComponents.BcfTopicCreate.validateButton") }}
       </BIMDataButton>
     </div>
 
