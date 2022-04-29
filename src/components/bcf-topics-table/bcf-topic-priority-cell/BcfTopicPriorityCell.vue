@@ -9,7 +9,7 @@
 
 <script>
 import { computed } from "@vue/composition-api";
-import { DEFAULT_PRIORITY_COLOR } from "../../../config";
+import { DEFAULT_PRIORITY_COLOR } from "../../../config.js";
 
 export default {
   props: {

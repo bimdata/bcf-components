@@ -140,14 +140,12 @@
     "BcfTopicPriorityCell": {
       "noPriority": "Aucune"
     },
-    "Extension": {
-      "deleteExtensionText": "Supprimmer ce paramètre",
-      "deleteButton": "Supprimer"
-    },
     "SettingCard": {
       "addButton": "ajouter un élément",
       "cancelButton": "Annuler",
       "validateButton": "Valider",
+      "deleteExtensionText": "Supprimmer ce paramètre",
+      "deleteButton": "Supprimer",
       "title": {
         "Priority": "Priorités",
         "Label": "Tags",

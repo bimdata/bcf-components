@@ -97,7 +97,7 @@
 
 <script>
 import { ref } from "@vue/composition-api";
-import { useBcf } from "../../../../composables/bcf.js";
+import { useService } from "../../../../service.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
 import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataIcon.js";
@@ -135,7 +135,7 @@ export default {
   },
   setup(props) {
     // TODO: could be provided by parent ?
-    const { deleteComment, updateComment } = useBcf();
+    const { deleteComment, updateComment } = useService();
 
     const showMenu = ref(false);
     const closeMenu = () => showMenu.value = false;
@@ -180,9 +180,7 @@ export default {
             props.project,
             props.bcfTopic,
             props.comment,
-            {
-              comment: commentContent.value
-            }
+            { comment: commentContent.value }
           );
           isEditing.value = false;
         } finally {

@@ -181,7 +181,7 @@
 
 <script>
 import { computed, ref, watch } from "@vue/composition-api";
-import { useBcf } from "../../composables/bcf.js";
+import { useService } from "../../service.js";
 import { formatToDateObject, regexDate } from "../../utils/date.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
@@ -220,8 +220,7 @@ export default {
   },
   emits: ["submit"],
   setup(props) {
-    // TODO: could be provided by parent ?
-    const { createFullTopic } = useBcf();
+    const { createTopic } = useService();
 
     const nextIndex = computed(() => {
       if (props.bcfTopics && props.bcfTopics.length > 0) {
@@ -302,7 +301,7 @@ export default {
         body.dueDate = formatToDateObject(topicDate.value);
       }
       loading.value = true;
-      await createFullTopic(props.project, body);
+      await createTopic(props.project, body);
       topicTitle.value = "";
       topicType.value = null;
       topicPriority.value = null;

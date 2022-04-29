@@ -1,61 +1,43 @@
 <template>
   <div class="bcf-settings">
     <div class="bcf-settings__header">
-      <BIMDataButton color="default" ripple radius @click="$emit('close')">
+      <BIMDataButton ghost radius @click="$emit('close')">
         <BIMDataIcon
+          margin="0 6px 0 0"
           name="arrow"
           size="xxs"
-          fill
-          color="default"
-          margin="0 6px 0 0"
         />
-        <span>{{ $t("BcfComponents.BcfSettings.goBackButton") }}</span>
+        <span>
+          {{ $t("BcfComponents.BcfSettings.goBackButton") }}
+        </span>
       </BIMDataButton>
       <span>
         {{ $t("BcfComponents.BcfSettings.title") }}
       </span>
-      <BIMDataIcon
-        name="close"
-        size="xxs"
-        fill
-        color="default"
-        @click="$emit('close')"
-      />
+      <BIMDataButton ghost rounded icon @click="$emit('close')">
+        <BIMDataIcon name="close" size="xxs" />
+      </BIMDataButton>
     </div>
     <div class="bcf-settings__content">
       <div class="bcf-settings__content__text">
         {{ $t("BcfComponents.BcfSettings.text") }}
       </div>
       <SettingCard
+        v-for="t in EXTENSION_TYPES"
         :project="project"
-        :availableExtensions="detailedExtensions.priorities"
-        extensionType="Priority"
-      />
-      <SettingCard
-        :project="project"
-        :availableExtensions="detailedExtensions.topicTypes"
-        extensionType="Type"
-      />
-      <SettingCard
-        :project="project"
-        :availableExtensions="detailedExtensions.stages"
-        extensionType="Stage"
-      />
-      <SettingCard
-        :project="project"
-        :availableExtensions="detailedExtensions.topicStatuses"
-        extensionType="Status"
-      />
-      <SettingCard
-        :project="project"
-        :availableExtensions="detailedExtensions.topicLabels"
-        extensionType="Label"
+        :extensionType="t"
+        :availableExtensions="detailedExtensions[EXTENSION_LIST_FIELDS[t]]"
+        @create-extenstion="createExt"
+        @update-extenstion="updateExt"
+        @delete-extenstion="deleteExt"
       />
     </div>
   </div>
 </template>
 
 <script>
+import { EXTENSION_LIST_FIELDS, EXTENSION_TYPES } from "../../config.js";
+import { useService } from "../../service.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
 import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataIcon.js";
@@ -77,7 +59,49 @@ export default {
       required: true
     },
   },
-  emits: ["close"]
+  emits: ["close"],
+  setup() {
+    const {
+      createExtension,
+      updateExtension,
+      deleteExtension,
+    } = useService();
+
+    const createExt = async event => {
+      await createExtension(
+        event.project,
+        event.extensionType,
+        event.data
+      );
+    };
+
+    const updateExt = async event => {
+      await updateExtension(
+        event.project,
+        event.extensionType,
+        event.extension,
+        event.data
+      )
+    };
+
+    const deleteExt = async event => {
+      await deleteExtension(
+        event.project,
+        event.extensionType,
+        event.extension
+      )
+    };
+
+    return {
+      // References
+      EXTENSION_LIST_FIELDS,
+      EXTENSION_TYPES,
+      // Methods
+      createExt,
+      updateExt,
+      deleteExt,
+    };
+  }
 };
 </script>
 

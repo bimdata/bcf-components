@@ -263,8 +263,8 @@
 
 <script>
 import { computed, ref } from "@vue/composition-api";
-import { useBcf } from "../../composables/bcf.js";
-import { DEFAULT_PRIORITY_COLOR, DEFAULT_STATUS_COLOR, MODEL_TYPE, MODEL_STATUS } from "../../config";
+import { useService } from "../../service.js";
+import { DEFAULT_PRIORITY_COLOR, DEFAULT_STATUS_COLOR, MODEL_TYPE, MODEL_STATUS } from "../../config.js";
 import { adjustColor } from "../../utils/colors.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
@@ -315,8 +315,7 @@ export default {
   },
   emits: ["close", "delete-bcf-topic", "edit-bcf-topic", "view-bcf-topic"],
   setup(props) {
-    // TODO: could be provided by parent ?
-    const { deleteTopic } = useBcf();
+    const { deleteTopic } = useService();
 
     const loading = ref(false);
     const showDeleteModal = ref(false);

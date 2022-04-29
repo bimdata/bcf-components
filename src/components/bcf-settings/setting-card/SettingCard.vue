@@ -1,58 +1,53 @@
 <template>
-  <div class="setting-card p-12 m-y-12">
+  <div class="setting-card">
     <div
-      class="setting-card__header flex items-center justify-between"
+      class="setting-card__header"
       @click="toggle"
     >
-      <strong>{{ $t(`BcfComponents.SettingCard.title.${extensionType}`) }}</strong>
-      <div class="flex items-center">
+      <div class="setting-card__header__text">
+        {{ $t(`BcfComponents.SettingCard.title.${extensionType}`) }}
+      </div>
+      <div class="setting-card__header__icons">
         <div
           v-if="availableExtensions"
-          class="setting-card__header__length flex items-center justify-center m-r-30"
+          class="count"
         >
-          <span>{{ availableExtensions.length }}</span>
+          {{ availableExtensions.length }}
         </div>
         <BIMDataIcon
           name="chevron"
           size="xxs"
           :rotate="isOpen ? 90 : 0"
-          fill
-          color="default"
         />
       </div>
     </div>
     <div v-show="isOpen">
-      <div
-        class="setting-card__subheader flex items-center justify-between m-t-6 m-b-12"
-      >
+      <div class="setting-card__subheader">
         {{ $t(`BcfComponents.SettingCard.text.${extensionType}`) }}
-        <BIMDataButton color="default" fill radius @click="toggleAddExtension">
+        <BIMDataButton fill radius @click="toggleAddExtension">
           <BIMDataIcon
+            margin="0 6px 0 0"
             name="plus"
             size="xxxs"
             fill
-            color="default"
-            margin="0 6px 0 0"
           />
-          <span>{{ $t("BcfComponents.SettingCard.addButton") }}</span>
+          <span>
+            {{ $t("BcfComponents.SettingCard.addButton") }}
+          </span>
         </BIMDataButton>
       </div>
-      <transition name="list">
-        <div v-if="showAddExtension" class="m-b-12">
+
+      <transition name="slide-fade-up">
+        <div v-show="isOpenAddExtension" class="setting-card__add-form">
           <BIMDataInput
             ref="input"
             :placeholder="$t(`BcfComponents.SettingCard.input.${extensionType}`)"
-            v-model="newExtensionName"
+            v-model="name"
             @keyup.enter.stop="addExtension"
           />
 
-          <div class="flex items-center justify-end">
-            <BIMDataButton
-              class="m-r-6"
-              ghost
-              radius
-              @click="closeAddExtension"
-            >
+          <div class="actions">
+            <BIMDataButton ghost radius @click="closeAddExtension">
               {{ $t("BcfComponents.SettingCard.cancelButton") }}
             </BIMDataButton>
             <BIMDataButton color="primary" fill radius @click="addExtension">
@@ -61,13 +56,16 @@
           </div>
         </div>
       </transition>
+
       <ul class="setting-card__content bimdata-list">
-        <Extension
+        <SettingCardItem
           v-for="extension in availableExtensions"
           :key="extension.id"
           :project="project"
           :extension="extension"
           :extensionType="extensionType"
+          @update-extension="$emit('update-extension', $event)"
+          @delete-extension="$emit('delete-extension', $event)"
         />
       </ul>
     </div>
@@ -76,87 +74,86 @@
 
 <script>
 import { ref, watch } from "@vue/composition-api";
-import { useBcf } from "../../../composables/bcf.js";
+import { EXTENSION_WITH_COLOR } from "../../../config.js";
 import { getRandomHexColor } from "../../../utils/colors.js";
 // Compopnents
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
 import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataIcon.js";
 import BIMDataInput from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataInput.js";
-import Extension from "./Extension.vue";
-
-const typesWithColor = ["Status", "Priority"];
+import SettingCardItem from "./SettingCardItem.vue";
 
 export default {
   components: {
     BIMDataButton,
     BIMDataIcon,
     BIMDataInput,
-    Extension,
+    SettingCardItem,
   },
   props: {
     project: {
       type: Object,
-      required: true
-    },
-    availableExtensions: {
-      type: Array
+      required: true,
     },
     extensionType: {
-      type: String
-    }
+      type: String,
+      required: true,
+    },
+    availableExtensions: {
+      type: Array,
+      required: true,
+    },
   },
-  setup(props) {
-    // TODO: could be provided by parent ?
-    const { createExtension } = useBcf();
+  emits: [
+    "create-extension",
+    "update-extension",
+    "delete-extension"
+  ],
+  setup(props, { emit }) {
+    const input = ref(null);
+    const name = ref("");
 
     const isOpen = ref(false);
     const close = () => isOpen.value = false;
     const toggle = () => isOpen.value = !isOpen.value;
     
-    const showAddExtension = ref(false);
+    const isOpenAddExtension = ref(false);
     const closeAddExtension = () => {
-      newExtensionName.value = "";
-      showAddExtension.value = false;
+      name.value = "";
+      isOpenAddExtension.value = false;
     };
     const toggleAddExtension = () => {
-      showAddExtension.value = !showAddExtension.value;
+      isOpenAddExtension.value = !isOpenAddExtension.value;
     };
 
-    const input = ref(null);
-    const newExtensionName = ref("");
-
-    watch(showAddExtension, () =>
-      setTimeout(() => showAddExtension.value && input.value.focus(), 100)
+    watch(isOpenAddExtension, () =>
+      setTimeout(() => isOpenAddExtension.value && input.value.focus(), 50)
     );
 
     const addExtension = async () => {
-      if (typesWithColor.includes(props.extensionType)) {
-        const data = {
-          [extensionValue.value]: newExtensionName.value,
-          color: getRandomHexColor()
-        };
-        await createExtension(props.project, props.extensionType, data);
-        closeAddExtension();
-      } else {
-        const data = {
-          [extensionValue.value]: newExtensionName.value
-        };
-        await createExtension(props.project, props.extensionType, data);
-        closeAddExtension();
-      }
+      closeAddExtension();
+      emit("create-extension", {
+        project: props.project,
+        extensionType: props.extensionType,
+        data: {
+          value: name.value,
+          color: EXTENSION_WITH_COLOR.includes(props.extensionType)
+            ? getRandomHexColor()
+            : undefined
+        }
+      });
     };
 
     return {
       // References
       input,
       isOpen,
-      newExtensionName,
-      showAddExtension,
-      toggle,
+      isOpenAddExtension,
+      name,
       // Methods
       addExtension,
       close,
       closeAddExtension,
+      toggle,
       toggleAddExtension,
     };
   }

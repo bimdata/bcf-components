@@ -94,7 +94,7 @@
 
 <script>
 import { computed } from "@vue/composition-api";
-import { DEFAULT_PRIORITY_COLOR, DEFAULT_STATUS_COLOR } from "../../config";
+import { DEFAULT_PRIORITY_COLOR, DEFAULT_STATUS_COLOR } from "../../config.js";
 import { adjustColor } from "../../utils/colors.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";

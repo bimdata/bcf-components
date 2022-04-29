@@ -186,7 +186,7 @@
 <script>
 import { computed, ref, watch } from "@vue/composition-api";
 import { isArray, isDate, isObject, snakeCase, transform } from "lodash";
-import { useBcf } from "../../composables/bcf.js";
+import { useService } from "../../service.js";
 import { formatToDateObject, regexDate, formatDate } from "../../utils/date.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
@@ -228,8 +228,7 @@ export default {
   },
   emits: ["close", "update-bcf-topic"],
   setup(props, { emit }) {
-    // TODO: could be provided by parent ?
-    const { updateTopic, deleteViewpoint } = useBcf();
+    const { updateTopic, deleteViewpoint } = useService();
 
     const viewpointsWithSnapshot = computed(() => {
       return props.bcfTopic.viewpoints.filter(viewpoint =>

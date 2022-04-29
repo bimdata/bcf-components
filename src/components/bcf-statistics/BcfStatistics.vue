@@ -53,7 +53,7 @@
 
 <script>
 import { ref, computed } from "vue";
-import { DEFAULT_PRIORITY_COLOR } from "../../config";
+import { DEFAULT_PRIORITY_COLOR } from "../../config.js";
 // Components
 import BIMDataPaginatedList from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataPaginatedList.js";
 import BIMDataSimplePieChart from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataSimplePieChart.js";

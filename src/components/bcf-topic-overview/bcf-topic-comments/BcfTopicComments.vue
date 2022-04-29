@@ -76,7 +76,7 @@
 
 <script>
 import { ref, watch } from "@vue/composition-api";
-import { useBcf } from "../../../composables/bcf.js";
+import { useService } from "../../../service.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
 import BIMDataLoading from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataLoading.js";
@@ -105,8 +105,7 @@ export default {
     }
   },
   setup(props) {
-    // TODO: could be provided by parent ?
-    const { createComment } = useBcf();
+    const { createComment } = useService();
 
     const isOpen = ref(false);
     const loading = ref(false);
@@ -120,9 +119,11 @@ export default {
     const publishComment = async () => {
       try {
         loading.value = true;
-        await createComment(props.project, props.bcfTopic, {
-          comment: topicComment.value
-        });
+        await createComment(
+          props.project,
+          props.bcfTopic,
+          { comment: topicComment.value }
+        );
       } finally {
         loading.value = false;
         topicComment.value = null;

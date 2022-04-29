@@ -1,3 +1,5 @@
+import { setApiClient } from "./api-client.js";
+
 import BcfFilters from "./components/bcf-filters/BcfFilters.vue";
 import BcfSettings from "./components/bcf-settings/BcfSettings.vue";
 import BcfStatistics from "./components/bcf-statistics/BcfStatistics.vue";
@@ -8,7 +10,7 @@ import BcfTopicForm from "./components/bcf-topic-form/BcfTopicForm.vue";
 import BcfTopicOverview from "./components/bcf-topic-overview/BcfTopicOverview.vue";
 import BcfTopicsTable from "./components/bcf-topics-table/BcfTopicsTable.vue";
 
-export {
+const components = {
   BcfFilters,
   BcfSettings,
   BcfStatistics,
@@ -18,4 +20,9 @@ export {
   BcfTopicForm,
   BcfTopicOverview,
   BcfTopicsTable,
+};
+
+export {
+  setApiClient,
+  components,
 };

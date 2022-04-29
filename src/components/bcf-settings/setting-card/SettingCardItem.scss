@@ -1,0 +1,46 @@
+.setting-card-item {
+  position: relative;
+  height: 37px;
+  background-color: var(--color-silver-light);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: calc(var(--spacing-unit) / 2);
+  padding: 0 var(--spacing-unit);
+
+  &__actions {
+    display: flex;
+    align-items: center;
+  }
+
+  &__color {
+    display: block;
+    width: 19px;
+    height: 19px;
+    margin-left: var(--spacing-unit);
+    border-radius: 3px;
+    border: 1px solid var(--color-silver);
+    cursor: pointer;
+  }
+
+  &__color-selector {
+    position: absolute;
+    z-index: 1;
+    top: 37px;
+    right: -12px;
+  }
+
+  &__delete-guard {
+    position: absolute;
+    right: 1%;
+    width: 98%;
+    height: 100%;
+    padding: 0 var(--spacing-unit);
+    gap: var(--spacing-unit);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--box-shadow);
+    background-color: var(--color-white);
+  }
+}

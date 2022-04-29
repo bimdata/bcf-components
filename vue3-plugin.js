@@ -1,28 +1,53 @@
-import * as Components from "./dist/vue3/bcf-components.es.js";
+import { setApiClient, components } from "./dist/vue3/bcf-components.es.js";
 import messages from "./dist/i18n/index.js";
 
 /**
  * BCF Components library plugin for Vue 3.
  * Here are the actions the plugin will perform:
- *  - globally register BCF components
+ *  - set library api client
  *  - register components translations
+ *  - globally register BCF components
  * 
  * @param {
  *  {
+ *    apiClient: Object,
+ *    i18n: Object,
  *    includedComponents?: string[],
  *    excludedComponents?: string[],
- *    i18n: Object,
  *  } 
  * } [cfg]
  */
 const pluginFactory = ({
+  apiClient,
   includedComponents = [],
   excludedComponents = [],
-  i18n
+  i18n,
 } = {}) => {
   return {
     install(app) {
-      Object.entries(Components)
+      if (apiClient) {
+        setApiClient(apiClient);
+      } else {
+        console.error(
+          "[BCF Components Plugin] No api client provided. " +
+          "You must provide an api client for the components " +
+          "to work properly."
+        );
+      }
+
+      if (i18n) {
+        Object.entries(messages).forEach(([locale, translations]) => {
+          i18n.global.mergeLocaleMessage(locale, translations);
+        });
+      } else {
+        console.warn(
+          "[BCF Components Plugin] No i18n instance provided. " +
+          "You should either provide an i18n instance or define " +
+          "your own translations in order have text displayed properly."
+        );
+      }
+
+      Object.entries(components)
         .forEach(([name, component]) => {
 
           // Do not register excluded components.
@@ -39,18 +64,6 @@ const pluginFactory = ({
             app.component(name, component);
           }
         });
-      
-      if (i18n) {
-        Object.entries(messages).forEach(([locale, translations]) => {
-          i18n.global.mergeLocaleMessage(locale, translations);
-        });
-      } else {
-        console.warn(
-          "[BCF Components Plugin] No i18n instance provided." +
-          "You should either provide an i18n instance or " +
-          "your own translations in order have text displayed proerl.y"
-        );
-      }
     },
   };
 };
