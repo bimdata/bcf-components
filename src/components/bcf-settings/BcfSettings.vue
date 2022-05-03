@@ -17,9 +17,9 @@
         :project="project"
         :extensionType="t"
         :availableExtensions="detailedExtensions[EXTENSION_LIST_FIELDS[t]]"
-        @create-extenstion="createExt"
-        @update-extenstion="updateExt"
-        @delete-extenstion="deleteExt"
+        @create-extension="createExt"
+        @update-extension="updateExt"
+        @delete-extension="deleteExt"
       />
     </div>
   </div>

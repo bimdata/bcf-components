@@ -7,7 +7,7 @@
     <BIMDataInput
       v-else
       ref="input"
-      v-model="extensionValue"
+      v-model="extensionName"
       @keyup.enter.stop="submitValue"
     />
 
@@ -117,7 +117,7 @@ export default {
     const isOpenColorSelector = ref(false);
     const isOpenDeleteGuard = ref(false);
 
-    const extensionValue = ref(
+    const extensionName = ref(
       props.extension[EXTENSION_FIELDS[props.extensionType]]
     );
     const extensionColor = ref(props.extension.color);
@@ -129,28 +129,28 @@ export default {
 
     const submitValue = async () => {
       if (
-        extensionValue.value !==
+        extensionName.value !==
         props.extension[EXTENSION_FIELDS[props.extensionType]]
       ) {
-        editMode.value = false;
         emit("update-extension", {
           project: props.project,
           extensionType: props.extensionType,
           extension: props.extension,
-          data: { value: extensionValue.value }
+          data: { value: extensionName.value }
         });
+        editMode.value = false;
       }
     };
 
     const submitColor = async colorValue => {
       if (colorValue !== props.extension.color) {
-        extensionColor.value = colorValue;
         emit("update-extension", {
           project: props.project,
           extensionType: props.extensionType,
           extension: props.extension,
           data: { color: colorValue }
         });
+        extensionColor.value = colorValue;
       }
     };
 
@@ -166,7 +166,7 @@ export default {
       // References
       editMode,
       extensionColor,
-      extensionValue,
+      extensionName,
       EXTENSION_FIELDS,
       EXTENSION_WITH_COLOR,
       input,

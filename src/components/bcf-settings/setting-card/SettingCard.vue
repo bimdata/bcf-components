@@ -74,8 +74,6 @@
 
 <script>
 import { ref, watch } from "@vue/composition-api";
-import { EXTENSION_WITH_COLOR } from "../../../config.js";
-import { getRandomHexColor } from "../../../utils/colors.js";
 // Compopnents
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
 import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataIcon.js";
@@ -130,17 +128,12 @@ export default {
     );
 
     const addExtension = async () => {
-      closeAddExtension();
       emit("create-extension", {
         project: props.project,
         extensionType: props.extensionType,
-        data: {
-          value: name.value,
-          color: EXTENSION_WITH_COLOR.includes(props.extensionType)
-            ? getRandomHexColor()
-            : undefined
-        }
+        data: { value: name.value }
       });
+      closeAddExtension();
     };
 
     return {

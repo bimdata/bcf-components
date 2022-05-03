@@ -1,4 +1,6 @@
 import { useApiClient } from "./api-client.js";
+import { EXTENSION_FIELDS, EXTENSION_WITH_COLOR } from "./config.js";
+import { getRandomHexColor } from "./utils/colors.js";
 
 
 // --- BCF Topics API ---
@@ -79,7 +81,10 @@ const deleteComment = async (project, topic, comment) => {
 const createExtension = async (project, extensionType, data) => {
   return await useApiClient().bcfApi[`createExtension${extensionType}`](
     project.id,
-    data
+    {
+      [EXTENSION_FIELDS[extensionType]]: data.value,
+      color: getRandomHexColor(),
+    }
   );
 };
 
@@ -87,7 +92,10 @@ const updateExtension = async (project, extensionType, extension, data) => {
   return await useApiClient().bcfApi[`updateExtension${extensionType}`](
     extension.id,
     project.id,
-    data
+    {
+      [EXTENSION_FIELDS[extensionType]]: data.value,
+      color: data.color,
+    }
   );
 };
 
