@@ -23,7 +23,7 @@
           v-for="(viewpoint, i) in viewpoints.slice(0, 4)"
           :key="i"
         >
-          <img :src="viewpoint.snapshot.snapshot_data" loading="lazy" />
+          <img :src="viewpoint.snapshot.snapshotData" loading="lazy" />
           <BIMDataButton
             class="remove-viewpoint"
             color="default"
@@ -50,7 +50,7 @@
             type="file"
             multiple
             accept="image/png, image/jpeg"
-            @change="upload"
+            @change="addViewpoint"
           />
         </BIMDataButton>
       </div>
@@ -74,7 +74,7 @@
           type="file"
           multiple
           accept="image/png, image/jpeg"
-          @change="upload"
+          @change="addViewpoint"
         />
         <label for="files" class="flex items-center justify-center">
           <BIMDataIcon name="camera" size="xs" margin="0 12px 0 0" />
@@ -86,7 +86,7 @@
     <div class="bcf-topic-create__content m-t-36">
       <BIMDataInput
         :placeholder="$t('BcfComponents.BcfTopicCreate.titlePlaceholder')"
-        :error="hasError"
+        :error="hasErrorTitle"
         :errorMessage="$t('BcfComponents.BcfTopicCreate.titleErrorMessage')"
         v-model="topicTitle"
         @keyup.enter.stop="submit"
@@ -121,7 +121,7 @@
         :options="detailedExtensions.stages"
         optionKey="id"
         optionLabelKey="stage"
-        v-model="topicPhase"
+        v-model="topicStage"
       />
       <BIMDataSelect
         width="100%"
@@ -133,7 +133,7 @@
         <BIMDataInput
           margin="0"
           :placeholder="$t('BcfComponents.BcfTopicCreate.dueDateLabel')"
-          :error="hasDateError"
+          :error="hasErrorDate"
           :errorMessage="$t('BcfComponents.BcfTopicCreate.dateErrorMessage')"
           v-model="topicDate"
         />
@@ -156,7 +156,7 @@
         :options="detailedExtensions.topicLabels"
         optionKey="id"
         optionLabelKey="label"
-        v-model="topicTags"
+        v-model="topicLabels"
       />
     </div>
 
@@ -180,9 +180,9 @@
 </template>
 
 <script>
-import { computed, ref, watch } from "@vue/composition-api";
+import { computed, ref } from "@vue/composition-api";
 import { useService } from "../../service.js";
-import { formatToDateObject, regexDate } from "../../utils/date.js";
+import { serialize, validate } from "../../utils/date.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
 import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataIcon.js";
@@ -218,15 +218,17 @@ export default {
       required: true
     },
   },
-  emits: ["submit"],
-  setup(props) {
+  emits: [
+    "bcf-topic-created"
+  ],
+  setup(props, { emit }) {
     const { createTopic } = useService();
 
     const nextIndex = computed(() => {
       if (props.bcfTopics && props.bcfTopics.length > 0) {
         return (
           props.bcfTopics.reduce(
-            (acc, cur) => (cur.index > acc ? cur.index : acc),
+            (maxIndex, topic) => (topic.index > maxIndex ? topic.index : maxIndex),
             0
           ) + 1
         );
@@ -235,107 +237,103 @@ export default {
       }
     });
 
+    const topicTitle = ref("");
+    const topicType = ref(null);
+    const topicPriority = ref(null);
+    const topicStatus = ref(null);
+    const topicStage = ref(null);
+    const topicAssignedTo = ref(null);
+    const topicDate = ref("");
+    const topicDescription = ref("");
+    const topicLabels = ref([]);
     const viewpoints = ref([]);
-    const upload = event => {
+
+    const loading = ref(false);
+    const hasErrorTitle = ref(false);
+    const hasErrorDate = ref(false);
+
+    const reset = () => {
+      topicTitle.value = "";
+      topicType.value = null;
+      topicPriority.value = null;
+      topicStatus.value = null;
+      topicStage.value = null;
+      topicAssignedTo.value = null;
+      topicDate.value = "";
+      topicDescription.value = "";
+      topicLabels.value = [];
+      viewpoints.value = [];
+      loading.value = false;
+      hasErrorTitle.value = false;
+      hasErrorDate.value = false;
+    };
+
+    const addViewpoint = event => {
       [...event.target.files].forEach(file => {
         const reader = new FileReader();
         reader.addEventListener("load", () => {
           viewpoints.value.push({
             snapshot: {
-              snapshot_type: file.type,
-              snapshot_data: reader.result
+              snapshotType: file.type,
+              snapshotData: reader.result
             }
           });
         });
         reader.readAsDataURL(file);
       });
     };
-
     const removeViewpoint = index => {
       viewpoints.value.splice(index, 1);
     };
 
-    const topicTitle = ref("");
-    const topicDescription = ref("");
-    const topicType = ref();
-    const topicPriority = ref();
-    const topicStatus = ref();
-    const topicPhase = ref();
-    const topicAssignedTo = ref();
-    const topicDate = ref("");
-    const topicTags = ref([]);
-    const hasError = ref(false);
-    const hasDateError = ref(false);
-    const loading = ref(false);
-
-    const isDateConform = date => {
-      if (!date) {
-        return true;
-      }
-      if (!date.match(regexDate)) {
-        return false;
-      }
-      const dateToCompare = formatToDateObject(date);
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      return dateToCompare.getTime() >= today.getTime();
-    };
-
     const submit = async () => {
-      if (!isDateConform(topicDate.value) || !topicTitle.value) {
-        hasDateError.value = true;
+      if (!topicTitle.value) {
+        hasErrorTitle.value = true;
         return;
       }
-      const body = {
-        title: topicTitle.value,
-        topic_type: topicType.value?.topicType,
-        priority: topicPriority.value?.priority,
-        topic_status: topicStatus.value?.topicStatus,
-        stage: topicPhase.value?.stage,
-        assigned_to: topicAssignedTo?.value,
-        description: topicDescription?.value,
-        labels: topicTags.value?.map(topicTag => topicTag.label),
-        viewpoints: viewpoints.value
-      };
-      if (topicDate.value) {
-        body.dueDate = formatToDateObject(topicDate.value);
+      if (!validate(topicDate.value)) {
+        hasErrorDate.value = true;
+        return;
       }
+      const data = {
+        title: topicTitle.value,
+        topicType: topicType.value?.topicType,
+        priority: topicPriority.value?.priority,
+        topicStatus: topicStatus.value?.topicStatus,
+        stage: topicStage.value?.stage,
+        assignedTo: topicAssignedTo?.value,
+        dueDate: topicDate.value ? serialize(topicDate.value) : undefined,
+        description: topicDescription?.value,
+        labels: topicLabels.value?.map(l => l.label),
+        viewpoints: viewpoints.value,
+      };
       loading.value = true;
-      await createTopic(props.project, body);
-      topicTitle.value = "";
-      topicType.value = null;
-      topicPriority.value = null;
-      topicStatus.value = null;
-      topicPhase.value = null;
-      topicAssignedTo.value = null;
-      topicDate.value = "";
-      topicDescription.value = "";
-      topicTags.value = [];
-      viewpoints.value = [];
-      hasDateError.value = false;
+      const newTopic = await createTopic(props.project, data);
+      emit("bcf-topic-created", newTopic);
       loading.value = false;
+      reset();
     };
 
     return {
       // References
-      hasDateError,
-      hasError,
+      hasErrorDate,
+      hasErrorTitle,
       loading,
       nextIndex,
       topicAssignedTo,
       topicDate,
       topicDescription,
-      topicPhase,
       topicPriority,
+      topicStage,
       topicStatus,
-      topicTags,
+      topicLabels,
       topicTitle,
       topicType,
       viewpoints,
       // Methods
+      addViewpoint,
       removeViewpoint,
       submit,
-      upload
     };
   }
 };

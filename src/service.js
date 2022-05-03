@@ -14,6 +14,7 @@ const updateTopic = async (project, topic) => {
   return await useApiClient().bcfApi.updateFullTopic(
     topic.guid,
     project.id,
+    "url",
     topic
   );
 };

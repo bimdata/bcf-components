@@ -1,16 +1,6 @@
 <template>
   <div class="bcf-settings">
     <div class="bcf-settings__header">
-      <BIMDataButton ghost radius @click="$emit('close')">
-        <BIMDataIcon
-          margin="0 6px 0 0"
-          name="arrow"
-          size="xxs"
-        />
-        <span>
-          {{ $t("BcfComponents.BcfSettings.goBackButton") }}
-        </span>
-      </BIMDataButton>
       <span>
         {{ $t("BcfComponents.BcfSettings.title") }}
       </span>
@@ -59,8 +49,13 @@ export default {
       required: true
     },
   },
-  emits: ["close"],
-  setup() {
+  emits: [
+    "extension-created",
+    "extension-updated",
+    "extension-deleted",
+    "close"
+  ],
+  setup(props, { emit }) {
     const {
       createExtension,
       updateExtension,
@@ -68,20 +63,22 @@ export default {
     } = useService();
 
     const createExt = async event => {
-      await createExtension(
+      const ext = await createExtension(
         event.project,
         event.extensionType,
         event.data
       );
+      emit("extension-created", ext);
     };
 
     const updateExt = async event => {
-      await updateExtension(
+      const ext = await updateExtension(
         event.project,
         event.extensionType,
         event.extension,
         event.data
-      )
+      );
+      emit("extension-updated", ext);
     };
 
     const deleteExt = async event => {
@@ -89,7 +86,8 @@ export default {
         event.project,
         event.extensionType,
         event.extension
-      )
+      );
+      emit("extension-deleted", event.extension);
     };
 
     return {

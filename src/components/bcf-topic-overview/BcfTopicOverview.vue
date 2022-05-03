@@ -215,8 +215,8 @@
           </span>
           <span class="value">
             {{
-              topicTags.length
-                ? topicTags.join(", ")
+              topicLabels.length
+                ? topicLabels.join(", ")
                 : $t("BcfComponents.BcfTopicOverview.noTags")
             }}
           </span>
@@ -313,8 +313,13 @@ export default {
       default: false
     }
   },
-  emits: ["close", "delete-bcf-topic", "edit-bcf-topic", "view-bcf-topic"],
-  setup(props) {
+  emits: [
+    "edit-bcf-topic",
+    "view-bcf-topic",
+    "bcf-topic-deleted",
+    "close",
+    ],
+  setup(props, { emit }) {
     const { deleteTopic } = useService();
 
     const loading = ref(false);
@@ -362,7 +367,7 @@ export default {
       }
     });
 
-    const topicTags = computed(() => {
+    const topicLabels = computed(() => {
       if (props.bcfTopic.labels?.length) {
         return Array.from(props.bcfTopic.labels).sort();
       } else {
@@ -390,8 +395,11 @@ export default {
 
     const removeTopic = async () => {
       try {
+        showDeleteModal.value = false;
         loading.value = true;
         await deleteTopic(props.project, props.bcfTopic);
+        emit("bcf-topic-deleted", props.bcfTopic);
+        emit("close");
       } finally {
         loading.value = false;
       }
@@ -404,7 +412,7 @@ export default {
       showDeleteModal,
       statusColor,
       topicElements,
-      topicTags,
+      topicLabels,
       viewpointsWithSnapshot,
       // Methods
       adjustColor,
