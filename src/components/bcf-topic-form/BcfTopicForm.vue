@@ -201,8 +201,6 @@ import BIMDataSafeZoneModal from "@bimdata/design-system/dist/js/BIMDataComponen
 import BIMDataSelect from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataSelect.js";
 import BIMDataTextarea from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataTextarea.js";
 import BIMDataTextbox from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataTextbox.js";
-import TagsInput from "../tags-input/TagsInput.vue";
-
 
 export default {
   components: {
@@ -213,8 +211,7 @@ export default {
     BIMDataSafeZoneModal,
     BIMDataSelect,
     BIMDataTextarea,
-    BIMDataTextbox,
-    TagsInput
+    BIMDataTextbox
   },
   props: {
     project: {
