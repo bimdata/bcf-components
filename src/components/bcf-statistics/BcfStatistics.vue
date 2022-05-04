@@ -41,7 +41,9 @@
                   barData.label ||
                   $t(`BcfComponents.BcfStatistics.extension.${extensionType}NotDefined`)
                 }}
-                <span class="total">({{ barData.total }})</span>
+                <span class="total">
+                  ({{ barData.total }})
+                </span>
               </span>
             </div>
           </template>
@@ -52,16 +54,11 @@
 </template>
 
 <script>
-import { ref, computed } from "vue";
-import { DEFAULT_PRIORITY_COLOR } from "../../config.js";
+import { computed } from "@vue/composition-api";
+import { DEFAULT_PRIORITY_COLOR, EXTENSION_FIELDS } from "../../config.js";
 // Components
 import BIMDataPaginatedList from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataPaginatedList.js";
 import BIMDataSimplePieChart from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataSimplePieChart.js";
-
-const typeFieldMap = {
-  Priority: "priority",
-  Status: "topicStatus"
-};
 
 export default {
   components: {
@@ -82,47 +79,42 @@ export default {
     }
   },
   setup(props) {
-    const extensionValue = ref([typeFieldMap[props.extensionType]]);
-
     const barsData = computed(() => {
-      if (props.bcfTopics.length) {
-        // Add empty priority to match topics without priorities
-        const shownExtensions = [...props.availableExtensions];
-
-        shownExtensions.push({
-          [extensionValue.value]: undefined
-        });
-
-        return shownExtensions
-          .map(shownExtension => {
-            let barData = {};
-            if (shownExtension.color !== undefined) {
-              barData.color = `#${shownExtension.color}`;
-            } else {
-              barData.color = DEFAULT_PRIORITY_COLOR;
-            }
-
-            const topicCount = props.bcfTopics.filter(
-              bcfTopic =>
-                bcfTopic[extensionValue.value] ===
-                shownExtension[extensionValue.value]
-            ).length;
-
-            barData.percentage = (topicCount * 100) / props.bcfTopics.length;
-
-            barData.label = shownExtension[extensionValue.value];
-
-            barData.total = topicCount;
-            return barData;
-          })
-          .sort((a, b) =>
-            parseInt(a.percentage) > parseInt(b.percentage) ? -1 : 1
-          );
+      if (props.bcfTopics.length === 0) {
+        return [];
       }
-      return [];
+
+      const extField = EXTENSION_FIELDS[props.extensionType];
+      const displayedExtensions = [...props.availableExtensions];
+
+      // Add empty priority to match topics without priorities
+      displayedExtensions.push({ [extField]: undefined });
+
+      return displayedExtensions
+        .map(extension => {
+          const barData = {};
+          if (extension.color !== undefined) {
+            barData.color = `#${extension.color}`;
+          } else {
+            barData.color = `#${DEFAULT_PRIORITY_COLOR}`;
+          }
+
+          const topicCount = props.bcfTopics
+            .filter(topic => topic[extField] === extension[extField])
+            .length;
+
+          barData.percentage = (topicCount * 100) / props.bcfTopics.length;
+          barData.label = extension[extField];
+          barData.total = topicCount;
+
+          return barData;
+        })
+        .sort((a, b) =>
+          parseInt(a.percentage) > parseInt(b.percentage) ? -1 : 1
+        );
     });
+
     return {
-      typeFieldMap,
       barsData
     };
   }
