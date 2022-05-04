@@ -36,21 +36,17 @@
     </div>
 
     <div class="bcf-topic-overview__content">
-      <div
-        class="bcf-topic-overview__content__subheader"
-      >
+      <div class="bcf-topic-overview__content__head">
         <div
-          class="bcf-topic-overview__content__subheader__index"
+          class="bcf-topic-overview__content__head__index"
           :style="{
-            'background-color': `#${priorityColor}`,
+            backgroundColor: `#${priorityColor}`,
             color: adjustColor(`#${priorityColor}`, '#ffffff', '#2f374a')
           }"
         >
           {{ bcfTopic.index }}
         </div>
-        <div
-          class="bcf-topic-overview__content__subheader__date"
-        >
+        <div class="bcf-topic-overview__content__head__date">
           {{ $d(bcfTopic.creationDate, "short") }}
         </div>
       </div>
@@ -65,7 +61,7 @@
           v-if="bcfTopic.topicStatus"
           class="status-badge"
           :style="{
-            'background-color': `#${statusColor}`,
+            backgroundColor: `#${statusColor}`,
             color: adjustColor(`#${statusColor}`, '#ffffff', '#2f374a')
           }"
         >
@@ -227,6 +223,9 @@
         :project="project"
         :users="users"
         :bcfTopic="bcfTopic"
+        @comment-created="$emit('comment-created', $event)"
+        @comment-updated="$emit('comment-updated', $event)"
+        @comment-deleted="$emit('comment-deleted', $event)"
       />
     </div>
 
@@ -308,17 +307,16 @@ export default {
       type: Object,
       required: true
     },
-    isCarousel: {
-      type: Boolean,
-      default: false
-    }
   },
   emits: [
     "edit-bcf-topic",
     "view-bcf-topic",
     "bcf-topic-deleted",
+    "comment-created",
+    "comment-updated",
+    "comment-deleted",
     "close",
-    ],
+  ],
   setup(props, { emit }) {
     const { deleteTopic } = useService();
 

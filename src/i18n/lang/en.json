@@ -59,7 +59,7 @@
       "dateErrorMessage": "Date format or incorrect date",
       "dateExample": "(Ex: 28/04/2022)",
       "descriptionLabel": "Description",
-      "tagsLabel": "Tags",
+      "labelsLabel": "Tags",
       "validateButton": "Validate"
     },
     "BcfTopicCreationCard": {
@@ -78,7 +78,7 @@
       "stageLabel": "Stage",
       "assignedToLabel": "Assigned to",
       "descriptionLabel": "Description",
-      "tagsPlaceholder": "Tags",
+      "labelsLabel": "Tags",
       "editButton": "Modify this BCF",
       "modalText": "You are about to quit editing issue {name} but there are unsaved changes.",
       "cancelButton": "Discard changes",

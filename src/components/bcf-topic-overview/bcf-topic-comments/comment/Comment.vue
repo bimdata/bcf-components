@@ -3,10 +3,10 @@
     <div class="comment__header flex items-center justify-between">
       <div class="comment__header__left flex items-center">
         <UserAvatar
-          v-if="authorDetail"
+          v-if="author"
           class="m-r-12"
           style="box-shadow: var(--box-shadow)"
-          :user="authorDetail"
+          :user="author"
           size="27"
           initialsSize="14"
           color="silver-light"
@@ -18,15 +18,18 @@
           <BIMDataIcon name="user" size="xxs" fill color="granite" />
         </span>
 
-        <strong>
-          {{ comment.author }}
-        </strong>
+        <BIMDataTextbox
+          width="auto"
+          maxWidth="150px"
+          cutPosition="end"
+          :text="comment.author"
+        />
         <span class="color-granite m-x-6">
           •
         </span>
-        <strong class="color-granite">
+        <span class="color-granite">
           {{ $d(comment.date, "long") }}
-        </strong>
+        </span>
       </div>
 
       <div class="comment__header__right">
@@ -46,7 +49,7 @@
             <BIMDataButton ghost rounded icon @click="isEditing = false">
               <BIMDataIcon name="undo" size="xxs" fill color="granite-light" />
             </BIMDataButton>
-            <BIMDataButton ghost rounded icon @click="confirmEdit">
+            <BIMDataButton ghost rounded icon @click="submitUpdate">
               <BIMDataIcon name="validate" size="xxs" fill color="granite-light" />
             </BIMDataButton>
           </template>
@@ -59,7 +62,7 @@
             {{ $t("BcfComponents.BcfTopicComments.deleteCommentText") }}
           </span>
           <div class="flex items-center">
-            <BIMDataButton class="m-r-6" color="high" fill radius @click="confirmDelete">
+            <BIMDataButton class="m-r-6" color="high" fill radius @click="submitDelete">
               {{ $t("BcfComponents.BcfTopicComments.deleteButton") }}
             </BIMDataButton>
             <BIMDataButton ghost rounded icon @click="isDeleting = false">
@@ -81,7 +84,7 @@
         width="100%"
         rows="1"
         name="comment"
-        v-model="commentContent"
+        v-model="text"
         fitContent
         autofocus
         :resizable="false"
@@ -96,13 +99,14 @@
 </template>
 
 <script>
-import { ref } from "@vue/composition-api";
+import { computed, ref } from "@vue/composition-api";
 import { useService } from "../../../../service.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
 import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataIcon.js";
 import BIMDataLoading from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataLoading.js";
 import BIMDataTextarea from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataTextarea.js";
+import BIMDataTextbox from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataTextbox.js";
 
 // TODO: should be imported from DS
 import UserAvatar from "../../../user-avatar/UserAvatar.vue";
@@ -113,6 +117,7 @@ export default {
     BIMDataIcon,
     BIMDataLoading,
     BIMDataTextarea,
+    BIMDataTextbox,
     UserAvatar,
   },
   props: {
@@ -133,55 +138,40 @@ export default {
       required: true
     },
   },
-  setup(props) {
-    // TODO: could be provided by parent ?
+  emits: [
+    "comment-updated",
+    "comment-deleted",
+  ],
+  setup(props, { emit }) {
     const { deleteComment, updateComment } = useService();
+
+    const loading = ref(false);
 
     const showMenu = ref(false);
     const closeMenu = () => showMenu.value = false;
     const toggleMenu = () => showMenu.value = !showMenu.value;
 
-    const loading = ref(false);
-    const commentContent = ref(props.comment.comment);
-
-    const authorDetail = props.users.find(
-      projectUser => projectUser.email === props.comment.author
+    const text = ref(props.comment.comment);
+    const author = computed(() =>
+      props.users.find(u => u.email === props.comment.author)
     );
-
-    const isDeleting = ref(false);
-    const onOpenDelete = () => {
-      isDeleting.value = true;
-      closeMenu();
-    };
-    const confirmDelete = async () => {
-      try {
-        loading.value = true;
-        await deleteComment(
-          props.project,
-          props.bcfTopic,
-          props.comment
-        );
-        isDeleting.value = false;
-      } finally {
-        loading.value = false;
-      }
-    };
 
     const isEditing = ref(false);
     const onOpenEdit = () => {
       isEditing.value = true;
       closeMenu();
     };
-    const confirmEdit = async () => {
-      if (props.comment.comment !== commentContent.value) {
+    const submitUpdate = async () => {
+      if (props.comment.comment !== text.value) {
         try {
           loading.value = true;
-          await updateComment(
+          const newComment = await updateComment(
             props.project,
             props.bcfTopic,
             props.comment,
-            { comment: commentContent.value }
+            { comment: text.value }
           );
+          emit("comment-updated", newComment);
           isEditing.value = false;
         } finally {
           loading.value = false;
@@ -189,20 +179,40 @@ export default {
       }
     };
 
+    const isDeleting = ref(false);
+    const onOpenDelete = () => {
+      isDeleting.value = true;
+      closeMenu();
+    };
+    const submitDelete = async () => {
+      try {
+        loading.value = true;
+        await deleteComment(
+          props.project,
+          props.bcfTopic,
+          props.comment
+        );
+        emit("comment-deleted", props.comment);
+        isDeleting.value = false;
+      } finally {
+        loading.value = false;
+      }
+    };
+
     return {
       // References
-      authorDetail,
-      commentContent,
+      author,
+      text,
       isDeleting,
       isEditing,
       loading,
       showMenu,
       // Methods
       closeMenu,
-      confirmDelete,
-      confirmEdit,
       onOpenDelete,
       onOpenEdit,
+      submitDelete,
+      submitUpdate,
       toggleMenu,
     };
   }

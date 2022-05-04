@@ -60,7 +60,7 @@
       "dateErrorMessage": "Format de date ou date incorrecte",
       "dateExample": "(Ex: 28/04/2022)",
       "descriptionLabel": "Description",
-      "tagsLabel": "Tags",
+      "labelsLabel": "Tags",
       "validateButton": "Valider"
     },
     "BcfTopicCreationCard": {
@@ -79,7 +79,7 @@
       "stageLabel": "Phase",
       "assignedToLabel": "Assigné à",
       "descriptionLabel": "Description",
-      "tagsPlaceholder": "Tags",
+      "labelsLabel": "Tags",
       "editButton": "Modifier ce BCF",
       "modalText": "Vous êtes sur le point de quitter l'édition de l'issue {name} mais il y'a des modifications non enregistrées.",
       "cancelButton": "Annuler les modifications",

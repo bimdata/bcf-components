@@ -1,55 +1,48 @@
 .bcf-topic-create {
-  padding: 0 12px 12px 0;
   height: 100%;
-  flex-direction: column;
-  overflow: auto;
-  overflow-x: hidden;
 
-  &__header,
-  &__image,
-  &__content,
-  &__footer {
-    width: 100%;
-  }
+  &__content {
+    height: calc(100% - 32px - 32px - 12px);
+    padding: 0 calc(var(--spacing-unit) / 2);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-unit);
+    overflow: auto;
 
-  &__header {
-    height: 27px;
-    font-size: 12px;
+    &__head {
+      height: 27px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
 
-    &__index,
-    &__date {
-      height: 100%;
-      padding: 3px;
-      background-color: var(--color-silver-light);
+      &__index,
+      &__date {
+        height: 100%;
+        padding: calc(var(--spacing-unit) / 2);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--color-silver-light);
+      }
+
+      &__index {
+        min-width: 50px;
+      }
+
+      &__date {
+        min-width: 100px;
+      }
     }
 
-    &__index {
-      min-width: 50px;
-    }
-
-    &__date {
-      min-width: 103px;
-    }
-  }
-
-  &__image {
-    min-height: 210px;
-    max-height: 295px;
-
-    &.no-img {
-      height: 210px;
-      border: 2px dashed #d8d8d8;
-    }
-
-    .img-previews {
-      min-height: 210px;
-      max-height: 295px;
-      grid-template-columns: repeat(3, 1fr);
+    &__images {
       width: 100%;
+      height: 295px;
       display: grid;
+      grid-template-columns: repeat(3, 1fr);
       gap: 10px;
 
-      .img-preview {
+      .snapshot-preview {
         position: relative;
 
         img {
@@ -58,27 +51,15 @@
           object-fit: cover;
         }
 
-        .img__btn-previous,
-        .img__btn-next,
-        .remove-viewpoint {
+        .btn-delete {
           position: absolute;
           top: calc(50% - (32px / 2));
-        }
-
-        .remove-viewpoint {
           left: calc(50% - (32px / 2));
-        }
-
-        .img__btn-previous {
-          left: -4%;
-        }
-        .img__btn-next {
-          right: -4%;
         }
 
         &:first-child {
           height: 210px;
-          grid-area: 1 / 1 / 2 / 5;
+          grid-area: 1 / 1 / 2 / 4;
         }
         &:nth-child(2) {
           height: 75px;
@@ -95,72 +76,76 @@
       }
     }
 
-    .img-input {
-      width: 100%;
-      height: 100%;
+    .btn-upload {
+      &:not(:disabled) label {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+      }
+    }
 
-      span {
+    &__upload {
+      width: 100%;
+      height: 210px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: calc(var(--spacing-unit) * 3 / 2);
+      border: 2px dashed var(--color-silver);
+
+      .icon {
         width: 52px;
         height: 52px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         background-color: var(--color-silver-light);
-        border-radius: 50px;
+        border-radius: 50%;
       }
+    }
 
-      .bimdata-btn {
-        label:not([disabled]) {
-          width: 100%;
-          height: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
+    &__body {
+      &:deep() {
+        .bimdata-input {
+          input {
+            font-size: 13px;
+            color: var(--color-granite);
+          }
+        }
+        .bimdata-select {
+          margin: 30px 0;
+          font-size: 13px;
+        }
+        .bimdata-textarea {
+          textarea {
+            font-family: var(--primary-font);
+            font-size: 13px;
+            color: var(--color-granite);
+          }
         }
       }
     }
   }
 
-  &__add-img {
-    label {
-      width: 100%;
-      height: 32px;
-      cursor: pointer;
-    }
-
-    input:disabled + label {
-      cursor: auto;
-    }
+  &__footer {
+    padding: var(--spacing-unit) calc(var(--spacing-unit) / 2);
   }
 
-  &__content {
-    .bimdata-input,
-    .bimdata-select,
-    .bimdata-textarea {
-      margin: 30px 0;
-    }
+  &__loader {
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(47, 55, 74, 0.9);
 
-    &:deep() {
-      .bimdata-input {
-        input {
-          color: var(--color-primary);
-          font-size: 13px;
-        }
-      }
-      .bimdata-select {
-        font-size: 13px;
-      }
-      .bimdata-textarea {
-        textarea {
-          font-family: var(--primary-font);
-          color: var(--color-primary);
-          font-size: 13px;
-        }
-      }
-    }
-
-    .due-date {
-      p {
-        font-size: 11px;
-      }
-    }
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }

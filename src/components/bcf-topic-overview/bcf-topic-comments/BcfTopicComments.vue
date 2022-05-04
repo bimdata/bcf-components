@@ -20,11 +20,10 @@
       </p>
       <div class="bcf-comment-input m-t-24">
         <BIMDataTextarea
-          ref="commentInput"
+          ref="input"
           width="100%"
-          name="comment"
           :label="$t('BcfComponents.BcfTopicComments.commentLabel')"
-          v-model="topicComment"
+          v-model="text"
           autofocus
           resizable
         />
@@ -59,11 +58,13 @@
       <div v-if="bcfTopic.comments && bcfTopic.comments.length">
         <Comment
           v-for="comment in bcfTopic.comments"
-          :key="comment"
+          :key="comment.guid"
           :project="project"
           :users="users"
           :bcfTopic="bcfTopic"
           :comment="comment"
+          @comment-updated="$emit('comment-updated', $event)"
+          @comment-deleted="$emit('comment-deleted', $event)"
         />
       </div>
     </div>
@@ -104,38 +105,45 @@ export default {
       required: true
     }
   },
-  setup(props) {
+  emis: [
+    "comment-created",
+    "comment-updated",
+    "comment-deleted",
+  ],
+  setup(props, { emit }) {
     const { createComment } = useService();
 
     const isOpen = ref(false);
     const loading = ref(false);
-    const commentInput = ref(null);
-    const topicComment = ref("");
+    const input = ref(null);
+    const text = ref("");
 
     watch(isOpen, () =>
-      setTimeout(() => isOpen.value && commentInput.value.focus(), 100)
+      setTimeout(() => isOpen.value && input.value.focus(), 50)
     );
 
     const publishComment = async () => {
       try {
         loading.value = true;
-        await createComment(
+        const newComment = await createComment(
           props.project,
           props.bcfTopic,
-          { comment: topicComment.value }
+          { comment: text.value }
         );
+        emit("comment-created", newComment);
+        isOpen.value = false;
+        text.value = "";
       } finally {
         loading.value = false;
-        topicComment.value = null;
       }
     };
 
     return {
       // References
-      commentInput,
+      input,
       isOpen,
       loading,
-      topicComment,
+      text,
       // Methods
       publishComment
     };

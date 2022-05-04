@@ -10,41 +10,40 @@
         </div>
       </div>
 
-      <div
-        v-if="viewpointsWithSnapshot.length > 0"
-        class="bcf-topic-form__content__images"
-      >
-        <div
-          class="snapshot-preview"
-          v-for="viewpoint in viewpointsWithSnapshot.slice(0, 4)"
-          :key="viewpoint.guid"
-        >
-          <img
-            v-if="viewpoint.snapshot.snapshotData"
-            :src="viewpoint.snapshot.snapshotData"
-          />
-          <BIMDataButton
-            class="btn-delete"
-            fill
-            rounded
-            icon
-            @click="removeViewpoint(viewpoint)"
+      <template v-if="viewpointsWithSnapshot.length > 0">
+        <div class="bcf-topic-form__content__images">
+          <div
+            class="snapshot-preview"
+            v-for="viewpoint in viewpointsWithSnapshot.slice(0, 4)"
+            :key="viewpoint.guid"
           >
-            <BIMDataIcon name="delete" size="xs" fill color="high" />
-          </BIMDataButton>
+            <img
+              v-if="viewpoint.snapshot.snapshotData"
+              :src="viewpoint.snapshot.snapshotData"
+            />
+            <BIMDataButton
+              class="btn-delete"
+              fill
+              rounded
+              icon
+              @click="removeViewpoint(viewpoint)"
+            >
+              <BIMDataIcon name="delete" size="xs" fill color="high" />
+            </BIMDataButton>
+          </div>
         </div>
-      </div>
 
-      <div
-        v-else
-        class="bcf-topic-form__content__upload"
-      >
-        <span class="icon">
-          <BIMDataIcon name="unarchive" fill color="default" size="m" />
-        </span>
-        <BIMDataButton class="btn-upload" color="primary" outline radius>
+        <BIMDataButton
+          :disabled="viewpointsWithSnapshot.length >= 4"
+          class="btn-upload"
+          width="100%"
+          color="primary"
+          fill
+          radius
+        >
           <label for="files">
-            {{ $t("BcfComponents.BcfTopicForm.dragDropImageText") }}
+            <BIMDataIcon name="camera" size="xs" margin="0 6px 0 0" />
+            {{ $t("BcfComponents.BcfTopicForm.addPictureButton") }}
           </label>
           <input
             hidden
@@ -55,30 +54,28 @@
             @change="addViewpoint"
           />
         </BIMDataButton>
-      </div>
+      </template>
 
-      <BIMDataButton
-        v-if="bcfTopic.viewpoints.length > 0 || viewpoints.length > 0"
-        :disabled="viewpointsWithSnapshot.length >= 4"
-        class="btn-upload"
-        width="100%"
-        color="primary"
-        fill
-        radius
-      >
-        <label for="files">
-          <BIMDataIcon name="camera" size="xs" margin="0 6px 0 0" />
-          {{ $t("BcfComponents.BcfTopicForm.addPictureButton") }}
-        </label>
-        <input
-          hidden
-          id="files"
-          type="file"
-          multiple
-          accept="image/png, image/jpeg"
-          @change="addViewpoint"
-        />
-      </BIMDataButton>
+      <template v-else>
+        <div class="bcf-topic-form__content__upload">
+          <span class="icon">
+            <BIMDataIcon name="unarchive" size="m" />
+          </span>
+          <BIMDataButton class="btn-upload" color="primary" outline radius>
+            <label for="files">
+              {{ $t("BcfComponents.BcfTopicForm.dragDropImageText") }}
+            </label>
+            <input
+              hidden
+              id="files"
+              type="file"
+              multiple
+              accept="image/png, image/jpeg"
+              @change="addViewpoint"
+            />
+          </BIMDataButton>
+        </div>
+      </template>
 
       <div class="bcf-topic-form__content__body">
         <BIMDataInput
@@ -137,12 +134,19 @@
           fitContent
           resizable
         />
-        <TagsInput v-model="topicLabels" class="m-t-24" />
+        <BIMDataSelect
+          width="100%"
+          :multi="true"
+          :label="$t('BcfComponents.BcfTopicForm.labelsLabel')"
+          :options="extensions.topicLabel"
+          v-model="topicLabels"
+        />
       </div>
     </div>
 
     <div class="bcf-topic-form__footer">
       <BIMDataButton
+        :disabled="!topicTitle"
         width="100%"
         color="primary"
         fill
