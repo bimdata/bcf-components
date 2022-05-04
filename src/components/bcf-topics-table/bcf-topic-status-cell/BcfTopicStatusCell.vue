@@ -1,9 +1,9 @@
 <template>
   <span
-    class="bcf-status-cell flex items-center justify-center p-x-6"
+    class="bcf-topic-status-cell"
     :style="{
-      'background-color': `#${statusColor}`,
-      color: adjustColor(`#${statusColor}`, '#ffffff', 'var(--color-text)')
+      backgroundColor: statusColor,
+      color: adjustColor(statusColor, '#ffffff', 'var(--color-text)')
     }"
   >
     {{ bcfTopic.topicStatus }}
@@ -32,17 +32,18 @@ export default {
         const statusDetail = props.detailedExtensions.topicStatuses.find(
           status => status.topicStatus === props.bcfTopic.topicStatus
         );
-        if (statusDetail && statusDetail.color) {
-          return statusDetail.color;
+        if (statusDetail?.color) {
+          return `#${statusDetail.color}`;
         }
       }
-      return DEFAULT_STATUS_COLOR;
+      return `#${DEFAULT_STATUS_COLOR}`;
     });
 
     return {
       // References
       statusColor,
-      adjustColor
+      // Methods
+      adjustColor,
     };
   }
 };

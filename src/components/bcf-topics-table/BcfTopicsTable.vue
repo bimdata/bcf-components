@@ -1,14 +1,13 @@
 <template>
   <div>
     <BIMDataTable
-      class="bcf-topics-list"
+      class="bcf-topics-table"
       :columns="columns"
       :rows="bcfTopics"
       rowKey="id"
       :paginated="true"
       :perPage="14"
-      :rowHeight="44"
-      @selection-changed="$emit('selection-changed', $event)"
+      :rowHeight="42"
     >
       <template #cell-index="{ row: bcfTopic }">
         {{ bcfTopic.index }}
@@ -36,7 +35,10 @@
         {{ $d(bcfTopic.creationDate, "long") }}
       </template>
       <template #cell-actions="{ row: bcfTopic }">
-        <BcfTopicActionsCell :bcfTopic="bcfTopic" />
+        <BcfTopicActionsCell
+          :bcfTopic="bcfTopic"
+          @open-bcf-topic="$emit('open-bcf-topic', $event)"
+        />
       </template>
     </BIMDataTable>
   </div>
@@ -70,6 +72,9 @@ export default {
       required: true
     }
   },
+  emits: [
+    "open-bcf-topic"
+  ],
   setup() {
     const columns = ref(columnsDef);
 

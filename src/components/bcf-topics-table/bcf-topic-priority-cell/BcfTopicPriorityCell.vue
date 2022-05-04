@@ -1,7 +1,7 @@
 <template>
   <span
-    class="bcf-topic-priority-cell flex items-center justify-center p-x-6"
-    :style="{ color: `#${priorityColor}` }"
+    class="bcf-topic-priority-cell"
+    :style="{ color: priorityColor }"
   >
     {{ bcfTopic.priority || $t("BcfComponents.BcfTopicPriorityCell.noPriority") }}
   </span>
@@ -29,15 +29,15 @@ export default {
           priority => priority.priority === props.bcfTopic.priority
         );
         if (priorityDetail?.color) {
-          return priorityDetail.color;
+          return `#${priorityDetail.color}`;
         }
       }
-      return DEFAULT_PRIORITY_COLOR;
+      return `#${DEFAULT_PRIORITY_COLOR}`;
     });
 
     return {
       // References
-      priorityValue: priorityColor
+      priorityColor,
     };
   }
 };
