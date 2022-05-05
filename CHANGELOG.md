@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/bimdata/bcf-components/compare/v1.0.1...v1.0.2) (2022-05-05)
+
+
+### PATCH
+
+* align version ([a59c520](https://github.com/bimdata/bcf-components/commit/a59c5207c08a1c1ce62eb2e302dd17740a731603))
+
 ## [1.0.1](https://github.com/bimdata/bcf-components/compare/v1.0.0...v1.0.1) (2022-05-05)
 
 
