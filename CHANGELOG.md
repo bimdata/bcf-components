@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/bimdata/bcf-components/compare/v1.0.2...v1.0.3) (2022-05-05)
+
+
+### PATCH
+
+* try to fix release workflow ([87bae6a](https://github.com/bimdata/bcf-components/commit/87bae6ac12db7f33461d6f7525b00bc105277a1c))
+
 ## [1.0.2](https://github.com/bimdata/bcf-components/compare/v1.0.1...v1.0.2) (2022-05-05)
 
 
