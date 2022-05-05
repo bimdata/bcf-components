@@ -5,24 +5,29 @@ const config = {
       "@semantic-release/commit-analyzer",
       {
         releaseRules: [
-          { tag: "MINOR", release: "minor" },
           { tag: "PATCH", release: "patch" },
+          { tag: "MINOR", release: "minor" },
           { tag: "MAJOR", release: "major" },
         ],
         parserOpts: {
-          headerPattern: /^(MINOR|PATCH|MAJOR): (.*)$/,
+          headerPattern: /^(PATCH|MINOR|MAJOR): (.*)$/,
           headerCorrespondence: ["tag", "subject"],
         },
       },
     ],
     "@semantic-release/release-notes-generator",
-    // "@semantic-release/npm",
-    // [
-    //   "@semantic-release/github",
-    //   {
-    //     assets: "release/*.tgz",
-    //   },
-    // ],
+    [
+      "@semantic-release/npm",
+      {
+        tarballDir: "release",
+      },
+    ],
+    [
+      "@semantic-release/github",
+      {
+        assets: "release/*.tgz",
+      },
+    ],
     "@semantic-release/git",
   ],
   branches: [
