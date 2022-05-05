@@ -1,3 +1,10 @@
+## [1.0.4](https://github.com/bimdata/bcf-components/compare/v1.0.3...v1.0.4) (2022-05-05)
+
+
+### PATCH
+
+* update doc + peerDeps + plugin config ([735251e](https://github.com/bimdata/bcf-components/commit/735251e417940c2154b185371c03868b176ff815))
+
 ## [1.0.3](https://github.com/bimdata/bcf-components/compare/v1.0.2...v1.0.3) (2022-05-05)
 
 
