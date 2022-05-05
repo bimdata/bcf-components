@@ -19,7 +19,7 @@
   },
   "peerDependencies": {
     "@vue/composition-api": "^1.4.9",
-    "vue": "^2.6 || >=3"
+    "vue": "^2.6 || ^3.0"
   },
   "peerDependenciesMeta": {
     "@vue/composition-api": {

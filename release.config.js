@@ -31,17 +31,17 @@ const config = {
     "@semantic-release/git",
   ],
   branches: [
-    "main",
-    {
-      name: "release/[0-9]+(.[0-9]+)?.(x|X)",
-      channel: '${name.replace(/^release\\//g, "")}',
-      range: '${name.replace(/^release\\//g, "")}',
-    },
     {
       name: "develop",
       channel: "next",
       prerelease: "rc",
     },
+    {
+      name: "release/[0-9]+(.[0-9]+)?.(x|X)",
+      channel: '${name.replace(/^release\\//g, "")}',
+      range: '${name.replace(/^release\\//g, "")}',
+    },
+    "main",
   ],
 };
 

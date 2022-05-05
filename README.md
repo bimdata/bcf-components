@@ -3,7 +3,7 @@
 A set (library) of Vue components to manage BCF and build BCF related
 features into your app.
 
-Made with :heart: by [BIMData.io](https://github.com/bimdata).
+Made with :heart: by [BIMData.io](https://bimdata.io/).
 
 ## Usage
 
@@ -21,11 +21,13 @@ In order to use the library in your Vue 2 app you'll need to use
 [Vue Composition API plugin](https://github.com/vuejs/composition-api).
 
 First add it to your dependencies:
+
 ```bash
 npm install @vue/composition-api
 ```
 
 Then, in your application bootstrap script, add the following:
+
 ```js
 import Vue from "vue";
 import VueCompositionApi from "@vue/composition-api";
@@ -36,15 +38,66 @@ Vue.use(VueCompositionApi);
 ```
 
 You can now use library components like so:
+
 ```js
-import { HelloWorld } from "@bimdata/bcf-components/dist/vue2/bcf-components.es.js";
+import { components } from "@bimdata/bcf-components/dist/vue2/bcf-components.es.js";
+
+const { BcfTopicCard } = components;
 ```
 
 ### Vue 3.x application
 
-In Vue 3 app you can directly use components that way:
+**Using Vue plugin**
+
+The package provide a Vue plugin that can be used to setup the library for your app
+and make all components available globally.
+
 ```js
-import { HelloWorld } from "@bimdata/bcf-components";
+import { createApp } from "vue";
+import { createI18n } from "vue-i18n";
+import { makeBIMDataApiClient } from "@bimdata/typescript-fetch-api-client";
+// Import Vue 3 plugin factory
+import BIMDataBcfComponents from "@bimdata/bcf-components/vue3-plugin.js";
+
+// Instanciate i18n plugin (v9+)
+const i18nPlugin = createI18n({ ... });
+// Instanciate BIMData API client (v8.2+)
+const apiClient = makeBIMDataApiClient({ ... });
+
+const app = createApp()
+  .use(i18nPlugin)
+  // Provide both i18n plugin and API client as plugin config
+  .use(BIMDataBcfComponents({ i18nPlugin, apiClient }));
+...
+```
+
+It is also possible to provide your own translations for i18n by removing
+`i18nPlugin` from plugin config and adding translation keys from
+[`src/i18n/lang/fr.js`](./src/i18n/lang/fr.json) to the translation files of your app.
+
+**Using "manual" setup**
+
+To setup the library without the use of the plugin you have to provide your own translations
+(as described above in the *Using Vue plugin* section) and inject an API client like so:
+
+```js
+import { makeBIMDataApiClient } from "@bimdata/typescript-fetch-api-client";
+// Import the `setApiClient` function
+import { setApiClient } from "@bimdata/bcf-components";
+
+// Instanciate BIMData API client (v8.2+)
+const apiClient = makeBIMDataApiClient({ ... });
+
+// Inject API client
+setApiClient(apiClient);
+```
+
+Then you can directly use components in your app that way:
+
+```js
+import { components } from "@bimdata/bcf-components";
+
+const { BcfTopicCard } = components;
 ```
 
 ## Build

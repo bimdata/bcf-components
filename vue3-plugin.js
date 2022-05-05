@@ -11,7 +11,7 @@ import messages from "./dist/i18n/index.js";
  * @param {
  *  {
  *    apiClient: Object,
- *    i18n: Object,
+ *    i18nPlugin: Object,
  *    includedComponents?: string[],
  *    excludedComponents?: string[],
  *  } 
@@ -19,9 +19,9 @@ import messages from "./dist/i18n/index.js";
  */
 const pluginFactory = ({
   apiClient,
+  i18nPlugin,
   includedComponents = [],
   excludedComponents = [],
-  i18n,
 } = {}) => {
   return {
     install(app) {
@@ -35,9 +35,9 @@ const pluginFactory = ({
         );
       }
 
-      if (i18n) {
+      if (i18nPlugin) {
         Object.entries(messages).forEach(([locale, translations]) => {
-          i18n.global.mergeLocaleMessage(locale, translations);
+          i18nPlugin.global.mergeLocaleMessage(locale, translations);
         });
       } else {
         console.warn(
