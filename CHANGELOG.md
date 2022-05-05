@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/bimdata/bcf-components/compare/v1.0.0...v1.0.1) (2022-05-05)
+
+
+### PATCH
+
+* [test] update semantic-release config ([6af6383](https://github.com/bimdata/bcf-components/commit/6af6383d67aff00d8cbf62bd0ff77e0a674df929))
+
 # 1.0.0 (2022-05-05)
 
 
