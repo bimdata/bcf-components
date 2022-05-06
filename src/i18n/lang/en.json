@@ -22,6 +22,7 @@
     "BcfSettings": {
       "goBackButton": "Back",
       "title": "BCF Settings",
+      "text": "Create, enter in, and list the BCF settings you would like to have for this project",
       "validateButton": "Validate BCF settings"
     },
     "BcfStatistics": {
@@ -106,6 +107,7 @@
       "priorityNotDefined": "Not defined",
       "tags": "Tags:",
       "noTags": "No tags",
+      "commentButton": "Post a comment",
       "deleteText": "You are about to delete {name}",
       "deleteBcfButton": "Delete this BCF",
       "keepBcfButton": "Keep this BCF"
