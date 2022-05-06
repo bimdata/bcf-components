@@ -25,4 +25,15 @@ const components = {
 export {
   setApiClient,
   components,
+
+  // Export components individually
+  BcfFilters,
+  BcfSettings,
+  BcfStatistics,
+  BcfTopicCard,
+  BcfTopicCreate,
+  BcfTopicCreationCard,
+  BcfTopicForm,
+  BcfTopicOverview,
+  BcfTopicsTable,
 };
