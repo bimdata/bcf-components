@@ -3,6 +3,7 @@
   "version": "1.0.5-rc.1",
   "files": [
     "dist",
+    "vue2-plugin.js",
     "vue3-plugin.js"
   ],
   "main": "./dist/vue3/bcf-components.es.js",

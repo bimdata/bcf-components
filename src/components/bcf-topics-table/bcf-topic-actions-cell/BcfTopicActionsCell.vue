@@ -25,7 +25,9 @@ export default {
       required: true
     }
   },
-  emits: ["open-bcf-topic"],
+  emits: [
+    "open-bcf-topic"
+  ],
 };
 </script>
 
