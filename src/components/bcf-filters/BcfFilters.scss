@@ -1,12 +1,15 @@
 .bcf-filters {
-  .btn-color-granite-light:enabled {
-    color: var(--color-primary);
+  &__btn-toggle {
+    &:enabled {
+      color: var(--color-primary);
+    }
+
+    &:disabled {
+      background-color: var(--color-white);
+      color: var(--color-silver-dark);
+    }
   }
 
-  .btn-color-granite-light:disabled {
-    background-color: var(--color-white);
-    color: var(--color-silver-dark);
-  }
 
   &__container {
     position: absolute;
@@ -14,20 +17,38 @@
     top: calc(32px + 12px);
     left: 0;
     width: 100%;
+    padding: var(--spacing-unit);
     box-shadow: var(--box-shadow);
     background-color: var(--color-white);
 
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--spacing-unit) * 2);
+
     &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
       &__title {
-        font-size: 12px;
-        font-weight: 700;
+        font-size: 1.1rem;
+        font-weight: bold;
       }
     }
 
     &__date {
-      p {
+      display: flex;
+      gap: calc(var(--spacing-unit) / 2);
+
+      .example {
+        margin-top: calc(var(--spacing-unit) / 2);
         font-size: 11px;
       }
+    }
+
+    &__actions {
+      display: flex;
+      justify-content: center;
     }
   }
 }

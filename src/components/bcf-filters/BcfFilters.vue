@@ -1,11 +1,10 @@
 <template>
   <div class="bcf-filters" v-click-away="closeFilters">
     <BIMDataButton
-      class="btn-color-granite-light"
+      class="bcf-filters__btn-toggle"
       :class="{ 'btn-active': showFilters }"
-      :disabled="!bcfTopics.length"
+      :disabled="bcfTopics.length === 0"
       width="120px"
-      color="default"
       fill
       square
       icon
@@ -18,13 +17,14 @@
         color="default"
         margin="0 6px 0 0"
       />
-      {{ $t("BcfComponents.BcfFilters.filtersButton") }}
+      <span>
+        {{ $t("BcfComponents.BcfFilters.filtersButton") }}
+      </span>
     </BIMDataButton>
+
     <transition name="slide-fade-up">
-      <div class="bcf-filters__container p-18" v-show="showFilters">
-        <div
-          class="bcf-filters__container__header flex items-center justify-between"
-        >
+      <div class="bcf-filters__container" v-show="showFilters">
+        <div class="bcf-filters__container__header">
           <div class="bcf-filters__container__header__title">
             {{ $t("BcfComponents.BcfFilters.filtersTitle") }}
           </div>
@@ -34,12 +34,12 @@
               size="xxs"
               fill
               color="primary"
-              @click="showFilters = false"
+              @click="closeFilters"
             />
           </BIMDataButton>
         </div>
+
         <BIMDataSelect
-          class="m-t-24"
           width="100%"
           :multi="true"
           :label="$t('BcfComponents.BcfFilters.priorityLabel')"
@@ -48,8 +48,8 @@
           optionLabelKey="label"
           v-model="priorities"
         />
+
         <BIMDataSelect
-          class="m-t-24"
           width="100%"
           :multi="true"
           :label="$t('BcfComponents.BcfFilters.statusLabel')"
@@ -58,8 +58,9 @@
           optionLabelKey="label"
           v-model="status"
         />
-        <div class="bcf-filters__container__date flex justify-between m-t-24">
-          <div class="m-r-6">
+
+        <div class="bcf-filters__container__date">
+          <div>
             <BIMDataInput
               margin="0"
               v-model="startDateInput"
@@ -67,7 +68,7 @@
               :error="hasStartDateError"
               errorMessage="Error"
             />
-            <p class="m-y-6">
+            <p class="example">
               {{ $t("BcfComponents.BcfFilters.startDateExample") }}
             </p>
           </div>
@@ -79,13 +80,13 @@
               :error="hasEndDateError"
               errorMessage="Error"
             />
-            <p class="m-y-6">
+            <p class="example">
               {{ $t("BcfComponents.BcfFilters.endDateExample") }}
             </p>
           </div>
         </div>
+
         <BIMDataSelect
-          class="m-t-24"
           width="100%"
           :multi="true"
           :label="$t('BcfComponents.BcfFilters.assignedToLabel')"
@@ -94,8 +95,8 @@
           optionLabelKey="label"
           v-model="users"
         />
+
         <BIMDataSelect
-          class="m-t-24"
           width="100%"
           :multi="true"
           :label="$t('BcfComponents.BcfFilters.creatorsLabel')"
@@ -104,23 +105,25 @@
           optionLabelKey="label"
           v-model="creators"
         />
+
         <BIMDataSelect
-          class="m-t-24"
           width="100%"
           :multi="true"
           :label="$t('BcfComponents.BcfFilters.tagsLabel')"
           :options="tagOptions"
           v-model="tags"
         />
-        <div class="flex justify-center m-t-24">
+
+        <div class="bcf-filters__container__actions">
           <BIMDataButton
             class="m-r-12"
             color="primary"
             ghost
             radius
             @click="resetFilters"
-            >{{ $t("BcfComponents.BcfFilters.resetButton") }}</BIMDataButton
           >
+            {{ $t("BcfComponents.BcfFilters.resetButton") }}
+          </BIMDataButton>
           <BIMDataButton color="primary" fill radius @click="submitFilters">
             <BIMDataIcon
               name="search"
@@ -129,7 +132,9 @@
               color="default"
               margin="0 6px 0 0"
             />
-            <span>{{ $t("BcfComponents.BcfFilters.searchButton") }}</span>
+            <span>
+              {{ $t("BcfComponents.BcfFilters.searchButton") }}
+            </span>
           </BIMDataButton>
         </div>
       </div>
@@ -195,7 +200,7 @@ export default {
         });
     });
 
-    // date
+    // start/end dates
     const startDateInput = ref("");
     const endDateInput = ref("");
     const hasStartDateError = ref(false);
@@ -234,7 +239,7 @@ export default {
         });
     });
 
-    // creator's list
+    // creators list
     const creators = ref([]);
     const creatorOptions = computed(() => {
       return Array.from(
@@ -259,15 +264,29 @@ export default {
         .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }));
     });
 
-    // Validation date + emit formulaire
     const submitFilters = () => {
-      const startDateConform = isStartDateConform(startDateInput);
-      const endDateConform = isEndDateConform(startDateInput, endDateInput);
+      if (
+        startDateInput.value &&
+        !isStartDateConform(startDateInput) ||
+        (!startDateInput.value && endDateInput.value)
+      ) {
+        hasStartDateError.value = true;
+        return;
+      }
+      if (
+        startDateInput.value &&
+        endDateInput.value &&
+        !isEndDateConform(startDateInput, endDateInput)
+      ) {
+        hasEndDateError.value = true;
+        return;
+      }
 
       if (
         priorities.value.length ||
         status.value.length ||
-        (startDateConform && endDateConform) ||
+        startDateInput.value ||
+        (startDateInput.value && endDateInput.value) ||
         users.value.length ||
         creators.value.length ||
         tags.value.length
@@ -282,14 +301,6 @@ export default {
           tags: tags.value,
         });
         showFilters.value = false;
-      } else if (
-        startDateInput.value &&
-        endDateInput.value &&
-        !startDateConform &&
-        !endDateConform
-      ) {
-        hasStartDateError.value = true;
-        hasEndDateError.value = true;
       }
     };
 
@@ -319,23 +330,23 @@ export default {
       // References
       creators,
       creatorOptions,
+      endDateInput,
+      hasEndDateError,
+      hasStartDateError,
       priorities,
       priorityOptions,
+      showFilters,
+      startDateInput,
       status,
       statusOptions,
       tags,
       tagOptions,
       users,
       userOptions,
-      showFilters,
-      startDateInput,
-      endDateInput,
-      hasStartDateError,
-      hasEndDateError,
       // Methods
+      closeFilters,
       resetFilters,
       submitFilters,
-      closeFilters,
       toggleFilters
     };
   }

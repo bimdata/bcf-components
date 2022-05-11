@@ -7,8 +7,8 @@
       &__user {
         width: 32px;
         height: 32px;
-        background-color: var(--color-silver-light);
         border-radius: 50px;
+        background-color: var(--color-silver-light);
       }
     }
 
@@ -21,32 +21,31 @@
       }
 
       &__delete {
-        width: 96%;
-        top: 0;
         position: absolute;
+        top: 0;
+        right: 2%;
+        width: 96%;
+        height: 40px;
         display: flex;
-        align-items: center;
         justify-content: space-between;
+        align-items: center;
         background-color: var(--color-white);
         box-shadow: var(--box-shadow);
-        height: 40px;
-        right: 2%;
       }
     }
   }
 
   &__content {
-    &:deep() {
-      .bimdata-textarea {
-        margin-bottom: 6px;
+    ::v-deep .bimdata-textarea,
+    :deep(.bimdata-textarea) {
+      margin-bottom: calc(var(--spacing-unit) / 2);
 
-        textarea {
-          color: var(--color-granite);
-          font-family: "Roboto";
-        }
+      textarea {
+        font-family: "Roboto";
+        color: var(--color-granite);
       }
 
-      :not(.editing) .bar {
+      &:not(.editing) .bar {
         display: none;
       }
     }

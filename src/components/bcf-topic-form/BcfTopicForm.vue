@@ -117,13 +117,13 @@
         <div class="m-b-30">
           <BIMDataInput
             margin="0"
-            :placeholder="$t('CreateBcfTopic.dueDateLabel')"
+            :placeholder="$t('BcfComponents.BcfTopicForm.dueDateLabel')"
             :error="hasErrorDate"
-            :errorMessage="$t('CreateBcfTopic.dateErrorMessage')"
+            :errorMessage="$t('BcfComponents.BcfTopicForm.dateErrorMessage')"
             v-model="topicDate"
           />
           <div>
-            {{ $t("CreateBcfTopic.dateExample") }}
+            {{ $t("BcfComponents.BcfTopicForm.dateExample") }}
           </div>
         </div>
         <BIMDataTextarea

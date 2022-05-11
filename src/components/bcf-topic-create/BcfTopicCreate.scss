@@ -77,12 +77,15 @@
     }
 
     .btn-upload {
-      &:not(:disabled) label {
-        width: 100%;
-        height: 100%;
+      label {
         display: flex;
         justify-content: center;
         align-items: center;
+      }
+
+      &:not(:disabled) label {
+        width: 100%;
+        height: 100%;
         cursor: pointer;
       }
     }
@@ -109,23 +112,24 @@
     }
 
     &__body {
-      &:deep() {
-        .bimdata-input {
-          input {
-            font-size: 13px;
-            color: var(--color-granite);
-          }
-        }
-        .bimdata-select {
-          margin: 30px 0;
+      .bimdata-select {
+        margin: 30px 0;
+        font-size: 13px;
+      }
+      ::v-deep .bimdata-input,
+      :deep(.bimdata-input) {
+        input {
           font-size: 13px;
+          color: var(--color-granite);
         }
-        .bimdata-textarea {
-          textarea {
-            font-family: var(--primary-font);
-            font-size: 13px;
-            color: var(--color-granite);
-          }
+      }
+      ::v-deep .bimdata-textarea,
+      :deep(.bimdata-textarea) {
+        textarea {
+          font-family: var(--primary-font);
+          font-size: 13px;
+          color: var(--color-granite);
+          resize: vertical;
         }
       }
     }

@@ -3,6 +3,7 @@
   font-size: 12px;
 
   &__header {
+    padding: 0 calc(var(--spacing-unit) / 2);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -21,7 +22,7 @@
 
   &__content {
     height: calc(100% - 32px);
-    padding: var(--spacing-unit) 0;
+    padding: var(--spacing-unit) calc(var(--spacing-unit) / 2);
     overflow: auto;
 
     display: flex;
@@ -75,7 +76,8 @@
         gap: calc(var(--spacing-unit) / 2);
       }
 
-      .bimdata-carousel:deep() {
+      ::v-deep .bimdata-carousel,
+      :deep(.bimdata-carousel) {
         height: 100%;
 
         .bimdata-carousel__container {

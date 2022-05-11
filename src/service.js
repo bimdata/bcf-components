@@ -1,5 +1,5 @@
 import { useApiClient } from "./api-client.js";
-import { EXTENSION_FIELDS, EXTENSION_WITH_COLOR } from "./config.js";
+import { EXTENSION_FIELDS } from "./config.js";
 import { getRandomHexColor } from "./utils/colors.js";
 
 
