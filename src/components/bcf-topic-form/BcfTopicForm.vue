@@ -132,7 +132,6 @@
           :label="$t('BcfComponents.BcfTopicForm.descriptionLabel')"
           v-model="topicDescription"
           fitContent
-          resizable
         />
         <BIMDataSelect
           width="100%"

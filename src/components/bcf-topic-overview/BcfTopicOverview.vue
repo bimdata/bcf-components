@@ -12,7 +12,7 @@
           icon
           @click="$emit('edit-bcf-topic', bcfTopic)"
         >
-          <BIMDataIcon name="edit" fill color="default" size="xxs" />
+          <BIMDataIcon name="edit" size="xxs" fill color="default" />
         </BIMDataButton>
         <BIMDataButton
           color="default"
@@ -21,7 +21,7 @@
           icon
           @click="showDeleteModal = true"
         >
-          <BIMDataIcon name="delete" fill color="default" size="xxs" />
+          <BIMDataIcon name="delete" size="xxs" fill color="default" />
         </BIMDataButton>
         <BIMDataButton
           color="default"
@@ -30,7 +30,7 @@
           icon
           @click="$emit('close')"
         >
-          <BIMDataIcon name="close" fill color="granite-light" size="xxs" />
+          <BIMDataIcon name="close" size="xxs" fill color="granite-light" />
         </BIMDataButton>
       </div>
     </div>
