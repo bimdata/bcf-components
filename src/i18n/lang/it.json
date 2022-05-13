@@ -46,32 +46,14 @@
       "noElements": "0 elementi",
       "see": "Visualizza"
     },
-    "BcfTopicCreate": {
-      "dragDropImageText": "Seleziona un file",
-      "addPictureButton": "Aggiungi un'immagine",
-      "titlePlaceholder": "Titolo*",
-      "titleErrorMessage": "Titolo assente",
-      "typeLabel": "Tipo",
-      "priorityLabel": "Priorità",
-      "statusLabel": "Stato",
-      "stageLabel": "Fase",
-      "assignedToLabel": "Assegnato a",
-      "dueDateLabel": "Data di scadenza (GG/MM/AAAA)",
-      "dateErrorMessage": "Formato della data o data errati",
-      "dateExample": "(Ad es. 28/04/2022)",
-      "descriptionLabel": "Descrizione",
-      "tagsLabel": "Etichette",
-      "validateButton": "Conferma"
-    },
     "BcfTopicCreationCard": {
       "text": "Crea un nuovo topic BCF",
       "createBcfSideTitle": "Segnala un problema"
     },
     "BcfTopicForm": {
-      "goBackButton": "Indietro",
       "dragDropImageText": "Selezionare un file",
       "addPictureButton": "Aggiungere un'immagine",
-      "titlePlaceholder": "Titolo*",
+      "titlePlaceholder": "Titolo *",
       "titleErrorMessage": "Titolo mancante",
       "typeLabel": "Tipo",
       "priorityLabel": "Priorità",
@@ -83,7 +65,8 @@
       "dateExample": "(Ad es. 28/04/2022)",
       "descriptionLabel": "Descrizione",
       "tagsPlaceholder": "Tags",
-      "editButton": "Modificare questo BCF",
+      "createButton": "Conferma",
+      "updateButton": "Modificare questo BCF",
       "modalText": "State per abbandonare la modifica di {name} ma ci sono modifiche non salvate.",
       "cancelButton": "Annullare le modifiche",
       "continueButton": "Continuare le modifiche"

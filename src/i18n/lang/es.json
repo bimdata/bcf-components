@@ -46,7 +46,11 @@
       "noElements": "0 Elemento",
       "see": "Ver"
     },
-    "BcfTopicCreate": {
+    "BcfTopicCreationCard": {
+      "text": "Crear un nuevo tema BCF",
+      "createBcfSideTitle": "Informar de un problema"
+    },
+    "BcfTopicForm": {
       "dragDropImageText": "Seleccione un archivo",
       "addPictureButton": "Añadir una imagen",
       "titlePlaceholder": "Título *",
@@ -60,30 +64,9 @@
       "dateErrorMessage": "Formato de la fecha o fecha incorrecta",
       "dateExample": "(Ej: 28/04/2022)",
       "descriptionLabel": "Descripción",
-      "tagsLabel": "Etiquetas:",
-      "validateButton": "Validar"
-    },
-    "BcfTopicCreationCard": {
-      "text": "Crear un nuevo tema BCF",
-      "createBcfSideTitle": "Informar de un problema"
-    },
-    "BcfTopicForm": {
-      "goBackButton": "Volver",
-      "dragDropImageText": "Seleccione un archivo",
-      "addPictureButton": "Añadir una imagen",
-      "titlePlaceholder": "Título",
-      "titleErrorMessage": "Falta el título",
-      "typeLabel": "Tipo",
-      "priorityLabel": "Prioridad",
-      "statusLabel": "Estado",
-      "stageLabel": "Fase",
-      "assignedToLabel": "Asignado a",
-      "dueDateLabel": "Fecha de vencimiento (DD/MM/AAAA)",
-      "dateErrorMessage": "Formato de la fecha o fecha incorrecta",
-      "dateExample": "(Ej: 28/04/2022)",
-      "descriptionLabel": "Descripción",
       "tagsPlaceholder": "Etiquetas:",
-      "editButton": "Modificar este BCF",
+      "createButton": "Validar",
+      "updateButton": "Modificar este BCF",
       "modalText": "Está a punto de salir de la edición del problema de {name} pero hay cambios sin guardar.",
       "cancelButton": "Cancelar los cambios",
       "continueButton": "Continuar con los cambios"

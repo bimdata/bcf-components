@@ -46,7 +46,11 @@
       "noElements": "0 Element",
       "see": "See"
     },
-    "BcfTopicCreate": {
+    "BcfTopicCreationCard": {
+      "text": "Create a new BCF topic",
+      "createBcfSideTitle": "Report a problem"
+    },
+    "BcfTopicForm": {
       "dragDropImageText": "Please select a file",
       "addPictureButton": "Add a picture",
       "titlePlaceholder": "Title *",
@@ -61,29 +65,8 @@
       "dateExample": "(Ex: 28/04/2022)",
       "descriptionLabel": "Description",
       "labelsLabel": "Tags",
-      "validateButton": "Validate"
-    },
-    "BcfTopicCreationCard": {
-      "text": "Create a new BCF topic",
-      "createBcfSideTitle": "Report a problem"
-    },
-    "BcfTopicForm": {
-      "goBackButton": "Back",
-      "dragDropImageText": "Please select a file",
-      "addPictureButton": "Add a picture",
-      "titlePlaceholder": "Title*",
-      "titleErrorMessage": "Missing title",
-      "typeLabel": "Type",
-      "priorityLabel": "Priority",
-      "statusLabel": "Status",
-      "stageLabel": "Stage",
-      "assignedToLabel": "Assigned to",
-      "dueDateLabel": "Due date",
-      "dateErrorMessage": "Date format or incorrect date",
-      "dateExample": "(Ex: 28/04/2022)",
-      "descriptionLabel": "Description",
-      "labelsLabel": "Tags",
-      "editButton": "Modify this BCF",
+      "createButton": "Validate",
+      "updateButton": "Modify this BCF",
       "modalText": "You are about to quit editing issue {name} but there are unsaved changes.",
       "cancelButton": "Discard changes",
       "continueButton": "Continue editing"

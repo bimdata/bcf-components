@@ -46,32 +46,14 @@
       "noElements": "0 Elemente",
       "see": "Anzeigen"
     },
-    "BcfTopicCreate": {
-      "dragDropImageText": "Bitte wählen Sie eine Datei aus",
-      "addPictureButton": "Ein Bild hinzufügen",
-      "titlePlaceholder": "Titel *",
-      "titleErrorMessage": "Fehlender Titel",
-      "typeLabel": "Typ",
-      "priorityLabel": "Priorität",
-      "statusLabel": "Status",
-      "stageLabel": "Phase",
-      "assignedToLabel": "Zugewiesen an",
-      "dueDateLabel": "Fälligkeitsdatum (TT.MM.JJJJ)",
-      "dateErrorMessage": "Datumsformat oder falsches Datum",
-      "dateExample": "(Z. B.: 28.04.2022)",
-      "descriptionLabel": "Beschreibung",
-      "tagsLabel": "Tags",
-      "validateButton": "Bestätigen"
-    },
     "BcfTopicCreationCard": {
       "text": "Ein neues BCF-Thema erstellen",
       "createBcfSideTitle": "Ein Problem melden"
     },
     "BcfTopicForm": {
-      "goBackButton": "Zurück",
       "dragDropImageText": "Bitte wählen Sie eine Datei aus.",
       "addPictureButton": "Fügen Sie ein Bild hinzu.",
-      "titlePlaceholder": "Titel*",
+      "titlePlaceholder": "Titel *",
       "titleErrorMessage": "Titel fehlt",
       "typeLabel": "Typ",
       "priorityLabel": "Priorität",
@@ -83,7 +65,8 @@
       "dateExample": "(Z. B.: 28.04.2022)",
       "descriptionLabel": "Beschreibung",
       "tagsPlaceholder": "Tags",
-      "editButton": "Diesen BCF bearbeiten",
+      "createButton": "Bestätigen",
+      "updateButton": "Diesen BCF bearbeiten",
       "modalText": "Sie sind dabei, die Bearbeitung der Ausgabe {Name} zu beenden, aber es gibt noch ungespeicherte Änderungen.",
       "cancelButton": "Änderungen verwerfen",
       "continueButton": "Änderungen fortsetzen"

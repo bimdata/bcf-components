@@ -35,6 +35,7 @@ const createViewpoint = async (project, topic, data) => {
   return await useApiClient().bcfApi.createViewpoint(
     project.id,
     topic.guid,
+    "url",
     data
   );
 };

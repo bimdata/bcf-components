@@ -46,7 +46,11 @@
       "notSpecified": "Non défini",
       "see": "Voir"
     },
-    "BcfTopicCreate": {
+    "BcfTopicCreationCard": {
+      "text": "Créer un nouveau topic BCF",
+      "createBcfSideTitle": "Signaler un problème"
+    },
+    "BcfTopicForm": {
       "dragDropImageText": "Veuillez sélectionner un fichier",
       "addPictureButton": "Ajouter une image",
       "titlePlaceholder": "Titre *",
@@ -61,29 +65,8 @@
       "dateExample": "(Ex: 28/04/2022)",
       "descriptionLabel": "Description",
       "labelsLabel": "Tags",
-      "validateButton": "Valider"
-    },
-    "BcfTopicCreationCard": {
-      "text": "Créer un nouveau topic BCF",
-      "createBcfSideTitle": "Signaler un problème"
-    },
-    "BcfTopicForm": {
-      "goBackButton": "Retour",
-      "dragDropImageText": "Veuillez sélectionner un fichier",
-      "addPictureButton": "Ajouter une image",
-      "titlePlaceholder": "Titre*",
-      "titleErrorMessage": "Titre manquant",
-      "typeLabel": "Type",
-      "priorityLabel": "Priorité",
-      "statusLabel": "Statut",
-      "stageLabel": "Phase",
-      "assignedToLabel": "Assigné à",
-      "dueDateLabel": "Date d'échéance (JJ/MM/AAAA)",
-      "dateErrorMessage": "Format de date ou date incorrecte",
-      "dateExample": "(Ex: 28/04/2022)",
-      "descriptionLabel": "Description",
-      "labelsLabel": "Tags",
-      "editButton": "Modifier ce BCF",
+      "createButton": "Valider",
+      "updateButton": "Modifier ce BCF",
       "modalText": "Vous êtes sur le point de quitter l'édition de l'issue {name} mais il y'a des modifications non enregistrées.",
       "cancelButton": "Annuler les modifications",
       "continueButton": "Continuer les modifications"
