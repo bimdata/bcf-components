@@ -1,49 +1,64 @@
-import { computed, ref } from "vue";
-import { useListSort } from "@/composables/list-sort.js";
+import { ref } from "@vue/composition-api";
 
-function useSort(topics) {
-  // sort by topic title
-  const { sortToggle: sortToggleName, sortOrder: nameSortOrder } = useListSort(
-    topics,
-    topic => topic.title
-  );
-  const isSortByNameActive = computed(() => nameSortOrder.value === "asc");
+function useListSort(list, mapper = elem => elem) {
+  const initialList = ref(list);
 
-  // sort by topic index
-  const { sortToggle: sortToggleIndex, sortOrder: indexSortOrder } =
-    useListSort(topics, topic => topic.index);
-  const isSortByIndexActive = computed(() => indexSortOrder.value === "asc");
-
-  // sort by topic date
-  const { sortToggle: sortToggleDate, sortOrder: dateSortOrder } = useListSort(
-    topics,
-    topic => topic.creationDate
-  );
-  const isSortByDateActive = computed(() => dateSortOrder.value === "asc");
-
-  const activeButton = ref("");
-  const sortByName = () => {
-    sortToggleName();
-    activeButton.value = "nameSort";
+  const sort = (order = "asc") => {
+    const sortedList = initialList.value
+      .slice()
+      .sort((a, b) => (mapper(a) < mapper(b) ? -1 : 1));
+    if (order === "desc") {
+      sortedList.reverse();
+    }
+    initialList.value = sortedList;
   };
-  const sortByIndex = () => {
-    sortToggleIndex();
-    activeButton.value = "indexSort";
-  };
-  const sortByDate = () => {
-    sortToggleDate();
-    activeButton.value = "dateSort";
+
+  const sortOrder = ref("none");
+  const sortToggle = () => {
+    sortOrder.value = sortOrder.value === "asc" ? "desc" : "asc";
+    sort(sortOrder.value);
   };
 
   return {
-    sortByName,
-    sortByIndex,
-    sortByDate,
-    activeButton,
-    isSortByNameActive,
-    isSortByIndexActive,
-    isSortByDateActive
+    sortOrder,
+    sortToggle
   };
 }
 
-export default useSort;
+function useBcfSort(topics) {
+  const { sortToggle: sortToggleIndex, sortOrder: sortOrderIndex } =
+    useListSort(topics, topic => topic.index);
+
+  const { sortToggle: sortToggleTitle, sortOrder: sortOrderTitle } =
+    useListSort(topics, topic => topic.title);
+
+  const { sortToggle: sortToggleDate, sortOrder: sortOrderDate } =
+    useListSort(topics, topic => topic.creationDate);
+
+  const sortedBy = ref("");
+
+  const sortByIndex = () => {
+    sortedBy.value = "index";
+    sortToggleIndex();
+  };
+  const sortByTitle = () => {
+    sortedBy.value = "title";
+    sortToggleTitle();
+  };
+  const sortByDate = () => {
+    sortedBy.value = "date";
+    sortToggleDate();
+  };
+
+  return {
+    sortedBy,
+    sortByIndex,
+    sortByTitle,
+    sortByDate,
+    sortOrderIndex,
+    sortOrderTitle,
+    sortOrderDate,
+  };
+}
+
+export { useBcfSort };

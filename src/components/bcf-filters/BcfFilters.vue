@@ -1,14 +1,13 @@
 <template>
-  <div class="bcf-filters" v-click-away="closeFilters">
+  <div class="bcf-filters" v-click-away="close">
     <BIMDataButton
       class="bcf-filters__btn-toggle"
-      :class="{ 'btn-active': showFilters }"
       :disabled="bcfTopics.length === 0"
       width="120px"
       fill
       square
       icon
-      @click="toggleFilters"
+      @click="toggle"
     >
       <BIMDataIcon
         name="filter"
@@ -23,7 +22,7 @@
     </BIMDataButton>
 
     <transition name="slide-fade-up">
-      <div class="bcf-filters__container" v-show="showFilters">
+      <div class="bcf-filters__container" v-show="isOpen">
         <div class="bcf-filters__container__header">
           <div class="bcf-filters__container__header__title">
             {{ $t("BcfComponents.BcfFilters.filtersTitle") }}
@@ -34,7 +33,7 @@
               size="xxs"
               fill
               color="primary"
-              @click="closeFilters"
+              @click="close"
             />
           </BIMDataButton>
         </div>
@@ -44,9 +43,7 @@
           :multi="true"
           :label="$t('BcfComponents.BcfFilters.priorityLabel')"
           :options="priorityOptions"
-          optionKey="value"
-          optionLabelKey="label"
-          v-model="priorities"
+          v-model="filters.priorities"
         />
 
         <BIMDataSelect
@@ -54,19 +51,17 @@
           :multi="true"
           :label="$t('BcfComponents.BcfFilters.statusLabel')"
           :options="statusOptions"
-          optionKey="value"
-          optionLabelKey="label"
-          v-model="status"
+          v-model="filters.statuses"
         />
 
         <div class="bcf-filters__container__date">
           <div>
             <BIMDataInput
               margin="0"
-              v-model="startDateInput"
               :placeholder="$t('BcfComponents.BcfFilters.startDatePlaceholder')"
-              :error="hasStartDateError"
-              errorMessage="Error"
+              :error="hasErrorStartDate"
+              :errorMessage="$t('BcfComponents.BcfFilters.startDateError')"
+              v-model="filters.startDate"
             />
             <p class="example">
               {{ $t("BcfComponents.BcfFilters.startDateExample") }}
@@ -75,10 +70,10 @@
           <div>
             <BIMDataInput
               margin="0"
-              v-model="endDateInput"
               :placeholder="$t('BcfComponents.BcfFilters.endDatePlaceholder')"
-              :error="hasEndDateError"
-              errorMessage="Error"
+              :error="hasErrorEndDate"
+              :errorMessage="$t('BcfComponents.BcfFilters.endDateError')"
+              v-model="filters.endDate"
             />
             <p class="example">
               {{ $t("BcfComponents.BcfFilters.endDateExample") }}
@@ -91,9 +86,7 @@
           :multi="true"
           :label="$t('BcfComponents.BcfFilters.assignedToLabel')"
           :options="userOptions"
-          optionKey="value"
-          optionLabelKey="label"
-          v-model="users"
+          v-model="filters.users"
         />
 
         <BIMDataSelect
@@ -101,17 +94,15 @@
           :multi="true"
           :label="$t('BcfComponents.BcfFilters.creatorsLabel')"
           :options="creatorOptions"
-          optionKey="value"
-          optionLabelKey="label"
-          v-model="creators"
+          v-model="filters.creators"
         />
 
         <BIMDataSelect
           width="100%"
           :multi="true"
           :label="$t('BcfComponents.BcfFilters.tagsLabel')"
-          :options="tagOptions"
-          v-model="tags"
+          :options="labelOptions"
+          v-model="filters.labels"
         />
 
         <div class="bcf-filters__container__actions">
@@ -144,12 +135,18 @@
 
 <script>
 import { computed, ref } from "@vue/composition-api";
-import { formatToDateObject, regexDate } from "../../utils/date.js";
+import { useBcfFilter } from "../../composables/filter.js";
+import { dateRegex } from "../../utils/date.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
 import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataIcon.js";
 import BIMDataInput from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataInput.js";
 import BIMDataSelect from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataSelect.js";
+
+function getSelectOptions(list) {
+  return Array.from(new Set(list))
+    .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }));
+}
 
 export default {
   components: {
@@ -164,192 +161,86 @@ export default {
       required: true
     }
   },
-  emits: ["submit"],
+  emits: [
+    "submit"
+  ],
   setup(props, { emit }) {
-    const showFilters = ref(false);
-    const closeFilters = () => showFilters.value = false;
-    const toggleFilters = () => showFilters.value = !showFilters.value;
+    const isOpen = ref(false);
+    const close = () => isOpen.value = false;
+    const toggle = () => isOpen.value = !isOpen.value;
 
-    // priority list
-    const priorities = ref([]);
-    const priorityOptions = computed(() => {
-      return Array.from(
-        new Set(props.bcfTopics.map(bcfTopic => bcfTopic.priority))
-      )
-        .sort((a, b) => (a > b ? 1 : -1))
-        .map(priorityOption => {
-          return {
-            label: priorityOption || "Aucune priorité",
-            value: priorityOption
-          };
-        });
-    });
+    const hasErrorStartDate = ref(false);
+    const hasErrorEndDate = ref(false);
 
-    // status list
-    const status = ref([]);
-    const statusOptions = computed(() => {
-      return Array.from(
-        new Set(props.bcfTopics.map(bcfTopic => bcfTopic.topicStatus))
-      )
-        .sort((a, b) => (a > b ? 1 : -1))
-        .map(statusOption => {
-          return {
-            label: statusOption || "Non défini",
-            value: statusOption
-          };
-        });
-    });
+    const { filters, filteredTopics, reset } = useBcfFilter(
+      computed(() => props.bcfTopics)
+    );
 
-    // start/end dates
-    const startDateInput = ref("");
-    const endDateInput = ref("");
-    const hasStartDateError = ref(false);
-    const hasEndDateError = ref(false);
+    const priorityOptions = computed(
+      () => getSelectOptions(props.bcfTopics.map(topic => topic.priority))
+    );
 
-    const isStartDateConform = ({ value }) => {
-      const dateToCompare = formatToDateObject(value);
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      return (
-        value.match(regexDate) && dateToCompare.getTime() <= today.getTime()
-      );
-    };
-    const isEndDateConform = (startValue, endValue) => {
-      const startDateToCompare = formatToDateObject(startValue.value);
-      const endDateToCompare = formatToDateObject(endValue.value);
-      if (startValue.value < endValue.value) {
-        return startDateToCompare.getTime() <= endDateToCompare.getTime();
-      } else {
-        return false;
-      }
-    };
+    const statusOptions = computed(
+      () => getSelectOptions(props.bcfTopics.map(topic => topic.topicStatus))
+    );
 
-    // assigned to list
-    const users = ref([]);
-    const userOptions = computed(() => {
-      return Array.from(
-        new Set(props.bcfTopics.map(bcfTopic => bcfTopic.assignedTo))
-      )
-        .sort((a, b) => (a > b ? 1 : -1))
-        .map(userOption => {
-          return {
-            label: userOption || "Non défini",
-            value: userOption
-          };
-        });
-    });
+    const userOptions = computed(
+      () => getSelectOptions(props.bcfTopics.map(topic => topic.assignedTo))
+    );
 
-    // creators list
-    const creators = ref([]);
-    const creatorOptions = computed(() => {
-      return Array.from(
-        new Set(props.bcfTopics.map(bcfTopic => bcfTopic.creationAuthor))
-      )
-        .sort((a, b) => (a > b ? 1 : -1))
-        .map(creatorOption => {
-          return {
-            label: creatorOption || "Non défini",
-            value: creatorOption
-          };
-        });
-    });
+    const creatorOptions = computed(
+      () => getSelectOptions(props.bcfTopics.map(topic => topic.creationAuthor))
+    );
 
-    // tags list
-    const tags = ref([]);
-    const tagOptions = computed(() => {
-      return Array.from(
-        new Set(props.bcfTopics.flatMap(bcfTopic => bcfTopic.labels))
-      )
-        .flat()
-        .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }));
-    });
+    const labelOptions = computed(
+      () => getSelectOptions(props.bcfTopics.flatMap(topic => topic.labels))
+    );
 
     const submitFilters = () => {
-      if (
-        startDateInput.value &&
-        !isStartDateConform(startDateInput) ||
-        (!startDateInput.value && endDateInput.value)
-      ) {
-        hasStartDateError.value = true;
-        return;
-      }
-      if (
-        startDateInput.value &&
-        endDateInput.value &&
-        !isEndDateConform(startDateInput, endDateInput)
-      ) {
-        hasEndDateError.value = true;
-        return;
+      if (filters.startDate && filters.endDate) {
+        if (
+          !filters.startDate.match(dateRegex) ||
+          filters.startDate > deserialize(new Date())
+        ) {
+          hasErrorStartDate.value = true;
+          return;
+        }
+        if (
+          !filters.endDate.match(dateRegex) ||
+          filters.endDate < filters.startDate
+        ) {
+          hasErrorEndDate.value = true;
+          return;
+        }
       }
 
-      if (
-        priorities.value.length ||
-        status.value.length ||
-        startDateInput.value ||
-        (startDateInput.value && endDateInput.value) ||
-        users.value.length ||
-        creators.value.length ||
-        tags.value.length
-      ) {
-        emit("submit", {
-          priorities: priorities.value.map(p => p.value),
-          status: status.value.map(s => s.value),
-          startDate: startDateInput.value,
-          endDate: endDateInput.value,
-          users: users.value.map(u => u.value),
-          creators: creators.value.map(creator => creator.value),
-          tags: tags.value,
-        });
-        showFilters.value = false;
-      } else {
-        resetFilters();
-      }
+      emit("submit", filteredTopics.value);
+      isOpen.value = false;
     };
 
     const resetFilters = () => {
-      priorities.value = [];
-      status.value = [];
-      startDateInput.value = "";
-      endDateInput.value = "";
-      users.value = [];
-      creators.value = [];
-      tags.value = [];
-
-      emit("submit", {
-        priorities: priorities.value,
-        status: status.value,
-        startDate: startDateInput.value,
-        endDate: endDateInput.value,
-        users: users.value,
-        creators: creators.value,
-        tags: tags.value,
-      });
-      hasStartDateError.value = false;
-      hasEndDateError.value = false;
+      hasErrorStartDate.value = false;
+      hasErrorEndDate.value = false;
+      reset();
+      emit("submit", filteredTopics.value);
     };
 
     return {
       // References
-      creators,
       creatorOptions,
-      endDateInput,
-      hasEndDateError,
-      hasStartDateError,
-      priorities,
+      filters,
+      hasErrorEndDate,
+      hasErrorStartDate,
+      isOpen,
       priorityOptions,
-      showFilters,
-      startDateInput,
-      status,
       statusOptions,
-      tags,
-      tagOptions,
-      users,
+      labelOptions,
       userOptions,
       // Methods
-      closeFilters,
+      close,
       resetFilters,
       submitFilters,
-      toggleFilters
+      toggle
     };
   }
 };

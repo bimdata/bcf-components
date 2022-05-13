@@ -6,18 +6,17 @@
       "priorityLabel": "Priorité",
       "statusLabel": "Statut",
       "startDatePlaceholder": "Date de début",
+      "startDateError": "Date invalide",
       "startDateExample": "(Ex: 28/04/2022)",
       "endDatePlaceholder": "Date de fin",
+      "endDateError": "Date invalide",
       "endDateExample": "(Ex: 28/05/2022)",
       "assignedToLabel": "Assigné à",
       "creatorsLabel": "Créé par",
       "tagsLabel": "Tags",
       "resetButton": "Réinitialiser",
       "searchButton": "Rechercher",
-      "noPriority": "Aucune priorité",
-      "undefinedStatus": "Non défini",
-      "undefinedUser": "Non défini",
-      "undefinedCreator": "Non défini"
+      "undefined": "Non défini"
     },
     "BcfSettings": {
       "goBackButton": "Retour",

@@ -1,5 +1,9 @@
 import { setApiClient } from "./api-client.js";
 
+import { useBcfFilter } from "./composables/filter.js";
+import { useBcfSearch } from "./composables/search.js";
+import { useBcfSort } from "./composables/sort.js";
+
 import BcfFilters from "./components/bcf-filters/BcfFilters.vue";
 import BcfSettings from "./components/bcf-settings/BcfSettings.vue";
 import BcfStatistics from "./components/bcf-statistics/BcfStatistics.vue";
@@ -22,6 +26,9 @@ const components = {
 
 export {
   setApiClient,
+  useBcfFilter,
+  useBcfSearch,
+  useBcfSort,
   components,
 
   // Export components individually

@@ -1,31 +1,33 @@
-import { ref, watch } from "vue";
+import { ref, watch } from "@vue/composition-api";
 
-function useSearch(topics) {
+const searchFields = [
+  "title",
+  "topicType",
+  "priority",
+  "topicStatus",
+  "stage",
+  "creationAuthor",
+  "modifiedAuthor",
+  "assignedTo",
+  "description",
+];
+
+function useBcfSearch(topics) {
   const searchText = ref("");
-  const searchedTopics = ref([]);
+  const filteredTopics = ref([]);
+
   watch(
     [topics, searchText],
     () => {
-      const colunmToFilter = [
-        "title",
-        "topicStatus",
-        "topicType",
-        "description",
-        "priority",
-        "creationAuthor",
-        "modifiedAuthor",
-        "assignedTo",
-        "stage"
-      ];
       if (searchText.value) {
         const agnosticFilter = searchText.value.toLowerCase();
-        searchedTopics.value = topics.value.filter(topic =>
-          colunmToFilter.some(colunm =>
-            (topic[colunm] || "").toLowerCase().includes(agnosticFilter)
+        filteredTopics.value = topics.value.filter(topic =>
+          searchFields.some(field =>
+            (topic[field] || "").toLowerCase().includes(agnosticFilter)
           )
         );
       } else {
-        searchedTopics.value = topics.value;
+        filteredTopics.value = topics.value;
       }
     },
     { immediate: true }
@@ -33,8 +35,8 @@ function useSearch(topics) {
 
   return {
     searchText,
-    searchedTopics
+    filteredTopics,
   };
 }
 
-export default useSearch;
+export { useBcfSearch };

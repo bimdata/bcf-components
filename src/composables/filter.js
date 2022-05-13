@@ -1,79 +1,59 @@
-import { computed, reactive } from "vue";
+import { computed, reactive } from "@vue/composition-api";
+import { formatToISO } from "../utils/date.js";
 
-function useFilter(topics) {
-  const filters = reactive({
-    priorities: [],
-    status: [],
-    tags: [],
-    users: [],
-    creators: [],
-    startDate: "",
-    endDate: ""
+const EMPTY_FILTERS = {
+  priorities: [],
+  statuses: [],
+  users: [],
+  creators: [],
+  labels: [],
+  startDate: "",
+  endDate: "",
+};
+
+function useBcfFilter(topics) {
+  const filters = reactive({ ...EMPTY_FILTERS });
+
+  const filteredTopics = computed(() => {
+    let list = topics.value;
+    if (filters.priorities.length > 0) {
+      list = list.filter(t => filters.priorities.includes(t.priority));
+    }
+    if (filters.statuses.length > 0) {
+      list = list.filter(t => filters.statuses.includes(t.topicStatus));
+    }
+    if (filters.users.length > 0) {
+      list = list.filter(t => filters.users.includes(t.assignedTo));
+    }
+    if (filters.creators.length > 0) {
+      list = list.filter(t => filters.creators.includes(t.creationAuthor));
+    }
+    if (filters.labels.length > 0) {
+      list = list.filter(t => filters.labels.some(l => t.labels.includes(l)));
+    }
+    if (filters.startDate && filters.endDate) {
+      list = list.filter(t => (
+        t.creationDate >= new Date(`${formatToISO(filters.startDate)}T00:00`) &&
+        t.creationDate <= new Date(`${formatToISO(filters.endDate)}T23:59:59`)
+      ));
+    }
+    return list;
   });
 
-  function onFiltersSubmit(submittedFilters) {
-    filters.priorities = submittedFilters.priorities;
-    filters.status = submittedFilters.status;
-    filters.tags = submittedFilters.tags;
-    filters.users = submittedFilters.users;
-    filters.creators = submittedFilters.creators;
-    filters.startDate = submittedFilters.startDate;
-    filters.endDate = submittedFilters.endDate;
+  function submit(f) {
+    Object.assign(filters, f);
   }
 
-  const filteredTopics = computed(() =>
-    topics.value
-      .filter(
-        topic =>
-          filters.priorities.length === 0 ||
-          filters.priorities.includes(topic.priority)
-      )
-      .filter(
-        topic =>
-          filters.status.length === 0 ||
-          filters.status.includes(topic.topicStatus)
-      )
-      .filter(
-        topic =>
-          filters.tags.length === 0 ||
-          filters.tags.some(tag => topic.labels.includes(tag))
-      )
-      .filter(
-        topic =>
-          filters.users.length === 0 || filters.users.includes(topic.assignedTo)
-      )
-      .filter(
-        topic =>
-          filters.creators.length === 0 ||
-          filters.creators.includes(topic.creationAuthor)
-      )
-      .filter(topic => {
-        if (filters.startDate && filters.endDate) {
-          const formatStartTopicDate = filters.startDate
-            .split("/")
-            .reverse()
-            .join("-");
-          const formatEndTopicDate = filters.endDate
-            .split("/")
-            .reverse()
-            .join("-");
-          // add T for filter on one entire day
-          const startTopicDate = new Date(formatStartTopicDate + "T00:00");
-          const endTopicDate = new Date(formatEndTopicDate + "T23:59:59");
-          return (
-            startTopicDate <= topic.creationDate &&
-            topic.creationDate <= endTopicDate
-          );
-        }
-
-        return true;
-      })
-  );
+  function reset() {
+    Object.assign(filters, EMPTY_FILTERS);
+  }
 
   return {
-    onFiltersSubmit,
-    filteredTopics
+    filters,
+    filteredTopics,
+    submit,
+    reset,
   };
 }
 
-export default useFilter;
+export { useBcfFilter };

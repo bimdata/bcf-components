@@ -17,6 +17,8 @@
     top: calc(32px + 12px);
     left: 0;
     width: 100%;
+    min-width: 252px;
+    max-width: 296px;
     padding: var(--spacing-unit);
     box-shadow: var(--box-shadow);
     background-color: var(--color-white);
