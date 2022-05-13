@@ -2,41 +2,40 @@ export default [
   {
     id: "index",
     label: "#",
-    width: "5%",
+    width: "54px",
     align: "center"
   },
   {
     id: "priority",
-    label: "Priority",
-    width: "100px",
+    label: "Priorité",
+    width: "96px",
     align: "center"
   },
   {
     id: "status",
-    label: "Status",
-    width: "70px",
+    label: "Statut",
+    width: "72px",
     align: "center"
   },
   {
     id: "title",
-    label: "Title",
-    width: "31%",
+    label: "Titre",
     align: "left"
   },
-  {
-    id: "creator",
-    label: "Created by",
-    width: "24%"
-  },
+  // {
+  //   id: "creator",
+  //   label: "Créé par",
+  //   width: "24%"
+  // },
   {
     id: "date",
     label: "Date",
-    width: "17%"
+    width: "120px"
   },
   {
     id: "actions",
-    label: "Actions",
-    width: "9%",
+    label: " ",
+    width: "72px",
     align: "center"
   }
 ];
