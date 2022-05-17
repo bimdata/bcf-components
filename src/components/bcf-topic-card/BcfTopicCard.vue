@@ -110,10 +110,6 @@ export default {
     BIMDataTextbox,
   },
   props: {
-    project: {
-      type: Object,
-      required: true
-    },
     bcfTopic: {
       type: Object,
       required: true
@@ -123,7 +119,9 @@ export default {
       required: true
     }
   },
-  emits: ["open-bcf-topic"],
+  emits: [
+    "open-bcf-topic"
+  ],
   setup(props, { emit }) {
     const viewpointsWithSnapshot = computed(() => {
       return props.bcfTopic.viewpoints.filter(viewpoint =>

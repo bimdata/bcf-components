@@ -29,7 +29,6 @@ export {
   BcfSettings,
   BcfStatistics,
   BcfTopicCard,
-  BcfTopicCreate,
   BcfTopicCreationCard,
   BcfTopicForm,
   BcfTopicOverview,

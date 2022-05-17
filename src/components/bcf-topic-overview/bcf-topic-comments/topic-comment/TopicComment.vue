@@ -1,19 +1,19 @@
 <template>
-  <div class="comment">
-    <div class="comment__header flex items-center justify-between">
-      <div class="comment__header__left flex items-center">
+  <div class="topic-comment">
+    <div class="topic-comment__header flex items-center justify-between">
+      <div class="topic-comment__header__left flex items-center">
         <UserAvatar
-          v-if="author"
+          v-if="comment.user"
           class="m-r-12"
           style="box-shadow: var(--box-shadow)"
-          :user="author"
+          :user="comment.user"
           size="27"
           initialsSize="14"
           color="silver-light"
         />
         <span
           v-else
-          class="comment__header__left__user flex items-center justify-center m-r-12"
+          class="topic-comment__header__left__user flex items-center justify-center m-r-12"
         >
           <BIMDataIcon name="user" size="xxs" fill color="granite" />
         </span>
@@ -32,8 +32,8 @@
         </span>
       </div>
 
-      <div class="comment__header__right">
-        <div class="comment__header__right__actions flex">
+      <div class="topic-comment__header__right">
+        <div class="topic-comment__header__right__actions flex">
           <template v-if="showMenu">
             <BIMDataButton ghost rounded icon @click="onOpenEdit">
               <BIMDataIcon name="edit" size="xxs" fill color="granite-light" />
@@ -56,7 +56,7 @@
         </div>
         <div
           v-if="isDeleting"
-          class="comment__header__right__delete p-x-12"
+          class="topic-comment__header__right__delete p-x-12"
         >
           <span>
             {{ $t("BcfComponents.BcfTopicComments.deleteCommentText") }}
@@ -72,18 +72,18 @@
         </div>
         <BIMDataButton
           v-if="!showMenu && !isDeleting && !isEditing"
-          class="comment__header__right__btn" rounded icon @click="toggleMenu"
+          class="topic-comment__header__right__btn" rounded icon @click="toggleMenu"
         >
           <BIMDataIcon name="ellipsis" size="l" fill color="granite-light" />
         </BIMDataButton>
       </div>
     </div>
-    <div class="comment__content">
+
+    <div class="topic-comment__content">
       <BIMDataTextarea
         :class="{ editing: isEditing }"
         width="100%"
         rows="1"
-        name="comment"
         v-model="text"
         fitContent
         autofocus
@@ -125,10 +125,6 @@ export default {
       type: Object,
       required: true
     },
-    users: {
-      type: Array,
-      required: true
-    },
     bcfTopic: {
       type: Object,
       required: true
@@ -152,9 +148,9 @@ export default {
     const toggleMenu = () => showMenu.value = !showMenu.value;
 
     const text = ref(props.comment.comment);
-    const author = computed(() =>
-      props.users.find(u => u.email === props.comment.author)
-    );
+    // const author = computed(() =>
+    //   props.users.find(u => u.email === props.comment.author)
+    // );
 
     const isEditing = ref(false);
     const onOpenEdit = () => {
@@ -201,7 +197,7 @@ export default {
 
     return {
       // References
-      author,
+      // author,
       text,
       isDeleting,
       isEditing,
@@ -219,4 +215,4 @@ export default {
 };
 </script>
 
-<style scoped lang="scss" src="./Comment.scss"></style>
+<style scoped lang="scss" src="./TopicComment.scss"></style>

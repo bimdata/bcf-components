@@ -221,7 +221,6 @@
 
       <BcfTopicComments
         :project="project"
-        :users="users"
         :bcfTopic="bcfTopic"
         @comment-created="$emit('comment-created', $event)"
         @comment-updated="$emit('comment-updated', $event)"
@@ -263,7 +262,7 @@
 <script>
 import { computed, ref } from "@vue/composition-api";
 import { useService } from "../../service.js";
-import { DEFAULT_PRIORITY_COLOR, DEFAULT_STATUS_COLOR, MODEL_TYPE, MODEL_STATUS } from "../../config.js";
+import { DEFAULT_PRIORITY_COLOR, DEFAULT_STATUS_COLOR } from "../../config.js";
 import { adjustColor } from "../../utils/colors.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
@@ -289,14 +288,6 @@ export default {
   props: {
     project: {
       type: Object,
-      required: true
-    },
-    models: {
-      type: Array,
-      required: true
-    },
-    users: {
-      type: Array,
       required: true
     },
     bcfTopic: {
@@ -373,24 +364,6 @@ export default {
       }
     });
 
-    const modelIDs = computed(() => {
-      let ids = [];
-      if (props.bcfTopic.ifcs?.length) {
-        ids = props.bcfTopic.ifcs;
-      } else {
-        const ifcs = props.models
-          .filter(model => model.type === MODEL_TYPE.IFC)
-          .filter(model => model.status === MODEL_STATUS.COMPLETED)
-          .sort((a, b) =>
-            a.createdAt.getTime() > b.createdAt.getTime() ? 1 : -1
-          );
-        if (ifcs.length > 0) {
-          ids.push(ifcs[0].id);
-        }
-      }
-      return ids;
-    });
-
     const removeTopic = async () => {
       try {
         showDeleteModal.value = false;
@@ -404,8 +377,8 @@ export default {
     };
 
     return {
+      // References
       loading,
-      modelIDs,
       priorityColor,
       showDeleteModal,
       statusColor,

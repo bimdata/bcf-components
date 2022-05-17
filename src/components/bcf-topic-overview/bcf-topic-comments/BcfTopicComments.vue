@@ -27,7 +27,6 @@
           autofocus
           resizable
         />
-        <div></div>
         <div class="flex items-center justify-end">
           <BIMDataButton
             color="primary"
@@ -56,11 +55,10 @@
         {{ (bcfTopic.comments ? bcfTopic.comments.length : 0) + " " + $t("BcfComponents.BcfTopicComments.commentsText") }}
       </p>
       <div v-if="bcfTopic.comments && bcfTopic.comments.length">
-        <Comment
+        <TopicComment
           v-for="comment in bcfTopic.comments"
           :key="comment.guid"
           :project="project"
-          :users="users"
           :bcfTopic="bcfTopic"
           :comment="comment"
           @comment-updated="$emit('comment-updated', $event)"
@@ -82,22 +80,18 @@ import { useService } from "../../../service.js";
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
 import BIMDataLoading from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataLoading.js";
 import BIMDataTextarea from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataTextarea.js";
-import Comment from "./comment/Comment.vue";
+import TopicComment from "./topic-comment/TopicComment.vue";
 
 export default {
   components: {
     BIMDataButton,
     BIMDataLoading,
     BIMDataTextarea,
-    Comment,
+    TopicComment,
   },
   props: {
     project: {
       type: Object,
-      required: true
-    },
-    users: {
-      type: Array,
       required: true
     },
     bcfTopic: {
