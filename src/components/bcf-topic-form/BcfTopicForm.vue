@@ -10,69 +10,17 @@
         </div>
       </div>
 
-      <template v-if="viewpoints.length > 0">
-        <div class="bcf-topic-form__content__images">
-          <div
-            class="snapshot-preview"
-            v-for="(viewpoint, i) in viewpoints.slice(0, 4)"
-            :key="viewpoint.guid || i"
-          >
-            <img :src="viewpoint.snapshot.snapshotData" />
-            <BIMDataButton
-              class="btn-delete"
-              fill
-              rounded
-              icon
-              @click="delViewpoint(viewpoint)"
-            >
-              <BIMDataIcon name="delete" size="xs" fill color="high" />
-            </BIMDataButton>
-          </div>
-        </div>
+      <BcfTopicImages
+        :bcfTopic="bcfTopic"
+        @add-image="addViewpoint"
+        @del-image="delViewpoint"
+      />
 
-        <BIMDataButton
-          :disabled="viewpoints.length >= 4"
-          class="btn-upload"
-          width="100%"
-          color="primary"
-          fill
-          radius
-        >
-          <label for="files">
-            <BIMDataIcon name="camera" size="xs" margin="0 6px 0 0" />
-            {{ $t("BcfComponents.BcfTopicForm.addPictureButton") }}
-          </label>
-          <input
-            hidden
-            id="files"
-            type="file"
-            multiple
-            accept="image/png, image/jpeg"
-            @change="addViewpoint"
-          />
-        </BIMDataButton>
-      </template>
-
-      <template v-else>
-        <div class="bcf-topic-form__content__upload">
-          <span class="icon">
-            <BIMDataIcon name="unarchive" size="m" />
-          </span>
-          <BIMDataButton class="btn-upload" color="primary" outline radius>
-            <label for="files">
-              {{ $t("BcfComponents.BcfTopicForm.dragDropImageText") }}
-            </label>
-            <input
-              hidden
-              id="files"
-              type="file"
-              multiple
-              accept="image/png, image/jpeg"
-              @change="addViewpoint"
-            />
-          </BIMDataButton>
-        </div>
-      </template>
+      <!-- <BcfTopicSnapshots
+        :bcfTopic="bcfTopic"
+        @add-snapshot="() => {}"
+        @del-snapshot="() => {}"
+      /> -->
 
       <div class="bcf-topic-form__content__body">
         <BIMDataInput
@@ -200,9 +148,13 @@ import BIMDataSafeZoneModal from "@bimdata/design-system/dist/js/BIMDataComponen
 import BIMDataSelect from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataSelect.js";
 import BIMDataTextarea from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataTextarea.js";
 import BIMDataTextbox from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataTextbox.js";
+import BcfTopicImages from "./bcf-topic-images/BcfTopicImages.vue";
+import BcfTopicSnapshots from "./bcf-topic-snapshots/BcfTopicSnapshots.vue";
 
 export default {
   components: {
+    BcfTopicImages,
+    BcfTopicSnapshots,
     BIMDataButton,
     BIMDataIcon,
     BIMDataInput,
@@ -210,7 +162,7 @@ export default {
     BIMDataSafeZoneModal,
     BIMDataSelect,
     BIMDataTextarea,
-    BIMDataTextbox
+    BIMDataTextbox,
   },
   props: {
     project: {
@@ -306,29 +258,15 @@ export default {
       hasErrorDate.value = false;
     };
 
-    const addViewpoint = event => {
-      [...event.target.files].forEach(file => {
-        const reader = new FileReader();
-        reader.addEventListener("load", () => {
-          const viewpoint = {
-            snapshot: {
-              snapshotType: file.type,
-              snapshotData: reader.result
-            }
-          };
-          viewpoints.value.push(viewpoint)
-          viewpointsToCreate.push(viewpoint);
-        });
-        reader.readAsDataURL(file);
-      });
+    const addViewpoint = viewpoint => {
+      viewpointsToCreate.push(viewpoint);
     };
+
     const delViewpoint = viewpoint => {
-      let index = viewpoints.value.indexOf(viewpoint);
-      viewpoints.value.splice(index, 1);
       if (viewpoint.guid) {
         viewpointsToDelete.push(viewpoint);
       } else {
-        index = viewpointsToCreate.indexOf(viewpoint);
+        let index = viewpointsToCreate.indexOf(viewpoint);
         viewpointsToCreate.splice(index, 1);
       }
     };
