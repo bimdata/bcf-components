@@ -31,18 +31,22 @@ Then, in your application bootstrap script, add the following:
 ```js
 import Vue from "vue";
 import VueCompositionApi from "@vue/composition-api";
+import VueI18n from "vue-i18n"; // v8.x
+import { makeBIMDataApiClient } from "@bimdata/typescript-fetch-api-client";  // v8.2+
+// Import Vue 2 plugin factory
+import BIMDataBcfComponents from "@bimdata/bcf-components/vue2-plugin.js";
 ...
+
+// Instanciate i18n plugin
+const i18nPlugin = new VueI18n({ ... });
+// Instanciate BIMData API client
+const apiClient = makeBIMDataApiClient({ ... });
 
 Vue.use(VueCompositionApi);
+Vue.use(i18nPlugin);
+// Provide both i18n plugin and API client as plugin config
+Vue.use(BIMDataBcfComponents({ i18nPlugin, apiClient }));
 ...
-```
-
-You can now use library components like so:
-
-```js
-import { components } from "@bimdata/bcf-components/dist/vue2/bcf-components.es.js";
-
-const { BcfTopicCard } = components;
 ```
 
 ### Vue 3.x application
@@ -54,14 +58,14 @@ and make all components available globally.
 
 ```js
 import { createApp } from "vue";
-import { createI18n } from "vue-i18n";
-import { makeBIMDataApiClient } from "@bimdata/typescript-fetch-api-client";
+import { createI18n } from "vue-i18n"; // v9.x
+import { makeBIMDataApiClient } from "@bimdata/typescript-fetch-api-client"; // v8.2+
 // Import Vue 3 plugin factory
 import BIMDataBcfComponents from "@bimdata/bcf-components/vue3-plugin.js";
 
-// Instanciate i18n plugin (v9+)
+// Instanciate i18n plugin
 const i18nPlugin = createI18n({ ... });
-// Instanciate BIMData API client (v8.2+)
+// Instanciate BIMData API client
 const apiClient = makeBIMDataApiClient({ ... });
 
 const app = createApp()
@@ -95,9 +99,7 @@ setApiClient(apiClient);
 Then you can directly use components in your app that way:
 
 ```js
-import { components } from "@bimdata/bcf-components";
-
-const { BcfTopicCard } = components;
+import { BcfTopicCard } from "@bimdata/bcf-components";
 ```
 
 ## Build
