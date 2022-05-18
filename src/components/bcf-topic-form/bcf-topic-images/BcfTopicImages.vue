@@ -17,7 +17,7 @@
             fill
             rounded
             icon
-            @click="delImage(viewpoint)"
+            @click="deleteViewpoint(viewpoint)"
           >
             <BIMDataIcon name="delete" size="xs" fill color="high" />
           </BIMDataButton>
@@ -89,7 +89,7 @@ export default {
   },
   emits: [
     "add-image",
-    "del-image"
+    "delete-viewpoint"
   ],
   setup(props, { emit }) {
     const viewpoints = ref([]);
@@ -120,10 +120,10 @@ export default {
       });
     };
 
-    const delImage = viewpoint => {
+    const deleteViewpoint = viewpoint => {
       let index = viewpoints.value.indexOf(viewpoint);
       viewpoints.value.splice(index, 1);
-      emit("del-image", viewpoint);
+      emit("delete-viewpoint", viewpoint);
     };
 
     return {
@@ -131,7 +131,7 @@ export default {
       viewpoints,
       // Methods
       addImage,
-      delImage,
+      deleteViewpoint,
     };
   }
 };

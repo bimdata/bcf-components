@@ -10,17 +10,20 @@
         </div>
       </div>
 
-      <BcfTopicImages
-        :bcfTopic="bcfTopic"
-        @add-image="addViewpoint"
-        @del-image="delViewpoint"
-      />
-
-      <!-- <BcfTopicSnapshots
-        :bcfTopic="bcfTopic"
-        @add-snapshot="() => {}"
-        @del-snapshot="() => {}"
-      /> -->
+      <template v-if="imageMode">
+        <BcfTopicImages
+          :bcfTopic="bcfTopic"
+          @add-image="addViewpoint"
+          @delete-viewpoint="delViewpoint"
+        />
+      </template>
+      <template v-else>
+        <BcfTopicSnapshots
+          :bcfTopic="bcfTopic"
+          @add-viewpoint="addViewpoint"
+          @delete-viewpoint="delViewpoint"
+        />
+      </template>
 
       <div class="bcf-topic-form__content__body">
         <BIMDataInput
@@ -179,11 +182,16 @@ export default {
     extensions: {
       type: Object,
       reuiqred: true
-    }
+    },
+    imageMode: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: [
     "bcf-topic-created",
     "bcf-topic-updated",
+    "take-snapshot",
     "close",
   ],
   setup(props, { emit }) {
@@ -280,44 +288,47 @@ export default {
         hasErrorDate.value = true;
         return;
       }
-      loading.value = true;
+      try {
+        loading.value = true;
 
-      const data = {
-        guid: props.bcfTopic?.guid,
-        title: topicTitle.value,
-        topicType: topicType.value,
-        priority: topicPriority.value,
-        topicStatus: topicStatus.value,
-        stage: topicStage.value,
-        assignedTo: topicAssignedTo.value,
-        dueDate: topicDate.value ? serialize(topicDate.value) : undefined,
-        description: topicDescription.value,
-        labels: topicLabels.value,
-      };
+        const data = {
+          guid: props.bcfTopic?.guid,
+          title: topicTitle.value,
+          topicType: topicType.value,
+          priority: topicPriority.value,
+          topicStatus: topicStatus.value,
+          stage: topicStage.value,
+          assignedTo: topicAssignedTo.value,
+          dueDate: topicDate.value ? serialize(topicDate.value) : undefined,
+          description: topicDescription.value,
+          labels: topicLabels.value,
+        };
 
-      let newTopic;
-      if (isCreation.value) {
-        newTopic = await createTopic(props.project, data);
-      } else {
-        newTopic = await updateTopic(props.project, data);
-      }
+        let newTopic;
+        if (isCreation.value) {
+          newTopic = await createTopic(props.project, data);
+        } else {
+          newTopic = await updateTopic(props.project, data);
+        }
 
-      await Promise.all(
-        viewpointsToCreate.map(viewpoint =>
-          createViewpoint(props.project, newTopic, viewpoint)
-        )
-      );
-      await Promise.all(
-        viewpointsToDelete.map(viewpoint =>
-          deleteViewpoint(props.project, newTopic, viewpoint)
-        )
-      );
+        await Promise.all(
+          viewpointsToCreate.map(viewpoint =>
+            createViewpoint(props.project, newTopic, viewpoint)
+          )
+        );
+        await Promise.all(
+          viewpointsToDelete.map(viewpoint =>
+            deleteViewpoint(props.project, newTopic, viewpoint)
+          )
+        );
 
-      if (isCreation.value) {
-        emit("bcf-topic-created", newTopic);
-        reset();
-      } else {
-        emit("bcf-topic-updated", newTopic);
+        if (isCreation.value) {
+          emit("bcf-topic-created", newTopic);
+          reset();
+        } else {
+          emit("bcf-topic-updated", newTopic);
+        }
+      } finally {
         loading.value = false;
       }
     };
