@@ -40,15 +40,15 @@
         margin: 30px 0;
         font-size: 13px;
       }
-      ::v-deep .bimdata-input,
-      :deep(.bimdata-input) {
+      ::v-deep .bimdata-input {
+      // :deep(.bimdata-input) {
         input {
           font-size: 13px;
           color: var(--color-granite);
         }
       }
-      ::v-deep .bimdata-textarea,
-      :deep(.bimdata-textarea) {
+      ::v-deep .bimdata-textarea {
+      // :deep(.bimdata-textarea) {
         textarea {
           font-family: var(--primary-font);
           font-size: 13px;

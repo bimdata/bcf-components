@@ -44,8 +44,8 @@
         }
       }
 
-      ::v-deep .bimdata-paginated-list,
-      :deep(.bimdata-paginated-list) {
+      ::v-deep .bimdata-paginated-list {
+      // :deep(.bimdata-paginated-list) {
         ul:first-child {
           height: 144px;
         }
