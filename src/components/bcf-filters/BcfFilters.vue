@@ -301,6 +301,8 @@ export default {
           tags: tags.value,
         });
         showFilters.value = false;
+      } else {
+        resetFilters();
       }
     };
 
