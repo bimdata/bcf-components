@@ -16,8 +16,7 @@
     "release": "semantic-release"
   },
   "dependencies": {
-    "@bimdata/design-system": "1.4.0-rc.4",
-    "html2canvas": "^1.4.1"
+    "@bimdata/design-system": "1.4.0-rc.4"
   },
   "peerDependencies": {
     "@vue/composition-api": "^1.4.9",

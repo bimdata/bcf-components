@@ -27,7 +27,7 @@
 
     <template v-else>
       <div class="bcf-topic-snapshots__create" @click="takeSnapshots">
-        <BIMDataIcon name="camera" size="l" />
+        <BIMDataIcon name="camera" size="xl" />
       </div>
     </template>
   </div>
@@ -35,7 +35,6 @@
 
 <script>
 import { ref, inject, watch } from "@vue/composition-api";
-import { getViewpoint2D, getViewpoint3D } from "./snapshot.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
 import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataIcon.js";
@@ -55,15 +54,7 @@ export default {
     "delete-viewpoint"
   ],
   setup(props, { emit }) {
-    const $viewer = inject("$viewer");
-    if (!$viewer) {
-      console.warn(
-        "[BCF Components Snapshot] No $viewer provided by parent components. " +
-        "It looks like the component is not used in the context of BIMData Viewer. " +
-        "You need to use this component with BIMData Viewer if you want BCF snapshot " +
-        "feature to work properly."
-      );
-    }
+    const getViewers = inject("getViewers", () => []);
 
     const viewpoints = ref([]);
 
@@ -88,29 +79,11 @@ export default {
     };
 
     const takeSnapshots = async () => {
-      if ($viewer) {
-        const globalContext = $viewer.globalContext;
-
-        const viewer3d = globalContext.getPlugins("viewer3d")[0];
-        const viewer2d = globalContext.getPlugins("viewer2d")[0];
-        const viewerDwg = globalContext.getPlugins("dwg")[0];
-        const viewerPlan = globalContext.getPlugins("plan")[0];
-
-        if (viewer3d) {
-          addViewpoint(getViewpoint3D(viewer3d));
+      getViewers().forEach(async viewer => {
+        if (viewer) {
+          addViewpoint(await viewer.getViewpoint());
         }
-        if (viewer2d) {
-          addViewpoint(await getViewpoint2D(viewer2d));
-        }
-        if (viewerDwg) {
-          addViewpoint(await getViewpoint2D(viewerDwg));
-        }
-        if (viewerPlan) {
-          addViewpoint(await getViewpoint2D(viewerPlan));
-        }
-      } else {
-        console.warn("[BCF Components Snapshot] No $viewer provided by parent components.");
-      }
+      });
     };
 
     return {

@@ -10,17 +10,27 @@
         </div>
       </div>
 
-      <template v-if="imageMode">
-        <BcfTopicImages
-          :bcfTopic="bcfTopic"
-          @add-image="addViewpoint"
-          @delete-viewpoint="delViewpoint"
-        />
-      </template>
-      <template v-else>
+      <template v-if="viewerMode">
         <BcfTopicSnapshots
           :bcfTopic="bcfTopic"
           @add-viewpoint="addViewpoint"
+          @delete-viewpoint="delViewpoint"
+        />
+        <div class="bcf-topic-form__content__actions">
+          <BIMDataButton fill radius @click="$emit('add-object', bcfTopic)">
+            <BIMDataIcon name="plus" size="xxxs" margin="0 6px 0 0" />
+            {{ $t("BcfComponents.BcfTopicForm.addObjectButton") }}
+          </BIMDataButton>
+          <BIMDataButton color="primary" fill radius @click="$emit('add-annotation', bcfTopic)">
+            <BIMDataIcon name="plus" size="xxxs" margin="0 6px 0 0" />
+            {{ $t("BcfComponents.BcfTopicForm.addAnnotationButton") }}
+          </BIMDataButton>
+        </div>
+      </template>
+      <template v-else>
+        <BcfTopicImages
+          :bcfTopic="bcfTopic"
+          @add-image="addViewpoint"
           @delete-viewpoint="delViewpoint"
         />
       </template>
@@ -168,6 +178,10 @@ export default {
     BIMDataTextbox,
   },
   props: {
+    viewerMode: {
+      type: Boolean,
+      default: false,
+    },
     project: {
       type: Object,
       required: true
@@ -183,15 +197,12 @@ export default {
       type: Object,
       reuiqred: true
     },
-    imageMode: {
-      type: Boolean,
-      default: false,
-    },
   },
   emits: [
+    "add-object",
+    "add-annotation",
     "bcf-topic-created",
     "bcf-topic-updated",
-    "take-snapshot",
     "close",
   ],
   setup(props, { emit }) {

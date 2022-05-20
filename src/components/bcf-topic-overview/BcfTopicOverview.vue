@@ -1,37 +1,46 @@
 <template>
   <div class="bcf-topic-overview">
     <div class="bcf-topic-overview__header">
+      <template v-if="uiConfig.backButton">
+        <BIMDataButton
+          ripple
+          rounded
+          icon
+          @click="$emit('back')"
+        >
+          <BIMDataIcon name="arrow" size="xxs" />
+        </BIMDataButton>
+      </template>
       <div class="bcf-topic-overview__header__title">
         <BIMDataTextbox maxWidth="250px" :text="bcfTopic.title" />
       </div>
       <div class="bcf-topic-overview__header__actions">
         <BIMDataButton
-          color="default"
           ripple
           rounded
           icon
           @click="$emit('edit-bcf-topic', bcfTopic)"
         >
-          <BIMDataIcon name="edit" size="xxs" fill color="default" />
+          <BIMDataIcon name="edit" size="xxs" />
         </BIMDataButton>
         <BIMDataButton
-          color="default"
           ripple
           rounded
           icon
           @click="showDeleteModal = true"
         >
-          <BIMDataIcon name="delete" size="xxs" fill color="default" />
+          <BIMDataIcon name="delete" size="xxs" />
         </BIMDataButton>
-        <BIMDataButton
-          color="default"
-          ripple
-          rounded
-          icon
-          @click="$emit('close')"
-        >
-          <BIMDataIcon name="close" size="xxs" fill color="granite-light" />
-        </BIMDataButton>
+        <template v-if="uiConfig.closeButton">
+          <BIMDataButton
+            ripple
+            rounded
+            icon
+            @click="$emit('close')"
+          >
+            <BIMDataIcon name="close" size="xxs" fill color="granite-light" />
+          </BIMDataButton>
+        </template>
       </div>
     </div>
 
@@ -99,12 +108,7 @@
 
       <div class="bcf-topic-overview__content__card">
         <div class="title">
-          <BIMDataIcon
-            name="model3d"
-            size="xs"
-            fill
-            color="default"
-          />
+          <BIMDataIcon name="model3d" size="xs" />
           <span v-if="topicElements.length > 0">
             {{ topicElements.length }}
           </span>
@@ -168,7 +172,7 @@
 
       <div class="bcf-topic-overview__content__card">
         <div class="title">
-          <BIMDataIcon name="bcf" fill color="default" />
+          <BIMDataIcon name="bcf" />
           <span>
             {{ $t("BcfComponents.BcfTopicOverview.informations") }}
           </span>
@@ -298,6 +302,10 @@ export default {
       type: Object,
       required: true
     },
+    uiConfig: {
+      type: Object,
+      default: () => ({ backButton: false, closeButton: false })
+    }
   },
   emits: [
     "edit-bcf-topic",
@@ -306,6 +314,7 @@ export default {
     "comment-created",
     "comment-updated",
     "comment-deleted",
+    "back",
     "close",
   ],
   setup(props, { emit }) {

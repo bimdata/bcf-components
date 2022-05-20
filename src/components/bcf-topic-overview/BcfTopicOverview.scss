@@ -5,10 +5,11 @@
   &__header {
     padding: 0 calc(var(--spacing-unit) / 2);
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    gap: calc(var(--spacing-unit) / 3);
 
     &__title {
+      flex-grow: 1;
       font-size: 14px;
       font-weight: bold;
     }

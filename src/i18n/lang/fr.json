@@ -52,6 +52,8 @@
     },
     "BcfTopicForm": {
       "dragDropImageText": "Veuillez sélectionner un fichier",
+      "addObjectButton": "Objet",
+      "addAnnotationButton": "Annotation",
       "addPictureButton": "Ajouter une image",
       "titlePlaceholder": "Titre *",
       "titleErrorMessage": "Titre manquant",
