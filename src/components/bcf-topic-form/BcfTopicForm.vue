@@ -284,7 +284,7 @@ export default {
         hasErrorTitle.value = true;
         return;
       }
-      if (!validate(topicDate.value)) {
+      if (!validate(topicDate.value) && topicDate.value !== deserialize(props.bcfTopic.dueDate)) {
         hasErrorDate.value = true;
         return;
       }
