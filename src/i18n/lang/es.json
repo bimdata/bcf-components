@@ -14,10 +14,7 @@
       "tagsLabel": "Etiquetas:",
       "resetButton": "Restablecer",
       "searchButton": "Buscar en",
-      "noPriority": "Sin prioridad",
-      "undefinedStatus": "No definido",
-      "undefinedUser": "No definido",
-      "undefinedCreator": "No definido"
+      "undefined": "No definido"
     },
     "BcfSettings": {
       "goBackButton": "Volver",

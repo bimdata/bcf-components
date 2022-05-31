@@ -14,10 +14,7 @@
       "tagsLabel": "Tags",
       "resetButton": "Reset",
       "searchButton": "Search",
-      "noPriority": "No priority",
-      "undefinedStatus": "Undefined",
-      "undefinedUser": "Undefined",
-      "undefinedCreator": "Undefined"
+      "undefined": "Not defined"
     },
     "BcfSettings": {
       "goBackButton": "Back",

@@ -14,10 +14,7 @@
       "tagsLabel": "Tags",
       "resetButton": "Zurücksetzen",
       "searchButton": "Suchen",
-      "noPriority": "Keine Priorität",
-      "undefinedStatus": "Nicht definiert",
-      "undefinedUser": "Nicht definiert",
-      "undefinedCreator": "Nicht definiert"
+      "undefined": "Nicht definiert"
     },
     "BcfSettings": {
       "goBackButton": "Zurück",
