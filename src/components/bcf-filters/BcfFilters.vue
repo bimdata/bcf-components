@@ -42,6 +42,7 @@
           width="100%"
           :multi="true"
           :label="$t('BcfComponents.BcfFilters.priorityLabel')"
+          :nullLabel="$t('BcfComponents.BcfFilters.undefined')"
           :options="priorityOptions"
           v-model="filters.priorities"
         />
@@ -50,6 +51,7 @@
           width="100%"
           :multi="true"
           :label="$t('BcfComponents.BcfFilters.statusLabel')"
+          :nullLabel="$t('BcfComponents.BcfFilters.undefined')"
           :options="statusOptions"
           v-model="filters.statuses"
         />
@@ -85,6 +87,7 @@
           width="100%"
           :multi="true"
           :label="$t('BcfComponents.BcfFilters.assignedToLabel')"
+          :nullLabel="$t('BcfComponents.BcfFilters.undefined')"
           :options="userOptions"
           v-model="filters.users"
         />
@@ -93,6 +96,7 @@
           width="100%"
           :multi="true"
           :label="$t('BcfComponents.BcfFilters.creatorsLabel')"
+          :nullLabel="$t('BcfComponents.BcfFilters.undefined')"
           :options="creatorOptions"
           v-model="filters.creators"
         />
@@ -101,6 +105,7 @@
           width="100%"
           :multi="true"
           :label="$t('BcfComponents.BcfFilters.tagsLabel')"
+          :nullLabel="$t('BcfComponents.BcfFilters.undefined')"
           :options="labelOptions"
           v-model="filters.labels"
         />
