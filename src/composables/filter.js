@@ -40,18 +40,18 @@ function useBcfFilter(topics) {
     return list;
   });
 
-  function submit(f) {
+  function apply(f) {
     Object.assign(filters, f);
   }
 
   function reset() {
-    Object.assign(filters, EMPTY_FILTERS);
+    apply(EMPTY_FILTERS);
   }
 
   return {
     filters,
     filteredTopics,
-    submit,
+    apply,
     reset,
   };
 }

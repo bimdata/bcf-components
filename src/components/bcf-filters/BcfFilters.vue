@@ -139,7 +139,7 @@
 </template>
 
 <script>
-import { computed, ref } from "@vue/composition-api";
+import { computed, ref, toRaw } from "@vue/composition-api";
 import { useBcfFilter } from "../../composables/filter.js";
 import { dateRegex } from "../../utils/date.js";
 // Components
@@ -219,7 +219,10 @@ export default {
         }
       }
 
-      emit("submit", filteredTopics.value);
+      emit("submit", {
+        filters: toRaw(filters),
+        topics: filteredTopics.value
+      });
       isOpen.value = false;
     };
 
@@ -227,7 +230,10 @@ export default {
       hasErrorStartDate.value = false;
       hasErrorEndDate.value = false;
       reset();
-      emit("submit", filteredTopics.value);
+      emit("submit", {
+        filters: toRaw(filters),
+        topics: filteredTopics.value
+      });
     };
 
     return {
