@@ -1,10 +1,10 @@
 <template>
   <BIMDataTable
     class="bcf-topics-table"
-    :columns="columns"
+    :columns="displayedColumns"
     :rows="bcfTopics"
     rowKey="guid"
-    :paginated="true"
+    :paginated="paginated"
     :perPage="perPage"
     :rowHeight="42"
   >
@@ -27,9 +27,14 @@
     <template #cell-title="{ row: bcfTopic }">
       <BIMDataTextbox maxWidth="100%" :text="bcfTopic.title" />
     </template>
-    <!-- <template #cell-creator="{ row: { creationAuthor } }">
-      {{ creationAuthor }}
-    </template> -->
+    <template #cell-creator="{ row: { creator, creationAuthor } }">
+      <template v-if="creator">
+        <UserAvatar :user="creator" :size="30" style="margin: auto" />
+      </template>
+      <template v-else>
+        <BIMDataTextbox maxWidth="120px" :text="creationAuthor" />
+      </template>
+    </template>
     <template #cell-date="{ row: bcfTopic }">
       {{ $d(bcfTopic.creationDate, "short") }}
     </template>
@@ -43,7 +48,7 @@
 </template>
 
 <script>
-import { ref } from "@vue/composition-api";
+import { computed } from "@vue/composition-api";
 import columnsDef from "./columns.js";
 // Components
 import BIMDataTable from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataTable.js";
@@ -51,6 +56,7 @@ import BIMDataTextbox from "@bimdata/design-system/dist/js/BIMDataComponents/BIM
 import BcfTopicActionsCell from "./bcf-topic-actions-cell/BcfTopicActionsCell.vue";
 import BcfTopicPriorityCell from "./bcf-topic-priority-cell/BcfTopicPriorityCell.vue";
 import BcfTopicStatusCell from "./bcf-topic-status-cell/BcfTopicStatusCell.vue";
+import UserAvatar from "../user-avatar/UserAvatar.vue";
 
 export default {
   components: {
@@ -59,6 +65,7 @@ export default {
     BcfTopicStatusCell,
     BIMDataTable,
     BIMDataTextbox,
+    UserAvatar
   },
   props: {
     bcfTopics: {
@@ -69,19 +76,30 @@ export default {
       type: Object,
       required: true
     },
+    paginated: {
+      type: Boolean,
+      default: false
+    },
     perPage: {
       type: Number,
-      default: 14
+      default: 10
     },
+    columns: {
+      type: Array
+    }
   },
   emits: [
     "open-bcf-topic"
   ],
-  setup() {
-    const columns = ref(columnsDef);
+  setup(props) {
+    const displayedColumns = computed(() =>
+      props.columns && props.columns.length > 0
+        ? columnsDef.filter(c => props.columns.includes(c.id))
+        : columnsDef
+    );
 
     return {
-      columns
+      displayedColumns
     };
   }
 };

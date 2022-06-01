@@ -22,11 +22,12 @@ export default [
     label: "Titre",
     align: "left"
   },
-  // {
-  //   id: "creator",
-  //   label: "Créé par",
-  //   width: "24%"
-  // },
+  {
+    id: "creator",
+    label: "Créé par",
+    width: "120px",
+    align: "center"
+  },
   {
     id: "date",
     label: "Date",
