@@ -193,6 +193,13 @@ export default {
     bcfTopic: {
       type: Object,
     },
+    components: {
+      type: Object,
+    },
+    annotations: {
+      type: Array,
+      default: () => []
+    },
     extensions: {
       type: Object,
       reuiqred: true
@@ -302,6 +309,15 @@ export default {
       try {
         loading.value = true;
 
+        if (props.components) {
+          viewpoints.value.forEach(
+            viewpoint => viewpoint.components = props.components
+          );
+          viewpointsToCreate.forEach(
+            viewpoint => viewpoint.components = props.components
+          );
+        }
+
         const data = {
           guid: props.bcfTopic?.guid,
           title: topicTitle.value,
@@ -313,6 +329,7 @@ export default {
           dueDate: topicDate.value ? serialize(topicDate.value) : undefined,
           description: topicDescription.value,
           labels: topicLabels.value,
+          viewpoints: viewpoints.value,
         };
 
         let newTopic;
