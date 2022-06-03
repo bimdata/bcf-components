@@ -97,6 +97,7 @@
       </div>
 
       <BIMDataButton
+        v-if="!viewerMode"
         width="100%" 
         color="primary"
         fill
@@ -290,6 +291,10 @@ export default {
     BIMDataTextbox,
   },
   props: {
+    viewerMode: {
+      type: Boolean,
+      default: false,
+    },
     project: {
       type: Object,
       required: true
