@@ -193,12 +193,11 @@ export default {
     bcfTopic: {
       type: Object,
     },
-    components: {
+    providedComponents: {
       type: Object,
     },
-    annotations: {
+    providedPins: {
       type: Array,
-      default: () => []
     },
     extensions: {
       type: Object,
@@ -309,12 +308,20 @@ export default {
       try {
         loading.value = true;
 
-        if (props.components) {
+        if (props.providedComponents) {
           viewpoints.value.forEach(
-            viewpoint => viewpoint.components = props.components
+            viewpoint => viewpoint.components = props.providedComponents
           );
           viewpointsToCreate.forEach(
-            viewpoint => viewpoint.components = props.components
+            viewpoint => viewpoint.components = props.providedComponents
+          );
+        }
+        if (props.providedPins) {
+          viewpoints.value.forEach(
+            viewpoint => viewpoint.pins = props.providedPins
+          );
+          viewpointsToCreate.forEach(
+            viewpoint => viewpoint.pins = props.providedPins
           );
         }
 

@@ -110,12 +110,12 @@
       <div class="bcf-topic-overview__content__card">
         <div class="title">
           <BIMDataIcon name="model3d" size="xs" />
-          <span v-if="topicElements.length > 0">
-            {{ topicElements.length }}
+          <span v-if="topicComponents.length > 0">
+            {{ topicComponents.length }}
           </span>
           <span>
             {{
-              topicElements.length
+              topicComponents.length
                 ? $t("BcfComponents.BcfTopicOverview.elements")
                 : $t("BcfComponents.BcfTopicOverview.noElements")
             }}
@@ -358,16 +358,9 @@ export default {
       return DEFAULT_STATUS_COLOR;
     });
 
-    const topicElements = computed(() => {
-      if (
-        props.bcfTopic.components &&
-        props.bcfTopic.components.length > 0 &&
-        props.bcfTopic.components[0]?.selection
-      ) {
-        return props.bcfTopic.components[0].selection;
-      } else {
-        return [];
-      }
+    const topicComponents = computed(() => {
+      const components = props.bcfTopic.viewpoints?.[0]?.components;
+      return components?.selection || [];
     });
 
     const topicLabels = computed(() => {
@@ -396,7 +389,7 @@ export default {
       priorityColor,
       showDeleteModal,
       statusColor,
-      topicElements,
+      topicComponents,
       topicLabels,
       viewpointsWithSnapshot,
       // Methods
