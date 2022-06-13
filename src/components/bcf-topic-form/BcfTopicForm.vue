@@ -193,6 +193,10 @@ export default {
     bcfTopic: {
       type: Object,
     },
+    models: {
+      type: Array,
+      default: () => []
+    },
     providedComponents: {
       type: Object,
     },
@@ -327,6 +331,7 @@ export default {
 
         const data = {
           guid: props.bcfTopic?.guid,
+          models: props.bcfTopic?.models || props.models,
           title: topicTitle.value,
           topicType: topicType.value,
           priority: topicPriority.value,

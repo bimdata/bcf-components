@@ -54,7 +54,7 @@ export default {
     "delete-viewpoint"
   ],
   setup(props, { emit }) {
-    const getViewers = inject("getViewers", () => []);
+    const getViewers = inject("getViewers", () => {});
 
     const viewpoints = ref([]);
 
@@ -79,7 +79,7 @@ export default {
     };
 
     const takeSnapshots = async () => {
-      getViewers().forEach(async viewer => {
+      Object.values(getViewers()).forEach(async viewer => {
         if (viewer) {
           addViewpoint(await viewer.getViewpoint());
         }
