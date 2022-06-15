@@ -79,7 +79,7 @@ export default {
     };
 
     const takeSnapshots = async () => {
-      Object.values(getViewers()).forEach(async viewer => {
+      Object.values(getViewers()).flat().forEach(async viewer => {
         if (viewer) {
           addViewpoint(await viewer.getViewpoint());
         }
