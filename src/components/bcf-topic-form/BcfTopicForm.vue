@@ -312,8 +312,14 @@ export default {
       try {
         loading.value = true;
 
+        // Avoid updating snapshots as it is not possible.
+        // (you can only create/delete snapshots)
+        const viewpointToUpdate = viewpoints.value.map(
+          viewpoint => ({ ...viewpoint, snapshot: undefined })
+        );
+
         if (props.providedComponents) {
-          viewpoints.value.forEach(
+          viewpointToUpdate.forEach(
             viewpoint => viewpoint.components = props.providedComponents
           );
           viewpointsToCreate.forEach(
@@ -321,7 +327,7 @@ export default {
           );
         }
         if (props.providedPins) {
-          viewpoints.value.forEach(
+          viewpointToUpdate.forEach(
             viewpoint => viewpoint.pins = props.providedPins
           );
           viewpointsToCreate.forEach(
@@ -341,7 +347,7 @@ export default {
           dueDate: topicDate.value ? serialize(topicDate.value) : undefined,
           description: topicDescription.value,
           labels: topicLabels.value,
-          viewpoints: viewpoints.value,
+          viewpoints: viewpointToUpdate,
         };
 
         let newTopic;
