@@ -8,8 +8,8 @@ function getPriorityColor(topic, detailedExtensions) {
 }
 
 function getStatusColor(topic, detailedExtensions) {
-  const statusDetail = detailedExtensions.topicStatuses.find(
-    s => s.topicStatus === topic.topicStatus
+  const statusDetail = detailedExtensions.topic_statuses.find(
+    s => s.topic_status === topic.topic_status
   );
   return statusDetail?.color || DEFAULT_STATUS_COLOR;
 }

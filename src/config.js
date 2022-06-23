@@ -13,18 +13,18 @@ const EXTENSION_WITH_COLOR = [
 
 const EXTENSION_FIELDS = {
   Priority: "priority",
-  Type: "topicType",
+  Type: "topic_type",
   Stage: "stage",
-  Status: "topicStatus",
+  Status: "topic_status",
   Label: "label",
 };
 
 const EXTENSION_LIST_FIELDS = {
   Priority: "priorities",
-  Type: "topicTypes",
+  Type: "topic_types",
   Stage: "stages",
-  Status: "topicStatuses",
-  Label: "topicLabels",
+  Status: "topic_statuses",
+  Label: "topic_labels",
 };
 
 const DEFAULT_PRIORITY_COLOR = "D8D8D8";

@@ -2,13 +2,13 @@ import { ref, watch } from "vue";
 
 const searchFields = [
   "title",
-  "topicType",
+  "topic_type",
   "priority",
-  "topicStatus",
+  "topic_status",
   "stage",
-  "creationAuthor",
-  "modifiedAuthor",
-  "assignedTo",
+  "creation_author",
+  "modified_author",
+  "assigned_to",
   "description",
 ];
 
@@ -20,10 +20,10 @@ function useBcfSearch(topics) {
     [topics, searchText],
     () => {
       if (searchText.value) {
-        const agnosticFilter = searchText.value.toLowerCase();
+        const lowerCaseSearchText = searchText.value.toLowerCase();
         filteredTopics.value = topics.value.filter(topic =>
           searchFields.some(field =>
-            (topic[field] || "").toLowerCase().includes(agnosticFilter)
+            (topic[field] || "").toLowerCase().includes(lowerCaseSearchText)
           )
         );
       } else {

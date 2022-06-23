@@ -9,8 +9,8 @@
           :key="viewpoint.guid || i"
         >
           <img
-            v-if="viewpoint.snapshot.snapshotData"
-            :src="viewpoint.snapshot.snapshotData"
+            v-if="viewpoint.snapshot.snapshot_data"
+            :src="viewpoint.snapshot.snapshot_data"
           />
           <BIMDataButton
             class="btn-delete"

@@ -6,7 +6,7 @@
       color: adjustTextColor(statusColor, '#ffffff', 'var(--color-text)')
     }"
   >
-    {{ bcfTopic.topicStatus }}
+    {{ bcfTopic.topic_status }}
   </span>
 </template>
 

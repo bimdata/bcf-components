@@ -9,8 +9,8 @@
           :key="viewpoint.guid || i"
         >
           <img
-            v-if="viewpoint.snapshot.snapshotData"
-            :src="viewpoint.snapshot.snapshotData"
+            v-if="viewpoint.snapshot.snapshot_data"
+            :src="viewpoint.snapshot.snapshot_data"
           />
           <BIMDataButton
             class="btn-delete"
@@ -98,8 +98,8 @@ export default {
         reader.addEventListener("load", () => {
           const viewpoint = {
             snapshot: {
-              snapshotType: file.type,
-              snapshotData: reader.result
+              snapshot_type: file.type,
+              snapshot_data: reader.result
             }
           };
           emit("add-viewpoint", viewpoint);
