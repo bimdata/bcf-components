@@ -53,6 +53,7 @@
       "dragDropImageText": "Veuillez sélectionner un fichier",
       "addObjectButton": "Objet",
       "addAnnotationButton": "Annotation",
+      "annotationButtonTooltip": "Ce topic ne possède actuellement aucun point de vue",
       "addPictureButton": "Ajouter une image",
       "titlePlaceholder": "Titre *",
       "titleErrorMessage": "Titre manquant",

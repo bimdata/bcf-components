@@ -17,20 +17,27 @@
           @delete-viewpoint="delViewpoint"
         />
         <div class="bcf-topic-form__content__actions">
-          <BIMDataButton fill radius @click="$emit('add-object', bcfTopic)">
+          <BIMDataButton fill radius @click="$emit('add-components', bcfTopic)">
             <BIMDataIcon name="plus" size="xxxs" margin="0 6px 0 0" />
             {{ $t("BcfComponents.BcfTopicForm.addObjectButton") }}
           </BIMDataButton>
-          <BIMDataButton
-            color="primary"
-            fill
-            radius
-            :disabled="viewpoints.length === 0 && viewpointsToCreate.length === 0"
-            @click="$emit('add-annotation', bcfTopic)"
+          <BIMDataTooltip
+            :disabled="viewpointsToDisplay.length > 0"
+            :text="$t('BcfComponents.BcfTopicForm.annotationButtonTooltip')"
+            color="granite-light"
           >
-            <BIMDataIcon name="plus" size="xxxs" margin="0 6px 0 0" />
-            {{ $t("BcfComponents.BcfTopicForm.addAnnotationButton") }}
-          </BIMDataButton>
+            <BIMDataButton
+              width="100%"
+              color="primary"
+              fill
+              radius
+              :disabled="viewpointsToDisplay.length === 0"
+              @click="$emit('add-pins', bcfTopic)"
+            >
+              <BIMDataIcon name="plus" size="xxxs" margin="0 6px 0 0" />
+              {{ $t("BcfComponents.BcfTopicForm.addAnnotationButton") }}
+            </BIMDataButton>
+          </BIMDataTooltip>
         </div>
       </template>
       <template v-else>
@@ -167,6 +174,7 @@ import BIMDataSafeZoneModal from "@bimdata/design-system/dist/js/BIMDataComponen
 import BIMDataSelect from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataSelect.js";
 import BIMDataTextarea from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataTextarea.js";
 import BIMDataTextbox from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataTextbox.js";
+import BIMDataTooltip from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataTooltip.js";
 import BcfTopicImages from "./bcf-topic-images/BcfTopicImages.vue";
 import BcfTopicSnapshots from "./bcf-topic-snapshots/BcfTopicSnapshots.vue";
 
@@ -182,15 +190,24 @@ export default {
     BIMDataSelect,
     BIMDataTextarea,
     BIMDataTextbox,
+    BIMDataTooltip,
   },
   props: {
     viewerMode: {
+      /**
+       * Set this prop to true when using this component
+       * in the context of BIMData Viewer.
+       */
       type: Boolean,
       default: false,
     },
     project: {
       type: Object,
       required: true
+    },
+    extensions: {
+      type: Object,
+      reuiqred: true
     },
     bcfTopics: {
       type: Array,
@@ -200,23 +217,31 @@ export default {
       type: Object,
     },
     models: {
+      /**
+       * Models list to attach to this topic if it
+       * doesn't already have one (`models` field).
+       */
       type: Array,
       default: () => []
     },
     providedComponents: {
+      /**
+       * Provided components selection that will be set
+       * on each topic viewpoints (`components` field).
+       */
       type: Object,
     },
     providedPins: {
+      /**
+       * Provided pins (annotations) that will be set
+       * on each topic viewpoints (`pins` field).
+       */
       type: Array,
-    },
-    extensions: {
-      type: Object,
-      reuiqred: true
     },
   },
   emits: [
-    "add-object",
-    "add-annotation",
+    "add-components",
+    "add-pins",
     "bcf-topic-created",
     "bcf-topic-updated",
     "close",
@@ -252,6 +277,9 @@ export default {
     const viewpointsToCreate = ref([]);
     const viewpointsToUpdate = ref([]);
     const viewpointsToDelete = ref([]);
+    const viewpointsToDisplay = computed(() =>
+      viewpoints.value.filter(v => v.snapshot).concat(viewpointsToCreate.value)
+    );
 
     const loading = ref(false);
     const isOpenModal = ref(false);
@@ -326,12 +354,24 @@ export default {
         );
 
         if (props.providedComponents) {
-          viewpointsToUpdate.value.forEach(
-            viewpoint => viewpoint.components = props.providedComponents
-          );
-          viewpointsToCreate.value.forEach(
-            viewpoint => viewpoint.components = props.providedComponents
-          );
+          if (
+            viewpointsToUpdate.value.length > 0 ||
+            viewpointsToCreate.value.length > 0
+          ) {
+            viewpointsToUpdate.value.forEach(
+              viewpoint => viewpoint.components = props.providedComponents
+            );
+            viewpointsToCreate.value.forEach(
+              viewpoint => viewpoint.components = props.providedComponents
+            );
+          } else {
+            // If components selection is provided and no viewpoints
+            // are set then create a viewpoint without snapshot to hold
+            // components selection.
+            viewpointsToCreate.value.push({
+              components: props.providedComponents
+            });
+          }
         }
         if (props.providedPins) {
           viewpointsToUpdate.value.forEach(
@@ -403,8 +443,7 @@ export default {
       topicLabels,
       topicTitle,
       topicType,
-      viewpoints,
-      viewpointsToCreate,
+      viewpointsToDisplay,
       // Methods
       addViewpoint,
       delViewpoint,
