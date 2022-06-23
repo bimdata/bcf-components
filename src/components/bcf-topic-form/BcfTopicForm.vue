@@ -21,7 +21,13 @@
             <BIMDataIcon name="plus" size="xxxs" margin="0 6px 0 0" />
             {{ $t("BcfComponents.BcfTopicForm.addObjectButton") }}
           </BIMDataButton>
-          <BIMDataButton color="primary" fill radius @click="$emit('add-annotation', bcfTopic)">
+          <BIMDataButton
+            color="primary"
+            fill
+            radius
+            :disabled="viewpoints.length === 0 && viewpointsToCreate.length === 0"
+            @click="$emit('add-annotation', bcfTopic)"
+          >
             <BIMDataIcon name="plus" size="xxxs" margin="0 6px 0 0" />
             {{ $t("BcfComponents.BcfTopicForm.addAnnotationButton") }}
           </BIMDataButton>
@@ -243,8 +249,9 @@ export default {
     const topicLabels = ref([]);
     const viewpoints = ref([]);
 
-    const viewpointsToCreate = [];
-    const viewpointsToDelete = [];
+    const viewpointsToCreate = ref([]);
+    const viewpointsToUpdate = ref([]);
+    const viewpointsToDelete = ref([]);
 
     const loading = ref(false);
     const isOpenModal = ref(false);
@@ -288,15 +295,15 @@ export default {
     };
 
     const addViewpoint = viewpoint => {
-      viewpointsToCreate.push(viewpoint);
+      viewpointsToCreate.value.push(viewpoint);
     };
 
     const delViewpoint = viewpoint => {
       if (viewpoint.guid) {
-        viewpointsToDelete.push(viewpoint);
+        viewpointsToDelete.value.push(viewpoint);
       } else {
-        let index = viewpointsToCreate.indexOf(viewpoint);
-        viewpointsToCreate.splice(index, 1);
+        let index = viewpointsToCreate.value.indexOf(viewpoint);
+        viewpointsToCreate.value.splice(index, 1);
       }
     };
 
@@ -314,23 +321,23 @@ export default {
 
         // Avoid updating snapshots as it is not possible.
         // (you can only create/delete snapshots)
-        const viewpointToUpdate = viewpoints.value.map(
+        viewpointsToUpdate.value = viewpoints.value.map(
           viewpoint => ({ ...viewpoint, snapshot: undefined })
         );
 
         if (props.providedComponents) {
-          viewpointToUpdate.forEach(
+          viewpointsToUpdate.value.forEach(
             viewpoint => viewpoint.components = props.providedComponents
           );
-          viewpointsToCreate.forEach(
+          viewpointsToCreate.value.forEach(
             viewpoint => viewpoint.components = props.providedComponents
           );
         }
         if (props.providedPins) {
-          viewpointToUpdate.forEach(
+          viewpointsToUpdate.value.forEach(
             viewpoint => viewpoint.pins = props.providedPins
           );
-          viewpointsToCreate.forEach(
+          viewpointsToCreate.value.forEach(
             viewpoint => viewpoint.pins = props.providedPins
           );
         }
@@ -347,7 +354,7 @@ export default {
           dueDate: topicDate.value ? serialize(topicDate.value) : undefined,
           description: topicDescription.value,
           labels: topicLabels.value,
-          viewpoints: viewpointToUpdate,
+          viewpoints: viewpointsToUpdate.value,
         };
 
         let newTopic;
@@ -358,12 +365,12 @@ export default {
         }
 
         await Promise.all(
-          viewpointsToCreate.map(viewpoint =>
+          viewpointsToCreate.value.map(viewpoint =>
             createViewpoint(props.project, newTopic, viewpoint)
           )
         );
         await Promise.all(
-          viewpointsToDelete.map(viewpoint =>
+          viewpointsToDelete.value.map(viewpoint =>
             deleteViewpoint(props.project, newTopic, viewpoint)
           )
         );
@@ -397,6 +404,7 @@ export default {
       topicTitle,
       topicType,
       viewpoints,
+      viewpointsToCreate,
       // Methods
       addViewpoint,
       delViewpoint,
