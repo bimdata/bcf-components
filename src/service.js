@@ -1,6 +1,6 @@
+import { getRandomHexColor } from "@bimdata/design-system/dist/colors.js";
 import { useApiClient } from "./api-client.js";
 import { EXTENSION_FIELDS } from "./config.js";
-import { getRandomHexColor } from "./utils/colors.js";
 
 
 // --- BCF Topics API ---

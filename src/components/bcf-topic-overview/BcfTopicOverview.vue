@@ -50,7 +50,7 @@
           class="bcf-topic-overview__content__head__index"
           :style="{
             backgroundColor: `#${priorityColor}`,
-            color: adjustColor(`#${priorityColor}`, '#ffffff', '#2f374a')
+            color: adjustTextColor(`#${priorityColor}`, '#ffffff', '#2f374a')
           }"
         >
           {{ bcfTopic.index }}
@@ -71,7 +71,7 @@
           class="status-badge"
           :style="{
             backgroundColor: `#${statusColor}`,
-            color: adjustColor(`#${statusColor}`, '#ffffff', '#2f374a')
+            color: adjustTextColor(`#${statusColor}`, '#ffffff', '#2f374a')
           }"
         >
           <BIMDataIcon name="information" fill color="default" />
@@ -265,10 +265,10 @@
 </template>
 
 <script>
+import { adjustTextColor } from "@bimdata/design-system/dist/colors.js";
 import { computed, ref } from "@vue/composition-api";
 import { useService } from "../../service.js";
 import { DEFAULT_PRIORITY_COLOR, DEFAULT_STATUS_COLOR } from "../../config.js";
-import { adjustColor } from "../../utils/colors.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
 import BIMDataCarousel from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataCarousel.js";
@@ -393,7 +393,7 @@ export default {
       topicLabels,
       viewpointsWithSnapshot,
       // Methods
-      adjustColor,
+      adjustTextColor,
       removeTopic,
     };
   }

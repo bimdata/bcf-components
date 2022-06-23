@@ -80,9 +80,9 @@
 </template>
 
 <script>
+import { adjustBorderColor } from "@bimdata/design-system/dist/colors.js";
 import { ref, watch } from "@vue/composition-api";
 import { EXTENSION_FIELDS, EXTENSION_WITH_COLOR } from "../../../config.js";
-import { adjustBorderColor } from "../../../utils/colors.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
 import BIMDataColorSelector from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataColorSelector.js";

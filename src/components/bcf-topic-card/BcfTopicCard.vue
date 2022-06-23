@@ -6,7 +6,7 @@
           class="bcf-topic-card__header__infos__index flex items-center justify-center"
           :style="{
             'background-color': `#${priorityColor}`,
-            color: adjustColor(`#${priorityColor}`, '#ffffff', 'var(--color-text)')
+            color: adjustTextColor(`#${priorityColor}`, '#ffffff', 'var(--color-text)')
           }"
         >
           {{ bcfTopic.index }}
@@ -21,7 +21,7 @@
           class="bcf-topic-card__header__img__status flex p-6"
           :style="{
             'background-color': `#${statusColor}`,
-            color: adjustColor(`#${statusColor}`, '#ffffff', 'var(--color-text)')
+            color: adjustTextColor(`#${statusColor}`, '#ffffff', 'var(--color-text)')
           }"
         >
           <BIMDataIcon name="information" fill color="default" />
@@ -93,9 +93,9 @@
 </template>
 
 <script>
+import { adjustTextColor } from "@bimdata/design-system/dist/colors.js";
 import { computed } from "@vue/composition-api";
 import { DEFAULT_PRIORITY_COLOR, DEFAULT_STATUS_COLOR } from "../../config.js";
-import { adjustColor } from "../../utils/colors.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
 import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataIcon.js";
@@ -172,7 +172,7 @@ export default {
       topicElements,
       viewpointsWithSnapshot,
       // Methods
-      adjustColor
+      adjustTextColor
     };
   }
 };
