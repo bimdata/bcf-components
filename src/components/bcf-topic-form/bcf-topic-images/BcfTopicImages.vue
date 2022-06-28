@@ -72,7 +72,6 @@
 </template>
 
 <script>
-import { ref, watch } from "@vue/composition-api";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
 import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataIcon.js";
@@ -83,26 +82,16 @@ export default {
     BIMDataIcon,
   },
   props: {
-    bcfTopic: {
-      type: Object
+    viewpoints: {
+      type: Array,
+      default: () => []
     },
   },
   emits: [
-    "add-image",
+    "add-viewpoint",
     "delete-viewpoint"
   ],
-  setup(props, { emit }) {
-    const viewpoints = ref([]);
-
-    watch(
-      () => props.bcfTopic,
-      topic => {
-        viewpoints.value =
-          (topic?.viewpoints || []).filter(v => v.snapshot);
-      },
-      { immediate: true }
-    );
-
+  setup(_, { emit }) {
     const addImage = event => {
       [...event.target.files].forEach(file => {
         const reader = new FileReader();
@@ -113,22 +102,17 @@ export default {
               snapshotData: reader.result
             }
           };
-          viewpoints.value.push(viewpoint)
-          emit("add-image", viewpoint);
+          emit("add-viewpoint", viewpoint);
         });
         reader.readAsDataURL(file);
       });
     };
 
     const deleteViewpoint = viewpoint => {
-      let index = viewpoints.value.indexOf(viewpoint);
-      viewpoints.value.splice(index, 1);
       emit("delete-viewpoint", viewpoint);
     };
 
     return {
-      // References
-      viewpoints,
       // Methods
       addImage,
       deleteViewpoint,

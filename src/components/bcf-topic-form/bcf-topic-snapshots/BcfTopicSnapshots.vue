@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { ref, inject, watch } from "@vue/composition-api";
+import { inject } from "@vue/composition-api";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
 import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataIcon.js";
@@ -45,36 +45,23 @@ export default {
     BIMDataIcon,
   },
   props: {
-    bcfTopic: {
-      type: Object
+    viewpoints: {
+      type: Array,
+      default: () => []
     },
   },
   emits: [
     "add-viewpoint",
     "delete-viewpoint"
   ],
-  setup(props, { emit }) {
+  setup(_, { emit }) {
     const getViewers = inject("getViewers", () => {});
 
-    const viewpoints = ref([]);
-
-    watch(
-      () => props.bcfTopic,
-      topic => {
-        viewpoints.value =
-          (topic?.viewpoints || []).filter(v => v.snapshot);
-      },
-      { immediate: true }
-    );
-
     const addViewpoint = viewpoint => {
-      viewpoints.value.push(viewpoint);
       emit("add-viewpoint", viewpoint);
     };
 
     const deleteViewpoint = viewpoint => {
-      let index = viewpoints.value.indexOf(viewpoint);
-      viewpoints.value.splice(index, 1);
       emit("delete-viewpoint", viewpoint);
     };
 
@@ -87,8 +74,6 @@ export default {
     };
 
     return {
-      // References
-      viewpoints,
       // Methods
       deleteViewpoint,
       takeSnapshots,

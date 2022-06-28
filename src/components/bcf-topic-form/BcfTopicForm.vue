@@ -12,7 +12,7 @@
 
       <template v-if="viewerMode">
         <BcfTopicSnapshots
-          :bcfTopic="bcfTopic"
+          :viewpoints="viewpointsToDisplay"
           @add-viewpoint="addViewpoint"
           @delete-viewpoint="delViewpoint"
         />
@@ -42,8 +42,8 @@
       </template>
       <template v-else>
         <BcfTopicImages
-          :bcfTopic="bcfTopic"
-          @add-image="addViewpoint"
+          :viewpoints="viewpointsToDisplay"
+          @add-viewpoint="addViewpoint"
           @delete-viewpoint="delViewpoint"
         />
       </template>
@@ -316,6 +316,9 @@ export default {
       topicDescription.value = "";
       topicLabels.value = [];
       viewpoints.value = [];
+      viewpointsToCreate.value = [];
+      viewpointsToUpdate.value = [];
+      viewpointsToDelete.value = [];
       loading.value = false;
       isOpenModal.value = false;
       hasErrorTitle.value = false;
