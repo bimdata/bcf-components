@@ -95,7 +95,7 @@
 <script>
 import { adjustTextColor } from "@bimdata/design-system/dist/colors.js";
 import { computed } from "@vue/composition-api";
-import { DEFAULT_PRIORITY_COLOR, DEFAULT_STATUS_COLOR } from "../../config.js";
+import { getPriorityColor, getStatusColor } from "../../utils/topic.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
 import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataIcon.js";
@@ -129,29 +129,13 @@ export default {
       );
     });
 
-    const priorityColor = computed(() => {
-      if (props.bcfTopic.priority) {
-        const priorityDetail = props.detailedExtensions.priorities.find(
-          p => p.priority === props.bcfTopic.priority
-        );
-        if (priorityDetail && priorityDetail.color) {
-          return priorityDetail.color;
-        }
-      }
-      return DEFAULT_PRIORITY_COLOR;
-    });
+    const priorityColor = computed(
+      () => getPriorityColor(props.bcfTopic, props.detailedExtensions)
+    );
 
-    const statusColor = computed(() => {
-      if (props.bcfTopic.topicStatus) {
-        const statusDetail = props.detailedExtensions.topicStatuses.find(
-          s => s.topicStatus === props.bcfTopic.topicStatus
-        );
-        if (statusDetail && statusDetail.color) {
-          return statusDetail.color;
-        }
-      }
-      return DEFAULT_STATUS_COLOR;
-    });
+    const statusColor = computed(
+      () => getStatusColor(props.bcfTopic, props.detailedExtensions)
+    );
 
     const topicElements = computed(() => {
       if (

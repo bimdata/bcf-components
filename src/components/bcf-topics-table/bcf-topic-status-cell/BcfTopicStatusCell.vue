@@ -2,7 +2,7 @@
   <span
     class="bcf-topic-status-cell"
     :style="{
-      backgroundColor: statusColor,
+      backgroundColor: `#${statusColor}`,
       color: adjustTextColor(statusColor, '#ffffff', 'var(--color-text)')
     }"
   >
@@ -13,7 +13,7 @@
 <script>
 import { adjustTextColor } from "@bimdata/design-system/dist/colors.js";
 import { computed } from "@vue/composition-api";
-import { DEFAULT_STATUS_COLOR } from "../../../config.js";
+import { getStatusColor } from "../../../utils/topic.js";
 
 export default {
   props: {
@@ -27,17 +27,9 @@ export default {
     }
   },
   setup(props) {
-    const statusColor = computed(() => {
-      if (props.bcfTopic.topicStatus) {
-        const statusDetail = props.detailedExtensions.topicStatuses.find(
-          status => status.topicStatus === props.bcfTopic.topicStatus
-        );
-        if (statusDetail?.color) {
-          return `#${statusDetail.color}`;
-        }
-      }
-      return `#${DEFAULT_STATUS_COLOR}`;
-    });
+    const statusColor = computed(
+      () => getStatusColor(props.bcfTopic, props.detailedExtensions)  
+    );
 
     return {
       // References

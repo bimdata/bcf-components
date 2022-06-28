@@ -1,7 +1,7 @@
 <template>
   <span
     class="bcf-topic-priority-cell"
-    :style="{ color: priorityColor }"
+    :style="{ color: `#${priorityColor}` }"
   >
     {{ bcfTopic.priority || $t("BcfComponents.BcfTopicPriorityCell.noPriority") }}
   </span>
@@ -9,7 +9,7 @@
 
 <script>
 import { computed } from "@vue/composition-api";
-import { DEFAULT_PRIORITY_COLOR } from "../../../config.js";
+import { getPriorityColor } from "../../../utils/topic.js";
 
 export default {
   props: {
@@ -23,17 +23,9 @@ export default {
     }
   },
   setup(props) {
-    const priorityColor = computed(() => {
-      if (props.bcfTopic.priority) {
-        const priorityDetail = props.detailedExtensions.priorities.find(
-          priority => priority.priority === props.bcfTopic.priority
-        );
-        if (priorityDetail?.color) {
-          return `#${priorityDetail.color}`;
-        }
-      }
-      return `#${DEFAULT_PRIORITY_COLOR}`;
-    });
+    const priorityColor = computed(
+      () => getPriorityColor(props.bcfTopic, props.detailedExtensions)
+    );
 
     return {
       // References
