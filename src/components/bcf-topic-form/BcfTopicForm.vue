@@ -278,7 +278,10 @@ export default {
     const viewpointsToUpdate = ref([]);
     const viewpointsToDelete = ref([]);
     const viewpointsToDisplay = computed(() =>
-      viewpoints.value.concat(viewpointsToCreate.value).filter(v => v.snapshot)
+      viewpoints.value
+        .concat(viewpointsToCreate.value)
+        .filter(v => !viewpointsToDelete.value.some(x => x.guid === v.guid))
+        .filter(v => v.snapshot)
     );
 
     const loading = ref(false);
