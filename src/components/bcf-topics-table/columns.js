@@ -31,12 +31,12 @@ export default [
   {
     id: "date",
     label: "Date",
-    width: "120px"
+    width: "100px"
   },
   {
     id: "actions",
     label: " ",
-    width: "72px",
+    width: "60px",
     align: "center"
   }
 ];

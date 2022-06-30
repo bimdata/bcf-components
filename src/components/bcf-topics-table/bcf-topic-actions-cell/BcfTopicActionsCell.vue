@@ -4,9 +4,10 @@
       color="primary"
       outline
       radius
+      icon
       @click="$emit('open-bcf-topic', bcfTopic)"
     >
-      {{ $t("BcfComponents.BcfTopicActionsCell.seeButton") }}
+      <BIMDataIcon name="show" size="xs" />
     </BIMDataButton>
   </div>
 </template>
