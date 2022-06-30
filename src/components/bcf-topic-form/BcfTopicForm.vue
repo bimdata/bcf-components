@@ -19,7 +19,7 @@
         <div class="bcf-topic-form__content__actions">
           <BIMDataButton fill radius @click="$emit('add-components', bcfTopic)">
             <BIMDataIcon name="plus" size="xxxs" margin="0 6px 0 0" />
-            {{ $t("BcfComponents.BcfTopicForm.addObjectButton") }}
+            <span>{{ $t("BcfComponents.BcfTopicForm.addObjectButton") }}</span>
           </BIMDataButton>
           <BIMDataTooltip
             :disabled="viewpointsToDisplay.length > 0"
@@ -35,7 +35,7 @@
               @click="$emit('add-pins', bcfTopic)"
             >
               <BIMDataIcon name="plus" size="xxxs" margin="0 6px 0 0" />
-              {{ $t("BcfComponents.BcfTopicForm.addAnnotationButton") }}
+              <span>{{ $t("BcfComponents.BcfTopicForm.addAnnotationButton") }}</span>
             </BIMDataButton>
           </BIMDataTooltip>
         </div>
