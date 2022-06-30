@@ -56,6 +56,8 @@ import BIMDataTextbox from "@bimdata/design-system/dist/js/BIMDataComponents/BIM
 import BcfTopicActionsCell from "./bcf-topic-actions-cell/BcfTopicActionsCell.vue";
 import BcfTopicPriorityCell from "./bcf-topic-priority-cell/BcfTopicPriorityCell.vue";
 import BcfTopicStatusCell from "./bcf-topic-status-cell/BcfTopicStatusCell.vue";
+
+// TODO: should be imported from DS
 import UserAvatar from "../user-avatar/UserAvatar.vue";
 
 export default {

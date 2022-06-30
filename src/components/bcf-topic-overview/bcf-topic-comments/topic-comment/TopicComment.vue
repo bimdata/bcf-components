@@ -46,7 +46,7 @@
             </BIMDataButton>
           </template>
           <template v-if="isEditing">
-            <BIMDataButton ghost rounded icon @click="isEditing = false">
+            <BIMDataButton ghost rounded icon @click="cancelUpdate">
               <BIMDataIcon name="undo" size="xxs" fill color="granite-light" />
             </BIMDataButton>
             <BIMDataButton ghost rounded icon @click="submitUpdate">
@@ -99,7 +99,7 @@
 </template>
 
 <script>
-import { computed, ref } from "@vue/composition-api";
+import { ref } from "@vue/composition-api";
 import { useService } from "../../../../service.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
@@ -148,14 +148,15 @@ export default {
     const toggleMenu = () => showMenu.value = !showMenu.value;
 
     const text = ref(props.comment.comment);
-    // const author = computed(() =>
-    //   props.users.find(u => u.email === props.comment.author)
-    // );
 
     const isEditing = ref(false);
     const onOpenEdit = () => {
       isEditing.value = true;
       closeMenu();
+    };
+    const cancelUpdate = () => {
+      isEditing.value = false;
+      text.value = props.comment.comment;
     };
     const submitUpdate = async () => {
       if (props.comment.comment !== text.value) {
@@ -197,13 +198,13 @@ export default {
 
     return {
       // References
-      // author,
       text,
       isDeleting,
       isEditing,
       loading,
       showMenu,
       // Methods
+      cancelUpdate,
       closeMenu,
       onOpenDelete,
       onOpenEdit,
