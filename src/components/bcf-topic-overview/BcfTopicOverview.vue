@@ -195,15 +195,15 @@
           </span>
         </div>
         <div class="line">
-          <span class=" label">
+          <span class="label">
             {{ $t("BcfComponents.BcfTopicOverview.priority") }}
           </span>
-          <span class=" value">
+          <span class="value" :style="{ color: `#${priorityColor}` }">
             {{ bcfTopic.priority || $t("BcfComponents.BcfTopicOverview.priorityNotDefined") }}
           </span>
         </div>
         <div class="line">
-          <span class=" label">
+          <span class="label">
             Auteur :
           </span>
           <span class="value">
@@ -268,7 +268,7 @@
 import { adjustTextColor } from "@bimdata/design-system/dist/colors.js";
 import { computed, ref } from "@vue/composition-api";
 import { useService } from "../../service.js";
-import { DEFAULT_PRIORITY_COLOR, DEFAULT_STATUS_COLOR } from "../../config.js";
+import { getPriorityColor, getStatusColor } from "../../utils/topic.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
 import BIMDataCarousel from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataCarousel.js";
@@ -334,29 +334,8 @@ export default {
       );
     });
 
-    const priorityColor = computed(() => {
-      if (props.bcfTopic.priority) {
-        const priorityDetail = props.detailedExtensions.priorities.find(
-          p => p.priority === props.bcfTopic.priority
-        );
-        if (priorityDetail && priorityDetail.color) {
-          return priorityDetail.color;
-        }
-      }
-      return DEFAULT_PRIORITY_COLOR;
-    });
-
-    const statusColor = computed(() => {
-      if (props.bcfTopic.topicStatus) {
-        const statusDetail = props.detailedExtensions.topicStatuses.find(
-          s => s.topicStatus === props.bcfTopic.topicStatus
-        );
-        if (statusDetail && statusDetail.color) {
-          return statusDetail.color;
-        }
-      }
-      return DEFAULT_STATUS_COLOR;
-    });
+    const priorityColor = computed(() => getPriorityColor(props.bcfTopic, props.detailedExtensions))
+    const statusColor = computed(() => getStatusColor(props.bcfTopic, props.detailedExtensions))
 
     const topicComponents = computed(() => {
       const components = props.bcfTopic.viewpoints?.[0]?.components;
