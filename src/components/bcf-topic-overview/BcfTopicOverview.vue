@@ -266,7 +266,7 @@
 
 <script>
 import { adjustTextColor } from "@bimdata/design-system/dist/colors.js";
-import { computed, ref } from "@vue/composition-api";
+import { computed, ref } from "vue";
 import { useService } from "../../service.js";
 import { getPriorityColor, getStatusColor } from "../../utils/topic.js";
 // Components

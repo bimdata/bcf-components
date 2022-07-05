@@ -20,7 +20,6 @@ const config = defineConfig({
     rollupOptions: {
       // Externalize deps that shouldn't be bundled into library
       external: [
-        "@vue/composition-api",
         "vue",
       ],
     },

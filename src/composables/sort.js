@@ -1,4 +1,4 @@
-import { ref } from "@vue/composition-api";
+import { ref } from "vue";
 
 function useListSort(list, mapper = elem => elem) {
   const initialList = ref(list);

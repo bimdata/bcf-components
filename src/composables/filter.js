@@ -1,4 +1,4 @@
-import { computed, reactive } from "@vue/composition-api";
+import { computed, reactive } from "vue";
 import { formatToISO } from "../utils/date.js";
 
 const EMPTY_FILTERS = {

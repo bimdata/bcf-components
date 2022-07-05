@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { inject } from "@vue/composition-api";
+import { inject } from "vue";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
 import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataIcon.js";

@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { computed } from "@vue/composition-api";
+import { computed } from "vue";
 import { getPriorityColor } from "../../../utils/topic.js";
 
 export default {

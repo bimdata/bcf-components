@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { computed } from "@vue/composition-api";
+import { computed } from "vue";
 import { DEFAULT_PRIORITY_COLOR, EXTENSION_FIELDS } from "../../config.js";
 // Components
 import BIMDataPaginatedList from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataPaginatedList.js";

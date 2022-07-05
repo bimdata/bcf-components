@@ -162,7 +162,7 @@
 </template>
 
 <script>
-import { computed, ref, watch } from "@vue/composition-api";
+import { computed, ref, watch } from "vue";
 import { useService } from "../../service.js";
 import { deserialize, serialize, validate } from "../../utils/date.js";
 // Components

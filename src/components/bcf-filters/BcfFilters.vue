@@ -139,7 +139,7 @@
 </template>
 
 <script>
-import { computed, ref, toRaw } from "@vue/composition-api";
+import { computed, ref, toRaw } from "vue";
 import { useBcfFilter } from "../../composables/filter.js";
 import { dateRegex } from "../../utils/date.js";
 // Components

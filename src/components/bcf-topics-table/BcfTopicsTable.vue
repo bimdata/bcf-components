@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { computed } from "@vue/composition-api";
+import { computed } from "vue";
 import columnsDef from "./columns.js";
 // Components
 import BIMDataTable from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataTable.js";

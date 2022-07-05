@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import { ref, watch } from "@vue/composition-api";
+import { ref, watch } from "vue";
 // Compopnents
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
 import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataIcon.js";

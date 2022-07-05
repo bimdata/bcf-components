@@ -11,7 +11,6 @@ const config = defineConfig({
   plugins: [
     replace({
       "@bimdata/design-system/dist/js/BIMDataComponents": "@bimdata/design-system/dist/js/BIMDataComponents/vue3",
-      "@vue/composition-api": "vue",
       delimiters: ["", ""],
       preventAssignment: true,
     }),

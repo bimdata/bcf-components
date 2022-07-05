@@ -12,7 +12,7 @@
 
 <script>
 import { adjustTextColor } from "@bimdata/design-system/dist/colors.js";
-import { computed } from "@vue/composition-api";
+import { computed } from "vue";
 import { getStatusColor } from "../../../utils/topic.js";
 
 export default {

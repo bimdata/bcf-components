@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import { ref, watch } from "@vue/composition-api";
+import { ref, watch } from "vue";
 import { useService } from "../../../service.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";

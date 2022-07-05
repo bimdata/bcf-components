@@ -19,8 +19,7 @@
     "@bimdata/design-system": "1.4.0-rc.20"
   },
   "peerDependencies": {
-    "@vue/composition-api": "^1.4.9",
-    "vue": "^2.6 || ^3.0"
+    "vue": "^2.7 || ^3.0"
   },
   "peerDependenciesMeta": {
     "@vue/composition-api": {
