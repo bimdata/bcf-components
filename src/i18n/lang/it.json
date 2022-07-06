@@ -1,155 +1,158 @@
 {
-  "BcfComponents": {
-    "BcfFilters": {
-      "filtersButton": "Filtri",
-      "filtersTitle": "Filtri",
-      "priorityLabel": "Priorità",
-      "statusLabel": "Stato",
-      "startDatePlaceholder": "Data di inizio",
-      "startDateExample": "(Ad es. 28/04/2022)",
-      "endDatePlaceholder": "Data di fine",
-      "endDateExample": "(Ad es. 28/05/2022)",
-      "assignedToLabel": "Assegnato a",
-      "creatorsLabel": "Creato da",
-      "tagsLabel": "Etichette",
-      "resetButton": "Ripristina",
-      "searchButton": "Cerca",
-      "undefined": "Non definito"
-    },
-    "BcfSettings": {
-      "goBackButton": "Indietro",
-      "title": "Parametri BCF",
-      "validateButton": "Conferma i parametri BCF",
-      "text": "Creare, notificare e elencare i parametri BCF che si desidera avere su questo progetto"
-    },
-    "BcfStatistics": {
-      "emptyText": "Aggiungi delle domande per vedere le statistiche associate qui.",
-      "issues": "problemi",
-      "extension": {
-        "Priority": "Priorità",
-        "PriorityNotDefined": "Nessuna priorità",
-        "PriorityTitle": "Priorità",
-        "Status": "Stato",
-        "StatusNotDefined": "Nessuno stato",
-        "StatusTitle": "Stati"
-      }
-    },
-    "BcfTopicCard": {
-      "priority": "Priorità:",
-      "assignedTo": "Assegnato a:",
-      "noPriority": "Nessuno",
-      "notSpecified": "Non definito",
-      "elements": "Elementi",
-      "noElements": "0 elementi",
-      "see": "Visualizza"
-    },
-    "BcfTopicCreationCard": {
-      "text": "Crea un nuovo topic BCF",
-      "createBcfSideTitle": "Segnala un problema"
-    },
-    "BcfTopicForm": {
-      "dragDropImageText": "Selezionare un file",
-      "addPictureButton": "Aggiungere un'immagine",
-      "titlePlaceholder": "Titolo *",
-      "titleErrorMessage": "Titolo mancante",
-      "typeLabel": "Tipo",
-      "priorityLabel": "Priorità",
-      "statusLabel": "Stato",
-      "stageLabel": "Fase",
-      "assignedToLabel": "Assegnato a",
-      "dueDateLabel": "Data di scadenza (GG/MM/AAAA)",
-      "dateErrorMessage": "Formato della data o data errati",
-      "dateExample": "(Ad es. 28/04/2022)",
-      "descriptionLabel": "Descrizione",
-      "tagsPlaceholder": "Tags",
-      "createButton": "Conferma",
-      "updateButton": "Modificare questo BCF",
-      "modalText": "State per abbandonare la modifica di {name} ma ci sono modifiche non salvate.",
-      "cancelButton": "Annullare le modifiche",
-      "continueButton": "Continuare le modifiche"
-    },
-    "BcfTopicOverview": {
-      "openViewer": "Apri nel visualizzatore",
-      "openViewerNoModels": "Non esistono modelli pronti per la visualizzazione",
-      "elements": "Elementi",
-      "noElements": "0 elementi",
-      "type": "Tipo:",
-      "noTypeSpecified": "Nessun tipo specificato",
-      "description": "Descrizione:",
-      "noDescriptionProvided": "Nessuna descrizione inserita",
-      "assignedTo": "Assegnato a:",
-      "notAssigned": "Non assegnato",
-      "dueDate": "Scadenza:",
-      "noDueDate": "Nessuna data di scadenza",
-      "informations": "Informazioni",
-      "status": "Stato:",
-      "noStatusSpecified": "Nessuno stato specificato",
-      "stage": "Fase:",
-      "noStageProvided": "Nessuna fase inserita",
-      "priority": "Priorità:",
-      "priorityNotDefined": "Non definita",
-      "tags": "Etichette:",
-      "noTags": "Nessuna etichetta",
-      "commentButton": "Pubblica un commento",
-      "deleteText": "Stai per eliminare {name}",
-      "deleteBcfButton": "Elimina questo BCF",
-      "keepBcfButton": "Conserva questo BCF"
-    },
-    "BcfTopicsTable": {
-      "headers": {
-        "index": "#",
-        "priority": "Priorità",
-        "status": "Stato",
-        "title": "Titolo",
-        "creator": "Creato da",
-        "date": "Data",
-        "actions": "Azioni"
-      }
-    },
-
-    "BcfTopicActionsCell": {
-      "seeButton": "Visualizza"
-    },
-    "BcfTopicComments": {
-      "commentButton": "Pubblica un commento",
-      "commentLabel": "Pubblica un commento",
-      "commentText": "Commento",
-      "cancelButton": "Annulla",
-      "publishButton": "Pubblica",
-      "commentsText": "commenti",
-      "deleteCommentText": "Eliminare questo commento?",
-      "deleteButton": "Elimina"
-    },
-    "BcfTopicPriorityCell": {
-      "noPriority": "Nessuno"
-    },
-    "SettingCard": {
-      "addButton": "aggiungi un elemento",
-      "cancelButton": "Annulla",
-      "validateButton": "Conferma",
-      "deleteExtensionText": "Elimina questo parametro",
-      "deleteButton": "Elimina",
-      "title": {
-        "Priority": "Priorità",
-        "Label": "Etichette",
-        "Status": "Stati",
-        "Type": "Tipi",
-        "Stage": "Fasi"
-      },
-      "input": {
-        "Priority": "Aggiungi una nuova priorità",
-        "Label": "Aggiungi una nuova etichetta",
-        "Status": "Aggiungi un nuovo stato",
-        "Type": "Aggiungi un nuovo tipo",
-        "Stage": "Aggiungi una nuova fase"
-      },
-      "text": {
-        "Priority": "Elenco delle priorità",
-        "Label": "Elenco delle etichette",
-        "Status": "Elenco degli stati",
-        "Type": "Elenco dei tipi",
-        "Stage": "Elenco delle fasi"
-      }
+    "BcfComponents": {
+        "BcfFilters": {
+            "filtersButton": "Filtri",
+            "filtersTitle": "Filtri",
+            "priorityLabel": "Priorità",
+            "statusLabel": "Stato",
+            "startDatePlaceholder": "Data di inizio",
+            "startDateError": "",
+            "startDateExample": "(Ad es. 28/04/2022)",
+            "endDatePlaceholder": "Data di fine",
+            "endDateError": "",
+            "endDateExample": "(Ad es. 28/05/2022)",
+            "assignedToLabel": "Assegnato a",
+            "creatorsLabel": "Creato da",
+            "tagsLabel": "Etichette",
+            "resetButton": "Ripristina",
+            "searchButton": "Cerca",
+            "undefined": "Non definito"
+        },
+        "BcfSettings": {
+            "goBackButton": "Indietro",
+            "title": "Parametri BCF",
+            "text": "Creare, notificare e elencare i parametri BCF che si desidera avere su questo progetto",
+            "validateButton": "Conferma i parametri BCF"
+        },
+        "BcfStatistics": {
+            "emptyText": "Aggiungi delle domande per vedere le statistiche associate qui.",
+            "issues": "problemi",
+            "extension": {
+                "Priority": "Priorità",
+                "PriorityNotDefined": "Nessuna priorità",
+                "PriorityTitle": "Priorità",
+                "Status": "Stato",
+                "StatusNotDefined": "Nessuno stato",
+                "StatusTitle": "Stati"
+            }
+        },
+        "BcfTopicCard": {
+            "priority": "Priorità:",
+            "noPriority": "Nessuno",
+            "assignedTo": "Assegnato a:",
+            "elements": "Elementi",
+            "noElements": "0 elementi",
+            "notSpecified": "Non definito",
+            "see": "Visualizza"
+        },
+        "BcfTopicCreationCard": {
+            "text": "Crea un nuovo topic BCF",
+            "createBcfSideTitle": "Segnala un problema"
+        },
+        "BcfTopicForm": {
+            "dragDropImageText": "Selezionare un file",
+            "addObjectButton": "",
+            "addAnnotationButton": "",
+            "annotationButtonTooltip": "",
+            "addPictureButton": "Aggiungere un'immagine",
+            "titlePlaceholder": "Titolo *",
+            "titleErrorMessage": "Titolo mancante",
+            "typeLabel": "Tipo",
+            "priorityLabel": "Priorità",
+            "statusLabel": "Stato",
+            "stageLabel": "Fase",
+            "assignedToLabel": "Assegnato a",
+            "dueDateLabel": "Data di scadenza (GG/MM/AAAA)",
+            "dateErrorMessage": "Formato della data o data errati",
+            "dateExample": "(Ad es. 28/04/2022)",
+            "descriptionLabel": "Descrizione",
+            "labelsLabel": "",
+            "createButton": "Conferma",
+            "updateButton": "Modificare questo BCF",
+            "modalText": "State per abbandonare la modifica di {name} ma ci sono modifiche non salvate.",
+            "cancelButton": "Annullare le modifiche",
+            "continueButton": "Continuare le modifiche"
+        },
+        "BcfTopicOverview": {
+            "openViewer": "Apri nel visualizzatore",
+            "openViewerNoModels": "Non esistono modelli pronti per la visualizzazione",
+            "elements": "{count} Elementi",
+            "noElements": "Nessun elemento",
+            "type": "Tipo:",
+            "noTypeSpecified": "Nessun tipo specificato",
+            "description": "Descrizione:",
+            "noDescriptionProvided": "Nessuna descrizione inserita",
+            "assignedTo": "Assegnato a:",
+            "notAssigned": "Non assegnato",
+            "dueDate": "Scadenza:",
+            "noDueDate": "Nessuna data di scadenza",
+            "informations": "Informazioni",
+            "status": "Stato:",
+            "noStatusSpecified": "Nessuno stato specificato",
+            "stage": "Fase:",
+            "noStageProvided": "Nessuna fase inserita",
+            "priority": "Priorità:",
+            "priorityNotDefined": "Non definita",
+            "tags": "Etichette:",
+            "noTags": "Nessuna etichetta",
+            "commentButton": "Pubblica un commento",
+            "deleteText": "Stai per eliminare {name}",
+            "deleteBcfButton": "Elimina questo BCF",
+            "keepBcfButton": "Conserva questo BCF"
+        },
+        "BcfTopicsTable": {
+            "headers": {
+                "index": "#",
+                "priority": "Priorità",
+                "status": "Stato",
+                "title": "Titolo",
+                "creator": "Autore",
+                "date": "Data"
+            }
+        },
+        "BcfTopicActionsCell": {
+            "seeButton": "Visualizza"
+        },
+        "BcfTopicComments": {
+            "commentButton": "Pubblica un commento",
+            "commentLabel": "Pubblica un commento",
+            "commentText": "Commento",
+            "cancelButton": "Annulla",
+            "publishButton": "Pubblica",
+            "commentsText": "commenti",
+            "deleteCommentText": "Eliminare questo commento?",
+            "deleteButton": "Elimina"
+        },
+        "BcfTopicPriorityCell": {
+            "noPriority": "Nessuno"
+        },
+        "SettingCard": {
+            "addButton": "aggiungi un elemento",
+            "cancelButton": "Annulla",
+            "validateButton": "Conferma",
+            "deleteExtensionText": "Elimina questo parametro",
+            "deleteButton": "Elimina",
+            "title": {
+                "Priority": "Priorità",
+                "Label": "Etichette",
+                "Status": "Stati",
+                "Type": "Tipi",
+                "Stage": "Fasi"
+            },
+            "input": {
+                "Priority": "Aggiungi una nuova priorità",
+                "Label": "Aggiungi una nuova etichetta",
+                "Status": "Aggiungi un nuovo stato",
+                "Type": "Aggiungi un nuovo tipo",
+                "Stage": "Aggiungi una nuova fase"
+            },
+            "text": {
+                "Priority": "Elenco delle priorità",
+                "Label": "Elenco delle etichette",
+                "Status": "Elenco degli stati",
+                "Type": "Elenco dei tipi",
+                "Stage": "Elenco delle fasi"
+            }
+        }
     }
-  }
 }
