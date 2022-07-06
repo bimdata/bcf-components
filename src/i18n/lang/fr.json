@@ -76,8 +76,8 @@
     "BcfTopicOverview": {
       "openViewer": "Ouvrir dans le viewer",
       "openViewerNoModels": "Il n'y a aucun modèle prêt pour une visualisation",
-      "elements": "Élements",
-      "noElements": "0 Élement",
+      "noElements": "Aucun élément concerné",
+      "elements": "{count} Élements",
       "type": "Type :",
       "noTypeSpecified": "Pas de type spécifié",
       "description": "Description :",
@@ -107,8 +107,7 @@
         "status": "Statut",
         "title": "Titre",
         "creator": "Auteur",
-        "date": "Date",
-        "actions": "Actions"
+        "date": "Date"
       }
     },
 

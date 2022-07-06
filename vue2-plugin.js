@@ -43,7 +43,7 @@ const pluginFactory = ({
         console.warn(
           "[BCF Components Plugin] No i18n instance provided. " +
           "You should either provide an i18n instance or define " +
-          "your own translations in order have text displayed properly."
+          "your own translations in order to have text displayed properly."
         );
       }
 

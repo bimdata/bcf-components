@@ -97,7 +97,24 @@
       </div>
 
       <BIMDataButton
-        v-if="!viewerMode"
+        v-if="viewerMode"
+        width="100%" 
+        fill
+        radius
+        :disabled="topicComponents.length === 0"
+        @click="$emit('view-components', bcfTopic)"
+      >
+        <BIMDataIcon name="model3d" size="xs" margin="0 6px 0 0" />
+        <template v-if="topicComponents.length > 0">
+          {{ $t("BcfComponents.BcfTopicOverview.elements", { count: topicComponents.length }) }}
+        </template>
+        <template v-else>
+          {{ $t("BcfComponents.BcfTopicOverview.noElements") }}
+        </template>
+      </BIMDataButton>
+
+      <BIMDataButton
+        v-else
         width="100%" 
         color="primary"
         fill
@@ -108,17 +125,10 @@
       </BIMDataButton>
 
       <div class="bcf-topic-overview__content__card">
-        <div class="title">
+        <div class="title" v-if="!viewerMode">
           <BIMDataIcon name="model3d" size="xs" />
-          <span v-if="topicComponents.length > 0">
-            {{ topicComponents.length }}
-          </span>
           <span>
-            {{
-              topicComponents.length
-                ? $t("BcfComponents.BcfTopicOverview.elements")
-                : $t("BcfComponents.BcfTopicOverview.noElements")
-            }}
+            {{ $t("BcfComponents.BcfTopicOverview.elements", { count: topicComponents.length }) }}
           </span>
         </div>
         <div class="line">
@@ -313,14 +323,15 @@ export default {
     }
   },
   emits: [
+    "back",
+    "bcf-topic-deleted",
+    "close",
+    "comment-created",
+    "comment-deleted",
+    "comment-updated",
     "edit-bcf-topic",
     "view-bcf-topic",
-    "bcf-topic-deleted",
-    "comment-created",
-    "comment-updated",
-    "comment-deleted",
-    "back",
-    "close",
+    "view-components",
   ],
   setup(props, { emit }) {
     const { deleteTopic } = useService();

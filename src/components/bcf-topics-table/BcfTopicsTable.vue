@@ -1,7 +1,13 @@
 <template>
   <BIMDataTable
     class="bcf-topics-table"
-    :columns="displayedColumns"
+    :columns="
+      displayedColumns
+        .map(col => ({
+          ...col,
+          label: col.label || $t(`BcfComponents.BcfTopicsTable.headers.${col.id}`)
+        }))
+    "
     :rows="bcfTopics"
     rowKey="guid"
     :paginated="paginated"
