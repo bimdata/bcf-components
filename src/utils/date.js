@@ -24,7 +24,18 @@ function serialize(date) {
  * @returns {string} a date string, format: DD/MM/YYYY
  */
 function deserialize(date) {
-  return date.toISOString().split('T')[0].split('-').reverse().join('/');
+  return date.toISOString().split("T")[0].split("-").reverse().join("/");
+}
+
+/**
+ * 
+ * @param {Date} date a date object
+ * @returns {string} a date string, format: DD/MM/YY
+ */
+ function deserializeShort(date) {
+  const a = date.toISOString().split('T')[0].split('-').reverse();
+  a[2] = a[2].slice(-2);
+  return a.join("/");
 }
 
 /**
@@ -48,6 +59,7 @@ export {
   dateRegex,
   formatToISO,
   deserialize,
+  deserializeShort,
   serialize,
   validate,
 };

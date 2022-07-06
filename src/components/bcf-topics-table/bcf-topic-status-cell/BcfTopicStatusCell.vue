@@ -41,4 +41,12 @@ export default {
 };
 </script>
 
-<style scoped lang="scss" src="./BcfTopicStatusCell.scss"></style>
+<style scoped lang="scss">
+.bcf-topic-status-cell {
+  height: 42px;
+  padding: 0 calc(var(--spacing-unit) / 2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>

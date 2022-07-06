@@ -25,13 +25,14 @@ export default [
   {
     id: "creator",
     label: "Créé par",
-    width: "120px",
+    width: "60px",
     align: "center"
   },
   {
     id: "date",
     label: "Date",
-    width: "100px"
+    width: "90px",
+    align: "center"
   },
   {
     id: "actions",

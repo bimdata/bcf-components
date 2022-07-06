@@ -9,7 +9,10 @@
     :rowHeight="42"
   >
     <template #cell-index="{ row: bcfTopic }">
-      {{ bcfTopic.index }}
+      <BcfTopicIndexCell
+        :bcfTopic="bcfTopic"
+        :detailedExtensions="detailedExtensions"
+      />
     </template>
     <template #cell-priority="{ row: bcfTopic }">
       <BcfTopicPriorityCell
@@ -27,16 +30,16 @@
     <template #cell-title="{ row: bcfTopic }">
       <BIMDataTextbox maxWidth="100%" :text="bcfTopic.title" />
     </template>
-    <template #cell-creator="{ row: { creator, creationAuthor } }">
-      <template v-if="creator">
-        <UserAvatar :user="creator" :size="30" style="margin: auto" />
-      </template>
-      <template v-else>
-        <BIMDataTextbox maxWidth="120px" :text="creationAuthor" />
-      </template>
+    <template #cell-creator="{ row: { creator } }">
+      <UserAvatar
+        :user="creator || {}"
+        :size="30"
+        color="silver-light"
+        style="margin: auto"
+      />
     </template>
     <template #cell-date="{ row: bcfTopic }">
-      {{ $d(bcfTopic.creationDate, "short") }}
+      {{ deserializeShort(bcfTopic.creationDate) }}
     </template>
     <template #cell-actions="{ row: bcfTopic }">
       <BcfTopicActionsCell
@@ -50,10 +53,12 @@
 <script>
 import { computed } from "vue";
 import columnsDef from "./columns.js";
+import { deserializeShort } from "../../utils/date.js";
 // Components
 import BIMDataTable from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataTable.js";
 import BIMDataTextbox from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataTextbox.js";
 import BcfTopicActionsCell from "./bcf-topic-actions-cell/BcfTopicActionsCell.vue";
+import BcfTopicIndexCell from "./bcf-topic-index-cell/BcfTopicIndexCell.vue";
 import BcfTopicPriorityCell from "./bcf-topic-priority-cell/BcfTopicPriorityCell.vue";
 import BcfTopicStatusCell from "./bcf-topic-status-cell/BcfTopicStatusCell.vue";
 
@@ -63,6 +68,7 @@ import UserAvatar from "../user-avatar/UserAvatar.vue";
 export default {
   components: {
     BcfTopicActionsCell,
+    BcfTopicIndexCell,
     BcfTopicPriorityCell,
     BcfTopicStatusCell,
     BIMDataTable,
@@ -101,7 +107,10 @@ export default {
     );
 
     return {
-      displayedColumns
+      // References
+      displayedColumns,
+      // Methods
+      deserializeShort,
     };
   }
 };

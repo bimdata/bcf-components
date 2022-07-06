@@ -64,7 +64,7 @@
       "tagsPlaceholder": "Tags",
       "createButton": "Bestätigen",
       "updateButton": "Diesen BCF bearbeiten",
-      "modalText": "Sie sind dabei, die Bearbeitung der Ausgabe {Name} zu beenden, aber es gibt noch ungespeicherte Änderungen.",
+      "modalText": "Sie sind dabei, die Bearbeitung der Ausgabe {name} zu beenden, aber es gibt noch ungespeicherte Änderungen.",
       "cancelButton": "Änderungen verwerfen",
       "continueButton": "Änderungen fortsetzen"
     },
@@ -91,7 +91,7 @@
       "tags": "Tags:",
       "noTags": "Keine Tags",
       "commentButton": "Ein Kommentar veröffentlichen",
-      "deleteText": "Sie löschen jetzt {Name}",
+      "deleteText": "Sie löschen jetzt {name}",
       "deleteBcfButton": "Dieses BCF löschen",
       "keepBcfButton": "Dieses BCF beibehalten"
     },

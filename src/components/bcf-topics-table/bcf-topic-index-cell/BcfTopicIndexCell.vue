@@ -1,10 +1,13 @@
 <template>
-  <span
-    class="bcf-topic-priority-cell"
-    :style="{ color: `#${priorityColor}` }"
-  >
-    {{ bcfTopic.priority || $t("BcfComponents.BcfTopicPriorityCell.noPriority") }}
-  </span>
+  <div class="bcf-topic-index-cell">
+    <span
+      class="left-stripe"
+      :style="{ backgroundColor: `#${priorityColor}` }"
+    ></span>
+    <span class="index">
+      {{ bcfTopic.index }}
+    </span>
+  </div>
 </template>
 
 <script>
@@ -15,12 +18,12 @@ export default {
   props: {
     bcfTopic: {
       type: Object,
-      required: true
+      required: true,
     },
     detailedExtensions: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   setup(props) {
     const priorityColor = computed(
@@ -36,12 +39,17 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.bcf-topic-priority-cell {
-  height: 42px;
-  padding: 0 calc(var(--spacing-unit) / 2);
+.bcf-topic-index-cell {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-weight: bold;
+
+  .left-stripe {
+    position: absolute;
+    left: calc(0px - var(--spacing-unit));
+    width: 10px;
+    height: 42px;
+  }
 }
 </style>

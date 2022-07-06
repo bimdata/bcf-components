@@ -32,4 +32,10 @@ export default {
 };
 </script>
 
-<style scoped lang="scss" src="./BcfTopicActionsCell.scss"></style>
+<style scoped lang="scss">
+.bcf-topic-actions-cell {
+  .bimdata-btn {
+    margin: auto;
+  }
+}
+</style>
