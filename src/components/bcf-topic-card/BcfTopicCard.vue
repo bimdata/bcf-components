@@ -17,7 +17,7 @@
       </div>
       <div class="bcf-topic-card__header__img flex items-center justify-center">
         <div
-          v-if="bcfTopic.topicStatus"
+          v-if="bcfTopic.topic_status"
           class="bcf-topic-card__header__img__status flex p-6"
           :style="{
             'background-color': `#${statusColor}`,
@@ -25,16 +25,16 @@
           }"
         >
           <BIMDataIcon name="information" fill color="default" />
-          <span class="m-l-6">{{ bcfTopic.topicStatus }}</span>
+          <span class="m-l-6">{{ bcfTopic.topic_status }}</span>
         </div>
 
         <div class="bcf-topic-card__header__img__date p-6">
-          {{ $d(bcfTopic.creationDate, "short") }}
+          {{ $d(bcfTopic.creation_date, "short") }}
         </div>
 
         <img
           v-if="viewpointsWithSnapshot.length > 0"
-          :src="viewpointsWithSnapshot[0].snapshot.snapshotData"
+          :src="viewpointsWithSnapshot[0].snapshot.snapshot_data"
           alt="ViewPoint"
           loading="lazy"
         />
@@ -55,7 +55,7 @@
           {{ $t("BcfComponents.BcfTopicCard.assignedTo") }}
         </strong>
         <span>
-          {{ bcfTopic.assignedTo || $t("BcfComponents.BcfTopicCard.notSpecified") }}
+          {{ bcfTopic.assigned_to || $t("BcfComponents.BcfTopicCard.notSpecified") }}
         </span>
       </div>
       <div class="flex justify-around m-t-12">

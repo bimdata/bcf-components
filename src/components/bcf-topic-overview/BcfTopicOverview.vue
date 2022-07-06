@@ -56,7 +56,7 @@
           {{ bcfTopic.index }}
         </div>
         <div class="bcf-topic-overview__content__head__date">
-          {{ $d(bcfTopic.creationDate, "short") }}
+          {{ $d(bcfTopic.creation_date, "short") }}
         </div>
       </div>
 
@@ -67,7 +67,7 @@
         }"
       >
         <div
-          v-if="bcfTopic.topicStatus"
+          v-if="bcfTopic.topic_status"
           class="status-badge"
           :style="{
             backgroundColor: `#${statusColor}`,
@@ -75,7 +75,7 @@
           }"
         >
           <BIMDataIcon name="information" fill color="default" />
-          <span>{{ bcfTopic.topicStatus }}</span>
+          <span>{{ bcfTopic.topic_status }}</span>
         </div>
         <template v-if="viewpointsWithSnapshot.length > 0">
           <BIMDataCarousel :sliderPadding="0">
@@ -85,8 +85,8 @@
               :key="viewpoint.guid"
             >
               <img
-                v-if="viewpoint.snapshot.snapshotData"
-                :src="viewpoint.snapshot.snapshotData"
+                v-if="viewpoint.snapshot.snapshot_data"
+                :src="viewpoint.snapshot.snapshot_data"
               />
             </div>
           </BIMDataCarousel>
@@ -137,8 +137,8 @@
           </span>
           <span class="value">
             {{
-              bcfTopic.topicType
-                ? bcfTopic.topicType
+              bcfTopic.topic_type
+                ? bcfTopic.topic_type
                 : $t("BcfComponents.BcfTopicOverview.noTypeSpecified")
             }}
           </span>
@@ -161,8 +161,8 @@
           </span>
           <span class="value">
             {{
-              bcfTopic.assignedTo
-                ? bcfTopic.assignedTo
+              bcfTopic.assigned_to
+                ? bcfTopic.assigned_to
                 : $t("BcfComponents.BcfTopicOverview.notAssigned")
             }}
           </span>
@@ -173,8 +173,8 @@
           </span>
           <span class="value">
             {{
-              bcfTopic.dueDate
-                ? $d(bcfTopic.dueDate, "short")
+              bcfTopic.due_date
+                ? $d(bcfTopic.due_date, "short")
                 : $t("BcfComponents.BcfTopicOverview.noDueDate")
             }}
           </span>
@@ -193,7 +193,7 @@
             {{ $t("BcfComponents.BcfTopicOverview.status") }}
           </span>
           <span class="value">
-            {{ bcfTopic.topicStatus || $t("BcfComponents.BcfTopicOverview.noStatusSpecified") }}
+            {{ bcfTopic.topic_status || $t("BcfComponents.BcfTopicOverview.noStatusSpecified") }}
           </span>
         </div>
         <div class="line">
@@ -217,7 +217,7 @@
             Auteur :
           </span>
           <span class="value">
-            {{ bcfTopic.creationAuthor }}
+            {{ bcfTopic.creation_author }}
           </span>
         </div>
         <div class="line m-t-12">

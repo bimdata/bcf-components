@@ -6,7 +6,7 @@
           {{ isCreation ? nextIndex : bcfTopic.index }}
         </div>
         <div class="bcf-topic-form__content__head__date">
-          {{ $d(isCreation ? new Date() : bcfTopic.creationDate, "short") }}
+          {{ $d(isCreation ? new Date() : bcfTopic.creation_date, "short") }}
         </div>
       </div>
 
@@ -59,7 +59,7 @@
         <BIMDataSelect
           width="100%"
           :label="$t('BcfComponents.BcfTopicForm.typeLabel')"
-          :options="extensions.topicType"
+          :options="extensions.topic_type"
           v-model="topicType"
         />
         <BIMDataSelect
@@ -71,7 +71,7 @@
         <BIMDataSelect
           width="100%"
           :label="$t('BcfComponents.BcfTopicForm.statusLabel')"
-          :options="extensions.topicStatus"
+          :options="extensions.topic_status"
           v-model="topicStatus"
         />
         <BIMDataSelect
@@ -83,7 +83,7 @@
         <BIMDataSelect
           width="100%"
           :label="$t('BcfComponents.BcfTopicForm.assignedToLabel')"
-          :options="extensions.userIdType"
+          :options="extensions.user_id_type"
           v-model="topicAssignedTo"
         />
         <div class="m-b-30">
@@ -109,7 +109,7 @@
           width="100%"
           :multi="true"
           :label="$t('BcfComponents.BcfTopicForm.labelsLabel')"
-          :options="extensions.topicLabel"
+          :options="extensions.topic_label"
           v-model="topicLabels"
         />
       </div>
@@ -294,12 +294,12 @@ export default {
       topic => {
         if (!isCreation.value) {
           topicTitle.value = topic.title || "";
-          topicType.value = topic.topicType || null;
+          topicType.value = topic.topic_type || null;
           topicPriority.value = topic.priority || null;
-          topicStatus.value = topic.topicStatus || null;
+          topicStatus.value = topic.topic_status || null;
           topicStage.value = topic.stage || null;
-          topicAssignedTo.value = topic.assignedTo || null;
-          topicDate.value = topic.dueDate ? deserialize(topic.dueDate) : "";
+          topicAssignedTo.value = topic.assigned_to || null;
+          topicDate.value = topic.due_date ? deserialize(topic.due_date) : "";
           topicDescription.value = topic.description || "";
           topicLabels.value = topic.labels || [];
           viewpoints.value = topic.viewpoints || [];
@@ -346,7 +346,7 @@ export default {
         hasErrorTitle.value = true;
         return;
       }
-      if (!validate(topicDate.value) && topicDate.value !== deserialize(props.bcfTopic.dueDate)) {
+      if (!validate(topicDate.value) && topicDate.value !== deserialize(props.bcfTopic.due_date)) {
         hasErrorDate.value = true;
         return;
       }

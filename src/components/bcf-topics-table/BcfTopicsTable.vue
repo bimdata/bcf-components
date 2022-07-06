@@ -28,7 +28,7 @@
     </template>
     <template #cell-status="{ row: bcfTopic }">
       <BcfTopicStatusCell
-        v-if="bcfTopic.topicStatus"
+        v-if="bcfTopic.topic_status"
         :bcfTopic="bcfTopic"
         :detailedExtensions="detailedExtensions"
       />

@@ -33,7 +33,7 @@ function useBcfSort(topics) {
     useListSort(topics, topic => topic.title);
 
   const { sortToggle: sortToggleDate, sortOrder: sortOrderDate } =
-    useListSort(topics, topic => topic.creationDate);
+    useListSort(topics, topic => topic.creation_date);
 
   const sortedBy = ref("");
 

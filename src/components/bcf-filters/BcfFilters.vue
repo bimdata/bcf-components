@@ -186,15 +186,15 @@ export default {
     );
 
     const statusOptions = computed(
-      () => getSelectOptions(props.bcfTopics.map(topic => topic.topicStatus))
+      () => getSelectOptions(props.bcfTopics.map(topic => topic.topic_status))
     );
 
     const userOptions = computed(
-      () => getSelectOptions(props.bcfTopics.map(topic => topic.assignedTo))
+      () => getSelectOptions(props.bcfTopics.map(topic => topic.assigned_to))
     );
 
     const creatorOptions = computed(
-      () => getSelectOptions(props.bcfTopics.map(topic => topic.creationAuthor))
+      () => getSelectOptions(props.bcfTopics.map(topic => topic.creation_author))
     );
 
     const labelOptions = computed(
