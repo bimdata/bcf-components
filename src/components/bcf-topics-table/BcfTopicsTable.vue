@@ -45,7 +45,7 @@
       />
     </template>
     <template #cell-date="{ row: bcfTopic }">
-      {{ deserializeShort(bcfTopic.creationDate) }}
+      {{ deserializeShort(bcfTopic.creation_date) }}
     </template>
     <template #cell-actions="{ row: bcfTopic }">
       <BcfTopicActionsCell
