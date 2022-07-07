@@ -92,7 +92,7 @@
             :placeholder="$t('BcfComponents.BcfTopicForm.dueDateLabel')"
             :error="hasErrorDate"
             :errorMessage="$t('BcfComponents.BcfTopicForm.dateErrorMessage')"
-            v-model="topicDate"
+            v-model="topicDueDate"
           />
           <div>
             {{ $t("BcfComponents.BcfTopicForm.dateExample") }}
@@ -269,7 +269,7 @@ export default {
     const topicStatus = ref(null);
     const topicStage = ref(null);
     const topicAssignedTo = ref(null);
-    const topicDate = ref("");
+    const topicDueDate = ref("");
     const topicDescription = ref("");
     const topicLabels = ref([]);
     const viewpoints = ref([]);
@@ -299,7 +299,7 @@ export default {
           topicStatus.value = topic.topic_status || null;
           topicStage.value = topic.stage || null;
           topicAssignedTo.value = topic.assigned_to || null;
-          topicDate.value = topic.due_date ? deserialize(topic.due_date) : "";
+          topicDueDate.value = topic.due_date ? deserialize(topic.due_date) : "";
           topicDescription.value = topic.description || "";
           topicLabels.value = topic.labels || [];
           viewpoints.value = topic.viewpoints || [];
@@ -315,7 +315,7 @@ export default {
       topicStatus.value = null;
       topicStage.value = null;
       topicAssignedTo.value = null;
-      topicDate.value = "";
+      topicDueDate.value = "";
       topicDescription.value = "";
       topicLabels.value = [];
       viewpoints.value = [];
@@ -346,7 +346,7 @@ export default {
         hasErrorTitle.value = true;
         return;
       }
-      if (!validate(topicDate.value) && topicDate.value !== deserialize(props.bcfTopic.due_date)) {
+      if (!validate(topicDueDate.value) && topicDueDate.value !== deserialize(props.bcfTopic.due_date)) {
         hasErrorDate.value = true;
         return;
       }
@@ -392,12 +392,12 @@ export default {
           guid: props.bcfTopic?.guid,
           models: props.bcfTopic?.models || props.models,
           title: topicTitle.value,
-          topicType: topicType.value,
+          topic_type: topicType.value,
           priority: topicPriority.value,
-          topicStatus: topicStatus.value,
+          topic_status: topicStatus.value,
           stage: topicStage.value,
-          assignedTo: topicAssignedTo.value,
-          dueDate: topicDate.value ? serialize(topicDate.value) : undefined,
+          assigned_to: topicAssignedTo.value,
+          due_date: topicDueDate.value ? serialize(topicDueDate.value) : undefined,
           description: topicDescription.value,
           labels: topicLabels.value,
           viewpoints: viewpointsToUpdate.value,
@@ -441,8 +441,8 @@ export default {
       loading,
       nextIndex,
       topicAssignedTo,
-      topicDate,
       topicDescription,
+      topicDueDate,
       topicPriority,
       topicStage,
       topicStatus,
