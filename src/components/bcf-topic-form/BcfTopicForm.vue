@@ -17,7 +17,12 @@
           @delete-viewpoint="delViewpoint"
         />
         <div class="bcf-topic-form__content__actions">
-          <BIMDataButton fill radius @click="$emit('add-components', bcfTopic)">
+          <BIMDataButton
+            fill
+            radius
+            :disabled="!objectsEditMode"
+            @click="$emit('add-components', bcfTopic)"
+          >
             <BIMDataIcon name="plus" size="xxxs" margin="0 6px 0 0" />
             <span>{{ $t("BcfComponents.BcfTopicForm.addObjectButton") }}</span>
           </BIMDataButton>
@@ -31,7 +36,7 @@
               color="primary"
               fill
               radius
-              :disabled="viewpointsToDisplay.length === 0"
+              :disabled="!annotationsEditMode || viewpointsToDisplay.length === 0"
               @click="$emit('add-pins', bcfTopic)"
             >
               <BIMDataIcon name="plus" size="xxxs" margin="0 6px 0 0" />
@@ -201,6 +206,20 @@ export default {
       type: Boolean,
       default: false,
     },
+    objectsEditMode: {
+      /**
+       * Whether topic objects edition is enabled or not.
+       */
+      type: Boolean,
+      default: false,
+    },
+    annotationsEditMode: {
+      /**
+       * Whether annotations edition is enabled or not.
+       */
+      type: Boolean,
+      default: false,
+    },
     project: {
       type: Object,
       required: true
@@ -216,7 +235,7 @@ export default {
     bcfTopic: {
       type: Object,
     },
-    models: {
+    bcfTopicModels: {
       /**
        * Models list to attach to this topic if it
        * doesn't already have one (`models` field).
@@ -224,27 +243,27 @@ export default {
       type: Array,
       default: () => []
     },
-    providedComponents: {
+    bcfTopicObjects: {
       /**
-       * Provided components selection that will be set
-       * on each topic viewpoints (`components` field).
+       * Objects selection that will be set on each topic viewpoints
+       * (override `components` field).
        */
       type: Object,
     },
-    providedPins: {
+    bcfTopicAnnotations: {
       /**
-       * Provided pins (annotations) that will be set
-       * on each topic viewpoints (`pins` field).
+       * Annotations that will be set on each topic viewpoints
+       * (override `pins` field).
        */
       type: Array,
     },
   },
   emits: [
-    "add-components",
-    "add-pins",
     "bcf-topic-created",
     "bcf-topic-updated",
     "close",
+    "edit-annotations",
+    "edit-objects",
   ],
   setup(props, { emit }) {
     const {
@@ -258,9 +277,7 @@ export default {
       () => !props.bcfTopic
     );
     const nextIndex = computed(
-      () => props.bcfTopics.length > 0
-        ? Math.max(...props.bcfTopics.map(t => t.index)) + 1
-        : 1
+      () => Math.max(0, ...props.bcfTopics.map(t => t.index)) + 1
     );
 
     const topicTitle = ref("");
@@ -353,38 +370,46 @@ export default {
       try {
         loading.value = true;
 
-        // Avoid updating snapshots as it is not possible.
-        // (you can only create/delete snapshots)
+        // Avoid updating snapshots as it is not possible
+        // (you can only create/delete snapshots).
         viewpointsToUpdate.value = viewpoints.value.map(
           viewpoint => ({ ...viewpoint, snapshot: undefined })
         );
 
-        if (props.providedComponents) {
+        if (viewpointsToUpdate.value.length === 0) {
+          // If topic has no viewpoints yet make sure 3D viewpoints
+          // comes first in the list of viewpoints to create.
+          viewpointsToCreate.value.sort(
+            v => v.originating_system === "3d" ? -1 : 1
+          );
+        }
+
+        if (props.bcfTopicObjects) {
           if (
             viewpointsToUpdate.value.length > 0 ||
             viewpointsToCreate.value.length > 0
           ) {
             viewpointsToUpdate.value.forEach(
-              viewpoint => viewpoint.components = props.providedComponents
+              viewpoint => viewpoint.components = props.bcfTopicObjects
             );
             viewpointsToCreate.value.forEach(
-              viewpoint => viewpoint.components = props.providedComponents
+              viewpoint => viewpoint.components = props.bcfTopicObjects
             );
           } else {
             // If components selection is provided and no viewpoints
             // are set then create a viewpoint without snapshot to hold
             // components selection.
             viewpointsToCreate.value.push({
-              components: props.providedComponents
+              components: props.bcfTopicObjects
             });
           }
         }
-        if (props.providedPins) {
+        if (props.bcfTopicAnnotations) {
           viewpointsToUpdate.value.forEach(
-            viewpoint => viewpoint.pins = props.providedPins
+            viewpoint => viewpoint.pins = props.bcfTopicAnnotations
           );
           viewpointsToCreate.value.forEach(
-            viewpoint => viewpoint.pins = props.providedPins
+            viewpoint => viewpoint.pins = props.bcfTopicAnnotations
           );
         }
 
