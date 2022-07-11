@@ -21,7 +21,7 @@
             fill
             radius
             :disabled="!objectsEditMode"
-            @click="$emit('add-components', bcfTopic)"
+            @click="$emit('edit-objects', bcfTopic)"
           >
             <BIMDataIcon name="plus" size="xxxs" margin="0 6px 0 0" />
             <span>{{ $t("BcfComponents.BcfTopicForm.addObjectButton") }}</span>
@@ -37,7 +37,7 @@
               fill
               radius
               :disabled="!annotationsEditMode || viewpointsToDisplay.length === 0"
-              @click="$emit('add-pins', bcfTopic)"
+              @click="$emit('edit-annotations', bcfTopic)"
             >
               <BIMDataIcon name="plus" size="xxxs" margin="0 6px 0 0" />
               <span>{{ $t("BcfComponents.BcfTopicForm.addAnnotationButton") }}</span>
