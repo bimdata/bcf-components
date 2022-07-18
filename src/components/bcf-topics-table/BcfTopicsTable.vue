@@ -1,6 +1,7 @@
 <template>
   <BIMDataTable
     class="bcf-topics-table"
+    tableLayout="fixed"
     :columns="
       displayedColumns
         .map(col => ({
