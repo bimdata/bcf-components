@@ -42,6 +42,28 @@
       & > * {
         flex-grow: 1;
       }
+
+      .count-objects,
+      .count-annotations {
+        min-width: 16px;
+        height: 16px;
+        margin-left: var(--spacing-unit);
+        padding: 0 4px;
+        border-radius: 8px;
+        font-size: 10px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .count-objects {
+        background-color: var(--color-primary);
+        color: var(--color-white);
+      }
+      .count-annotations {
+        background-color: var(--color-white);
+        color: var(--color-primary);
+      }
     }
 
     &__body {

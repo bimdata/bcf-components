@@ -64,7 +64,6 @@
             "assignedToLabel": "Assigned to",
             "dueDateLabel": "Due date",
             "dateErrorMessage": "Date format or incorrect date",
-            "dateExample": "(Ex: 28/04/2022)",
             "descriptionLabel": "Description",
             "labelsLabel": "Tags",
             "createButton": "Validate",

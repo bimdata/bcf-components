@@ -64,7 +64,6 @@
       "assignedToLabel": "Assigné à",
       "dueDateLabel": "Date d'échéance (JJ/MM/AAAA)",
       "dateErrorMessage": "Format de date ou date incorrecte",
-      "dateExample": "(Ex: 28/04/2022)",
       "descriptionLabel": "Description",
       "labelsLabel": "Tags",
       "createButton": "Valider",

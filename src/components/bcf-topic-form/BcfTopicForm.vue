@@ -24,7 +24,12 @@
             @click="$emit('edit-objects', bcfTopic)"
           >
             <BIMDataIcon name="plus" size="xxxs" margin="0 6px 0 0" />
-            <span>{{ $t("BcfComponents.BcfTopicForm.addObjectButton") }}</span>
+            <span>
+              {{ $t("BcfComponents.BcfTopicForm.addObjectButton") }}
+            </span>
+            <span v-if="bcfTopicObjects" class="count-objects">
+              {{ bcfTopicObjects.selection.length }}
+            </span>
           </BIMDataButton>
           <BIMDataTooltip
             :disabled="viewpointsToDisplay.length > 0"
@@ -40,7 +45,12 @@
               @click="$emit('edit-annotations', bcfTopic)"
             >
               <BIMDataIcon name="plus" size="xxxs" margin="0 6px 0 0" />
-              <span>{{ $t("BcfComponents.BcfTopicForm.addAnnotationButton") }}</span>
+              <span>
+                {{ $t("BcfComponents.BcfTopicForm.addAnnotationButton") }}
+              </span>
+              <span v-if="bcfTopicAnnotations" class="count-annotations">
+                {{ bcfTopicAnnotations.length }}
+              </span>
             </BIMDataButton>
           </BIMDataTooltip>
         </div>
@@ -99,9 +109,6 @@
             :errorMessage="$t('BcfComponents.BcfTopicForm.dateErrorMessage')"
             v-model="topicDueDate"
           />
-          <div>
-            {{ $t("BcfComponents.BcfTopicForm.dateExample") }}
-          </div>
         </div>
         <BIMDataTextarea
           width="100%"
@@ -264,6 +271,8 @@ export default {
     "close",
     "edit-annotations",
     "edit-objects",
+    "topic-create-error",
+    "topic-update-error",
   ],
   setup(props, { emit }) {
     const {
@@ -452,6 +461,8 @@ export default {
         } else {
           emit("bcf-topic-updated", newTopic);
         }
+      } catch (error) {
+        emit(isCreation.value ? "topic-create-error" : "topic-update-error");
       } finally {
         loading.value = false;
       }

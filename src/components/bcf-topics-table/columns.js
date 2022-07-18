@@ -2,7 +2,7 @@ export default [
   {
     id: "index",
     label: "#",
-    width: "54px",
+    width: "60px",
     align: "center"
   },
   {

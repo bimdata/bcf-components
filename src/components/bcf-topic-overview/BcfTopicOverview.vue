@@ -330,6 +330,7 @@ export default {
     "comment-deleted",
     "comment-updated",
     "edit-bcf-topic",
+    "topic-delete-error",
     "view-bcf-topic",
     "view-components",
   ],
@@ -368,6 +369,8 @@ export default {
         await deleteTopic(props.project, props.bcfTopic);
         emit("bcf-topic-deleted", props.bcfTopic);
         emit("close");
+      } catch (error) {
+        emit("topic-delete-error");
       } finally {
         loading.value = false;
       }

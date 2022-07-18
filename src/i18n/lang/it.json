@@ -64,7 +64,6 @@
             "assignedToLabel": "Assegnato a",
             "dueDateLabel": "Data di scadenza (GG/MM/AAAA)",
             "dateErrorMessage": "Formato della data o data errati",
-            "dateExample": "(Ad es. 28/04/2022)",
             "descriptionLabel": "Descrizione",
             "labelsLabel": "",
             "createButton": "Conferma",
