@@ -37,13 +37,15 @@
     <template #cell-title="{ row: bcfTopic }">
       <BIMDataTextbox maxWidth="100%" :text="bcfTopic.title" />
     </template>
-    <template #cell-creator="{ row: { creator } }">
-      <UserAvatar
-        :user="creator || {}"
-        :size="30"
-        color="silver-light"
-        style="margin: auto"
-      />
+    <template #cell-creator="{ row: { creator, creation_author } }">
+      <BIMDataTooltip :text="creation_author">
+        <UserAvatar
+          :user="creator || {}"
+          :size="30"
+          color="silver-light"
+          style="margin: auto"
+        />
+      </BIMDataTooltip>
     </template>
     <template #cell-date="{ row: bcfTopic }">
       {{ deserializeShort(bcfTopic.creation_date) }}
@@ -64,6 +66,7 @@ import { deserializeShort } from "../../utils/date.js";
 // Components
 import BIMDataTable from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataTable.js";
 import BIMDataTextbox from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataTextbox.js";
+import BIMDataTooltip from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataTooltip.js";
 import BcfTopicActionsCell from "./bcf-topic-actions-cell/BcfTopicActionsCell.vue";
 import BcfTopicIndexCell from "./bcf-topic-index-cell/BcfTopicIndexCell.vue";
 import BcfTopicPriorityCell from "./bcf-topic-priority-cell/BcfTopicPriorityCell.vue";
@@ -80,6 +83,7 @@ export default {
     BcfTopicStatusCell,
     BIMDataTable,
     BIMDataTextbox,
+    BIMDataTooltip,
     UserAvatar
   },
   props: {
