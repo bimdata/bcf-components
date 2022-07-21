@@ -1,3 +1,4 @@
+import * as config from "./config.js";
 import { setApiClient } from "./api-client.js";
 
 import { useBcfFilter } from "./composables/filter.js";
@@ -27,6 +28,7 @@ const components = {
 };
 
 export {
+  config,
   setApiClient,
   useBcfFilter,
   useBcfSearch,

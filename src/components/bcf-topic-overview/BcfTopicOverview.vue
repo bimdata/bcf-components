@@ -50,7 +50,7 @@
           class="bcf-topic-overview__content__head__index"
           :style="{
             backgroundColor: `#${priorityColor}`,
-            color: adjustTextColor(`#${priorityColor}`, '#ffffff', '#2f374a')
+            color: adjustTextColor(`#${priorityColor}`, '#FFF', '#2F374A')
           }"
         >
           {{ bcfTopic.index }}
@@ -60,41 +60,10 @@
         </div>
       </div>
 
-      <div
-        class="bcf-topic-overview__content__image"
-        :class="{
-          'flex items-center justify-center': viewpointsWithSnapshot.length === 0
-        }"
-      >
-        <div
-          v-if="bcfTopic.topic_status"
-          class="status-badge"
-          :style="{
-            backgroundColor: `#${statusColor}`,
-            color: adjustTextColor(`#${statusColor}`, '#ffffff', '#2f374a')
-          }"
-        >
-          <BIMDataIcon name="information" fill color="default" />
-          <span>{{ bcfTopic.topic_status }}</span>
-        </div>
-        <template v-if="viewpointsWithSnapshot.length > 0">
-          <BIMDataCarousel :sliderPadding="0">
-            <div
-              class="snapshot-preview"
-              v-for="viewpoint in viewpointsWithSnapshot"
-              :key="viewpoint.guid"
-            >
-              <img
-                v-if="viewpoint.snapshot.snapshot_data"
-                :src="viewpoint.snapshot.snapshot_data"
-              />
-            </div>
-          </BIMDataCarousel>
-        </template>
-        <template v-else>
-          <BcfTopicDefaultImage class="default-image" />
-        </template>
-      </div>
+      <BcfTopicViewpoints
+        :detailedExtensions="detailedExtensions"
+        :bcfTopic="bcfTopic"
+      />
 
       <BIMDataButton
         v-if="viewerMode"
@@ -278,23 +247,23 @@
 import { adjustTextColor } from "@bimdata/design-system/dist/colors.js";
 import { computed, ref } from "vue";
 import { useService } from "../../service.js";
-import { getPriorityColor, getStatusColor } from "../../utils/topic.js";
+import { getPriorityColor } from "../../utils/topic.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
-import BIMDataCarousel from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataCarousel.js";
 import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataIcon.js";
 import BIMDataLoading from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataLoading.js";
 import BIMDataSafeZoneModal from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataSafeZoneModal.js";
 import BIMDataTextbox from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataTextbox.js";
 import BcfTopicComments from "./bcf-topic-comments/BcfTopicComments.vue";
 import BcfTopicDefaultImage from "../bcf-topic-card/BcfTopicDefaultImage.vue";
+import BcfTopicViewpoints from "./bcf-topic-viewpoints/BcfTopicViewpoints.vue";
 
 export default {
   components: {
     BcfTopicComments,
     BcfTopicDefaultImage,
+    BcfTopicViewpoints,
     BIMDataButton,
-    BIMDataCarousel,
     BIMDataIcon,
     BIMDataLoading,
     BIMDataSafeZoneModal,
@@ -309,11 +278,11 @@ export default {
       type: Object,
       required: true
     },
-    bcfTopic: {
+    detailedExtensions: {
       type: Object,
       required: true
     },
-    detailedExtensions: {
+    bcfTopic: {
       type: Object,
       required: true
     },
@@ -340,14 +309,7 @@ export default {
     const loading = ref(false);
     const showDeleteModal = ref(false);
 
-    const viewpointsWithSnapshot = computed(() => {
-      return props.bcfTopic.viewpoints.filter(viewpoint =>
-        Boolean(viewpoint.snapshot)
-      );
-    });
-
-    const priorityColor = computed(() => getPriorityColor(props.bcfTopic, props.detailedExtensions))
-    const statusColor = computed(() => getStatusColor(props.bcfTopic, props.detailedExtensions))
+    const priorityColor = computed(() => getPriorityColor(props.bcfTopic, props.detailedExtensions));
 
     const topicComponents = computed(() => {
       const components = props.bcfTopic.viewpoints?.[0]?.components;
@@ -381,10 +343,8 @@ export default {
       loading,
       priorityColor,
       showDeleteModal,
-      statusColor,
       topicComponents,
       topicLabels,
-      viewpointsWithSnapshot,
       // Methods
       adjustTextColor,
       removeTopic,
