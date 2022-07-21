@@ -16,7 +16,7 @@
     "release": "semantic-release"
   },
   "dependencies": {
-    "@bimdata/design-system": "1.4.0-rc.23"
+    "@bimdata/design-system": "1.4.0-rc.29"
   },
   "peerDependencies": {
     "vue": "^2.7 || ^3.0"
