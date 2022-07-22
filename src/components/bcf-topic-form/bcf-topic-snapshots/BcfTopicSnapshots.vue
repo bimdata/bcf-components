@@ -26,7 +26,7 @@
     </template>
 
     <template v-else>
-      <div class="bcf-topic-snapshots__create" @click="takeSnapshots">
+      <div class="bcf-topic-snapshots__create" @click="createViewpoints">
         <BIMDataIcon name="camera" size="xl" />
       </div>
     </template>
@@ -35,6 +35,7 @@
 
 <script>
 import { inject } from "vue";
+import { VIEWPOINT_CONFIG } from "../../../config.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
 import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataIcon.js";
@@ -57,26 +58,32 @@ export default {
   setup(_, { emit }) {
     const getViewers = inject("getViewers", () => {});
 
-    const addViewpoint = viewpoint => {
-      emit("add-viewpoint", viewpoint);
+    const createViewpoints = async () => {
+      Object.entries(getViewers()).forEach(([id, viewers]) => {
+        const [type, config] =
+          Object.entries(VIEWPOINT_CONFIG).find(([, c]) => c.plugin === id);
+
+        viewers.forEach(async viewer => {
+          const viewpoint = await viewer.getViewpoint();
+
+          const { order, category } = config ?? {};
+          viewpoint.order = order;
+          viewpoint.originating_system = category;
+          viewpoint.authoring_tool_id = type;
+
+          emit("add-viewpoint", viewpoint);
+        });
+      });
     };
 
     const deleteViewpoint = viewpoint => {
       emit("delete-viewpoint", viewpoint);
     };
 
-    const takeSnapshots = async () => {
-      Object.values(getViewers()).flat().forEach(async viewer => {
-        if (viewer) {
-          addViewpoint(await viewer.getViewpoint());
-        }
-      });
-    };
-
     return {
       // Methods
+      createViewpoints,
       deleteViewpoint,
-      takeSnapshots,
     };
   }
 };

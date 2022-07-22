@@ -34,32 +34,40 @@ const DEFAULT_STATUS_COLOR = "D8D8D8";
  * Viewpoint types (`viewpoint.authoring_tool_id`)
  */
 const VIEWPOINT_TYPES = Object.freeze({
+  V3D: "ifc3d",
+  V2D: "ifc2d",
   DWG: "dwg",
   PLAN: "plan",
-  V2D: "ifc2d",
-  V3D: "ifc3d",
 });
 
 const VIEWPOINT_CONFIG = Object.freeze({
+  [VIEWPOINT_TYPES.V3D]: {
+    order: 1,
+    category: "3d",
+    window: "3d",
+    plugin: "viewer3d",
+    icon: "fileIfcPolychrome",
+  },
+  [VIEWPOINT_TYPES.V2D]: {
+    order: 2,
+    category: "2d",
+    window: "2d",
+    plugin: "viewer2d",
+    icon: "fileIfcPolychrome",
+  },
   [VIEWPOINT_TYPES.DWG]: {
+    order: 3,
+    category: "2d",
     window: "dwg",
     plugin: "dwg",
     icon: "fileDwgPolychrome",
   },
   [VIEWPOINT_TYPES.PLAN]: {
+    order: 4,
+    category: "2d",
     window: "plan",
     plugin: "plan",
     icon: "filePlanPolychrome",
-  },
-  [VIEWPOINT_TYPES.V2D]: {
-    window: "2d",
-    plugin: "viewer2d",
-    icon: "fileIfcPolychrome",
-  },
-  [VIEWPOINT_TYPES.V3D]: {
-    window: "3d",
-    plugin: "viewer3d",
-    icon: "fileIfcPolychrome",
   },
 });
 
