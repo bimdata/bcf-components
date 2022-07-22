@@ -388,7 +388,7 @@ export default {
         if (viewpointsToUpdate.value.length === 0) {
           // If topic has no viewpoints yet make sure 3D viewpoints
           // comes first in the list of viewpoints to create.
-          viewpointsToCreate.value.sort((v1, v2) => v1.order - v2.order);
+          viewpointsToCreate.value.sort((v1, v2) => (v1.order ?? Infinity) - (v2.order ?? Infinity));
         }
 
         if (props.bcfTopicObjects) {
