@@ -396,12 +396,29 @@ export default {
             viewpointsToUpdate.value.length > 0 ||
             viewpointsToCreate.value.length > 0
           ) {
-            viewpointsToUpdate.value.forEach(
-              viewpoint => viewpoint.components = props.bcfTopicObjects
-            );
-            viewpointsToCreate.value.forEach(
-              viewpoint => viewpoint.components = props.bcfTopicObjects
-            );
+            [
+              ...viewpointsToUpdate.value,
+              ...viewpointsToCreate.value
+            ].forEach(viewpoint => {
+              Object.assign(viewpoint, props.bcfTopicObjects);
+              if (!viewpoint.components) {
+                viewpoint.components = {};
+              }
+              if (!viewpoint.components.selection) {
+                viewpoint.components.selection = [];
+              }
+              if (!viewpoint.components.visibility) {
+                viewpoint.components.visibility = {
+                  default_visibility: true,
+                  exceptions: [],
+                  view_setup_hints: {
+                    spaces_visible: false,
+                    space_boundaries_visible: false,
+                    openings_visible: false,
+                  },
+                };
+              }
+            });
           } else {
             // If components selection is provided and no viewpoints
             // are set then create a viewpoint without snapshot to hold
@@ -412,10 +429,10 @@ export default {
           }
         }
         if (props.bcfTopicAnnotations) {
-          viewpointsToUpdate.value.forEach(
-            viewpoint => viewpoint.pins = props.bcfTopicAnnotations
-          );
-          viewpointsToCreate.value.forEach(
+          [
+            ...viewpointsToUpdate.value,
+            ...viewpointsToCreate.value
+          ].forEach(
             viewpoint => viewpoint.pins = props.bcfTopicAnnotations
           );
         }
