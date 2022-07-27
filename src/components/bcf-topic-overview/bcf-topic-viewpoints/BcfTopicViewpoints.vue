@@ -43,8 +43,7 @@
 <script>
 import { adjustTextColor } from "@bimdata/design-system/dist/colors.js";
 import { computed } from "vue";
-import { VIEWPOINT_CONFIG } from "../../../config.js";
-import { getStatusColor } from "../../../utils/topic.js";
+import { getStatusColor, getViewpointConfig } from "../../../utils/topic.js";
 // Components
 import BIMDataCarousel from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataCarousel.js";
 import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataIcon.js";
@@ -72,7 +71,7 @@ export default {
         .filter(viewpoint => viewpoint.snapshot)
         .map(viewpoint => ({
           ...viewpoint,
-          icon: VIEWPOINT_CONFIG[viewpoint.authoring_tool_id]?.icon
+          icon: getViewpointConfig(viewpoint)?.icon
         }))
     );
 

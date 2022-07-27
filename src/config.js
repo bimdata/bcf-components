@@ -31,8 +31,12 @@ const DEFAULT_PRIORITY_COLOR = "D8D8D8";
 const DEFAULT_STATUS_COLOR = "D8D8D8";
 
 /**
- * Viewpoint types (`viewpoint.authoring_tool_id`)
+ * Viewpoint config
  */
+
+const VIEWPOINT_TYPE_FIELD = "originating_system";
+const VIEWPOINT_MODELS_FIELD = "authoring_tool_id";
+
 const VIEWPOINT_TYPES = Object.freeze({
   V3D: "ifc3d",
   V2D: "ifc2d",
@@ -43,28 +47,24 @@ const VIEWPOINT_TYPES = Object.freeze({
 const VIEWPOINT_CONFIG = Object.freeze({
   [VIEWPOINT_TYPES.V3D]: {
     order: 1,
-    category: "3d",
     window: "3d",
     plugin: "viewer3d",
     icon: "fileIfcPolychrome",
   },
   [VIEWPOINT_TYPES.V2D]: {
     order: 2,
-    category: "2d",
     window: "2d",
     plugin: "viewer2d",
     icon: "fileIfcPolychrome",
   },
   [VIEWPOINT_TYPES.DWG]: {
     order: 3,
-    category: "2d",
     window: "dwg",
     plugin: "dwg",
     icon: "fileDwgPolychrome",
   },
   [VIEWPOINT_TYPES.PLAN]: {
     order: 4,
-    category: "2d",
     window: "plan",
     plugin: "plan",
     icon: "filePlanPolychrome",
@@ -79,5 +79,7 @@ export {
   EXTENSION_TYPES,
   EXTENSION_WITH_COLOR,
   VIEWPOINT_CONFIG,
+  VIEWPOINT_MODELS_FIELD,
   VIEWPOINT_TYPES,
+  VIEWPOINT_TYPE_FIELD,
 };

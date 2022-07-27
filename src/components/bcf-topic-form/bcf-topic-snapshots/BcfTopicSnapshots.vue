@@ -35,7 +35,7 @@
 
 <script>
 import { inject } from "vue";
-import { VIEWPOINT_CONFIG } from "../../../config.js";
+import { VIEWPOINT_CONFIG, VIEWPOINT_MODELS_FIELD, VIEWPOINT_TYPE_FIELD } from "../../../config.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
 import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataIcon.js";
@@ -66,10 +66,10 @@ export default {
         viewers.forEach(async viewer => {
           const viewpoint = await viewer.getViewpoint();
 
-          const { order, category } = config ?? {};
+          const { order } = config ?? {};
           viewpoint.order = order;
-          viewpoint.originating_system = category;
-          viewpoint.authoring_tool_id = type;
+          viewpoint[VIEWPOINT_TYPE_FIELD] = type;
+          viewpoint[VIEWPOINT_MODELS_FIELD] = viewer.getLoadedModels().map(m => m.id).join(",");
 
           emit("add-viewpoint", viewpoint);
         });
