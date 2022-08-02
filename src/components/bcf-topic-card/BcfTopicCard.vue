@@ -67,12 +67,12 @@
             size="xs"
             margin="0 6px 0 0"
           />
-          <span v-if="topicElements.length > 0" class="m-r-6">
-            {{ topicElements.length }}
+          <span v-if="topicObjects.length > 0" class="m-r-6">
+            {{ topicObjects.length }}
           </span>
           <span>
             {{
-              topicElements.length
+              topicObjects.length > 0
                 ? $t("BcfComponents.BcfTopicCard.elements")
                 : $t("BcfComponents.BcfTopicCard.noElements")
             }}
@@ -137,23 +137,16 @@ export default {
       () => getStatusColor(props.bcfTopic, props.detailedExtensions)
     );
 
-    const topicElements = computed(() => {
-      if (
-        props.bcfTopic.components &&
-        props.bcfTopic.components.length > 0 &&
-        props.bcfTopic.components[0]?.selection
-      ) {
-        return props.bcfTopic.components[0].selection;
-      } else {
-        return [];
-      }
+    const topicObjects = computed(() => {
+      const components = props.bcfTopic.viewpoints?.[0]?.components;
+      return components?.selection || [];
     });
 
     return {
       // References
       priorityColor,
       statusColor,
-      topicElements,
+      topicObjects,
       viewpointsWithSnapshot,
       // Methods
       adjustTextColor

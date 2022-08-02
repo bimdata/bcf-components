@@ -70,12 +70,12 @@
         width="100%" 
         fill
         radius
-        :disabled="topicComponents.length === 0"
+        :disabled="topicObjects.length === 0"
         @click="$emit('view-components', bcfTopic)"
       >
         <BIMDataIcon name="model3d" size="xs" margin="0 6px 0 0" />
-        <template v-if="topicComponents.length > 0">
-          {{ $t("BcfComponents.BcfTopicOverview.elements", { count: topicComponents.length }) }}
+        <template v-if="topicObjects.length > 0">
+          {{ $t("BcfComponents.BcfTopicOverview.elements", { count: topicObjects.length }) }}
         </template>
         <template v-else>
           {{ $t("BcfComponents.BcfTopicOverview.noElements") }}
@@ -97,7 +97,7 @@
         <div class="title" v-if="!viewerMode">
           <BIMDataIcon name="model3d" size="xs" />
           <span>
-            {{ $t("BcfComponents.BcfTopicOverview.elements", { count: topicComponents.length }) }}
+            {{ $t("BcfComponents.BcfTopicOverview.elements", { count: topicObjects.length }) }}
           </span>
         </div>
         <div class="line">
@@ -311,7 +311,7 @@ export default {
 
     const priorityColor = computed(() => getPriorityColor(props.bcfTopic, props.detailedExtensions));
 
-    const topicComponents = computed(() => {
+    const topicObjects = computed(() => {
       const components = props.bcfTopic.viewpoints?.[0]?.components;
       return components?.selection || [];
     });
@@ -343,8 +343,8 @@ export default {
       loading,
       priorityColor,
       showDeleteModal,
-      topicComponents,
       topicLabels,
+      topicObjects,
       // Methods
       adjustTextColor,
       removeTopic,
