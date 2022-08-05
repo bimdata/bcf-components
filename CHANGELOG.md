@@ -1,3 +1,80 @@
+# [2.0.0](https://github.com/bimdata/bcf-components/compare/v1.0.4...v2.0.0) (2022-08-05)
+
+
+### chore
+
+* update README ([f1dc29f](https://github.com/bimdata/bcf-components/commit/f1dc29f71d46978a65804b1217aa471f0ed20647))
+
+### fix
+
+* some style fixes ([afa1aeb](https://github.com/bimdata/bcf-components/commit/afa1aeb9d37156120e258cfe6908af39bb9e40be))
+
+### MAJOR
+
+* refactor: use snake_case fields instead of camelCase (#2) ([75916ff](https://github.com/bimdata/bcf-components/commit/75916ffef87b37af726327ae51ac01b19dd7c6ae)), closes [#2](https://github.com/bimdata/bcf-components/issues/2)
+
+### MINOR
+
+* chore: remove @vue/composition-api as a peer dependency and enforce vue >= 2.7 ([dd9037a](https://github.com/bimdata/bcf-components/commit/dd9037a43615b1d0182083c09a7356392e1d3c5a))
+* feat: add vue2 plugin factory ([0b11aaf](https://github.com/bimdata/bcf-components/commit/0b11aaf9801f294f4327c2a20f75165b2e20907f))
+* feat: expose topic utils in index.js ([e90a21d](https://github.com/bimdata/bcf-components/commit/e90a21d0ee5b5adab2f0e3130172d4276a3ecbdc))
+* feat(form): use config on viewpoint creation ([3605cdf](https://github.com/bimdata/bcf-components/commit/3605cdfc5f198da0849e6463e00e51ce5e948e72))
+* fix: use @vue/composition-api import instead of vuein user-avatar ([03d7db5](https://github.com/bimdata/bcf-components/commit/03d7db5effd78ff1fd7323be5f1d1a792786fe5b))
+* refactor: merge BcfTopicCreate into BcfTopicForm ([557298e](https://github.com/bimdata/bcf-components/commit/557298ec6af1805dbbaa7fef4a03c4d735efb84b))
+* refactor: rewrite filter, search and sort composables + BcfFilters component ([5f8db38](https://github.com/bimdata/bcf-components/commit/5f8db3801a7833d5ab1e0eb71e407fb9af582e2f))
+
+### PATCH
+
+* chore: export components individually ([34a5010](https://github.com/bimdata/bcf-components/commit/34a50103d983f516cb1ec1200a4b3051af0d2819))
+* chore: put desighn-system in dev deps ([f79b8d1](https://github.com/bimdata/bcf-components/commit/f79b8d1a8d0516b2cff785d18d9fac5fb9518f20))
+* chore: regenerate package-lock ([04f1030](https://github.com/bimdata/bcf-components/commit/04f10306e9b33dc81954fcd67b00ae0a9b311eb9))
+* chore(i18n): update filters translations ([a42eb09](https://github.com/bimdata/bcf-components/commit/a42eb0945cde4eed45d68e6d08a3ed6b2d18b570))
+* feat: add viewpoint icons to topic-overview ([a9c52dd](https://github.com/bimdata/bcf-components/commit/a9c52dda5fd66256ddb1ec7aece85c1c98f88bef))
+* feat: improve bcf filters api ([daec4de](https://github.com/bimdata/bcf-components/commit/daec4de6bbbb0e73f7416888aefb1ec295d24332))
+* feat: update bcf-topics-table ([d66a01a](https://github.com/bimdata/bcf-components/commit/d66a01a316b3aa5e791f5b719ac8be440743bfd2))
+* feat: update topic overview and fix topics table translations ([6ae241e](https://github.com/bimdata/bcf-components/commit/6ae241ebb6123748a4984f50da6fa1b5e7a2bde4))
+* feat(form): add models field to topic data ([60bb5c2](https://github.com/bimdata/bcf-components/commit/60bb5c2a505c2fc03cc127f89ca4671a57cfc6a6))
+* feat(form): add viewer snapshots feature ([534c870](https://github.com/bimdata/bcf-components/commit/534c87011fc7ffdbc74c3c176b0472d3b6851161))
+* feat(form): disable annotation button if no viewpoints ([cfaf51a](https://github.com/bimdata/bcf-components/commit/cfaf51ae96faa50f78203c4f6bb723179f87c810))
+* feat(form): handle topic objects on create/update ([fde1fd1](https://github.com/bimdata/bcf-components/commit/fde1fd18d9dbbd6ada74a7ccc56e014718d7cd32))
+* feat(form): standardize getViewpoint methods in BcfTopicSnapshots ([422432c](https://github.com/bimdata/bcf-components/commit/422432cf1dff3d07fb897a63f56bf59feec74323))
+* feat(i18n): add de, es and it translations ([c525c56](https://github.com/bimdata/bcf-components/commit/c525c56d69780f955c04128edaa44b709cf79996))
+* feat(table): make topics table customizable ([343b4cd](https://github.com/bimdata/bcf-components/commit/343b4cd966d485d2e7523ea676ec757ecfc95892))
+* feat(table): show creation author when hovering avatar ([d559098](https://github.com/bimdata/bcf-components/commit/d5590989a6c89f48da95fdcc0b91e4c23d81f8b0))
+* fix bcf-stats styles ([a616baa](https://github.com/bimdata/bcf-components/commit/a616baaed9209c98f9f9d15ed4ca100611c13e63))
+* fix bcf-topic-form and bcf-topic-overview to handle objects properly ([6601fad](https://github.com/bimdata/bcf-components/commit/6601fad3fb65c38421cab85d391f1e35c4e4988e))
+* fix some styles and translations ([6fd9bdc](https://github.com/bimdata/bcf-components/commit/6fd9bdccce8e84ce7240351061851d2b808939d0))
+* fix: add es, de, it translations in i18n/index.js ([71dd20d](https://github.com/bimdata/bcf-components/commit/71dd20d4521a0eea719e24cbec3dd89d19525b06))
+* fix: bcf views (#1) ([3f83f34](https://github.com/bimdata/bcf-components/commit/3f83f34e4a39a938b8ae00becc997dbe93053b18)), closes [#1](https://github.com/bimdata/bcf-components/issues/1)
+* fix: bcf-topics-table date column ([5d8f2c8](https://github.com/bimdata/bcf-components/commit/5d8f2c84c10264fd8ebc76c8b4a069ea0a5a2f06))
+* fix: display number of objects on topic card ([e915666](https://github.com/bimdata/bcf-components/commit/e915666f4a4eca51d56f823a482a33e4c506ad27))
+* fix: remove 'Open in Viewer' button in viewer mode ([7e5f161](https://github.com/bimdata/bcf-components/commit/7e5f161bcce45cf54cf28a8c96df05e6dbc245c5))
+* fix: reset viewpoints after creating topic ([85d7313](https://github.com/bimdata/bcf-components/commit/85d7313c49d5c0e1453b71fdace305af84929151))
+* fix: update DS version to fix carousel ([b13f62f](https://github.com/bimdata/bcf-components/commit/b13f62f77189a97ee3914035e25849edfca943b7))
+* fix: update DS version to fix select z-index ([1f0030c](https://github.com/bimdata/bcf-components/commit/1f0030cc68a8ef4f7186731e7f50dc9f0d97a621))
+* fix(bcf-form): avoid errors due to snapshot update ([33cce0a](https://github.com/bimdata/bcf-components/commit/33cce0a05b45b435f3eb92162e3135a4e0bdfb41))
+* fix(comment): reset comment on cancel ([90e4f3a](https://github.com/bimdata/bcf-components/commit/90e4f3ae0006fe03ae8a3849e19ec58187aae8eb))
+* fix(filters): use 'nullLabel' prop on filter selector ([41aeb26](https://github.com/bimdata/bcf-components/commit/41aeb26d47037f97476faef2e056deaad3fb028b))
+* fix(form): add objects/annotations count + remove date example + increase index cell size ([7b50fd3](https://github.com/bimdata/bcf-components/commit/7b50fd381fb0fc218028cdd778a5ee6abafbe31e))
+* fix(form): annotation tooltip display ([30b1af5](https://github.com/bimdata/bcf-components/commit/30b1af526eae8fb9fae99c0827633867927da784))
+* fix(form): avoid errors due to viewpoints without snapshot ([b48455f](https://github.com/bimdata/bcf-components/commit/b48455f5ea7c9b891d37d9a27748e3f88ee5e626))
+* fix(form): disable annotation button if no viewpoints ([0a3e118](https://github.com/bimdata/bcf-components/commit/0a3e118f0023a0fc635012efa8ecaf3036d5347b))
+* fix(form): edit objects / annotations events ([08e30ba](https://github.com/bimdata/bcf-components/commit/08e30ba7075f0e2f8892546b6d47f8693edc21de))
+* fix(form): fix topic creation/update ([ca7f0a3](https://github.com/bimdata/bcf-components/commit/ca7f0a34f842a450025c4e957b45806fcc182f25))
+* fix(form): make sure image viewpoints are always comes last ([eaf6a46](https://github.com/bimdata/bcf-components/commit/eaf6a4654f1aa8771085d8791ce04021f0ce4839))
+* fix(form): preserve viewpoint objects visibility ([c46ac21](https://github.com/bimdata/bcf-components/commit/c46ac21af54afe4476277336a5b42a557e189b46))
+* fix(form): remove snapshot of viewpoints to delete ([5ca32ad](https://github.com/bimdata/bcf-components/commit/5ca32ad944827316a50269c02c47d701bffc3bb4))
+* fix(overview): colored priority name ([bbfaa5b](https://github.com/bimdata/bcf-components/commit/bbfaa5b18f776967830195fab67015cb993513e3))
+* fix(snapshots): handle multiple viewers of the same type ([fee1286](https://github.com/bimdata/bcf-components/commit/fee1286a989a3bfb7d5de005985a712f29667d05))
+* fix(styles): use (deprecated) ::v-deep selector to make it work with both vue2 and vue3 ([358ad12](https://github.com/bimdata/bcf-components/commit/358ad12331b81211c5ab81e4ded9fdd32a1c21f0))
+* fix(table): handle long titles ([1b58cb2](https://github.com/bimdata/bcf-components/commit/1b58cb2e30909c91598e889aaf629245e5f67ca7))
+* fix(table): use icon button for action cell ([38b7bda](https://github.com/bimdata/bcf-components/commit/38b7bda33b3fe8a238898120158bf4162271c197))
+* fix(utils): use color functions from DS ([31b5194](https://github.com/bimdata/bcf-components/commit/31b51946909cff895b4d6c7e6ffe8e056df2355d))
+* refactor comments, consider users as prefetched ([dc8b3ca](https://github.com/bimdata/bcf-components/commit/dc8b3ca70bc2a2999bc485372e2c942b5bc89c48))
+* refactor: bcf-topic-form props/events rewording + sort viewpoints with 3D first ([ad50dd4](https://github.com/bimdata/bcf-components/commit/ad50dd45385c2e4618355642179904b0d77f142f))
+* refactor: createtopic utils to get priority/status colors ([8dfcac0](https://github.com/bimdata/bcf-components/commit/8dfcac095da227e070e06afee7f2bf5bbaee3e1d))
+* refactor(config): centralize viewpoint type definition + add some utils methods ([a3ba3fa](https://github.com/bimdata/bcf-components/commit/a3ba3fa394078dca4653b8dd160d1411fde698d1))
+
 ## [1.0.4](https://github.com/bimdata/bcf-components/compare/v1.0.3...v1.0.4) (2022-05-05)
 
 
