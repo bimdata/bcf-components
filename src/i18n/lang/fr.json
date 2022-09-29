@@ -50,6 +50,7 @@
             "createBcfSideTitle": "Signaler un problème"
         },
         "BcfTopicForm": {
+            "createTitle": "Signaler un problème",
             "dragDropImageText": "Veuillez sélectionner un fichier",
             "addObjectButton": "Objet",
             "addAnnotationButton": "Annotation",
