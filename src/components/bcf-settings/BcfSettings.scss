@@ -1,12 +1,17 @@
 .bcf-settings {
   height: 100%;
-  padding: var(--spacing-unit);
 
   &__header {
-    height: 60px;
+    padding: 0 calc(var(--spacing-unit) / 2);
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    gap: calc(var(--spacing-unit) / 3);
+
+    &__title {
+      flex-grow: 1;
+      font-size: 1rem;
+      font-weight: bold;
+    }
   }
 
   &__content {

@@ -1,12 +1,13 @@
 .setting-card-item {
   position: relative;
   height: 37px;
+  margin-bottom: calc(var(--spacing-unit) / 2);
+  padding: 0 var(--spacing-unit);
   background-color: var(--color-silver-light);
+
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: calc(var(--spacing-unit) / 2);
-  padding: 0 var(--spacing-unit);
 
   &__actions {
     display: flex;
@@ -26,21 +27,22 @@
   &__color-selector {
     position: absolute;
     z-index: 1;
-    top: 37px;
-    right: -12px;
+    top: 32px;
+    right: calc(var(--spacing-unit) / 2);
   }
 
   &__delete-guard {
     position: absolute;
-    right: 1%;
-    width: 98%;
+    right: 0;
+    width: 100%;
     height: 100%;
     padding: 0 var(--spacing-unit);
-    gap: var(--spacing-unit);
+    box-shadow: var(--box-shadow);
+    background-color: var(--color-white);
+
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: var(--box-shadow);
-    background-color: var(--color-white);
+    gap: var(--spacing-unit);
   }
 }
