@@ -125,7 +125,7 @@ export default {
       type: Object,
       required: true
     },
-    bcfTopic: {
+    topic: {
       type: Object,
       required: true
     },
@@ -164,7 +164,7 @@ export default {
           loading.value = true;
           const newComment = await updateComment(
             props.project,
-            props.bcfTopic,
+            props.topic,
             props.comment,
             { comment: text.value }
           );
@@ -186,7 +186,7 @@ export default {
         loading.value = true;
         await deleteComment(
           props.project,
-          props.bcfTopic,
+          props.topic,
           props.comment
         );
         emit("comment-deleted", props.comment);
@@ -198,11 +198,11 @@ export default {
 
     return {
       // References
-      text,
       isDeleting,
       isEditing,
       loading,
       showMenu,
+      text,
       // Methods
       cancelUpdate,
       closeMenu,

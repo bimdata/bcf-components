@@ -92,6 +92,7 @@
             "noStageProvided": "Pas de phase renseignée",
             "priority": "Priorité :",
             "priorityNotDefined": "Non défini",
+            "author": "Auteur :",
             "tags": "Tags :",
             "noTags": "Pas de tags",
             "commentButton": "Poster un commentaire",

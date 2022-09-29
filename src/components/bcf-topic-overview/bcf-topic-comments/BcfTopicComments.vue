@@ -42,7 +42,7 @@
             fill
             radius
             width="135px"
-            @click="publishComment"
+            @click="submitComment"
           >
             {{ $t("BcfComponents.BcfTopicComments.publishButton") }}
           </BIMDataButton>
@@ -52,14 +52,14 @@
 
     <div class="bcf-topic-comments__list m-t-18">
       <p class="color-granite">
-        {{ (bcfTopic.comments ? bcfTopic.comments.length : 0) + " " + $t("BcfComponents.BcfTopicComments.commentsText") }}
+        {{ (topic.comments ? topic.comments.length : 0) + " " + $t("BcfComponents.BcfTopicComments.commentsText") }}
       </p>
-      <div v-if="bcfTopic.comments && bcfTopic.comments.length">
+      <div v-if="topic.comments && topic.comments.length">
         <TopicComment
-          v-for="comment in bcfTopic.comments"
+          v-for="comment in topic.comments"
           :key="comment.guid"
           :project="project"
-          :bcfTopic="bcfTopic"
+          :topic="topic"
           :comment="comment"
           @comment-updated="$emit('comment-updated', $event)"
           @comment-deleted="$emit('comment-deleted', $event)"
@@ -94,7 +94,7 @@ export default {
       type: Object,
       required: true
     },
-    bcfTopic: {
+    topic: {
       type: Object,
       required: true
     }
@@ -116,12 +116,12 @@ export default {
       setTimeout(() => isOpen.value && input.value.focus(), 50)
     );
 
-    const publishComment = async () => {
+    const submitComment = async () => {
       try {
         loading.value = true;
         const newComment = await createComment(
           props.project,
-          props.bcfTopic,
+          props.topic,
           { comment: text.value }
         );
         emit("comment-created", newComment);
@@ -139,7 +139,7 @@ export default {
       loading,
       text,
       // Methods
-      publishComment
+      submitComment
     };
   }
 };

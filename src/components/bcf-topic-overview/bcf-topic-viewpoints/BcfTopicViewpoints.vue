@@ -4,7 +4,7 @@
     :class="{ empty: viewpoints.length === 0 }"
   >
     <div
-      v-if="bcfTopic.topic_status"
+      v-if="topic.topic_status"
       class="status-badge"
       :style="{
         backgroundColor: `#${statusColor}`,
@@ -12,7 +12,7 @@
       }"
     >
       <BIMDataIcon name="information" fill color="default" />
-      <span>{{ bcfTopic.topic_status }}</span>
+      <span>{{ topic.topic_status }}</span>
     </div>
     <template v-if="viewpoints.length > 0">
       <BIMDataCarousel :sliderPadding="0">
@@ -60,14 +60,14 @@ export default {
       type: Object,
       required: true
     },
-    bcfTopic: {
+    topic: {
       type: Object,
       required: true
     }
   },
   setup(props) {
     const viewpoints = computed(() =>
-      props.bcfTopic.viewpoints
+      props.topic.viewpoints
         .filter(viewpoint => viewpoint.snapshot)
         .map(viewpoint => ({
           ...viewpoint,
@@ -76,7 +76,7 @@ export default {
     );
 
     const statusColor = computed(() =>
-      getStatusColor(props.bcfTopic, props.detailedExtensions)
+      getStatusColor(props.topic, props.detailedExtensions)
     );
 
     return {
