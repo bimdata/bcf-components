@@ -1,9 +1,6 @@
 import {
   DEFAULT_PRIORITY_COLOR,
-  DEFAULT_STATUS_COLOR,
-  VIEWPOINT_CONFIG,
-  VIEWPOINT_MODELS_FIELD,
-  VIEWPOINT_TYPE_FIELD
+  DEFAULT_STATUS_COLOR
 } from "../config.js";
 
 function getPriorityColor(topic, detailedExtensions) {

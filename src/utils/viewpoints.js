@@ -1,3 +1,9 @@
+import {
+  VIEWPOINT_CONFIG,
+  VIEWPOINT_MODELS_FIELD,
+  VIEWPOINT_TYPE_FIELD
+} from "../config.js";
+
 function getViewpointType(viewpoint) {
   return viewpoint[VIEWPOINT_TYPE_FIELD];
 }
