@@ -1,0 +1,159 @@
+{
+    "BcfComponents": {
+        "BcfFilters": {
+            "filtersButton": "Filters",
+            "filtersTitle": "Filters",
+            "priorityLabel": "Prioriteit",
+            "statusLabel": "Status",
+            "startDatePlaceholder": "Begindatum",
+            "startDateError": "Ongeldige datum",
+            "startDateExample": "(Bijv: 28/04/2022)",
+            "endDatePlaceholder": "Einddatum",
+            "endDateError": "Ongeldige datum",
+            "endDateExample": "(Bijv: 28/05/2022)",
+            "assignedToLabel": "Toegewezen aan",
+            "creatorsLabel": "Gemaakt door",
+            "tagsLabel": "Tags",
+            "resetButton": "Reset",
+            "searchButton": "Zoek",
+            "undefined": "Niet gedefinieerd"
+        },
+        "BcfSettings": {
+            "goBackButton": "Terug",
+            "title": "BCF-instellingen",
+            "text": "De voor dit project gewenste BCF-instellingen maken, invoeren en in een lijst plaatsen",
+            "validateButton": "BCF-instellingen valideren"
+        },
+        "BcfStatistics": {
+            "emptyText": "Voeg BCF-onderwerpen toe om hier statistieken te krijgen.",
+            "issues": "problemen",
+            "extension": {
+                "Priority": "Prioriteit",
+                "PriorityNotDefined": "Geen prioriteit",
+                "PriorityTitle": "Prioriteiten",
+                "Status": "Status",
+                "StatusNotDefined": "Geen status",
+                "StatusTitle": "Status"
+            }
+        },
+        "BcfTopicCard": {
+            "priority": "Prioriteit:",
+            "noPriority": "Geen",
+            "assignedTo": "Toegewezen aan:",
+            "elements": "Elementen",
+            "noElements": "0 Element",
+            "notSpecified": "Niet gespecificeerd",
+            "see": "Zien"
+        },
+        "BcfTopicCreationCard": {
+            "text": "Maak een nieuw BCF-onderwerp",
+            "createBcfSideTitle": "Rapporteer een probleem"
+        },
+        "BcfTopicForm": {
+            "dragDropImageText": "Selecteer een bestand",
+            "addObjectButton": "Object",
+            "addAnnotationButton": "Annotatie",
+            "annotationButtonTooltip": "Dit onderwerp heeft geen perspectief",
+            "addPictureButton": "Voeg een foto toe",
+            "titlePlaceholder": "Titel *",
+            "titleErrorMessage": "Titel ontbreekt",
+            "typeLabel": "Type",
+            "priorityLabel": "Prioriteit",
+            "statusLabel": "Status",
+            "stageLabel": "Fase",
+            "assignedToLabel": "Toegewezen aan",
+            "dueDateLabel": "Vervaldatum",
+            "dateErrorMessage": "Datumnotatie of incorrecte datum",
+            "descriptionLabel": "Omschrijving",
+            "labelsLabel": "Tags",
+            "createButton": "Valideren",
+            "updateButton": "Wijzig deze BCF",
+            "modalText": "U staat op het punt te stoppen met het bewerken van probleem {name} maar er zijn onopgeslagen wijzigingen.",
+            "cancelButton": "Wijzigingen negeren",
+            "continueButton": "Doorgaan met bewerken",
+            "createTitle": "Probleem melden"
+        },
+        "BcfTopicOverview": {
+            "openViewer": "Open in viewer",
+            "openViewerNoModels": "Geen model om te openen",
+            "elements": "{count} Elementen",
+            "noElements": "Geen element",
+            "type": "Type",
+            "noTypeSpecified": "Geen type gespecificeerd",
+            "description": "Omschrijving",
+            "noDescriptionProvided": "Geen omschrijving gegeven",
+            "assignedTo": "Toegewezen aan",
+            "notAssigned": "Niet toegewezen",
+            "dueDate": "Vervaldatum",
+            "noDueDate": "Geen vervaldatum",
+            "informations": "Aanklachten",
+            "status": "Status",
+            "noStatusSpecified": "Geen status gespecificeerd",
+            "stage": "Fase",
+            "noStageProvided": "Geen fase gegeven",
+            "priority": "Prioriteit",
+            "priorityNotDefined": "Niet gedefinieerd",
+            "tags": "Tags",
+            "noTags": "Geen tags",
+            "commentButton": "Post een opmerking",
+            "deleteText": "U staat op het punt om {name} te verwijderen",
+            "deleteBcfButton": "Verwijder deze BCF",
+            "keepBcfButton": "Behoud deze BCF",
+            "author": "Auteur"
+        },
+        "BcfTopicsTable": {
+            "headers": {
+                "index": "#",
+                "priority": "Prioriteit",
+                "status": "Status",
+                "title": "Titel",
+                "creator": "Auteur",
+                "date": "Datum"
+            }
+        },
+        "BcfTopicActionsCell": {
+            "seeButton": "Zien"
+        },
+        "BcfTopicComments": {
+            "commentButton": "Post een opmerking",
+            "commentLabel": "Post een opmerking",
+            "commentText": "Opmerking",
+            "cancelButton": "Annuleer",
+            "publishButton": "Publiceer",
+            "commentsText": "Opmerkingen",
+            "deleteCommentText": "Deze opmerking verwijderen?",
+            "deleteButton": "Verwijder"
+        },
+        "BcfTopicPriorityCell": {
+            "noPriority": "Geen"
+        },
+        "SettingCard": {
+            "addButton": "voeg een element toe",
+            "cancelButton": "Annuleer",
+            "validateButton": "Valideer",
+            "deleteExtensionText": "Verwijder deze instelling",
+            "deleteButton": "Verwijder",
+            "title": {
+                "Priority": "Prioriteiten",
+                "Label": "Labels",
+                "Status": "Status",
+                "Type": "Typen",
+                "Stage": "Fasen"
+            },
+            "input": {
+                "Priority": "Voeg een nieuwe prioriteit toe",
+                "Label": "Voeg een nieuw label toe",
+                "Status": "Voeg een nieuwe status toe",
+                "Type": "Voeg een nieuw type toe",
+                "Stage": "Voeg een nieuwe fase toe"
+            },
+            "text": {
+                "Priority": "Prioriteitslijst",
+                "Label": "Labellijst",
+                "Status": "Statuslijst",
+                "Type": "Typelijst",
+                "Stage": "Faselijst"
+            }
+        }
+    }
+}
