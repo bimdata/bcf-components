@@ -3,13 +3,10 @@
     <div class="bcf-topic-overview__header">
       <BIMDataButton
         v-if="uiConfig.backButton"
-        color="granite"
-        ghost
-        rounded
-        icon
+        ghost rounded icon
         @click="$emit('back')"
       >
-        <BIMDataIcon name="arrow" size="xxs" />
+        <BIMDataIcon name="arrow" size="xxs"  fill color="granite-light" />
       </BIMDataButton>
       <div class="bcf-topic-overview__header__title">
         <BIMDataTextbox maxWidth="250px" :text="topic.title" />
@@ -17,31 +14,24 @@
       <div class="bcf-topic-overview__header__actions">
         <BIMDataButton
           v-if="uiConfig.editButton"
-          ghost
-          rounded
-          icon
+          ghost rounded icon
           @click="$emit('edit-topic', topic)"
         >
           <BIMDataIcon name="edit" size="xxs" />
         </BIMDataButton>
         <BIMDataButton
           v-if="uiConfig.deleteButton"
-          ghost
-          rounded
-          icon
+          ghost rounded icon
           @click="showDeleteModal = true"
         >
           <BIMDataIcon name="delete" size="xxs" />
         </BIMDataButton>
         <BIMDataButton
           v-if="uiConfig.closeButton"
-          color="granite"
-          ghost
-          rounded
-          icon
+          ghost rounded icon
           @click="$emit('close')"
         >
-          <BIMDataIcon name="close" size="xxs" />
+          <BIMDataIcon name="close" size="xxs" fill color="granite-light" />
         </BIMDataButton>
       </div>
     </div>
@@ -65,6 +55,7 @@
       <BcfTopicViewpoints
         :detailedExtensions="detailedExtensions"
         :topic="topic"
+        @view-topic-viewpoint="$emit('view-topic-viewpoint', $event)"
       />
 
       <BIMDataButton
@@ -306,6 +297,7 @@ export default {
     "topic-delete-error",
     "view-topic",
     "view-topic-components",
+    "view-topic-viewpoint"
   ],
   setup(props, { emit }) {
     const { deleteTopic } = useService();

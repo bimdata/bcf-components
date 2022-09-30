@@ -24,6 +24,7 @@
           <img
             v-if="viewpoint.snapshot.snapshot_data"
             :src="viewpoint.snapshot.snapshot_data"
+            @click="$emit('view-topic-viewpoint', viewpoint)"
           />
           <BIMDataIcon
             v-if="viewpoint.icon"
@@ -43,7 +44,8 @@
 <script>
 import { adjustTextColor } from "@bimdata/design-system/dist/colors.js";
 import { computed } from "vue";
-import { getStatusColor, getViewpointConfig } from "../../../utils/topic.js";
+import { getStatusColor } from "../../../utils/topic.js";
+import { getViewpointConfig } from "../../../utils/viewpoints.js"
 // Components
 import BIMDataCarousel from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataCarousel.js";
 import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataIcon.js";
@@ -65,6 +67,9 @@ export default {
       required: true
     }
   },
+  emits: [
+    "view-topic-viewpoint"
+  ],
   setup(props) {
     const viewpoints = computed(() =>
       props.topic.viewpoints

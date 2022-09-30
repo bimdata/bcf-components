@@ -6,7 +6,7 @@
       color: adjustTextColor(statusColor, '#ffffff', 'var(--color-text)')
     }"
   >
-    {{ bcfTopic.topic_status }}
+    {{ topic.topic_status }}
   </span>
 </template>
 
@@ -17,18 +17,18 @@ import { getStatusColor } from "../../../utils/topic.js";
 
 export default {
   props: {
-    bcfTopic: {
-      type: Object,
-      required: true
-    },
     detailedExtensions: {
       type: Object,
       required: true
-    }
+    },
+    topic: {
+      type: Object,
+      required: true
+    },
   },
   setup(props) {
     const statusColor = computed(
-      () => getStatusColor(props.bcfTopic, props.detailedExtensions)  
+      () => getStatusColor(props.topic, props.detailedExtensions)  
     );
 
     return {

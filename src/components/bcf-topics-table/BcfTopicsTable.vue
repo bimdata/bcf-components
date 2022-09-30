@@ -9,33 +9,33 @@
           label: col.label || $t(`BcfComponents.BcfTopicsTable.headers.${col.id}`)
         }))
     "
-    :rows="bcfTopics"
+    :rows="topics"
     rowKey="guid"
     :paginated="paginated"
     :perPage="perPage"
     :rowHeight="42"
   >
-    <template #cell-index="{ row: bcfTopic }">
+    <template #cell-index="{ row: topic }">
       <BcfTopicIndexCell
-        :bcfTopic="bcfTopic"
         :detailedExtensions="detailedExtensions"
+        :topic="topic"
       />
     </template>
-    <template #cell-priority="{ row: bcfTopic }">
+    <template #cell-priority="{ row: topic }">
       <BcfTopicPriorityCell
-        :bcfTopic="bcfTopic"
         :detailedExtensions="detailedExtensions"
+        :topic="topic"
       />
     </template>
-    <template #cell-status="{ row: bcfTopic }">
+    <template #cell-status="{ row: topic }">
       <BcfTopicStatusCell
-        v-if="bcfTopic.topic_status"
-        :bcfTopic="bcfTopic"
+        v-if="topic.topic_status"
         :detailedExtensions="detailedExtensions"
+        :topic="topic"
       />
     </template>
-    <template #cell-title="{ row: bcfTopic }">
-      <BIMDataTextbox maxWidth="100%" :text="bcfTopic.title" />
+    <template #cell-title="{ row: topic }">
+      <BIMDataTextbox maxWidth="100%" :text="topic.title" />
     </template>
     <template #cell-creator="{ row: { creator, creation_author } }">
       <BIMDataTooltip :text="creation_author">
@@ -47,13 +47,13 @@
         />
       </BIMDataTooltip>
     </template>
-    <template #cell-date="{ row: bcfTopic }">
-      {{ deserializeShort(bcfTopic.creation_date) }}
+    <template #cell-date="{ row: topic }">
+      {{ deserializeShort(topic.creation_date) }}
     </template>
-    <template #cell-actions="{ row: bcfTopic }">
+    <template #cell-actions="{ row: topic }">
       <BcfTopicActionsCell
-        :bcfTopic="bcfTopic"
-        @open-bcf-topic="$emit('open-bcf-topic', $event)"
+        :topic="topic"
+        @open-topic="$emit('open-topic', $event)"
       />
     </template>
   </BIMDataTable>
@@ -87,12 +87,12 @@ export default {
     UserAvatar
   },
   props: {
-    bcfTopics: {
-      type: Array,
-      required: true
-    },
     detailedExtensions: {
       type: Object,
+      required: true
+    },
+    topics: {
+      type: Array,
       required: true
     },
     paginated: {
@@ -108,7 +108,7 @@ export default {
     }
   },
   emits: [
-    "open-bcf-topic"
+    "open-topic"
   ],
   setup(props) {
     const displayedColumns = computed(() =>

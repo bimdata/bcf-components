@@ -5,7 +5,7 @@
       :style="{ backgroundColor: `#${priorityColor}` }"
     ></span>
     <span class="index">
-      {{ bcfTopic.index }}
+      {{ topic.index }}
     </span>
   </div>
 </template>
@@ -16,18 +16,18 @@ import { getPriorityColor } from "../../../utils/topic.js";
 
 export default {
   props: {
-    bcfTopic: {
+    detailedExtensions: {
       type: Object,
       required: true,
     },
-    detailedExtensions: {
+    topic: {
       type: Object,
       required: true,
     },
   },
   setup(props) {
     const priorityColor = computed(
-      () => getPriorityColor(props.bcfTopic, props.detailedExtensions)
+      () => getPriorityColor(props.topic, props.detailedExtensions)
     );
 
     return {

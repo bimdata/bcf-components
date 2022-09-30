@@ -3,13 +3,10 @@
     <div class="bcf-topic-form__header">
       <BIMDataButton
         v-if="uiConfig.backButton"
-        color="granite"
-        ghost
-        rounded
-        icon
+        ghost rounded icon
         @click="$emit('back')"
       >
-        <BIMDataIcon name="arrow" size="xxs" />
+        <BIMDataIcon name="arrow" size="xxs"  fill color="granite-light" />
       </BIMDataButton>
       <div class="bcf-topic-form__header__title">
         <template v-if="isCreation">
@@ -21,13 +18,10 @@
       </div>
       <BIMDataButton
         v-if="uiConfig.closeButton"
-        color="granite"
-        ghost
-        rounded
-        icon
+        ghost rounded icon
         @click="$emit('close')"
       >
-        <BIMDataIcon name="close" size="xxs" />
+        <BIMDataIcon name="close" size="xxs"  fill color="granite-light" />
       </BIMDataButton>
     </div>
 
@@ -51,7 +45,7 @@
           <BIMDataButton
             fill
             radius
-            :disabled="!objectsEditMode"
+            :disabled="!objectsEditEnabled"
             @click="$emit('edit-topic-objects', topic)"
           >
             <BIMDataIcon name="plus" size="xxxs" margin="0 6px 0 0" />
@@ -72,7 +66,7 @@
               color="primary"
               fill
               radius
-              :disabled="!annotationsEditMode || viewpointsToDisplay.length === 0"
+              :disabled="!annotationsEditEnabled || viewpointsToDisplay.length === 0"
               @click="$emit('edit-topic-annotations', topic)"
             >
               <BIMDataIcon name="plus" size="xxxs" margin="0 6px 0 0" />
@@ -207,7 +201,7 @@
 <script>
 import { computed, ref, watch } from "vue";
 import { useService } from "../../service.js";
-import { deserialize, serialize, validate } from "../../utils/date.js";
+import { deserialize, serialize, validateDueDate } from "../../utils/date.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
 import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataIcon.js";
@@ -239,27 +233,19 @@ export default {
     uiConfig: {
       type: Object,
       default: () => ({
-        viewerMode: false,
+        viewerMode: false, // set this to true when used in BIMData Viewer
         backButton: false,
         closeButton: false,
       })
     },
-    viewerMode: {
-      /**
-       * Set this prop to true when using this component
-       * in the context of BIMData Viewer.
-       */
-      type: Boolean,
-      default: false,
-    },
-    objectsEditMode: {
+    objectsEditEnabled: {
       /**
        * Whether topic objects edition is enabled or not.
        */
       type: Boolean,
       default: false,
     },
-    annotationsEditMode: {
+    annotationsEditEnabled: {
       /**
        * Whether annotations edition is enabled or not.
        */
@@ -412,7 +398,10 @@ export default {
         hasErrorTitle.value = true;
         return;
       }
-      if (!validate(topicDueDate.value) && topicDueDate.value !== deserialize(props.topic.due_date)) {
+      if (
+        topicDueDate.value !== deserialize(props.topic.due_date) &&
+        !validateDueDate(topicDueDate.value)
+      ) {
         hasErrorDate.value = true;
         return;
       }

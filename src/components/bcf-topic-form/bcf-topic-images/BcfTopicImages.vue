@@ -43,7 +43,7 @@
           type="file"
           multiple
           accept="image/png, image/jpeg"
-          @change="addImage"
+          @change="createViewpoints"
         />
       </BIMDataButton>
     </template>
@@ -63,7 +63,7 @@
             type="file"
             multiple
             accept="image/png, image/jpeg"
-            @change="addImage"
+            @change="createViewpoints"
           />
         </BIMDataButton>
       </div>
@@ -92,7 +92,7 @@ export default {
     "delete-viewpoint"
   ],
   setup(_, { emit }) {
-    const addImage = event => {
+    const createViewpoints = event => {
       [...event.target.files].forEach(file => {
         const reader = new FileReader();
         reader.addEventListener("load", () => {
@@ -114,7 +114,7 @@ export default {
 
     return {
       // Methods
-      addImage,
+      createViewpoints,
       deleteViewpoint,
     };
   }

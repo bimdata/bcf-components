@@ -3,7 +3,7 @@
     <div class="bcf-statistics__content">
       <BIMDataSimplePieChart
         class="bcf-statistics__content__chart"
-        :barsData="barsData"
+        :barsData="chartData"
         :placeholder="true"
         :placeholderStrokeWidth="10"
         :graphDrawTime="2.5"
@@ -16,33 +16,33 @@
           {{ $t(`BcfComponents.BcfStatistics.extension.${extensionType}Title`) }}
         </div>
         <BIMDataPaginatedList
-          :list="barsData"
+          :list="chartData"
           :perPage="6"
           :first="false"
           :last="false"
           :numberDataElements="false"
           :backgroundColor="'transparent'"
         >
-          <template #element="{ element: barData }">
+          <template #element="{ element: data }">
             <div class="bcf-statistics__content__legend__item">
               <span
                 class="bcf-statistics__content__legend__item__mark"
-                :style="{ borderColor: barData.color }"
+                :style="{ borderColor: data.color }"
               ></span>
               <span class="bcf-statistics__content__legend__item__percent">
-                {{ barData.percentage.toFixed(0) }} %
+                {{ data.percentage.toFixed(0) }} %
               </span>
               <span class="bcf-statistics__content__legend__item__text">
                 {{
-                  barData.label &&
+                  data.label &&
                   $t(`BcfComponents.BcfStatistics.extension.${extensionType}`)
                 }}
                 {{
-                  barData.label ||
+                  data.label ||
                   $t(`BcfComponents.BcfStatistics.extension.${extensionType}NotDefined`)
                 }}
-                <span class="total">
-                  ({{ barData.total }})
+                <span class="count">
+                  ({{ data.count }})
                 </span>
               </span>
             </div>
@@ -56,6 +56,7 @@
 <script>
 import { computed } from "vue";
 import { DEFAULT_PRIORITY_COLOR, EXTENSION_FIELDS } from "../../config.js";
+import { getAvailableExtensions } from "../../utils/extensions.js";
 // Components
 import BIMDataPaginatedList from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataPaginatedList.js";
 import BIMDataSimplePieChart from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataSimplePieChart.js";
@@ -66,56 +67,47 @@ export default {
     BIMDataSimplePieChart,
   },
   props: {
-    bcfTopics: {
-      type: Array,
+    detailedExtensions: {
+      type: Object,
       required: true
     },
     extensionType: {
       type: String
     },
-    availableExtensions: {
+    topics: {
       type: Array,
       required: true
-    }
+    },
   },
   setup(props) {
-    const barsData = computed(() => {
-      if (props.bcfTopics.length === 0) {
-        return [];
-      }
+    const chartData = computed(() => {
+      if (props.topics.length === 0) return [];
 
       const extField = EXTENSION_FIELDS[props.extensionType];
-      const displayedExtensions = [...props.availableExtensions];
+      const displayedExtensions = getAvailableExtensions(props.extensionType, props.detailedExtensions);
 
-      // Add empty priority to match topics without priorities
+      // Add an undefined extesion value to match topics
+      // that have no value for this extension.
       displayedExtensions.push({ [extField]: undefined });
 
       return displayedExtensions
         .map(extension => {
-          const barData = {};
-          if (extension.color !== undefined) {
-            barData.color = `#${extension.color}`;
-          } else {
-            barData.color = `#${DEFAULT_PRIORITY_COLOR}`;
-          }
-
-          const topicCount = props.bcfTopics
+          const topicCount = props.topics
             .filter(topic => topic[extField] === extension[extField])
             .length;
 
-          barData.percentage = (topicCount * 100) / props.bcfTopics.length;
-          barData.label = extension[extField];
-          barData.total = topicCount;
-
-          return barData;
+          return {
+            label: extension[extField],
+            color: `#${extension.color ?? DEFAULT_PRIORITY_COLOR}`,
+            count: topicCount,
+            percentage: (topicCount * 100) / props.topics.length
+          };
         })
-        .sort((a, b) =>
-          parseInt(a.percentage) > parseInt(b.percentage) ? -1 : 1
-        );
+        .sort((a, b) => b.percentage - a.percentage);
     });
 
     return {
-      barsData
+      chartData
     };
   }
 };

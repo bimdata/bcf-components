@@ -7,11 +7,14 @@ import { useBcfSort } from "./composables/sort.js";
 
 import {
   getPriorityColor,
-  getStatusColor,
+  getStatusColor
+} from "./utils/topic.js";
+
+import {
   getViewpointType,
   getViewpointModels,
   getViewpointConfig
-} from "./utils/topic.js";
+} from "./utils/viewpoints.js";
 
 import BcfFilters from "./components/bcf-filters/BcfFilters.vue";
 import BcfSettings from "./components/bcf-settings/BcfSettings.vue";

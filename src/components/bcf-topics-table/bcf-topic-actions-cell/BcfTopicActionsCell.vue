@@ -5,7 +5,7 @@
       outline
       radius
       icon
-      @click="$emit('open-bcf-topic', bcfTopic)"
+      @click="$emit('open-topic', topic)"
     >
       <BIMDataIcon name="show" size="xs" />
     </BIMDataButton>
@@ -21,13 +21,13 @@ export default {
     BIMDataButton,
   },
   props: {
-    bcfTopic: {
+    topic: {
       type: Object,
       required: true
     }
   },
   emits: [
-    "open-bcf-topic"
+    "open-topic"
   ],
 };
 </script>

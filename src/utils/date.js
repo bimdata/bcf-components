@@ -33,16 +33,16 @@ function deserialize(date) {
  * @returns {string} a date string, format: DD/MM/YY
  */
  function deserializeShort(date) {
-  const a = date.toISOString().split('T')[0].split('-').reverse();
-  a[2] = a[2].slice(-2);
-  return a.join("/");
+  const d = date.toISOString().split('T')[0].split('-').reverse();
+  d[2] = d[2].slice(-2);
+  return d.join("/");
 }
 
 /**
  * @param {string} date a date string, format: DD/MM/YYYY
  * @returns {Boolean}
  */
-function validate(date) {
+function validateDueDate(date) {
   if (!date) {
     return true;
   }
@@ -61,5 +61,5 @@ export {
   deserialize,
   deserializeShort,
   serialize,
-  validate,
+  validateDueDate,
 };

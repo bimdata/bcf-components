@@ -159,8 +159,8 @@ export default {
       text.value = props.comment.comment;
     };
     const submitUpdate = async () => {
-      if (props.comment.comment !== text.value) {
-        try {
+      try {
+        if (props.comment.comment !== text.value) {
           loading.value = true;
           const newComment = await updateComment(
             props.project,
@@ -169,10 +169,10 @@ export default {
             { comment: text.value }
           );
           emit("comment-updated", newComment);
-          isEditing.value = false;
-        } finally {
-          loading.value = false;
         }
+        isEditing.value = false;
+      } finally {
+        loading.value = false;
       }
     };
 
