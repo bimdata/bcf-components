@@ -48,7 +48,7 @@
       </BIMDataTooltip>
     </template>
     <template #cell-date="{ row: topic }">
-      {{ deserializeShort(topic.creation_date) }}
+      {{ deserialize(topic.creation_date, 'short') }}
     </template>
     <template #cell-actions="{ row: topic }">
       <BcfTopicActionsCell
@@ -62,7 +62,7 @@
 <script>
 import { computed } from "vue";
 import columnsDef from "./columns.js";
-import { deserializeShort } from "../../utils/date.js";
+import { deserialize } from "../../utils/date.js";
 // Components
 import BIMDataTable from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataTable.js";
 import BIMDataTextbox from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataTextbox.js";
@@ -121,7 +121,7 @@ export default {
       // References
       displayedColumns,
       // Methods
-      deserializeShort,
+      deserialize,
     };
   }
 };

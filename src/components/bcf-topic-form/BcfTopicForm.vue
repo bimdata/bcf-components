@@ -351,7 +351,7 @@ export default {
           topicStatus.value = topic.topic_status || null;
           topicStage.value = topic.stage || null;
           topicAssignedTo.value = topic.assigned_to || null;
-          topicDueDate.value = topic.due_date ? deserialize(topic.due_date) : "";
+          topicDueDate.value = deserialize(topic.due_date);
           topicDescription.value = topic.description || "";
           topicLabels.value = topic.labels || [];
           viewpoints.value = topic.viewpoints || [];
@@ -399,7 +399,8 @@ export default {
         return;
       }
       if (
-        topicDueDate.value !== deserialize(props.topic.due_date) &&
+        topicDueDate.value &&
+        topicDueDate.value !== deserialize(props.topic?.due_date) &&
         !validateDueDate(topicDueDate.value)
       ) {
         hasErrorDate.value = true;

@@ -141,7 +141,7 @@
 <script>
 import { computed, ref, toRaw } from "vue";
 import { useBcfFilter } from "../../composables/filter.js";
-import { dateRegex } from "../../utils/date.js";
+import { validateInterval, validatePastDate } from "../../utils/date.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
 import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataIcon.js";
@@ -203,17 +203,11 @@ export default {
 
     const submitFilters = () => {
       if (filters.startDate && filters.endDate) {
-        if (
-          !filters.startDate.match(dateRegex) ||
-          filters.startDate > deserialize(new Date())
-        ) {
+        if (!validatePastDate(filters.startDate)) {
           hasErrorStartDate.value = true;
           return;
         }
-        if (
-          !filters.endDate.match(dateRegex) ||
-          filters.endDate < filters.startDate
-        ) {
+        if (!validateInterval(filters.startDate, filters.endDate)) {
           hasErrorEndDate.value = true;
           return;
         }
