@@ -9,7 +9,7 @@
   "main": "./dist/vue3/bcf-components.es.js",
   "module": "./dist/vue3/bcf-components.es.js",
   "scripts": {
-    "postinstall": "node post-install.js",
+    "prebuild:vue2": "node pre-build-vue2.js",
     "build:vue2": "vite build --config vue2-build.config.js",
     "build:vue3": "vite build --config vue3-build.config.js",
     "build": "npm run build:vue2 && npm run build:vue3",
