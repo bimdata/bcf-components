@@ -105,7 +105,7 @@ export default {
     "comment-deleted",
   ],
   setup(props, { emit }) {
-    const { createComment } = useService();
+    const service = useService();
 
     const isOpen = ref(false);
     const loading = ref(false);
@@ -119,7 +119,7 @@ export default {
     const submitComment = async () => {
       try {
         loading.value = true;
-        const newComment = await createComment(
+        const newComment = await service.createComment(
           props.project,
           props.topic,
           { comment: text.value }

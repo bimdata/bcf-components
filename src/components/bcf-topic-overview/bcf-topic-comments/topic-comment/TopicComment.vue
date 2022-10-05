@@ -139,7 +139,7 @@ export default {
     "comment-deleted",
   ],
   setup(props, { emit }) {
-    const { deleteComment, updateComment } = useService();
+    const service = useService();
 
     const loading = ref(false);
 
@@ -162,7 +162,7 @@ export default {
       try {
         if (props.comment.comment !== text.value) {
           loading.value = true;
-          const newComment = await updateComment(
+          const newComment = await service.updateComment(
             props.project,
             props.topic,
             props.comment,
@@ -184,7 +184,7 @@ export default {
     const submitDelete = async () => {
       try {
         loading.value = true;
-        await deleteComment(
+        await service.deleteComment(
           props.project,
           props.topic,
           props.comment

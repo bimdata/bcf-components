@@ -215,7 +215,7 @@
           color="high"
           fill
           radius
-          @click="removeTopic"
+          @click="deleteTopic"
         >
           {{ $t("BcfComponents.BcfTopicOverview.deleteBcfButton") }}
         </BIMDataButton>
@@ -300,7 +300,7 @@ export default {
     "view-topic-viewpoint"
   ],
   setup(props, { emit }) {
-    const { deleteTopic } = useService();
+    const service = useService();
 
     const loading = ref(false);
     const showDeleteModal = ref(false);
@@ -311,11 +311,11 @@ export default {
 
     const topicLabels = computed(() => Array.from(props.topic.labels || []).sort());
 
-    const removeTopic = async () => {
+    const deleteTopic = async () => {
       try {
         showDeleteModal.value = false;
         loading.value = true;
-        await deleteTopic(props.project, props.topic);
+        await service.deleteTopic(props.project, props.topic);
         emit("topic-deleted", props.topic);
       } catch (error) {
         emit("topic-delete-error", error);
@@ -333,7 +333,7 @@ export default {
       topicObjects,
       // Methods
       adjustTextColor,
-      removeTopic,
+      deleteTopic,
     };
   }
 };

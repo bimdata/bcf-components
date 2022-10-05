@@ -1,7 +1,7 @@
 <template>
   <li class="setting-card-item">
     <span v-if="!editMode">
-      {{ extension[EXTENSION_FIELDS[extensionType]] }}
+      {{ extension[getExtensionField(extensionType)] }}
     </span>
 
     <BIMDataInput
@@ -82,7 +82,8 @@
 <script>
 import { adjustBorderColor } from "@bimdata/design-system/dist/colors.js";
 import { ref, watch } from "vue";
-import { EXTENSION_FIELDS, EXTENSION_WITH_COLOR } from "../../../config.js";
+import { EXTENSION_WITH_COLOR } from "../../../config.js";
+import { getExtensionField } from "../../../utils/extensions.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
 import BIMDataColorSelector from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataColorSelector.js";
@@ -97,10 +98,6 @@ export default {
     BIMDataInput,
   },
   props: {
-    project: {
-      type: Object,
-      required: true
-    },
     extensionType: {
       type: String
     },
@@ -118,7 +115,7 @@ export default {
     const isOpenDeleteGuard = ref(false);
 
     const extensionName = ref(
-      props.extension[EXTENSION_FIELDS[props.extensionType]]
+      props.extension[getExtensionField(props.extensionType)]
     );
     const extensionColor = ref(props.extension.color);
 
@@ -130,10 +127,9 @@ export default {
     const submitValue = async () => {
       if (
         extensionName.value !==
-        props.extension[EXTENSION_FIELDS[props.extensionType]]
+        props.extension[getExtensionField(props.extensionType)]
       ) {
         emit("update-extension", {
-          project: props.project,
           extensionType: props.extensionType,
           extension: props.extension,
           data: { value: extensionName.value }
@@ -145,7 +141,6 @@ export default {
     const submitColor = async colorValue => {
       if (colorValue !== props.extension.color) {
         emit("update-extension", {
-          project: props.project,
           extensionType: props.extensionType,
           extension: props.extension,
           data: { color: colorValue }
@@ -156,7 +151,6 @@ export default {
 
     const submitDelete = async extension => {
       emit("delete-extension", {
-        project: props.project,
         extensionType: props.extensionType,
         extension,
       });
@@ -167,13 +161,13 @@ export default {
       editMode,
       extensionColor,
       extensionName,
-      EXTENSION_FIELDS,
       EXTENSION_WITH_COLOR,
       input,
       isOpenColorSelector,
       isOpenDeleteGuard,
       // Methods
       adjustBorderColor,
+      getExtensionField,
       submitColor,
       submitDelete,
       submitValue,

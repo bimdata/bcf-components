@@ -301,12 +301,7 @@ export default {
     "topic-update-error",
   ],
   setup(props, { emit }) {
-    const {
-      createTopic,
-      updateTopic,
-      createViewpoint,
-      deleteViewpoint
-    } = useService();
+    const service = useService();
 
     const isCreation = computed(
       () => !props.topic
@@ -484,19 +479,19 @@ export default {
 
         let newTopic;
         if (isCreation.value) {
-          newTopic = await createTopic(props.project, data);
+          newTopic = await service.createTopic(props.project, data);
         } else {
-          newTopic = await updateTopic(props.project, data);
+          newTopic = await service.updateTopic(props.project, data);
         }
 
         await Promise.all(
           viewpointsToCreate.value.map(viewpoint =>
-            createViewpoint(props.project, newTopic, viewpoint)
+            service.createViewpoint(props.project, newTopic, viewpoint)
           )
         );
         await Promise.all(
           viewpointsToDelete.value.map(viewpoint =>
-            deleteViewpoint(props.project, newTopic, viewpoint)
+            service.deleteViewpoint(props.project, newTopic, viewpoint)
           )
         );
 

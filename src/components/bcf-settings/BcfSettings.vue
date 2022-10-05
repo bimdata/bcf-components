@@ -32,12 +32,11 @@
       </div>
       <SettingCard
         v-for="t in EXTENSION_TYPES"
-        :project="project"
         :detailedExtensions="detailedExtensions"
         :extensionType="t"
-        @create-extension="createExt"
-        @update-extension="updateExt"
-        @delete-extension="deleteExt"
+        @create-extension="createExtension"
+        @update-extension="updateExtension"
+        @delete-extension="deleteExtension"
       />
     </div>
   </div>
@@ -82,24 +81,20 @@ export default {
     "extension-deleted",
   ],
   setup(props, { emit }) {
-    const {
-      createExtension,
-      updateExtension,
-      deleteExtension,
-    } = useService();
+    const service = useService();
 
-    const createExt = async event => {
-      const ext = await createExtension(
-        event.project,
+    const createExtension = async event => {
+      const ext = await service.createExtension(
+        props.project,
         event.extensionType,
         event.data
       );
       emit("extension-created", ext);
     };
 
-    const updateExt = async event => {
-      const ext = await updateExtension(
-        event.project,
+    const updateExtension = async event => {
+      const ext = await service.updateExtension(
+        props.project,
         event.extensionType,
         event.extension,
         event.data
@@ -107,9 +102,9 @@ export default {
       emit("extension-updated", ext);
     };
 
-    const deleteExt = async event => {
-      await deleteExtension(
-        event.project,
+    const deleteExtension = async event => {
+      await service.deleteExtension(
+        props.project,
         event.extensionType,
         event.extension
       );
@@ -120,9 +115,9 @@ export default {
       // References
       EXTENSION_TYPES,
       // Methods
-      createExt,
-      updateExt,
-      deleteExt,
+      createExtension,
+      updateExtension,
+      deleteExtension,
     };
   }
 };

@@ -1,24 +1,30 @@
-import { setApiClient, components } from "./dist/vue2/bcf-components.es.js";
+import {
+  createService,
+  setService,
+  components
+} from "./dist/vue2/bcf-components.mjs";
 import messages from "./dist/i18n/index.js";
 
 /**
  * BCF Components library plugin for Vue 2.
  * Here are the actions the plugin will perform:
- *  - set library api client
+ *  - initialize library service
  *  - register components translations
  *  - globally register BCF components
  * 
  * @param {
  *  {
  *    apiClient: Object,
+ *    fetchUsers?: Promise,
  *    i18nPlugin: Object,
  *    includedComponents?: string[],
  *    excludedComponents?: string[],
  *  } 
- * } [cfg]
+ * }
  */
 const pluginFactory = ({
   apiClient,
+  fetchUsers,
   i18nPlugin,
   includedComponents = [],
   excludedComponents = [],
@@ -26,7 +32,8 @@ const pluginFactory = ({
   return {
     install(Vue) {
       if (apiClient) {
-        setApiClient(apiClient);
+        const service = createService(apiClient, { fetchUsers });
+        setService(service);
       } else {
         console.error(
           "[BCF Components Plugin] No api client provided. " +
@@ -49,12 +56,10 @@ const pluginFactory = ({
 
       Object.entries(components)
         .forEach(([name, component]) => {
-
           // Do not register excluded components.
           if (excludedComponents.includes(name)) {
             return;
           }
-
           // Only register included components if any.
           // Otherwise register all (non excluded) components.
           if (

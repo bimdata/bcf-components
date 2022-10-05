@@ -1,5 +1,5 @@
 import * as config from "./config.js";
-import { setApiClient } from "./api-client.js";
+import { createService, setService } from "./service.js";
 
 import { useBcfFilter } from "./composables/filter.js";
 import { useBcfSearch } from "./composables/search.js";
@@ -38,7 +38,8 @@ const components = {
 
 export {
   config,
-  setApiClient,
+  createService,
+  setService,
   useBcfFilter,
   useBcfSearch,
   useBcfSort,

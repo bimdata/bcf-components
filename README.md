@@ -15,7 +15,7 @@ npm install @bimdata/bcf-components
 Then refer to the next sub-sections on how to use the library depending
 on which version of Vue you're using.
 
-### Vue 2.7+ application
+### Vue 2.7 application
 
 **Note:** the library won't work as expected for versions of Vue below **2.7**.
 
@@ -76,15 +76,16 @@ To setup the library without the use of the plugin you have to provide your own 
 (as described above in the *Using Vue plugin* section) and inject an API client like so:
 
 ```js
-import { makeBIMDataApiClient } from "@bimdata/typescript-fetch-api-client";
-// Import the `setApiClient` function
-import { setApiClient } from "@bimdata/bcf-components";
+import { makeBIMDataApiClient } from "@bimdata/typescript-fetch-api-client"; // v8.2+
+// Import `createService` and `setService` utils
+import { createService, setService } from "@bimdata/bcf-components";
 
-// Instanciate BIMData API client (v8.2+)
+// Instanciate BIMData API client
 const apiClient = makeBIMDataApiClient({ ... });
 
-// Inject API client
-setApiClient(apiClient);
+// Initialize library service
+const service = createService(apiClient);
+setService(service);
 ```
 
 Then you can directly use components in your app that way:

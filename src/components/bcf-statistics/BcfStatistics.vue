@@ -55,8 +55,8 @@
 
 <script>
 import { computed } from "vue";
-import { DEFAULT_PRIORITY_COLOR, EXTENSION_FIELDS } from "../../config.js";
-import { getAvailableExtensions } from "../../utils/extensions.js";
+import { DEFAULT_PRIORITY_COLOR } from "../../config.js";
+import { getAvailableExtensions, getExtensionField } from "../../utils/extensions.js";
 // Components
 import BIMDataPaginatedList from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataPaginatedList.js";
 import BIMDataSimplePieChart from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataSimplePieChart.js";
@@ -83,7 +83,7 @@ export default {
     const chartData = computed(() => {
       if (props.topics.length === 0) return [];
 
-      const extField = EXTENSION_FIELDS[props.extensionType];
+      const extField = getExtensionField(props.extensionType);
       const displayedExtensions = getAvailableExtensions(props.extensionType, props.detailedExtensions);
 
       // Add an undefined extesion value to match topics
