@@ -6,8 +6,8 @@
     "vue2-plugin.js",
     "vue3-plugin.js"
   ],
-  "main": "./dist/vue3/bcf-components.es.js",
-  "module": "./dist/vue3/bcf-components.es.js",
+  "main": "./dist/vue3/bcf-components.mjs",
+  "module": "./dist/vue3/bcf-components.mjs",
   "scripts": {
     "prebuild:vue2": "node pre-build-vue2.js",
     "build:vue2": "vite build --config vue2-build.config.js",

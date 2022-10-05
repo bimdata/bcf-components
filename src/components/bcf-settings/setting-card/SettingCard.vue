@@ -58,7 +58,6 @@
         <SettingCardItem
           v-for="extension in availableExtensions"
           :key="extension.id"
-          :project="project"
           :extensionType="extensionType"
           :extension="extension"
           @update-extension="$emit('update-extension', $event)"
@@ -86,10 +85,6 @@ export default {
     SettingCardItem,
   },
   props: {
-    project: {
-      type: Object,
-      required: true,
-    },
     detailedExtensions: {
       type: Object,
       required: true,
@@ -130,7 +125,6 @@ export default {
 
     const addExtension = async () => {
       emit("create-extension", {
-        project: props.project,
         extensionType: props.extensionType,
         data: { value: name.value }
       });
