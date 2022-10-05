@@ -1,9 +1,9 @@
 import { resolve } from "path";
 import { defineConfig } from "vite";
-import libCss from "vite-plugin-libcss";
-import copy from "rollup-plugin-copy";
+import libCss from "@bimdata/vite-plugin-libcss";
 
 // Vite plugins for Vue 3
+import copy from "rollup-plugin-copy";
 import replace from "@rollup/plugin-replace";
 import vue from "@vitejs/plugin-vue";
 
