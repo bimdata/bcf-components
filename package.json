@@ -9,6 +9,7 @@
   "main": "./dist/vue3/bcf-components.es.js",
   "module": "./dist/vue3/bcf-components.es.js",
   "scripts": {
+    "postinstall": "node post-install.js",
     "build:vue2": "vite build --config vue2-build.config.js",
     "build:vue3": "vite build --config vue3-build.config.js",
     "build": "npm run build:vue2 && npm run build:vue3",
@@ -20,6 +21,7 @@
   },
   "devDependencies": {
     "@bimdata/design-system": "1.4.0-rc.29",
+    "@bimdata/vite-plugin-libcss": "0.0.1",
     "@rollup/plugin-replace": "^4.0.0",
     "@semantic-release/changelog": "^6.0.0",
     "@semantic-release/commit-analyzer": "^9.0.1",
@@ -27,16 +29,14 @@
     "@semantic-release/github": "^8.0.1",
     "@semantic-release/npm": "^8.0.0",
     "@semantic-release/release-notes-generator": "^10.0.2",
-    "@vitejs/plugin-vue": "^1.2.5",
-    "@vue/compiler-sfc": "^3.2.31",
+    "@vitejs/plugin-vue": "^3.1.2",
     "conventional-changelog-eslint": "^3.0.9",
     "rollup-plugin-copy": "^3.4.0",
     "sass": "^1.49.11",
     "semantic-release": "^19.0.2",
-    "vite": "^2.8.6",
-    "vite-plugin-libcss": "^1.0.5",
-    "vite-plugin-vue2": "^1.9.3",
-    "vue": "^2.6.14",
-    "vue-template-compiler": "^2.6.14"
+    "vite": "^3.1.4",
+    "vite-plugin-vue2": "^2.0.2",
+    "vue2": "npm:vue@^2.7.10",
+    "vue-template-compiler": "^2.7.10"
   }
 }
