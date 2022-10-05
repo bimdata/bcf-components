@@ -1,5 +1,5 @@
 import * as config from "./config.js";
-import { createService, setService } from "./service.js";
+import { createService, setService, useService } from "./service.js";
 
 import { useBcfFilter } from "./composables/filter.js";
 import { useBcfSearch } from "./composables/search.js";
@@ -40,6 +40,7 @@ export {
   config,
   createService,
   setService,
+  useService,
   useBcfFilter,
   useBcfSearch,
   useBcfSort,
