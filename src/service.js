@@ -7,19 +7,17 @@ let libService = null;
 
 function createService(apiClient, { fetchUsers }) {
 
-  const { collaborationApi, bcfApi } = apiClient;
-
   const getUsers = fetchUsers
     ? project => fetchUsers(project)
-    : project => collaborationApi.getProjectUsers(project.cloud.id, project.id);
+    : project => apiClient.collaborationApi.getProjectUsers(project.cloud.id, project.id);
 
   // --- BCF Topics API ---
 
   const fetchTopics = async (project) => {
     const users = await getUsers(project);
-    const extensions = await bcfApi.getDetailedExtensions(project.id);
+    const extensions = await apiClient.bcfApi.getDetailedExtensions(project.id);
 
-    const topics = await bcfApi.getTopics(project.id);
+    const topics = await apiClient.bcfApi.getTopics(project.id);
     topics.sort((a, b) => b.index - a.index);
 
     await eachLimit(topics, 10, async topic => {
@@ -27,7 +25,7 @@ function createService(apiClient, { fetchUsers }) {
 
       topic.creator = users.find(u => u.email === topic.creation_author);
 
-      topic.viewpoints = await bcfApi.getTopicViewpoints(
+      topic.viewpoints = await apiClient.bcfApi.getTopicViewpoints(
         project.id,
         topic.guid,
         "url"
@@ -38,21 +36,21 @@ function createService(apiClient, { fetchUsers }) {
   };
 
   const fecthTopicByGuid = async (project, guid) => {
-    const extensions = await bcfApi.getDetailedExtensions(project.id);
-    const topic = await bcfApi.getFullTopic(guid, project.id, "url");
+    const extensions = await apiClient.bcfApi.getDetailedExtensions(project.id);
+    const topic = await apiClient.bcfApi.getFullTopic(guid, project.id, "url");
     topic.color = getPriorityColor(topic, extensions);
     return topic;
   };
 
   const createTopic = async (project, topic) => {
-    return await bcfApi.createFullTopic(
+    return await apiClient.bcfApi.createFullTopic(
       project.id,
       topic
     );
   };
 
   const updateTopic = async (project, topic) => {
-    return await bcfApi.updateFullTopic(
+    return await apiClient.bcfApi.updateFullTopic(
       topic.guid,
       project.id,
       "url",
@@ -61,7 +59,7 @@ function createService(apiClient, { fetchUsers }) {
   };
 
   const deleteTopic = async (project, topic) => {
-    await bcfApi.deleteTopic(
+    await apiClient.bcfApi.deleteTopic(
       topic.guid,
       project.id,
     );
@@ -71,7 +69,7 @@ function createService(apiClient, { fetchUsers }) {
   // --- BCF Topic Viewpoints API ---
 
   const createViewpoint = async (project, topic, data) => {
-    return await bcfApi.createViewpoint(
+    return await apiClient.bcfApi.createViewpoint(
       project.id,
       topic.guid,
       "url",
@@ -80,7 +78,7 @@ function createService(apiClient, { fetchUsers }) {
   };
 
   const deleteViewpoint = async (project, topic, viewpoint) => {
-    await bcfApi.deleteViewpoint(
+    await apiClient.bcfApi.deleteViewpoint(
       viewpoint.guid,
       project.id,
       topic.guid,
@@ -93,7 +91,7 @@ function createService(apiClient, { fetchUsers }) {
   const fetchTopicComments = async (project, topic) => {
     const users = await getUsers(project);
 
-    const comments = await bcfApi.getComments(project.id, topic.guid);
+    const comments = await apiClient.bcfApi.getComments(project.id, topic.guid);
     comments.sort((a, b) => (a.date > b.date ? -1 : 1));
     comments.forEach(c => {
       c.user = users.find(u => u.email === c.author);
@@ -103,7 +101,7 @@ function createService(apiClient, { fetchUsers }) {
   };
 
   const createComment = async (project, topic, data) => {
-    return await bcfApi.createComment(
+    return await apiClient.bcfApi.createComment(
       project.id,
       topic.guid,
       data
@@ -111,7 +109,7 @@ function createService(apiClient, { fetchUsers }) {
   };
 
   const updateComment = async (project, topic, comment, data) => {
-    return await bcfApi.updateComment(
+    return await apiClient.bcfApi.updateComment(
       comment.guid,
       project.id,
       topic.guid,
@@ -120,7 +118,7 @@ function createService(apiClient, { fetchUsers }) {
   };
 
   const deleteComment = async (project, topic, comment) => {
-    await bcfApi.deleteComment(
+    await apiClient.bcfApi.deleteComment(
       comment.guid,
       project.id,
       topic.guid,
@@ -131,15 +129,15 @@ function createService(apiClient, { fetchUsers }) {
   // --- BCF Extensions API ---
 
   const fetchExtensions = (project) => {
-    return bcfApi.getExtensions(project.id);
+    return apiClient.bcfApi.getExtensions(project.id);
   };
 
   const fetchDetailedExtensions = (project) => {
-    return bcfApi.getDetailedExtensions(project.id);
+    return apiClient.bcfApi.getDetailedExtensions(project.id);
   };
 
   const createExtension = async (project, extensionType, data) => {
-    return await bcfApi[`createExtension${extensionType}`](
+    return await apiClient.bcfApi[`createExtension${extensionType}`](
       project.id,
       {
         [getExtensionField(extensionType)]: data.value,
@@ -149,7 +147,7 @@ function createService(apiClient, { fetchUsers }) {
   };
 
   const updateExtension = async (project, extensionType, extension, data) => {
-    return await bcfApi[`updateExtension${extensionType}`](
+    return await apiClient.bcfApi[`updateExtension${extensionType}`](
       extension.id,
       project.id,
       {
@@ -160,7 +158,7 @@ function createService(apiClient, { fetchUsers }) {
   };
 
   const deleteExtension = async (project, extensionType, extension) => {
-    await bcfApi[`deleteExtension${extensionType}`](
+    await apiClient.bcfApi[`deleteExtension${extensionType}`](
       extension.id,
       project.id,
     );
