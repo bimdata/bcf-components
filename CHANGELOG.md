@@ -1,3 +1,32 @@
+# [3.0.0](https://github.com/bimdata/bcf-components/compare/v2.0.0...v3.0.0) (2022-10-12)
+
+
+### MAJOR
+
+* refactor: bcf-filters, change props ([826645f](https://github.com/bimdata/bcf-components/commit/826645fdf48e0028127370a3c0c40b1ab14e0c34))
+* refactor: bcf-topic-form, change props and events + style improvements ([80be61d](https://github.com/bimdata/bcf-components/commit/80be61d243d6462355328a7b335dbaf0c121b29f))
+* refactor: bcf-topic-overview, change props and events ([66b12fa](https://github.com/bimdata/bcf-components/commit/66b12faa659340eb3beda71f4d30b0dfa5dde3b2))
+* refactor: change props and events + other fixes ([f531c50](https://github.com/bimdata/bcf-components/commit/f531c50a198ccbb28f1cdcc74f3a133c08bb34ec))
+* refactor: replace api-client injection by service injection + some more improvements ([fef3b21](https://github.com/bimdata/bcf-components/commit/fef3b21b5063e4ddd049d892e69d462a4107d837))
+
+### MINOR
+
+* chore: add nl & no languages + update translation files ([2407776](https://github.com/bimdata/bcf-components/commit/24077767fde644d806d9c4f6fa6b431f8cdc9829))
+
+### PATCH
+
+* chore: change postinstall script into prebuild:vue2 ([dad0687](https://github.com/bimdata/bcf-components/commit/dad06874c2e7d26f47d3a7cbec34597e8f94994a))
+* chore: update dependencies (with ncu) ([6c50813](https://github.com/bimdata/bcf-components/commit/6c50813fa081de295d909281b8ebde502485d9da))
+* chore: update dependencies + fix dual build ([7f6d3cf](https://github.com/bimdata/bcf-components/commit/7f6d3cf00fbb3b9e2cc319b662f3bd39228f9206))
+* chore: update readme and translations ([ab35bc9](https://github.com/bimdata/bcf-components/commit/ab35bc9795fa8cbcbcdf91f2404ce79b6983c8b2))
+* chore(build): fix build scripts imports ([f7ab10e](https://github.com/bimdata/bcf-components/commit/f7ab10ee4cfad610095d127a6ed30d483a413ffe))
+* fix: bcf-filters & bcf creation ([2ace73c](https://github.com/bimdata/bcf-components/commit/2ace73c456bda7531dfb3a8bfa6a942476f6e323))
+* fix: bcf-settings styles ([df3073a](https://github.com/bimdata/bcf-components/commit/df3073a015a8db51daa50eb21040c6419d7fdc66))
+* fix: package.json main/module fields + fix BcfSettingCard ([d576d4f](https://github.com/bimdata/bcf-components/commit/d576d4f1a3ca69a291dd6287be4380fa4a4c67ac))
+* fix: viewpoints utils ([04b8b03](https://github.com/bimdata/bcf-components/commit/04b8b03e820d772f5b23fe217aed7f1c526e3d98))
+* fix(pkg): add useService to exported functions ([e636315](https://github.com/bimdata/bcf-components/commit/e63631553ce42ea30b524818667c435c0fb862d2))
+* fix(service): properly use apiClient getters to ensure requests are authenticated ([c97cba7](https://github.com/bimdata/bcf-components/commit/c97cba706ce61ef7b1e8f2ef23d0db9dd76e06d9))
+
 # [2.0.0](https://github.com/bimdata/bcf-components/compare/v1.0.4...v2.0.0) (2022-08-05)
 
 
