@@ -1,5 +1,5 @@
 import * as config from "./config.js";
-import { setApiClient } from "./api-client.js";
+import { createService, setService, useService } from "./service.js";
 
 import { useBcfFilter } from "./composables/filter.js";
 import { useBcfSearch } from "./composables/search.js";
@@ -7,11 +7,14 @@ import { useBcfSort } from "./composables/sort.js";
 
 import {
   getPriorityColor,
-  getStatusColor,
+  getStatusColor
+} from "./utils/topic.js";
+
+import {
   getViewpointType,
   getViewpointModels,
   getViewpointConfig
-} from "./utils/topic.js";
+} from "./utils/viewpoints.js";
 
 import BcfFilters from "./components/bcf-filters/BcfFilters.vue";
 import BcfSettings from "./components/bcf-settings/BcfSettings.vue";
@@ -35,7 +38,9 @@ const components = {
 
 export {
   config,
-  setApiClient,
+  createService,
+  setService,
+  useService,
   useBcfFilter,
   useBcfSearch,
   useBcfSort,

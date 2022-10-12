@@ -2,7 +2,7 @@
   <div class="bcf-filters" v-click-away="close">
     <BIMDataButton
       class="bcf-filters__btn-toggle"
-      :disabled="bcfTopics.length === 0"
+      :disabled="topics.length === 0"
       width="120px"
       fill
       square
@@ -141,7 +141,7 @@
 <script>
 import { computed, ref, toRaw } from "vue";
 import { useBcfFilter } from "../../composables/filter.js";
-import { dateRegex } from "../../utils/date.js";
+import { validateInterval, validatePastDate } from "../../utils/date.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
 import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataIcon.js";
@@ -161,7 +161,7 @@ export default {
     BIMDataSelect,
   },
   props: {
-    bcfTopics: {
+    topics: {
       type: Array,
       required: true
     }
@@ -178,42 +178,36 @@ export default {
     const hasErrorEndDate = ref(false);
 
     const { filters, filteredTopics, reset } = useBcfFilter(
-      computed(() => props.bcfTopics)
+      computed(() => props.topics)
     );
 
     const priorityOptions = computed(
-      () => getSelectOptions(props.bcfTopics.map(topic => topic.priority))
+      () => getSelectOptions(props.topics.map(topic => topic.priority))
     );
 
     const statusOptions = computed(
-      () => getSelectOptions(props.bcfTopics.map(topic => topic.topic_status))
+      () => getSelectOptions(props.topics.map(topic => topic.topic_status))
     );
 
     const userOptions = computed(
-      () => getSelectOptions(props.bcfTopics.map(topic => topic.assigned_to))
+      () => getSelectOptions(props.topics.map(topic => topic.assigned_to))
     );
 
     const creatorOptions = computed(
-      () => getSelectOptions(props.bcfTopics.map(topic => topic.creation_author))
+      () => getSelectOptions(props.topics.map(topic => topic.creation_author))
     );
 
     const labelOptions = computed(
-      () => getSelectOptions(props.bcfTopics.flatMap(topic => topic.labels))
+      () => getSelectOptions(props.topics.flatMap(topic => topic.labels))
     );
 
     const submitFilters = () => {
       if (filters.startDate && filters.endDate) {
-        if (
-          !filters.startDate.match(dateRegex) ||
-          filters.startDate > deserialize(new Date())
-        ) {
+        if (!validatePastDate(filters.startDate)) {
           hasErrorStartDate.value = true;
           return;
         }
-        if (
-          !filters.endDate.match(dateRegex) ||
-          filters.endDate < filters.startDate
-        ) {
+        if (!validateInterval(filters.startDate, filters.endDate)) {
           hasErrorEndDate.value = true;
           return;
         }

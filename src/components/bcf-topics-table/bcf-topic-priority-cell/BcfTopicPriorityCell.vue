@@ -3,7 +3,7 @@
     class="bcf-topic-priority-cell"
     :style="{ color: `#${priorityColor}` }"
   >
-    {{ bcfTopic.priority || $t("BcfComponents.BcfTopicPriorityCell.noPriority") }}
+    {{ topic.priority || $t("BcfComponents.BcfTopicPriorityCell.noPriority") }}
   </span>
 </template>
 
@@ -13,18 +13,18 @@ import { getPriorityColor } from "../../../utils/topic.js";
 
 export default {
   props: {
-    bcfTopic: {
-      type: Object,
-      required: true
-    },
     detailedExtensions: {
       type: Object,
       required: true
-    }
+    },
+    topic: {
+      type: Object,
+      required: true
+    },
   },
   setup(props) {
     const priorityColor = computed(
-      () => getPriorityColor(props.bcfTopic, props.detailedExtensions)
+      () => getPriorityColor(props.topic, props.detailedExtensions)
     );
 
     return {

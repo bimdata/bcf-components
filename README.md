@@ -15,22 +15,14 @@ npm install @bimdata/bcf-components
 Then refer to the next sub-sections on how to use the library depending
 on which version of Vue you're using.
 
-### Vue 2.6+ application
+### Vue 2.7 application
 
-In order to use the library in your Vue 2 app you'll need to use
-[Vue Composition API plugin](https://github.com/vuejs/composition-api).
+**Note:** the library won't work as expected for versions of Vue below **2.7**.
 
-First add it to your dependencies:
-
-```bash
-npm install @vue/composition-api
-```
-
-Then, in your application bootstrap script, add the following:
+In your Vue 2.7 application bootstrap script, add the following:
 
 ```js
 import Vue from "vue";
-import VueCompositionApi from "@vue/composition-api";
 import VueI18n from "vue-i18n"; // v8.x
 import { makeBIMDataApiClient } from "@bimdata/typescript-fetch-api-client";  // v8.2+
 // Import Vue 2 plugin factory
@@ -42,7 +34,6 @@ const i18nPlugin = new VueI18n({ ... });
 // Instanciate BIMData API client
 const apiClient = makeBIMDataApiClient({ ... });
 
-Vue.use(VueCompositionApi);
 Vue.use(i18nPlugin);
 // Provide both i18n plugin and API client as plugin config
 Vue.use(BIMDataBcfComponents({ i18nPlugin, apiClient }));
@@ -85,15 +76,16 @@ To setup the library without the use of the plugin you have to provide your own 
 (as described above in the *Using Vue plugin* section) and inject an API client like so:
 
 ```js
-import { makeBIMDataApiClient } from "@bimdata/typescript-fetch-api-client";
-// Import the `setApiClient` function
-import { setApiClient } from "@bimdata/bcf-components";
+import { makeBIMDataApiClient } from "@bimdata/typescript-fetch-api-client"; // v8.2+
+// Import `createService` and `setService` utils
+import { createService, setService } from "@bimdata/bcf-components";
 
-// Instanciate BIMData API client (v8.2+)
+// Instanciate BIMData API client
 const apiClient = makeBIMDataApiClient({ ... });
 
-// Inject API client
-setApiClient(apiClient);
+// Initialize library service
+const service = createService(apiClient);
+setService(service);
 ```
 
 Then you can directly use components in your app that way:

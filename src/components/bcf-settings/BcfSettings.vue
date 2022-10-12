@@ -1,32 +1,49 @@
 <template>
   <div class="bcf-settings">
     <div class="bcf-settings__header">
-      <span>
+      <BIMDataButton
+        v-if="uiConfig.backButton"
+        color="granite"
+        ghost
+        rounded
+        icon
+        @click="$emit('back')"
+      >
+        <BIMDataIcon name="arrow" size="xxs" />
+      </BIMDataButton>
+      <span class="bcf-settings__header__title">
         {{ $t("BcfComponents.BcfSettings.title") }}
       </span>
-      <BIMDataButton ghost rounded icon @click="$emit('close')">
+      <BIMDataButton
+        v-if="uiConfig.closeButton"
+        color="granite"
+        ghost
+        rounded
+        icon
+        @click="$emit('close')"
+      >
         <BIMDataIcon name="close" size="xxs" />
       </BIMDataButton>
     </div>
+
     <div class="bcf-settings__content">
       <div class="bcf-settings__content__text">
         {{ $t("BcfComponents.BcfSettings.text") }}
       </div>
       <SettingCard
         v-for="t in EXTENSION_TYPES"
-        :project="project"
+        :detailedExtensions="detailedExtensions"
         :extensionType="t"
-        :availableExtensions="detailedExtensions[EXTENSION_LIST_FIELDS[t]]"
-        @create-extension="createExt"
-        @update-extension="updateExt"
-        @delete-extension="deleteExt"
+        @create-extension="createExtension"
+        @update-extension="updateExtension"
+        @delete-extension="deleteExtension"
       />
     </div>
   </div>
 </template>
 
 <script>
-import { EXTENSION_LIST_FIELDS, EXTENSION_TYPES } from "../../config.js";
+import { EXTENSION_TYPES } from "../../config.js";
 import { useService } from "../../service.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
@@ -40,6 +57,13 @@ export default {
     SettingCard,
   },
   props: {
+    uiConfig: {
+      type: Object,
+      default: () => ({
+        backButton: false,
+        closeButton: false,
+      })
+    },
     project: {
       type: Object,
       required: true
@@ -50,30 +74,27 @@ export default {
     },
   },
   emits: [
+    "back",
+    "close",
     "extension-created",
     "extension-updated",
     "extension-deleted",
-    "close"
   ],
   setup(props, { emit }) {
-    const {
-      createExtension,
-      updateExtension,
-      deleteExtension,
-    } = useService();
+    const service = useService();
 
-    const createExt = async event => {
-      const ext = await createExtension(
-        event.project,
+    const createExtension = async event => {
+      const ext = await service.createExtension(
+        props.project,
         event.extensionType,
         event.data
       );
       emit("extension-created", ext);
     };
 
-    const updateExt = async event => {
-      const ext = await updateExtension(
-        event.project,
+    const updateExtension = async event => {
+      const ext = await service.updateExtension(
+        props.project,
         event.extensionType,
         event.extension,
         event.data
@@ -81,9 +102,9 @@ export default {
       emit("extension-updated", ext);
     };
 
-    const deleteExt = async event => {
-      await deleteExtension(
-        event.project,
+    const deleteExtension = async event => {
+      await service.deleteExtension(
+        props.project,
         event.extensionType,
         event.extension
       );
@@ -92,12 +113,11 @@ export default {
 
     return {
       // References
-      EXTENSION_LIST_FIELDS,
       EXTENSION_TYPES,
       // Methods
-      createExt,
-      updateExt,
-      deleteExt,
+      createExtension,
+      updateExtension,
+      deleteExtension,
     };
   }
 };

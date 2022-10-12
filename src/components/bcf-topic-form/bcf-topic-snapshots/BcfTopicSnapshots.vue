@@ -56,7 +56,7 @@ export default {
     "delete-viewpoint"
   ],
   setup(_, { emit }) {
-    const getViewers = inject("getViewers", () => {});
+    const getViewers = inject("getViewers", () => ({}));
 
     const createViewpoints = async () => {
       Object.entries(getViewers()).forEach(([id, viewers]) => {

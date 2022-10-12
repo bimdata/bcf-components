@@ -1,0 +1,159 @@
+{
+    "BcfComponents": {
+        "BcfFilters": {
+            "filtersButton": "Filtre",
+            "filtersTitle": "Filtre",
+            "priorityLabel": "Prioritet",
+            "statusLabel": "Status",
+            "startDatePlaceholder": "Startdato",
+            "startDateError": "Ugyldig dato",
+            "startDateExample": "(f.eks.: 28/04/2022)",
+            "endDatePlaceholder": "Sluttdato",
+            "endDateError": "Ugyldig dato",
+            "endDateExample": "(f.eks.: 28/05/2022)",
+            "assignedToLabel": "Tilegnet",
+            "creatorsLabel": "Laget av",
+            "tagsLabel": "Tagger",
+            "resetButton": "Nullstill",
+            "searchButton": "Søk",
+            "undefined": "Ikke definert"
+        },
+        "BcfSettings": {
+            "goBackButton": "Tilbake",
+            "title": "BCF-innstillinger",
+            "text": "Opprett, fyll inn og list opp BCF-innstillingene du vil ha til dette prosjektet",
+            "validateButton": "Valider BCF-innstillinger"
+        },
+        "BcfStatistics": {
+            "emptyText": "Legg til BCF-emner for å få statistikk her.",
+            "issues": "problemer",
+            "extension": {
+                "Priority": "Prioritet",
+                "PriorityNotDefined": "Ingen prioritet",
+                "PriorityTitle": "Prioriteringer",
+                "Status": "Status",
+                "StatusNotDefined": "Ingen status",
+                "StatusTitle": "Status"
+            }
+        },
+        "BcfTopicCard": {
+            "priority": "Prioritet:",
+            "noPriority": "Ingen",
+            "assignedTo": "Tilegnet:",
+            "elements": "Elementer",
+            "noElements": "0 Element",
+            "notSpecified": "Ikke spesifisert",
+            "see": "Se"
+        },
+        "BcfTopicCreationCard": {
+            "text": "Opprett nytt BCF-emne",
+            "createBcfSideTitle": "Rapporter et problem"
+        },
+        "BcfTopicForm": {
+            "dragDropImageText": "Vennligst velg en fil",
+            "addObjectButton": "Objekt",
+            "addAnnotationButton": "Merknad",
+            "annotationButtonTooltip": "Dette emnet har ingen synspunkter",
+            "addPictureButton": "Legg til bilde",
+            "titlePlaceholder": "Tittel *",
+            "titleErrorMessage": "Manglende tittel",
+            "typeLabel": "Type",
+            "priorityLabel": "Prioritet",
+            "statusLabel": "Status",
+            "stageLabel": "Nivå",
+            "assignedToLabel": "Tilegnet",
+            "dueDateLabel": "Tidsfrist",
+            "dateErrorMessage": "Datoformat eller feil dato",
+            "descriptionLabel": "Beskrivelse",
+            "labelsLabel": "Tagger",
+            "createButton": "Valider",
+            "updateButton": "Endre denne BCFen",
+            "modalText": "Du er i ferd med å avslutte endringen av problem {name} men det er endringer som ikke er lagret.",
+            "cancelButton": "Forkast endringer",
+            "continueButton": "Fortsett redigering",
+            "createTitle": "Rapporter et problem"
+        },
+        "BcfTopicOverview": {
+            "openViewer": "Åpne i visningsprogram",
+            "openViewerNoModels": "Ingen modell å åpne",
+            "elements": "{count} Elementer",
+            "noElements": "Ingen elementer",
+            "type": "Type",
+            "noTypeSpecified": "Type ikke spesifisert",
+            "description": "Beskrivelse",
+            "noDescriptionProvided": "Ingen beskrivelse angitt",
+            "assignedTo": "Tilordnet",
+            "notAssigned": "Ikke tilordnet",
+            "dueDate": "Tidsfrist",
+            "noDueDate": "Ingen tidsfrist",
+            "informations": "Informasjon",
+            "status": "Status",
+            "noStatusSpecified": "Status ikke spesifisert",
+            "stage": "Nivå",
+            "noStageProvided": "Nivå ikke oppgitt",
+            "priority": "Prioritet",
+            "priorityNotDefined": "Ikke definert",
+            "tags": "Tagger",
+            "noTags": "Ingen tagger",
+            "commentButton": "Skriv en kommentar",
+            "deleteText": "Du er i ferd med å slette {name}",
+            "deleteBcfButton": "Slett denne BCFen",
+            "keepBcfButton": "Behold denne BCFen",
+            "author": "Forfatter"
+        },
+        "BcfTopicsTable": {
+            "headers": {
+                "index": "#",
+                "priority": "Prioritet",
+                "status": "Status",
+                "title": "Tittel",
+                "creator": "Forfatter",
+                "date": "Dato"
+            }
+        },
+        "BcfTopicActionsCell": {
+            "seeButton": "Se"
+        },
+        "BcfTopicComments": {
+            "commentButton": "Skriv en kommentar",
+            "commentLabel": "Skriv en kommentar",
+            "commentText": "Kommentar",
+            "cancelButton": "Avbryt",
+            "publishButton": "Publiser",
+            "commentsText": "Kommentarer",
+            "deleteCommentText": "Slette denne kommentaren?",
+            "deleteButton": "Slett"
+        },
+        "BcfTopicPriorityCell": {
+            "noPriority": "Ingen"
+        },
+        "SettingCard": {
+            "addButton": "legg til et element",
+            "cancelButton": "Avbryt",
+            "validateButton": "Valider",
+            "deleteExtensionText": "Fjern denne innstillingen",
+            "deleteButton": "Slett",
+            "title": {
+                "Priority": "Prioriteringer",
+                "Label": "Merkelapper",
+                "Status": "Status",
+                "Type": "Typer",
+                "Stage": "Nivåer"
+            },
+            "input": {
+                "Priority": "Legg til ny prioritering",
+                "Label": "Legg til ny merkelapp",
+                "Status": "Legg til ny status",
+                "Type": "Legg til ny type",
+                "Stage": "Legg til nytt nivå"
+            },
+            "text": {
+                "Priority": "Prioriteringsliste",
+                "Label": "Merkelappliste",
+                "Status": "Statusliste",
+                "Type": "Typeliste",
+                "Stage": "Nivåliste"
+            }
+        }
+    }
+}

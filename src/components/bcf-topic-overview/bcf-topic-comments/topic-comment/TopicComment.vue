@@ -125,7 +125,7 @@ export default {
       type: Object,
       required: true
     },
-    bcfTopic: {
+    topic: {
       type: Object,
       required: true
     },
@@ -139,7 +139,7 @@ export default {
     "comment-deleted",
   ],
   setup(props, { emit }) {
-    const { deleteComment, updateComment } = useService();
+    const service = useService();
 
     const loading = ref(false);
 
@@ -159,20 +159,20 @@ export default {
       text.value = props.comment.comment;
     };
     const submitUpdate = async () => {
-      if (props.comment.comment !== text.value) {
-        try {
+      try {
+        if (props.comment.comment !== text.value) {
           loading.value = true;
-          const newComment = await updateComment(
+          const newComment = await service.updateComment(
             props.project,
-            props.bcfTopic,
+            props.topic,
             props.comment,
             { comment: text.value }
           );
           emit("comment-updated", newComment);
-          isEditing.value = false;
-        } finally {
-          loading.value = false;
         }
+        isEditing.value = false;
+      } finally {
+        loading.value = false;
       }
     };
 
@@ -184,9 +184,9 @@ export default {
     const submitDelete = async () => {
       try {
         loading.value = true;
-        await deleteComment(
+        await service.deleteComment(
           props.project,
-          props.bcfTopic,
+          props.topic,
           props.comment
         );
         emit("comment-deleted", props.comment);
@@ -198,11 +198,11 @@ export default {
 
     return {
       // References
-      text,
       isDeleting,
       isEditing,
       loading,
       showMenu,
+      text,
       // Methods
       cancelUpdate,
       closeMenu,

@@ -11,7 +11,7 @@
       fill
       radius
       icon
-      @click="$emit('create-bcf-topic')"
+      @click="$emit('create-topic')"
     >
       <BIMDataIcon name="plus" size="m" fill color="default" />
     </BIMDataButton>
@@ -30,7 +30,7 @@ export default {
     BIMDataButton,
     BIMDataIcon,
   },
-  emits: ["create-bcf-topic"],
+  emits: ["create-topic"],
 };
 </script>
 

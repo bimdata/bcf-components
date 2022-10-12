@@ -19,47 +19,43 @@ function serialize(date) {
 }
 
 /**
- * 
  * @param {Date} date a date object
- * @returns {string} a date string, format: DD/MM/YYYY
+ * @param {string} format date format, either 'long' (default) or 'short'
+ * @returns {string} a date string, format: DD/MM/YYYY (long) or DD/MM/YY (short)
  */
-function deserialize(date) {
-  return date.toISOString().split("T")[0].split("-").reverse().join("/");
-}
+function deserialize(date, format = "long") {
+  if (!date) return "";
 
-/**
- * 
- * @param {Date} date a date object
- * @returns {string} a date string, format: DD/MM/YY
- */
- function deserializeShort(date) {
-  const a = date.toISOString().split('T')[0].split('-').reverse();
-  a[2] = a[2].slice(-2);
-  return a.join("/");
+  const d = date.toISOString().split('T')[0].split('-').reverse();
+  if (format === "short") d[2] = d[2].slice(-2);
+
+  return d.join("/");
 }
 
 /**
  * @param {string} date a date string, format: DD/MM/YYYY
  * @returns {Boolean}
  */
-function validate(date) {
-  if (!date) {
-    return true;
-  }
-  if (!date.match(dateRegex)) {
-    return false;
-  }
-  const dateObj = serialize(date);
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  return dateObj.getTime() >= today.getTime();
+function validateDueDate(date) {
+  return date.match(dateRegex) &&
+    serialize(date).getTime() >= (new Date()).setHours(0, 0, 0, 0);
+}
+
+function validatePastDate(date) {
+  return date.match(dateRegex) &&
+    serialize(date).getTime() <= (new Date()).setHours(0, 0, 0, 0);
+}
+
+function validateInterval(start, end) {
+  return start.match(dateRegex) && end.match(dateRegex) &&
+    serialize(start).getTime() <= serialize(end).getTime();
 }
 
 export {
-  dateRegex,
   formatToISO,
   deserialize,
-  deserializeShort,
   serialize,
-  validate,
+  validateDueDate,
+  validatePastDate,
+  validateInterval,
 };

@@ -8,10 +8,7 @@
         {{ $t(`BcfComponents.SettingCard.title.${extensionType}`) }}
       </div>
       <div class="setting-card__header__icons">
-        <div
-          v-if="availableExtensions"
-          class="count"
-        >
+        <div v-if="availableExtensions" class="count">
           {{ availableExtensions.length }}
         </div>
         <BIMDataIcon
@@ -24,7 +21,7 @@
     <div v-show="isOpen">
       <div class="setting-card__subheader">
         {{ $t(`BcfComponents.SettingCard.text.${extensionType}`) }}
-        <BIMDataButton fill radius @click="toggleAddExtension">
+        <BIMDataButton fill radius @click="toggleForm">
           <BIMDataIcon
             margin="0 6px 0 0"
             name="plus"
@@ -38,7 +35,7 @@
       </div>
 
       <transition name="slide-fade-up">
-        <div v-show="isOpenAddExtension" class="setting-card__add-form">
+        <div v-show="isOpenForm" class="setting-card__form">
           <BIMDataInput
             ref="input"
             :placeholder="$t(`BcfComponents.SettingCard.input.${extensionType}`)"
@@ -47,7 +44,7 @@
           />
 
           <div class="actions">
-            <BIMDataButton ghost radius @click="closeAddExtension">
+            <BIMDataButton ghost radius @click="closeForm">
               {{ $t("BcfComponents.SettingCard.cancelButton") }}
             </BIMDataButton>
             <BIMDataButton color="primary" fill radius @click="addExtension">
@@ -61,9 +58,8 @@
         <SettingCardItem
           v-for="extension in availableExtensions"
           :key="extension.id"
-          :project="project"
-          :extension="extension"
           :extensionType="extensionType"
+          :extension="extension"
           @update-extension="$emit('update-extension', $event)"
           @delete-extension="$emit('delete-extension', $event)"
         />
@@ -73,7 +69,8 @@
 </template>
 
 <script>
-import { ref, watch } from "vue";
+import { computed, ref } from "vue";
+import { getAvailableExtensions } from "../../../utils/extensions.js";
 // Compopnents
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
 import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataIcon.js";
@@ -88,16 +85,12 @@ export default {
     SettingCardItem,
   },
   props: {
-    project: {
+    detailedExtensions: {
       type: Object,
       required: true,
     },
     extensionType: {
       type: String,
-      required: true,
-    },
-    availableExtensions: {
-      type: Array,
       required: true,
     },
   },
@@ -107,6 +100,10 @@ export default {
     "delete-extension"
   ],
   setup(props, { emit }) {
+    const availableExtensions = computed(
+      () => getAvailableExtensions(props.extensionType, props.detailedExtensions)
+    );
+
     const input = ref(null);
     const name = ref("");
 
@@ -114,40 +111,39 @@ export default {
     const close = () => isOpen.value = false;
     const toggle = () => isOpen.value = !isOpen.value;
     
-    const isOpenAddExtension = ref(false);
-    const closeAddExtension = () => {
+    const isOpenForm = ref(false);
+    const closeForm = () => {
       name.value = "";
-      isOpenAddExtension.value = false;
+      isOpenForm.value = false;
     };
-    const toggleAddExtension = () => {
-      isOpenAddExtension.value = !isOpenAddExtension.value;
+    const toggleForm = () => {
+      isOpenForm.value = !isOpenForm.value;
+      if (isOpenForm.value) {
+        setTimeout(() => input.value.focus(), 50);
+      }
     };
-
-    watch(isOpenAddExtension, () =>
-      setTimeout(() => isOpenAddExtension.value && input.value.focus(), 50)
-    );
 
     const addExtension = async () => {
       emit("create-extension", {
-        project: props.project,
         extensionType: props.extensionType,
         data: { value: name.value }
       });
-      closeAddExtension();
+      closeForm();
     };
 
     return {
       // References
+      availableExtensions,
       input,
       isOpen,
-      isOpenAddExtension,
+      isOpenForm,
       name,
       // Methods
       addExtension,
       close,
-      closeAddExtension,
+      closeForm,
       toggle,
-      toggleAddExtension,
+      toggleForm,
     };
   }
 };

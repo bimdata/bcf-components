@@ -1,6 +1,6 @@
 import { resolve } from "path";
 import { defineConfig } from "vite";
-import libCss from "vite-plugin-libcss";
+import libCss from "@bimdata/vite-plugin-libcss";
 
 // Vite plugins for Vue 2
 import { createVuePlugin as vue } from "vite-plugin-vue2";

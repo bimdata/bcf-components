@@ -9,15 +9,15 @@
             color: adjustTextColor(`#${priorityColor}`, '#ffffff', 'var(--color-text)')
           }"
         >
-          {{ bcfTopic.index }}
+          {{ topic.index }}
         </div>
         <div class="bcf-topic-card__header__infos__title flex items-center m-l-12">
-          <BIMDataTextbox maxWidth="100% - 48px" :text="bcfTopic.title" />
+          <BIMDataTextbox maxWidth="100% - 48px" :text="topic.title" />
         </div>
       </div>
       <div class="bcf-topic-card__header__img flex items-center justify-center">
         <div
-          v-if="bcfTopic.topic_status"
+          v-if="topic.topic_status"
           class="bcf-topic-card__header__img__status flex p-6"
           :style="{
             'background-color': `#${statusColor}`,
@@ -25,11 +25,11 @@
           }"
         >
           <BIMDataIcon name="information" fill color="default" />
-          <span class="m-l-6">{{ bcfTopic.topic_status }}</span>
+          <span class="m-l-6">{{ topic.topic_status }}</span>
         </div>
 
         <div class="bcf-topic-card__header__img__date p-6">
-          {{ $d(bcfTopic.creation_date, "short") }}
+          {{ $d(topic.creation_date, "short") }}
         </div>
 
         <img
@@ -47,7 +47,7 @@
           {{ $t("BcfComponents.BcfTopicCard.priority") }}
         </strong>
         <span :style="{ color: `#${priorityColor}` }">
-          {{ bcfTopic.priority || $t("BcfComponents.BcfTopicCard.noPriority") }}
+          {{ topic.priority || $t("BcfComponents.BcfTopicCard.noPriority") }}
         </span>
       </div>
       <div>
@@ -55,7 +55,7 @@
           {{ $t("BcfComponents.BcfTopicCard.assignedTo") }}
         </strong>
         <span>
-          {{ bcfTopic.assigned_to || $t("BcfComponents.BcfTopicCard.notSpecified") }}
+          {{ topic.assigned_to || $t("BcfComponents.BcfTopicCard.notSpecified") }}
         </span>
       </div>
       <div class="flex justify-around m-t-12">
@@ -83,7 +83,7 @@
           color="primary"
           fill
           radius
-          @click="$emit('open-bcf-topic', bcfTopic)"
+          @click="$emit('open-topic', topic)"
         >
           {{ $t("BcfComponents.BcfTopicCard.see") }}
         </BIMDataButton>
@@ -110,35 +110,35 @@ export default {
     BIMDataTextbox,
   },
   props: {
-    bcfTopic: {
-      type: Object,
-      required: true
-    },
     detailedExtensions: {
       type: Object,
       required: true
-    }
+    },
+    topic: {
+      type: Object,
+      required: true
+    },
   },
   emits: [
-    "open-bcf-topic"
+    "open-topic"
   ],
   setup(props, { emit }) {
     const viewpointsWithSnapshot = computed(() => {
-      return props.bcfTopic.viewpoints.filter(viewpoint =>
+      return props.topic.viewpoints.filter(viewpoint =>
         Boolean(viewpoint.snapshot)
       );
     });
 
     const priorityColor = computed(
-      () => getPriorityColor(props.bcfTopic, props.detailedExtensions)
+      () => getPriorityColor(props.topic, props.detailedExtensions)
     );
 
     const statusColor = computed(
-      () => getStatusColor(props.bcfTopic, props.detailedExtensions)
+      () => getStatusColor(props.topic, props.detailedExtensions)
     );
 
     const topicObjects = computed(() => {
-      const components = props.bcfTopic.viewpoints?.[0]?.components;
+      const components = props.topic.viewpoints?.[0]?.components;
       return components?.selection || [];
     });
 
