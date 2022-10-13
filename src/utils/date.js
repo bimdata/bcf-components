@@ -37,18 +37,15 @@ function deserialize(date, format = "long") {
  * @returns {Boolean}
  */
 function validateDueDate(date) {
-  return date.match(dateRegex) &&
-    serialize(date).getTime() >= (new Date()).setHours(0, 0, 0, 0);
+  return date.getTime() >= (new Date()).setHours(0, 0, 0, 0);
 }
 
 function validatePastDate(date) {
-  return date.match(dateRegex) &&
-    serialize(date).getTime() <= (new Date()).setHours(0, 0, 0, 0);
+  return date.getTime() <= (new Date()).setHours(0, 0, 0, 0);
 }
 
 function validateInterval(start, end) {
-  return start.match(dateRegex) && end.match(dateRegex) &&
-    serialize(start).getTime() <= serialize(end).getTime();
+  return start.getTime() <= end.getTime();
 }
 
 export {

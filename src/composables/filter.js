@@ -1,5 +1,4 @@
 import { computed, reactive } from "vue";
-import { formatToISO } from "../utils/date.js";
 
 const EMPTY_FILTERS = {
   priorities: [],
@@ -7,8 +6,8 @@ const EMPTY_FILTERS = {
   users: [],
   creators: [],
   labels: [],
-  startDate: "",
-  endDate: "",
+  startDate: null,
+  endDate: null,
 };
 
 function useBcfFilter(topics) {
@@ -33,8 +32,8 @@ function useBcfFilter(topics) {
     }
     if (filters.startDate && filters.endDate) {
       list = list.filter(t => (
-        t.creation_date >= new Date(`${formatToISO(filters.startDate)}T00:00`) &&
-        t.creation_date <= new Date(`${formatToISO(filters.endDate)}T23:59:59`)
+        t.creation_date >= filters.startDate &&
+        t.creation_date <= filters.endDate
       ));
     }
     return list;

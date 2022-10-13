@@ -9,13 +9,7 @@
       icon
       @click="toggle"
     >
-      <BIMDataIcon
-        name="filter"
-        size="xxs"
-        fill
-        color="default"
-        margin="0 6px 0 0"
-      />
+      <BIMDataIcon name="filter" size="xxs" fill color="default" margin="0 6px 0 0" />
       <span>
         {{ $t("BcfComponents.BcfFilters.filtersButton") }}
       </span>
@@ -28,13 +22,7 @@
             {{ $t("BcfComponents.BcfFilters.filtersTitle") }}
           </div>
           <BIMDataButton color="primary" ghost rounded icon>
-            <BIMDataIcon
-              name="close"
-              size="xxs"
-              fill
-              color="primary"
-              @click="close"
-            />
+            <BIMDataIcon name="close" size="xxs" fill color="primary" @click="close" />
           </BIMDataButton>
         </div>
 
@@ -57,30 +45,18 @@
         />
 
         <div class="bcf-filters__container__date">
-          <div>
-            <BIMDataInput
-              margin="0"
-              :placeholder="$t('BcfComponents.BcfFilters.startDatePlaceholder')"
-              :error="hasErrorStartDate"
-              :errorMessage="$t('BcfComponents.BcfFilters.startDateError')"
-              v-model="filters.startDate"
-            />
-            <p class="example">
-              {{ $t("BcfComponents.BcfFilters.startDateExample") }}
-            </p>
-          </div>
-          <div>
-            <BIMDataInput
-              margin="0"
-              :placeholder="$t('BcfComponents.BcfFilters.endDatePlaceholder')"
-              :error="hasErrorEndDate"
-              :errorMessage="$t('BcfComponents.BcfFilters.endDateError')"
-              v-model="filters.endDate"
-            />
-            <p class="example">
-              {{ $t("BcfComponents.BcfFilters.endDateExample") }}
-            </p>
-          </div>
+          <BIMDataDatePicker
+            v-model="filters.startDate"
+            :value="filters.startDate"
+            @to-date-change="filters.endDate = $event"
+            :toDate="filters.endDate"
+            :clearButton="true"
+            width="100%"
+            :placeholder="$t('BcfComponents.BcfFilters.datePlaceholder')"
+            :isDateRange="true"
+            :autoCloseRange="true"
+          >
+          </BIMDataDatePicker>
         </div>
 
         <BIMDataSelect
@@ -111,23 +87,11 @@
         />
 
         <div class="bcf-filters__container__actions">
-          <BIMDataButton
-            class="m-r-12"
-            color="primary"
-            ghost
-            radius
-            @click="resetFilters"
-          >
+          <BIMDataButton class="m-r-12" color="primary" ghost radius @click="resetFilters">
             {{ $t("BcfComponents.BcfFilters.resetButton") }}
           </BIMDataButton>
           <BIMDataButton color="primary" fill radius @click="submitFilters">
-            <BIMDataIcon
-              name="search"
-              size="xxs"
-              fill
-              color="default"
-              margin="0 6px 0 0"
-            />
+            <BIMDataIcon name="search" size="xxs" fill color="default" margin="0 6px 0 0" />
             <span>
               {{ $t("BcfComponents.BcfFilters.searchButton") }}
             </span>
@@ -149,8 +113,9 @@ import BIMDataInput from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDa
 import BIMDataSelect from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataSelect.js";
 
 function getSelectOptions(list) {
-  return Array.from(new Set(list))
-    .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }));
+  return Array.from(new Set(list)).sort((a, b) =>
+    a.localeCompare(b, undefined, { sensitivity: "base" })
+  );
 }
 
 export default {
@@ -163,19 +128,16 @@ export default {
   props: {
     topics: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
-  emits: [
-    "submit"
-  ],
+  emits: ["submit"],
   setup(props, { emit }) {
     const isOpen = ref(false);
-    const close = () => isOpen.value = false;
-    const toggle = () => isOpen.value = !isOpen.value;
+    const close = () => (isOpen.value = false);
+    const toggle = () => (isOpen.value = !isOpen.value);
 
-    const hasErrorStartDate = ref(false);
-    const hasErrorEndDate = ref(false);
+    const toDate = ref(null);
 
     const { filters, filteredTopics, reset } = useBcfFilter(
       computed(() => props.topics)
@@ -202,31 +164,19 @@ export default {
     );
 
     const submitFilters = () => {
-      if (filters.startDate && filters.endDate) {
-        if (!validatePastDate(filters.startDate)) {
-          hasErrorStartDate.value = true;
-          return;
-        }
-        if (!validateInterval(filters.startDate, filters.endDate)) {
-          hasErrorEndDate.value = true;
-          return;
-        }
-      }
 
       emit("submit", {
         filters: toRaw(filters),
-        topics: filteredTopics.value
+        topics: filteredTopics.value,
       });
       isOpen.value = false;
     };
 
     const resetFilters = () => {
-      hasErrorStartDate.value = false;
-      hasErrorEndDate.value = false;
       reset();
       emit("submit", {
         filters: toRaw(filters),
-        topics: filteredTopics.value
+        topics: filteredTopics.value,
       });
     };
 
@@ -234,8 +184,7 @@ export default {
       // References
       creatorOptions,
       filters,
-      hasErrorEndDate,
-      hasErrorStartDate,
+      toDate,
       isOpen,
       priorityOptions,
       statusOptions,
@@ -245,9 +194,9 @@ export default {
       close,
       resetFilters,
       submitFilters,
-      toggle
+      toggle,
     };
-  }
+  },
 };
 </script>
 
