@@ -165,6 +165,10 @@ export default {
 
     const submitFilters = () => {
 
+      if(filters.endDate) {
+        filters.endDate.setHours(23,59,59);
+      }
+
       emit("submit", {
         filters: toRaw(filters),
         topics: filteredTopics.value,
