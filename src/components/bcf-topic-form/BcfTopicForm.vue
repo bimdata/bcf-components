@@ -202,7 +202,6 @@
 <script>
 import { computed, ref, watch } from "vue";
 import { useService } from "../../service.js";
-import { deserialize, serialize, validateDueDate } from "../../utils/date.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
 import BIMDataDatePicker from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataDatePicker.js";
@@ -392,14 +391,6 @@ export default {
     const submit = async () => {
       if (!topicTitle.value) {
         hasErrorTitle.value = true;
-        return;
-      }
-      if (
-        topicDueDate.value &&
-        topicDueDate.value !== deserialize(props.topic?.due_date) &&
-        !validateDueDate(topicDueDate.value)
-      ) {
-        hasErrorDate.value = true;
         return;
       }
       try {

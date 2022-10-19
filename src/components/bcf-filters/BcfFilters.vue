@@ -105,7 +105,6 @@
 <script>
 import { computed, ref, toRaw } from "vue";
 import { useBcfFilter } from "../../composables/filter.js";
-import { validateInterval, validatePastDate } from "../../utils/date.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
 import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataIcon.js";
