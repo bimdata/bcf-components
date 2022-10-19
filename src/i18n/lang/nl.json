@@ -6,8 +6,6 @@
             "priorityLabel": "Prioriteit",
             "statusLabel": "Status",
             "datePlaceholder": "Aanmaakdatum",
-            "startDateExample": "(Bijv: 28/04/2022)",
-            "endDateExample": "(Bijv: 28/05/2022)",
             "assignedToLabel": "Toegewezen aan",
             "creatorsLabel": "Gemaakt door",
             "tagsLabel": "Tags",

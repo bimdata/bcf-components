@@ -6,8 +6,6 @@
             "priorityLabel": "Prioritet",
             "statusLabel": "Status",
             "datePlaceholder": "Opprettelsesdato",
-            "startDateExample": "(f.eks.: 28/04/2022)",
-            "endDateExample": "(f.eks.: 28/05/2022)",
             "assignedToLabel": "Tilegnet",
             "creatorsLabel": "Laget av",
             "tagsLabel": "Tagger",
