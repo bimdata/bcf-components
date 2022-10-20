@@ -58,7 +58,7 @@
             "statusLabel": "Statut",
             "stageLabel": "Phase",
             "assignedToLabel": "Assigné à",
-            "dueDateLabel": "Date d'échéance (JJ/MM/AAAA)",
+            "dueDateLabel": "Date d'échéance",
             "descriptionLabel": "Description",
             "labelsLabel": "Tags",
             "createButton": "Valider",

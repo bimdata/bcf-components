@@ -57,7 +57,7 @@
             "statusLabel": "Status",
             "stageLabel": "Phase",
             "assignedToLabel": "Zugewiesen an",
-            "dueDateLabel": "Fälligkeitsdatum (TT.MM.JJJJ)",
+            "dueDateLabel": "Fälligkeitsdatum",
             "descriptionLabel": "Beschreibung",
             "labelsLabel": "Tags",
             "createButton": "Bestätigen",

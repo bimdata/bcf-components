@@ -57,7 +57,7 @@
             "statusLabel": "Estado",
             "stageLabel": "Fase",
             "assignedToLabel": "Asignado a",
-            "dueDateLabel": "Fecha de vencimiento (DD/MM/AAAA)",
+            "dueDateLabel": "Fecha de vencimiento",
             "descriptionLabel": "Descripción",
             "labelsLabel": "Etiquetas",
             "createButton": "Validar",
