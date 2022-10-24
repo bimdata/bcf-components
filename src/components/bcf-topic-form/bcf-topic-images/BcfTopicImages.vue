@@ -54,8 +54,11 @@
           <BIMDataIcon name="unarchive" size="m" />
         </span>
         <BIMDataButton class="btn-upload" color="primary" outline radius>
-          <label for="files">
+          <label v-if="!isTabletOrMobile" for="files">
             {{ $t("BcfComponents.BcfTopicForm.dragDropImageText") }}
+          </label>
+          <label v-else for="files" id="test">
+             {{ $t("BcfComponents.BcfTopicForm.dragDropImageTextTablet") }}
           </label>
           <input
             hidden
@@ -112,7 +115,15 @@ export default {
       emit("delete-viewpoint", viewpoint);
     };
 
+    const userAgent = navigator.userAgent.toLowerCase();
+    const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
+    const isTablet = /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/.test(userAgent);
+
+    const isTabletOrMobile = isMobile || isTablet
+  
+
     return {
+      isTabletOrMobile,
       // Methods
       createViewpoints,
       deleteViewpoint,

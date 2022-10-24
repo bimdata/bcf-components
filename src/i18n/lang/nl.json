@@ -46,6 +46,7 @@
         },
         "BcfTopicForm": {
             "dragDropImageText": "Selecteer een bestand",
+            "dragDropImageTextTablet": "Een foto maken",
             "addObjectButton": "Object",
             "addAnnotationButton": "Annotatie",
             "annotationButtonTooltip": "Dit onderwerp heeft geen perspectief",

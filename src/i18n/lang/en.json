@@ -46,6 +46,7 @@
         },
         "BcfTopicForm": {
             "dragDropImageText": "Please select a file",
+            "dragDropImageTextTablet": "Take a picture",
             "addObjectButton": "Object",
             "addAnnotationButton": "Annotation",
             "annotationButtonTooltip": "This topic has no viewpoint",

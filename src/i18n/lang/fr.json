@@ -47,6 +47,7 @@
         "BcfTopicForm": {
             "createTitle": "Signaler un problème",
             "dragDropImageText": "Veuillez sélectionner un fichier",
+            "dragDropImageTextTablet": "Prendre une photo",
             "addObjectButton": "Objet",
             "addAnnotationButton": "Annotation",
             "annotationButtonTooltip": "Ce topic ne possède actuellement aucun point de vue",
