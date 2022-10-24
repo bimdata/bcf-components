@@ -57,7 +57,7 @@
           <label v-if="!isTabletOrMobile" for="files">
             {{ $t("BcfComponents.BcfTopicForm.dragDropImageText") }}
           </label>
-          <label v-else for="files" id="test">
+          <label v-else for="files">
              {{ $t("BcfComponents.BcfTopicForm.dragDropImageTextTablet") }}
           </label>
           <input
@@ -120,7 +120,6 @@ export default {
     const isTablet = /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/.test(userAgent);
 
     const isTabletOrMobile = isMobile || isTablet
-  
 
     return {
       isTabletOrMobile,
