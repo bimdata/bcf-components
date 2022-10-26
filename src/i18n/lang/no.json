@@ -46,7 +46,6 @@
         },
         "BcfTopicForm": {
             "dragDropImageText": "Vennligst velg en fil",
-            "dragDropImageTextTablet": "For å ta et bilde",
             "addObjectButton": "Objekt",
             "addAnnotationButton": "Merknad",
             "annotationButtonTooltip": "Dette emnet har ingen synspunkter",

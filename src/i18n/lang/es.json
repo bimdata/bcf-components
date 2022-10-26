@@ -46,7 +46,6 @@
         },
         "BcfTopicForm": {
             "dragDropImageText": "Seleccione un archivo",
-            "dragDropImageTextTablet": "Tomar una fotografía",
             "addObjectButton": "Objeto",
             "addAnnotationButton": "Anotación",
             "annotationButtonTooltip": "Actualmente este tema no posee ningún punto de vista",

@@ -46,7 +46,6 @@
         },
         "BcfTopicForm": {
             "dragDropImageText": "Bitte wählen Sie eine Datei aus.",
-            "dragDropImageTextTablet": "Foto machen",
             "addObjectButton": "Objekt",
             "addAnnotationButton": "Annotation",
             "annotationButtonTooltip": "Zu diesem Thema gibt es derzeit keine Ansichten.",
