@@ -3,6 +3,10 @@
   width: 336px;
   height: 307px;
 
+  &.selected{
+    outline: 3px solid var(--color-primary);
+  }
+
   &__header {
     min-height: 204px;
     box-shadow: var(--box-shadow);
