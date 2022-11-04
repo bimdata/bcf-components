@@ -39,6 +39,7 @@ const VIEWPOINT_MODELS_FIELD = "authoring_tool_id";
 
 const VIEWPOINT_TYPES = Object.freeze({
   V3D: "ifc3d",
+  PTC: "pointCloud",
   V2D: "ifc2d",
   DWG: "dwg",
   PLAN: "plan",
@@ -51,20 +52,25 @@ const VIEWPOINT_CONFIG = Object.freeze({
     plugin: "viewer3d",
     icon: "fileIfcPolychrome",
   },
-  [VIEWPOINT_TYPES.V2D]: {
+  [VIEWPOINT_TYPES.PTC]: {
     order: 2,
+    window: "tileset",
+    plugin: "tileset",
+  },
+  [VIEWPOINT_TYPES.V2D]: {
+    order: 3,
     window: "2d",
     plugin: "viewer2d",
     icon: "fileIfcPolychrome",
   },
   [VIEWPOINT_TYPES.DWG]: {
-    order: 3,
+    order: 4,
     window: "dwg",
     plugin: "dwg",
     icon: "fileDwgPolychrome",
   },
   [VIEWPOINT_TYPES.PLAN]: {
-    order: 4,
+    order: 5,
     window: "plan",
     plugin: "plan",
     icon: "filePlanPolychrome",
