@@ -7,12 +7,12 @@ export default [
   },
   {
     id: "priority",
-    width: "96px",
+    width: "120px",
     align: "center"
   },
   {
     id: "status",
-    width: "72px",
+    width: "100px",
     align: "center"
   },
   {
