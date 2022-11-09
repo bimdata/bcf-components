@@ -54,8 +54,8 @@ const VIEWPOINT_CONFIG = Object.freeze({
   },
   [VIEWPOINT_TYPES.PTC]: {
     order: 2,
-    window: "tileset",
-    plugin: "tileset",
+    window: "pointCloud",
+    plugin: "pointCloud",
   },
   [VIEWPOINT_TYPES.V2D]: {
     order: 3,
