@@ -1,18 +1,21 @@
 <template>
-  <div class="bcf-topic-card">
+  <div class="bcf-topic-card" :class="{selected: topic.isSelected}" @mouseover="hover = true" @mouseleave="hover = false">
     <div class="bcf-topic-card__header">
-      <div class="bcf-topic-card__header__infos flex">
+      <div class="bcf-topic-card__header__infos flex p-r-12">
         <div
           class="bcf-topic-card__header__infos__index flex items-center justify-center"
           :style="{
             'background-color': `#${priorityColor}`,
-            color: adjustTextColor(`#${priorityColor}`, '#ffffff', 'var(--color-text)')
+            color: adjustTextColor(`#${priorityColor}`, '#ffffff', 'var(--color-text)'),
           }"
         >
           {{ topic.index }}
         </div>
         <div class="bcf-topic-card__header__infos__title flex items-center m-l-12">
           <BIMDataTextbox maxWidth="100% - 48px" :text="topic.title" />
+        </div>
+        <div class="bcf-topic-card__header__infos__checkbox flex items-center m-l-12">
+          <BIMDataCheckbox v-if="hover" :modelValue="topic.isSelected"  @update:modelValue="toggle(topic, $event)" />
         </div>
       </div>
       <div class="bcf-topic-card__header__img flex items-center justify-center">
@@ -21,7 +24,7 @@
           class="bcf-topic-card__header__img__status flex p-6"
           :style="{
             'background-color': `#${statusColor}`,
-            color: adjustTextColor(`#${statusColor}`, '#ffffff', 'var(--color-text)')
+            color: adjustTextColor(`#${statusColor}`, '#ffffff', 'var(--color-text)'),
           }"
         >
           <BIMDataIcon name="information" fill color="default" />
@@ -60,13 +63,7 @@
       </div>
       <div class="flex justify-around m-t-12">
         <div class="flex items-center">
-          <BIMDataIcon
-            name="model3d"
-            fill
-            color="default"
-            size="xs"
-            margin="0 6px 0 0"
-          />
+          <BIMDataIcon name="model3d" fill color="default" size="xs" margin="0 6px 0 0" />
           <span v-if="topicObjects.length > 0" class="m-r-6">
             {{ topicObjects.length }}
           </span>
@@ -78,13 +75,7 @@
             }}
           </span>
         </div>
-        <BIMDataButton
-          width="48%"
-          color="primary"
-          fill
-          radius
-          @click="$emit('open-topic', topic)"
-        >
+        <BIMDataButton width="48%" color="primary" fill radius @click="$emit('open-topic', topic)">
           {{ $t("BcfComponents.BcfTopicCard.see") }}
         </BIMDataButton>
       </div>
@@ -94,7 +85,7 @@
 
 <script>
 import { adjustTextColor } from "@bimdata/design-system/dist/colors.js";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { getPriorityColor, getStatusColor } from "../../utils/topic.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
@@ -112,46 +103,46 @@ export default {
   props: {
     detailedExtensions: {
       type: Object,
-      required: true
+      required: true,
     },
     topic: {
       type: Object,
-      required: true
+      required: true,
     },
   },
-  emits: [
-    "open-topic"
-  ],
+  emits: ["open-topic", "select-topic"],
   setup(props, { emit }) {
+    const hover = ref(false);
     const viewpointsWithSnapshot = computed(() => {
-      return props.topic.viewpoints.filter(viewpoint =>
-        Boolean(viewpoint.snapshot)
-      );
+      return props.topic.viewpoints.filter((viewpoint) => Boolean(viewpoint.snapshot));
     });
 
-    const priorityColor = computed(
-      () => getPriorityColor(props.topic, props.detailedExtensions)
-    );
+    const priorityColor = computed(() => getPriorityColor(props.topic, props.detailedExtensions));
 
-    const statusColor = computed(
-      () => getStatusColor(props.topic, props.detailedExtensions)
-    );
+    const statusColor = computed(() => getStatusColor(props.topic, props.detailedExtensions));
 
     const topicObjects = computed(() => {
       const components = props.topic.viewpoints?.[0]?.components;
       return components?.selection || [];
     });
 
+    const toggle = (topic, checked) => {
+      topic.isSelected = checked;
+      emit("select-topic", topic);
+    };
+
     return {
       // References
+      hover,
       priorityColor,
       statusColor,
       topicObjects,
       viewpointsWithSnapshot,
       // Methods
-      adjustTextColor
+      adjustTextColor,
+      toggle,
     };
-  }
+  },
 };
 </script>
 

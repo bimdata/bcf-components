@@ -14,6 +14,10 @@
     :paginated="paginated"
     :perPage="perPage"
     :rowHeight="42"
+    :selectable="selectable"
+    @selection-changed="$emit('selection-changed', $event)"
+    @all-selected="$emit('all-selected', $event)"
+
   >
     <template #cell-index="{ row: topic }">
       <BcfTopicIndexCell
@@ -104,10 +108,14 @@ export default {
     },
     columns: {
       type: Array
+    },
+    selectable: {
+      type: Boolean,
+      default: false
     }
   },
   emits: [
-    "open-topic"
+    "open-topic", "selection-changed", "all-selected"
   ],
   setup(props) {
     const displayedColumns = computed(() =>
