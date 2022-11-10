@@ -14,7 +14,7 @@
     :paginated="paginated"
     :perPage="perPage"
     :rowHeight="42"
-    :selectable="true"
+    :selectable="selectable"
     @selection-changed="$emit('selection-changed', $event)"
     @all-selected="$emit('all-selected', $event)"
 
@@ -108,6 +108,10 @@ export default {
     },
     columns: {
       type: Array
+    },
+    selectable: {
+      type: Boolean,
+      default: false
     }
   },
   emits: [
