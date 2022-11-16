@@ -20,7 +20,7 @@
     "vue": "^2.7 || ^3.0"
   },
   "devDependencies": {
-    "@bimdata/design-system": "1.4.0-rc.55",
+    "@bimdata/design-system": "1.4.0-rc.62",
     "@bimdata/vite-plugin-libcss": "0.0.1",
     "@rollup/plugin-replace": "^4.0.0",
     "@semantic-release/changelog": "^6.0.1",

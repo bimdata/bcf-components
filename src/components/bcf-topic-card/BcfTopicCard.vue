@@ -1,12 +1,17 @@
 <template>
-  <div class="bcf-topic-card" :class="{selected: topic.isSelected}" @mouseover="hover = true" @mouseleave="hover = false">
+  <div
+    class="bcf-topic-card"
+    :class="{ selected }"
+    @mouseover="hover = true"
+    @mouseleave="hover = false"
+  >
     <div class="bcf-topic-card__header">
       <div class="bcf-topic-card__header__infos flex p-r-12">
         <div
           class="bcf-topic-card__header__infos__index flex items-center justify-center"
           :style="{
             'background-color': `#${priorityColor}`,
-            color: adjustTextColor(`#${priorityColor}`, '#ffffff', 'var(--color-text)'),
+            color: adjustTextColor(`#${priorityColor}`, '#FFF', 'var(--color-text)'),
           }"
         >
           {{ topic.index }}
@@ -15,7 +20,11 @@
           <BIMDataTextbox maxWidth="100% - 48px" :text="topic.title" />
         </div>
         <div class="bcf-topic-card__header__infos__checkbox flex items-center m-l-12">
-          <BIMDataCheckbox v-if="hover" :modelValue="topic.isSelected"  @update:modelValue="toggle(topic, $event)" />
+          <BIMDataCheckbox
+            v-if="selectable && hover"
+            :modelValue="selected"
+            @update:modelValue="$emit('update:selected',  $event)"
+          />
         </div>
       </div>
       <div class="bcf-topic-card__header__img flex items-center justify-center">
@@ -24,7 +33,7 @@
           class="bcf-topic-card__header__img__status flex p-6"
           :style="{
             'background-color': `#${statusColor}`,
-            color: adjustTextColor(`#${statusColor}`, '#ffffff', 'var(--color-text)'),
+            color: adjustTextColor(`#${statusColor}`, '#FFF', 'var(--color-text)'),
           }"
         >
           <BIMDataIcon name="information" fill color="default" />
@@ -36,9 +45,9 @@
         </div>
 
         <img
-          v-if="viewpointsWithSnapshot.length > 0"
-          :src="viewpointsWithSnapshot[0].snapshot.snapshot_data"
-          alt="ViewPoint"
+          v-if="viewpoints.length > 0"
+          :src="viewpoints[0].snapshot.snapshot_data"
+          alt="topic viewpoint"
           loading="lazy"
         />
         <BcfTopicDefaultImage v-else class="default-img" />
@@ -109,27 +118,31 @@ export default {
       type: Object,
       required: true,
     },
+    selectable: {
+      type: Boolean,
+      default: false,
+    },
+    selected: {
+      type: Boolean,
+      default: false,
+    },
   },
-  emits: ["open-topic", "select-topic"],
-  setup(props, { emit }) {
+  emits: ["open-topic", "update:selected"],
+  setup(props) {
     const hover = ref(false);
-    const viewpointsWithSnapshot = computed(() => {
-      return props.topic.viewpoints.filter((viewpoint) => Boolean(viewpoint.snapshot));
-    });
 
     const priorityColor = computed(() => getPriorityColor(props.topic, props.detailedExtensions));
 
     const statusColor = computed(() => getStatusColor(props.topic, props.detailedExtensions));
 
+    const viewpoints = computed(() => {
+      return props.topic.viewpoints.filter(v => Boolean(v.snapshot));
+    });
+
     const topicObjects = computed(() => {
       const components = props.topic.viewpoints?.[0]?.components;
       return components?.selection || [];
     });
-
-    const toggle = (topic, checked) => {
-      topic.isSelected = checked;
-      emit("select-topic", topic);
-    };
 
     return {
       // References
@@ -137,10 +150,9 @@ export default {
       priorityColor,
       statusColor,
       topicObjects,
-      viewpointsWithSnapshot,
+      viewpoints,
       // Methods
       adjustTextColor,
-      toggle,
     };
   },
 };

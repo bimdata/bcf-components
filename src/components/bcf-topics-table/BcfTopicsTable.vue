@@ -15,9 +15,8 @@
     :perPage="perPage"
     :rowHeight="42"
     :selectable="selectable"
-    @selection-changed="$emit('selection-changed', $event)"
-    @all-selected="$emit('all-selected', $event)"
-
+    :selection="selection"
+    @update:selection="$emit('update:selection', $event)"
   >
     <template #cell-index="{ row: topic }">
       <BcfTopicIndexCell
@@ -112,10 +111,15 @@ export default {
     selectable: {
       type: Boolean,
       default: false
-    }
+    },
+    selection: {
+      type: Map,
+      default: () => new Map(),
+    },
   },
   emits: [
-    "open-topic", "selection-changed", "all-selected"
+    "open-topic",
+    "update:selection",
   ],
   setup(props) {
     const displayedColumns = computed(() =>
