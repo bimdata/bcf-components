@@ -1,3 +1,20 @@
+# [3.1.0](https://github.com/bimdata/bcf-components/compare/v3.0.0...v3.1.0) (2022-12-20)
+
+
+### MINOR
+
+* Change label to take a picture in mobile or tablet device (#7) ([a947b7a](https://github.com/bimdata/bcf-components/commit/a947b7ae51c355a948d033676d4d852576fac3e9)), closes [#7](https://github.com/bimdata/bcf-components/issues/7)
+* Feature/select topic (#8) ([fc324b8](https://github.com/bimdata/bcf-components/commit/fc324b88c799caeea00ccd07299b116a1ddc0771)), closes [#8](https://github.com/bimdata/bcf-components/issues/8)
+* Feature/use date picker (#5) ([23931c0](https://github.com/bimdata/bcf-components/commit/23931c0c5e7b8839edeb12bf4fca3f1b61817e49)), closes [#5](https://github.com/bimdata/bcf-components/issues/5)
+
+### PATCH
+
+* delete format date in due date label (#6) ([3630601](https://github.com/bimdata/bcf-components/commit/3630601a07f46f2f05ff6ad747254c9b8792ad27)), closes [#6](https://github.com/bimdata/bcf-components/issues/6)
+* feat: add point cloud viewpoint config ([d6646fc](https://github.com/bimdata/bcf-components/commit/d6646fcee5255324317440da063e9aa0edca3b8f))
+* fix: rewrite topic selection feature ([07fc512](https://github.com/bimdata/bcf-components/commit/07fc5129c115c57470c3dfde13ef7f474ec69453))
+* fix(config): update point cloud viewpoint config ([bbd9642](https://github.com/bimdata/bcf-components/commit/bbd9642cef35db971488e8fd4abfece97f32272f))
+* Update en.json (POEditor.com) ([3cf588e](https://github.com/bimdata/bcf-components/commit/3cf588e2351fffa271aa98dd610a78213ee4ae4c))
+
 # [3.0.0](https://github.com/bimdata/bcf-components/compare/v2.0.0...v3.0.0) (2022-10-12)
 
 
