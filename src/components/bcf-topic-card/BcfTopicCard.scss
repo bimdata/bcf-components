@@ -3,6 +3,10 @@
   width: 336px;
   height: 307px;
 
+  &.selected{
+    outline: 3px solid var(--color-primary);
+  }
+
   &__header {
     min-height: 204px;
     box-shadow: var(--box-shadow);
@@ -19,8 +23,19 @@
       }
 
       &__title {
-        width: calc(100% - var(--spacing-unit) * 2 - 32px);
+        width: calc(100% - var(--spacing-unit) * 2 - 44px);
         color: var(--color-primary);
+      }
+
+      &__checkbox {
+        ::v-deep .bimdata-checkbox__mark {
+          width: 15px;
+          height: 15px;
+          &::after {
+            top: 2px;
+            left: 4px;
+          }
+        }
       }
     }
 

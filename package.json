@@ -1,6 +1,6 @@
 {
   "name": "@bimdata/bcf-components",
-  "version": "3.0.0",
+  "version": "3.1.0-rc.8",
   "files": [
     "dist",
     "vue2-plugin.js",
@@ -20,7 +20,7 @@
     "vue": "^2.7 || ^3.0"
   },
   "devDependencies": {
-    "@bimdata/design-system": "1.4.0-rc.43",
+    "@bimdata/design-system": "1.4.0-rc.62",
     "@bimdata/vite-plugin-libcss": "0.0.1",
     "@rollup/plugin-replace": "^4.0.0",
     "@semantic-release/changelog": "^6.0.1",

@@ -127,13 +127,14 @@
           v-model="topicAssignedTo"
         />
         <div class="m-b-30">
-          <BIMDataInput
-            margin="0"
-            :placeholder="$t('BcfComponents.BcfTopicForm.dueDateLabel')"
-            :error="hasErrorDate"
-            :errorMessage="$t('BcfComponents.BcfTopicForm.dateErrorMessage')"
+          <BIMDataDatePicker
             v-model="topicDueDate"
-          />
+            :value="topicDueDate"
+            :clearButton="true"
+            width="100%"
+            :placeholder="$t('BcfComponents.BcfTopicForm.dueDateLabel')"
+          >
+          </BIMDataDatePicker>
         </div>
         <BIMDataTextarea
           width="100%"
@@ -201,9 +202,9 @@
 <script>
 import { computed, ref, watch } from "vue";
 import { useService } from "../../service.js";
-import { deserialize, serialize, validateDueDate } from "../../utils/date.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
+import BIMDataDatePicker from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataDatePicker.js";
 import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataIcon.js";
 import BIMDataInput from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataInput.js";
 import BIMDataLoading from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataLoading.js";
@@ -220,6 +221,7 @@ export default {
     BcfTopicImages,
     BcfTopicSnapshots,
     BIMDataButton,
+    BIMDataDatePicker,
     BIMDataIcon,
     BIMDataInput,
     BIMDataLoading,
@@ -316,7 +318,7 @@ export default {
     const topicStatus = ref(null);
     const topicStage = ref(null);
     const topicAssignedTo = ref(null);
-    const topicDueDate = ref("");
+    const topicDueDate = ref(null);
     const topicDescription = ref("");
     const topicLabels = ref([]);
     const viewpoints = ref([]);
@@ -334,7 +336,6 @@ export default {
     const loading = ref(false);
     const isOpenModal = ref(false);
     const hasErrorTitle = ref(false);
-    const hasErrorDate = ref(false);
 
     watch(
       () => props.topic,
@@ -346,7 +347,7 @@ export default {
           topicStatus.value = topic.topic_status || null;
           topicStage.value = topic.stage || null;
           topicAssignedTo.value = topic.assigned_to || null;
-          topicDueDate.value = deserialize(topic.due_date);
+          topicDueDate.value = topic.due_date;
           topicDescription.value = topic.description || "";
           topicLabels.value = topic.labels || [];
           viewpoints.value = topic.viewpoints || [];
@@ -362,7 +363,7 @@ export default {
       topicStatus.value = null;
       topicStage.value = null;
       topicAssignedTo.value = null;
-      topicDueDate.value = "";
+      topicDueDate.value = null;
       topicDescription.value = "";
       topicLabels.value = [];
       viewpoints.value = [];
@@ -372,7 +373,6 @@ export default {
       loading.value = false;
       isOpenModal.value = false;
       hasErrorTitle.value = false;
-      hasErrorDate.value = false;
     };
 
     const addViewpoint = viewpoint => {
@@ -391,14 +391,6 @@ export default {
     const submit = async () => {
       if (!topicTitle.value) {
         hasErrorTitle.value = true;
-        return;
-      }
-      if (
-        topicDueDate.value &&
-        topicDueDate.value !== deserialize(props.topic?.due_date) &&
-        !validateDueDate(topicDueDate.value)
-      ) {
-        hasErrorDate.value = true;
         return;
       }
       try {
@@ -471,7 +463,7 @@ export default {
           topic_status: topicStatus.value,
           stage: topicStage.value,
           assigned_to: topicAssignedTo.value,
-          due_date: topicDueDate.value ? serialize(topicDueDate.value) : undefined,
+          due_date: topicDueDate.value,
           description: topicDescription.value,
           labels: topicLabels.value,
           viewpoints: viewpointsToUpdate.value,
@@ -510,7 +502,6 @@ export default {
 
     return {
       // References
-      hasErrorDate,
       hasErrorTitle,
       isCreation,
       isOpenModal,

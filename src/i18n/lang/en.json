@@ -5,18 +5,13 @@
             "filtersTitle": "Filters",
             "priorityLabel": "Priority",
             "statusLabel": "Status",
-            "startDatePlaceholder": "Start date",
-            "startDateError": "Invalid date",
-            "startDateExample": "(Ex: 28/04/2022)",
-            "endDatePlaceholder": "End date",
-            "endDateError": "Invalid date",
-            "endDateExample": "(Ex: 28/05/2022)",
             "assignedToLabel": "Assigned to",
             "creatorsLabel": "Created by",
             "tagsLabel": "Tags",
             "resetButton": "Reset",
             "searchButton": "Search",
-            "undefined": "Not defined"
+            "undefined": "Not defined",
+            "datePlaceholder": "Creation date"
         },
         "BcfSettings": {
             "goBackButton": "Back",
@@ -63,7 +58,6 @@
             "stageLabel": "Stage",
             "assignedToLabel": "Assigned to",
             "dueDateLabel": "Due date",
-            "dateErrorMessage": "Date format or incorrect date",
             "descriptionLabel": "Description",
             "labelsLabel": "Tags",
             "createButton": "Validate",
@@ -71,7 +65,8 @@
             "modalText": "You are about to quit editing issue {name} but there are unsaved changes.",
             "cancelButton": "Discard changes",
             "continueButton": "Continue editing",
-            "createTitle": "Report a problem"
+            "createTitle": "Report a problem",
+            "dragDropImageTextTablet": "Take a picture"
         },
         "BcfTopicOverview": {
             "openViewer": "Open in viewer",
