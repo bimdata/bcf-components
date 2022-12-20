@@ -5,13 +5,13 @@
             "filtersTitle": "Filters",
             "priorityLabel": "Priority",
             "statusLabel": "Status",
-            "datePlaceholder": "Creation date",
             "assignedToLabel": "Assigned to",
             "creatorsLabel": "Created by",
             "tagsLabel": "Tags",
             "resetButton": "Reset",
             "searchButton": "Search",
-            "undefined": "Not defined"
+            "undefined": "Not defined",
+            "datePlaceholder": "Creation date"
         },
         "BcfSettings": {
             "goBackButton": "Back",
@@ -65,7 +65,8 @@
             "modalText": "You are about to quit editing issue {name} but there are unsaved changes.",
             "cancelButton": "Discard changes",
             "continueButton": "Continue editing",
-            "createTitle": "Report a problem"
+            "createTitle": "Report a problem",
+            "dragDropImageTextTablet": "Take a picture"
         },
         "BcfTopicOverview": {
             "openViewer": "Open in viewer",
