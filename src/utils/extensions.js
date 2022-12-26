@@ -5,7 +5,7 @@ function getExtensionField(type) {
 }
 
 function getAvailableExtensions(type, detailedExtensions) {
-  return detailedExtensions[EXTENSION_LIST_FIELDS[type]];
+  return detailedExtensions[EXTENSION_LIST_FIELDS[type]].slice();
 }
 
 export {

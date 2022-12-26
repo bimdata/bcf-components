@@ -15,7 +15,9 @@
   }
 
   &__content {
-    height: 100%;
+    height: calc(100% - 32px);
+    padding: 0 calc(var(--spacing-unit) * 0.5);
+    overflow: auto;
 
     &__text {
       padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 4);
