@@ -52,17 +52,17 @@
 
     <div class="bcf-topic-comments__list m-t-18">
       <p class="color-granite">
-        {{ (topic.comments ? topic.comments.length : 0) + " " + $t("BcfComponents.BcfTopicComments.commentsText") }}
+        {{ (comments ? comments.length : 0) + " " + $t("BcfComponents.BcfTopicComments.commentsText") }}
       </p>
-      <div v-if="topic.comments && topic.comments.length">
+      <div v-if="comments && comments.length">
         <TopicComment
-          v-for="comment in topic.comments"
+          v-for="comment in comments"
           :key="comment.guid"
           :project="project"
           :topic="topic"
           :comment="comment"
-          @comment-updated="$emit('comment-updated', $event)"
-          @comment-deleted="$emit('comment-deleted', $event)"
+          @comment-updated="onCommentUpdated"
+          @comment-deleted="onCommentDeleted"
         />
       </div>
     </div>
@@ -97,7 +97,7 @@ export default {
     topic: {
       type: Object,
       required: true
-    }
+    },
   },
   emis: [
     "comment-created",
@@ -107,24 +107,26 @@ export default {
   setup(props, { emit }) {
     const service = useService();
 
+    const comments = ref([]);
     const isOpen = ref(false);
     const loading = ref(false);
     const input = ref(null);
     const text = ref("");
 
-    watch(isOpen, () =>
-      setTimeout(() => isOpen.value && input.value.focus(), 50)
-    );
+    const loadComments = async () => {
+      comments.value = await service.fetchTopicComments(props.project, props.topic);
+    };
 
     const submitComment = async () => {
       try {
         loading.value = true;
-        const newComment = await service.createComment(
+        const comment = await service.createComment(
           props.project,
           props.topic,
           { comment: text.value }
         );
-        emit("comment-created", newComment);
+        loadComments();
+        emit("comment-created", comment);
         isOpen.value = false;
         text.value = "";
       } finally {
@@ -132,13 +134,37 @@ export default {
       }
     };
 
+    const onCommentUpdated = comment => {
+      loadComments();
+      emit("comment-updated", comment);
+    };
+
+    const onCommentDeleted = comment => {
+      loadComments();
+      emit("comment-deleted", comment);
+    };
+
+    watch(
+      () => props.topic,
+      () => loadComments(),
+      { immediate: true }
+    );
+
+    watch(isOpen, () =>
+      setTimeout(() => isOpen.value && input.value.focus(), 50)
+    );
+
     return {
       // References
+      comments,
       input,
       isOpen,
       loading,
       text,
       // Methods
+      loadComments,
+      onCommentDeleted,
+      onCommentUpdated,
       submitComment
     };
   }

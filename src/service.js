@@ -1,6 +1,6 @@
 import { getRandomHexColor } from "@bimdata/design-system/dist/colors.js";
 import eachLimit from "async/eachLimit";
-import { getExtensionField } from "./utils/extensions";
+import { getExtensionField } from "./utils/extensions.js";
 import { getPriorityColor } from "./utils/topic.js";
 
 let libService = null;
@@ -13,17 +13,17 @@ function createService(apiClient, { fetchUsers }) {
 
   // --- BCF Topics API ---
 
-  const fetchTopics = async (project) => {
-    const users = await getUsers(project);
-    const extensions = await apiClient.bcfApi.getDetailedExtensions(project.id);
+  const fetchTopics = async (project, { extensions, users } = {}) => {
+    const _extensions = extensions ?? (await apiClient.bcfApi.getDetailedExtensions(project.id));
+    const _users = users ?? (await getUsers(project));
 
     const topics = await apiClient.bcfApi.getTopics(project.id);
     topics.sort((a, b) => b.index - a.index);
 
     await eachLimit(topics, 10, async topic => {
-      topic.color = getPriorityColor(topic, extensions);
+      topic.color = getPriorityColor(topic, _extensions);
 
-      topic.creator = users.find(u => u.email === topic.creation_author);
+      topic.creator = _users.find(u => u.email === topic.creation_author);
 
       topic.viewpoints = await apiClient.bcfApi.getTopicViewpoints(
         project.id,
