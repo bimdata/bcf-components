@@ -34,10 +34,6 @@
               </span>
               <span class="bcf-statistics__content__legend__item__text">
                 {{
-                  data.label &&
-                  $t(`BcfComponents.BcfStatistics.extension.${extensionType}`)
-                }}
-                {{
                   data.label ||
                   $t(`BcfComponents.BcfStatistics.extension.${extensionType}NotDefined`)
                 }}
