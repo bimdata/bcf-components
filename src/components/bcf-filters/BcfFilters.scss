@@ -38,6 +38,10 @@
       }
     }
 
+    ::v-deep .bimdata-select.active {
+      z-index: 3;
+    }
+
     &__date {
       & > .flex {
         gap: calc(var(--spacing-unit) / 2);
