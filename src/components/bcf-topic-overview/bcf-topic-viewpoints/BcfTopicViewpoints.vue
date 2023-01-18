@@ -72,8 +72,8 @@ export default {
   ],
   setup(props) {
     const viewpoints = computed(() =>
-      props.topic.viewpoints
-        .filter(viewpoint => viewpoint.snapshot)
+      (props.topic.viewpoints ?? [])
+        .filter(v => v.snapshot)
         .map(viewpoint => ({
           ...viewpoint,
           icon: getViewpointConfig(viewpoint)?.icon

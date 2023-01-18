@@ -1,80 +1,94 @@
 .bcf-topic-card {
   position: relative;
   width: 336px;
-  height: 307px;
+  height: 308px;
+  box-shadow: var(--box-shadow);
 
   &.selected{
     outline: 3px solid var(--color-primary);
   }
 
   &__header {
-    min-height: 204px;
-    box-shadow: var(--box-shadow);
+    height: 32px;
+    padding-right: var(--spacing-unit);
+    background-color: var(--color-white);
+    display: flex;
+    gap: var(--spacing-unit);
 
-    &__infos {
-      height: 32px;
-      background-color: var(--color-white);
-
-      &__index {
-        padding: 3px;
-        min-width: 32px;
-        background-color: var(--color-silver);
-        color: var(--color-text);
-      }
-
-      &__title {
-        width: calc(100% - var(--spacing-unit) * 2 - 44px);
-        color: var(--color-primary);
-      }
-
-      &__checkbox {
-        ::v-deep .bimdata-checkbox__mark {
-          width: 15px;
-          height: 15px;
-          &::after {
-            top: 2px;
-            left: 4px;
-          }
-        }
-      }
+    .index {
+      padding: 3px;
+      min-width: 32px;
+      background-color: var(--color-silver);
+      color: var(--color-text);
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
-    &__img {
-      height: calc(204px - 32px);
-      position: relative;
+    .title {
+      width: calc(100% - var(--spacing-unit) * 2 - 44px);
+      color: var(--color-primary);
+      display: flex;
+      align-items: center;
+    }
 
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
+    .checkbox {
+      display: flex;
+      align-items: center;
 
-      .default-img {
-        width: 120px;
-        height: 120px;
-      }
-
-      &__status {
-        position: absolute;
-        top: 6px;
-        left: 6px;
-        border-radius: 3px;
-      }
-
-      &__date {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        font-size: 11px;
-        background-color: var(--color-white);
+      ::v-deep .bimdata-checkbox__mark {
+        width: 15px;
+        height: 15px;
+        &::after {
+          top: 2px;
+          left: 4px;
+        }
       }
     }
   }
 
+  &__image {
+    height: 171px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .img-default {
+      width: 120px;
+      height: 120px;
+    }
+
+    .status {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      border-radius: 3px;
+      padding: calc(var(--spacing-unit) / 2);
+      display: flex;
+      align-items: center;
+    }
+
+    .date {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      padding: calc(var(--spacing-unit) / 2);
+      font-size: 11px;
+      background-color: var(--color-white);
+    }
+  }
+
   &__content {
-    min-height: 98px;
-    margin-top: 3px;
-    box-shadow: var(--box-shadow);
+    height: 102px;
+    padding: var(--spacing-unit);
+    border-top: 3px solid var(--color-silver-light);
     font-size: 12px;
     background-color: var(--color-white);
     color: var(--color-text);
