@@ -19,17 +19,9 @@ function createService(apiClient, { fetchUsers }) {
 
     const topics = await apiClient.bcfApi.getTopics(project.id);
     topics.sort((a, b) => b.index - a.index);
-
-    await eachLimit(topics, 10, async topic => {
+    topics.forEach(topic => {
       topic.color = getPriorityColor(topic, _extensions);
-
       topic.creator = _users.find(u => u.email === topic.creation_author);
-
-      topic.viewpoints = await apiClient.bcfApi.getTopicViewpoints(
-        project.id,
-        topic.guid,
-        "url"
-      );
     });
 
     return topics;
@@ -67,6 +59,21 @@ function createService(apiClient, { fetchUsers }) {
 
 
   // --- BCF Topic Viewpoints API ---
+
+  const loadTopicsViewpoints = async (project, topics) => {
+    await eachLimit(topics, 10, async topic => {
+      topic.viewpoints = await fetchTopicViewpoints(project, topic);
+    });
+    return topics;
+  };
+
+  const fetchTopicViewpoints = async (project, topic) => {
+    return await apiClient.bcfApi.getTopicViewpoints(
+      project.id,
+      topic.guid,
+      "url"
+    );
+  };
 
   const createViewpoint = async (project, topic, data) => {
     return await apiClient.bcfApi.createViewpoint(
@@ -136,29 +143,29 @@ function createService(apiClient, { fetchUsers }) {
     return apiClient.bcfApi.getDetailedExtensions(project.id);
   };
 
-  const createExtension = async (project, extensionType, data) => {
-    return await apiClient.bcfApi[`createExtension${extensionType}`](
+  const createExtension = async (project, type, data) => {
+    return await apiClient.bcfApi[`createExtension${type}`](
       project.id,
       {
-        [getExtensionField(extensionType)]: data.value,
+        [getExtensionField(type)]: data.value,
         color: getRandomHexColor(),
       }
     );
   };
 
-  const updateExtension = async (project, extensionType, extension, data) => {
-    return await apiClient.bcfApi[`updateExtension${extensionType}`](
+  const updateExtension = async (project, type, extension, data) => {
+    return await apiClient.bcfApi[`updateExtension${type}`](
       extension.id,
       project.id,
       {
-        [getExtensionField(extensionType)]: data.value,
+        [getExtensionField(type)]: data.value,
         color: data.color,
       }
     );
   };
 
-  const deleteExtension = async (project, extensionType, extension) => {
-    await apiClient.bcfApi[`deleteExtension${extensionType}`](
+  const deleteExtension = async (project, type, extension) => {
+    await apiClient.bcfApi[`deleteExtension${type}`](
       extension.id,
       project.id,
     );
@@ -170,6 +177,8 @@ function createService(apiClient, { fetchUsers }) {
     createTopic,
     updateTopic,
     deleteTopic,
+    loadTopicsViewpoints,
+    fetchTopicViewpoints,
     createViewpoint,
     deleteViewpoint,
     fetchTopicComments,
