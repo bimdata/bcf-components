@@ -1,3 +1,19 @@
+# [4.0.0](https://github.com/bimdata/bcf-components/compare/v3.1.0...v4.0.0) (2023-01-25)
+
+
+### MAJOR
+
+* feat: seperate topics and viewpoints loading ([8c6eab7](https://github.com/bimdata/bcf-components/commit/8c6eab7b0a5a1b10efb3569738ef8435fca3e26f))
+
+### PATCH
+
+* delete "statut" or "priority" before data label (#11) ([4aa013a](https://github.com/bimdata/bcf-components/commit/4aa013aefadc93483e1dc0db96cb90008ae0d0c0)), closes [#11](https://github.com/bimdata/bcf-components/issues/11)
+* feat(comments): load/handle comments in lib ([94d7342](https://github.com/bimdata/bcf-components/commit/94d734204353d7786a95e324e1e9cb3db2ab8ed8))
+* fix: some style fix/refactoring ([be51cbc](https://github.com/bimdata/bcf-components/commit/be51cbc18b748b782fa2c95bdc3c9de0801e3fb4))
+* fix(config): slice extensions array to avoid unwanted mutations ([4bdbd49](https://github.com/bimdata/bcf-components/commit/4bdbd49124f8883843e9093540e4a8e1d856fbc5))
+* fix(form): add topicObjects to viewpoint components ([e7cf73d](https://github.com/bimdata/bcf-components/commit/e7cf73d002b2ececf2ded3e6edb5dc44da9781e9))
+* Fix/filters and statistics (#10) ([0a9db9a](https://github.com/bimdata/bcf-components/commit/0a9db9a291bdd95442c9b7ac76d9a7d2faf0e532)), closes [#10](https://github.com/bimdata/bcf-components/issues/10)
+
 # [3.1.0](https://github.com/bimdata/bcf-components/compare/v3.0.0...v3.1.0) (2022-12-20)
 
 
