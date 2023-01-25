@@ -35,8 +35,7 @@
             "priority": "Priorité : ",
             "noPriority": "Aucune",
             "assignedTo": "Assigné à : ",
-            "elements": "Élements",
-            "noElements": "0 Élement",
+            "elements": "{n} Élements",
             "notSpecified": "Non défini",
             "see": "Voir"
         },

@@ -307,9 +307,9 @@ export default {
 
     const priorityColor = computed(() => getPriorityColor(props.topic, props.detailedExtensions));
 
-    const topicObjects = computed(() => props.topic.viewpoints?.[0]?.components?.selection || []);
+    const topicObjects = computed(() => props.topic.viewpoints?.[0]?.components?.selection ?? []);
 
-    const topicLabels = computed(() => Array.from(props.topic.labels || []).sort());
+    const topicLabels = computed(() => Array.from(props.topic.labels ?? []).sort());
 
     const deleteTopic = async () => {
       try {

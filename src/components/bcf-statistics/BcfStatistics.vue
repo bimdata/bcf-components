@@ -34,10 +34,6 @@
               </span>
               <span class="bcf-statistics__content__legend__item__text">
                 {{
-                  data.label &&
-                  $t(`BcfComponents.BcfStatistics.extension.${extensionType}`)
-                }}
-                {{
                   data.label ||
                   $t(`BcfComponents.BcfStatistics.extension.${extensionType}NotDefined`)
                 }}
@@ -86,7 +82,7 @@ export default {
       const extField = getExtensionField(props.extensionType);
       const displayedExtensions = getAvailableExtensions(props.extensionType, props.detailedExtensions);
 
-      // Add an undefined extesion value to match topics
+      // Add an undefined extension value to match topics
       // that have no value for this extension.
       displayedExtensions.push({ [extField]: undefined });
 

@@ -417,10 +417,9 @@ export default {
               ...viewpointsToUpdate.value,
               ...viewpointsToCreate.value
             ].forEach(viewpoint => {
-              Object.assign(viewpoint, props.topicObjects);
-              if (!viewpoint.components) {
-                viewpoint.components = {};
-              }
+              Object.assign(viewpoint, {
+                components: props.topicObjects
+              });
               if (!viewpoint.components.selection) {
                 viewpoint.components.selection = [];
               }
@@ -445,6 +444,7 @@ export default {
             });
           }
         }
+
         if (props.topicAnnotations) {
           [
             ...viewpointsToUpdate.value,

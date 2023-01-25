@@ -4,6 +4,7 @@
   &__content {
     position: relative;
     display: flex;
+    align-items: center;
 
     &__chart {
       flex: 1;
@@ -36,6 +37,7 @@
 
         &__percent {
           margin: 0 calc(var(--spacing-unit) / 2);
+          min-width: 30px;
           font-weight: bold;
         }
 
@@ -45,11 +47,11 @@
       }
 
       ::v-deep .bimdata-paginated-list {
-      // :deep(.bimdata-paginated-list) {
-        ul:first-child {
-          height: 144px;
+        // :deep(.bimdata-paginated-list) {
+          ul:first-child {
+            min-height: 144px;
+          }
         }
-      }
     }
   }
 }
