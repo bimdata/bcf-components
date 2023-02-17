@@ -109,7 +109,7 @@
           <span class="label">
             {{ $t("BcfComponents.BcfTopicOverview.description") }}
           </span>
-          <span class="value">
+          <span class="value" style="white-space: pre-line">
             {{
               topic.description
                 ? topic.description
