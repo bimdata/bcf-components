@@ -3,8 +3,23 @@
     font-weight: 700;
   }
 
+  &__post-comment__snapshot {
+    position: relative;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .btn-delete {
+        position: absolute;
+        top: calc(50% - (32px / 2));
+        left: calc(50% - (32px / 2));
+      }
+  }
+
   ::v-deep .bimdata-textarea {
-  // :deep(.bimdata-textarea) {
     width: 100%;
   }
 }

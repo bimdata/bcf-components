@@ -1,5 +1,5 @@
 <template>
-  <div class="topic-comment">
+  <div class="topic-comment m-t-18 m-b-36">
     <div class="topic-comment__header flex items-center justify-between">
       <div class="topic-comment__header__left flex items-center">
         <UserAvatar
@@ -18,15 +18,8 @@
           <BIMDataIcon name="user" size="xxs" fill color="granite" />
         </span>
 
-        <BIMDataTextbox
-          width="auto"
-          maxWidth="150px"
-          cutPosition="end"
-          :text="comment.author"
-        />
-        <span class="color-granite m-x-6">
-          •
-        </span>
+        <BIMDataTextbox width="auto" maxWidth="150px" cutPosition="end" :text="comment.author" />
+        <span class="color-granite m-x-6"> • </span>
         <span class="color-granite">
           {{ $d(comment.date, "long") }}
         </span>
@@ -54,10 +47,7 @@
             </BIMDataButton>
           </template>
         </div>
-        <div
-          v-if="isDeleting"
-          class="topic-comment__header__right__delete p-x-12"
-        >
+        <div v-if="isDeleting" class="topic-comment__header__right__delete p-x-12">
           <span>
             {{ $t("BcfComponents.BcfTopicComments.deleteCommentText") }}
           </span>
@@ -72,7 +62,10 @@
         </div>
         <BIMDataButton
           v-if="!showMenu && !isDeleting && !isEditing"
-          class="topic-comment__header__right__btn" rounded icon @click="toggleMenu"
+          class="topic-comment__header__right__btn"
+          rounded
+          icon
+          @click="toggleMenu"
         >
           <BIMDataIcon name="ellipsis" size="l" fill color="granite-light" />
         </BIMDataButton>
@@ -90,6 +83,9 @@
         :resizable="false"
         :readonly="!isEditing"
       />
+      <div class="topic-comment__content__snapshot" v-if="viewpoint && viewpoint.snapshot">
+        <img :src="viewpoint.snapshot.snapshot_data" /> 
+      </div>
     </div>
 
     <template v-if="loading">
@@ -99,7 +95,7 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useService } from "../../../../service.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
@@ -123,31 +119,41 @@ export default {
   props: {
     project: {
       type: Object,
-      required: true
+      required: true,
     },
     topic: {
       type: Object,
-      required: true
+      required: true,
     },
     comment: {
       type: Object,
-      required: true
+      required: true,
     },
   },
-  emits: [
-    "comment-updated",
-    "comment-deleted",
-  ],
+  emits: ["comment-updated", "comment-deleted"],
+
   setup(props, { emit }) {
     const service = useService();
 
     const loading = ref(false);
 
     const showMenu = ref(false);
-    const closeMenu = () => showMenu.value = false;
-    const toggleMenu = () => showMenu.value = !showMenu.value;
+    const closeMenu = () => (showMenu.value = false);
+    const toggleMenu = () => (showMenu.value = !showMenu.value);
 
     const text = ref(props.comment.comment);
+
+    const viewpoint = ref(null);
+    const loadViewpoint = async () => {
+      viewpoint.value = await service.fetchTopicCommentViewpoint(
+        props.project,
+        props.topic,
+        props.comment
+      );
+    };
+    onMounted(async () => {
+      await loadViewpoint();
+    });
 
     const isEditing = ref(false);
     const onOpenEdit = () => {
@@ -184,11 +190,7 @@ export default {
     const submitDelete = async () => {
       try {
         loading.value = true;
-        await service.deleteComment(
-          props.project,
-          props.topic,
-          props.comment
-        );
+        await service.deleteComment(props.project, props.topic, props.comment);
         emit("comment-deleted", props.comment);
         isDeleting.value = false;
       } finally {
@@ -203,6 +205,7 @@ export default {
       loading,
       showMenu,
       text,
+      viewpoint,
       // Methods
       cancelUpdate,
       closeMenu,
@@ -211,8 +214,9 @@ export default {
       submitDelete,
       submitUpdate,
       toggleMenu,
+      loadViewpoint,
     };
-  }
+  },
 };
 </script>
 
