@@ -30,9 +30,14 @@
             <div class="bcf-topic-comments__post-comment__snapshot" @click="createViewpoint">
               <BIMDataIcon name="camera" fill color="default" />
             </div>
-            <BIMDataDropdownList :list="viewerSelectOptions" @element-click="selectViewer">
+            <BIMDataDropdownList
+              :list="viewerSelectOptions"
+              elementKey="key"
+              @element-click="selectViewer"
+            >
               <template #element="{ element }">
                 <div
+                  style="width: 100%;"
                   @mouseenter="highlightViewer(element.viewer)"
                   @mouseleave="unhighlightViewer(element.viewer)"
                 >
@@ -137,7 +142,7 @@ export default {
 
     const createViewpoint = async () => {
       viewerSelectOptions.value = Object.entries(getViewers()).map(
-        ([id, list]) => list.map((v, i) => ({ id, index: i, viewer: v }))
+        ([id, list]) => list.map((v, i) => ({ key: `${id}-${i}`, id, index: i, viewer: v }))
       ).flat();
 
       if (viewer) {
@@ -210,7 +215,8 @@ export default {
       deleteViewpoint,
       submitComment,
       highlightViewer,
-      unhighlightViewer
+      unhighlightViewer,
+      selectViewer
     };
   },
 };
