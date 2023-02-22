@@ -31,13 +31,14 @@
               <BIMDataIcon name="camera" fill color="default" />
             </div>
             <BIMDataDropdownList
+              v-if="viewerSelectOptions && viewerSelectOptions.length > 1"
               :list="viewerSelectOptions"
               elementKey="key"
               @element-click="selectViewer"
             >
               <template #element="{ element }">
                 <div
-                  style="width: 100%;"
+                  style="width: 100%"
                   @mouseenter="highlightViewer(element.viewer)"
                   @mouseleave="unhighlightViewer(element.viewer)"
                 >
@@ -90,6 +91,8 @@ import { useService } from "../../../service.js";
 
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
+import BIMDataDropdownList from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataDropdownList.js";
+import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataIcon.js";
 import BIMDataLoading from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataLoading.js";
 import BIMDataTextarea from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataTextarea.js";
 import TopicComment from "./topic-comment/TopicComment.vue";
@@ -97,6 +100,8 @@ import TopicComment from "./topic-comment/TopicComment.vue";
 export default {
   components: {
     BIMDataButton,
+    BIMDataDropdownList,
+    BIMDataIcon,
     BIMDataLoading,
     BIMDataTextarea,
     TopicComment,
@@ -129,10 +134,10 @@ export default {
     const getViewers = inject("getViewers", () => ({}));
     const viewerSelectOptions = ref([]);
 
-    const highlightViewer = viewer => {
+    const highlightViewer = (viewer) => {
       viewer.$viewer.localContext.el.style.border = "2px solid red";
     };
-    const unhighlightViewer = viewer => {
+    const unhighlightViewer = (viewer) => {
       viewer.$viewer.localContext.el.style.border = "";
     };
     const selectViewer = ({ viewer }) => {
@@ -141,20 +146,22 @@ export default {
     };
 
     const createViewpoint = async () => {
-      viewerSelectOptions.value = Object.entries(getViewers()).map(
-        ([id, list]) => list.map((v, i) => ({ key: `${id}-${i}`, id, index: i, viewer: v }))
-      ).flat();
+      viewerSelectOptions.value = Object.entries(getViewers())
+        .map(([id, list]) => list.map((v, i) => ({ key: `${id}-${i}`, id, index: i, viewer: v })))
+        .flat();
 
       if (viewer) {
-        const [type, config] =
-          Object.entries(VIEWPOINT_CONFIG).find(([, c]) => c.plugin === id);
+        const [type, config] = Object.entries(VIEWPOINT_CONFIG).find(([, c]) => c.plugin === id);
 
         const vpt = await viewer.getViewpoint();
 
         const { order } = config ?? {};
         vpt.order = order;
         vpt[VIEWPOINT_TYPE_FIELD] = type;
-        vpt[VIEWPOINT_MODELS_FIELD] = viewer.getLoadedModels().map(m => m.id).join(",");
+        vpt[VIEWPOINT_MODELS_FIELD] = viewer
+          .getLoadedModels()
+          .map((m) => m.id)
+          .join(",");
 
         viewpoint.value = await service.createViewpoint(props.project, props.topic, vpt);
       }
@@ -216,7 +223,7 @@ export default {
       submitComment,
       highlightViewer,
       unhighlightViewer,
-      selectViewer
+      selectViewer,
     };
   },
 };
