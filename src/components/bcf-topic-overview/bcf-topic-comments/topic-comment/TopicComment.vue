@@ -1,5 +1,5 @@
 <template>
-  <div class="topic-comment m-t-18 m-b-36">
+  <div class="topic-comment m-t-18">
     <div class="topic-comment__header flex items-center justify-between">
       <div class="topic-comment__header__left flex items-center">
         <UserAvatar
