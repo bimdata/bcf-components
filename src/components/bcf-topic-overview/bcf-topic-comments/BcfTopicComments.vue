@@ -27,14 +27,14 @@
         </div>
         <div class="flex items-center justify-between">
           <div>
-            <div class="bcf-topic-comments__post-comment__snapshot" @click="createViewpoint">
+            <div class="bcf-topic-comments__post-comment__snapshot" @click="setCommentViewpoint">
               <BIMDataIcon name="camera" fill color="default" />
             </div>
             <BIMDataDropdownList
-              v-if="viewerSelectOptions && viewerSelectOptions.length > 1"
+              v-if="viewerSelectVisible"
               :list="viewerSelectOptions"
               elementKey="key"
-              @element-click="selectViewer"
+              @element-click="createViewpoint"
             >
               <template #element="{ element }">
                 <div
@@ -132,6 +132,7 @@ export default {
     };
 
     const getViewers = inject("getViewers", () => ({}));
+    const viewerSelectVisible = ref(false);
     const viewerSelectOptions = ref([]);
 
     const highlightViewer = (viewer) => {
@@ -140,31 +141,33 @@ export default {
     const unhighlightViewer = (viewer) => {
       viewer.$viewer.localContext.el.style.border = "";
     };
-    const selectViewer = ({ viewer }) => {
-      // selectedViewer = viewer
-      console.log("viewer = ", viewer);
+
+    const setCommentViewpoint = async () => {
+      viewerSelectOptions.value = Object.entries(getViewers()).map(
+        ([id, list]) => list.map((v, i) => ({ key: `${id}-${i}`, id, index: i, viewer: v }))
+      ).flat();
+      
+      if (viewerSelectOptions.value.length === 1) {
+        await createViewpoint(viewerSelectOptions.value[0]);
+      } else if (viewerSelectOptions.value.length > 1) {
+        viewerSelectVisible.value = true;
+      }
     };
 
-    const createViewpoint = async () => {
-      viewerSelectOptions.value = Object.entries(getViewers())
-        .map(([id, list]) => list.map((v, i) => ({ key: `${id}-${i}`, id, index: i, viewer: v })))
-        .flat();
+    const createViewpoint = async ({ id, viewer }) => {
+      unhighlightViewer(viewer);
+      viewerSelectVisible.value = false;
+      viewerSelectOptions.value = [];
 
-      if (viewer) {
-        const [type, config] = Object.entries(VIEWPOINT_CONFIG).find(([, c]) => c.plugin === id);
+      const [type] = Object.entries(VIEWPOINT_CONFIG).find(([, c]) => c.plugin === id);
 
-        const vpt = await viewer.getViewpoint();
-
-        const { order } = config ?? {};
-        vpt.order = order;
-        vpt[VIEWPOINT_TYPE_FIELD] = type;
-        vpt[VIEWPOINT_MODELS_FIELD] = viewer
-          .getLoadedModels()
-          .map((m) => m.id)
-          .join(",");
-
-        viewpoint.value = await service.createViewpoint(props.project, props.topic, vpt);
-      }
+      viewpoint.value = Object.assign(
+        await viewer.getViewpoint(),
+        {
+          [VIEWPOINT_TYPE_FIELD]: type,
+          [VIEWPOINT_MODELS_FIELD]: viewer.getLoadedModels().map(m => m.id).join(",")
+        }
+      );
     };
 
     const deleteViewpoint = () => {
@@ -174,6 +177,9 @@ export default {
     const submitComment = async () => {
       try {
         loading.value = true;
+        if (viewpoint.value) {
+          viewpoint.value = await service.createViewpoint(props.project, props.topic, viewpoint.value);
+        }
         const comment = await service.createComment(props.project, props.topic, {
           comment: text.value,
           viewpoint_guid: viewpoint.value?.guid,
@@ -213,17 +219,18 @@ export default {
       loading,
       text,
       viewerSelectOptions,
+      viewerSelectVisible,
       viewpoint,
       // Methods
+      createViewpoint,
+      deleteViewpoint,
+      highlightViewer,
       loadComments,
       onCommentDeleted,
       onCommentUpdated,
-      createViewpoint,
-      deleteViewpoint,
+      setCommentViewpoint,
       submitComment,
-      highlightViewer,
-      unhighlightViewer,
-      selectViewer,
+      unhighlightViewer
     };
   },
 };
