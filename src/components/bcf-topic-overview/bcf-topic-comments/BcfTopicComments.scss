@@ -25,6 +25,13 @@
     }
   }
 
+  ::v-deep .submenu--down li {
+    padding: 0;
+  }
+  ::v-deep .submenu--down li > div {
+    padding: calc(var(--spacing-unit)/ 2);
+  }
+
   ::v-deep .bimdata-textarea {
     width: 100%;
   }
