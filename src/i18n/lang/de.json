@@ -42,7 +42,7 @@
         },
         "BcfTopicCreationCard": {
             "text": "Ein neues BCF-Thema erstellen",
-            "createBcfSideTitle": "Ein Problem melden"
+            "createBcfSideTitle": "Ein Thema erstellen"
         },
         "BcfTopicForm": {
             "dragDropImageText": "Bitte wählen Sie eine Datei aus.",
@@ -65,7 +65,7 @@
             "modalText": "Sie sind dabei, die Bearbeitung der Ausgabe {Name} zu beenden, aber es gibt noch ungespeicherte Änderungen.",
             "cancelButton": "Änderungen verwerfen",
             "continueButton": "Änderungen fortsetzen",
-            "createTitle": "Ein Problem melden"
+            "createTitle": "Ein Thema erstellen"
         },
         "BcfTopicOverview": {
             "openViewer": "Im Viewer öffnen",
