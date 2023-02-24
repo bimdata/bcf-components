@@ -17,8 +17,8 @@
           autofocus
           resizable
         />
-        <div class="bcf-topic-comments__post-comment__snapshot">
-          <template v-if="viewpoint">
+        <div class="bcf-topic-comments__post-comment__snapshot m-b-12" v-if="viewpoint">
+          <template>
             <img v-if="viewpoint.snapshot.snapshot_data" :src="viewpoint.snapshot.snapshot_data" />
             <BIMDataButton class="btn-delete" fill rounded icon @click="deleteViewpoint">
               <BIMDataIcon name="delete" size="xs" fill color="high" />
@@ -26,16 +26,22 @@
           </template>
         </div>
         <div class="flex items-center justify-between">
-          <div>
-            <div class="bcf-topic-comments__post-comment__snapshot" @click="setCommentViewpoint">
+          <div class="flex items-center">
+            <div
+              class="bcf-topic-comments__post-comment__camera m-r-12"
+              @click="setCommentViewpoint"
+              v-if="!viewerSelectVisible && isViewer"
+            >
               <BIMDataIcon name="camera" fill color="default" />
             </div>
             <BIMDataDropdownList
-              v-if="viewerSelectVisible"
+              v-if="viewerSelectVisible && isViewer"
               :list="viewerSelectOptions"
               elementKey="key"
               @element-click="createViewpoint"
+              width="180px"
             >
+              <template #header>Prendre un snapshot</template>
               <template #element="{ element }">
                 <div
                   style="width: 100%"
@@ -85,7 +91,7 @@
 </template>
 
 <script>
-import { inject, ref, watch } from "vue";
+import { onMounted, inject, ref, watch, onBeforeUnmount } from "vue";
 import { VIEWPOINT_CONFIG, VIEWPOINT_MODELS_FIELD, VIEWPOINT_TYPE_FIELD } from "../../../config.js";
 import { useService } from "../../../service.js";
 
@@ -96,6 +102,7 @@ import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDat
 import BIMDataLoading from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataLoading.js";
 import BIMDataTextarea from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataTextarea.js";
 import TopicComment from "./topic-comment/TopicComment.vue";
+
 
 export default {
   components: {
@@ -132,42 +139,40 @@ export default {
     };
 
     const getViewers = inject("getViewers", () => ({}));
+    const $viewer = inject("$viewer");
+
     const viewerSelectVisible = ref(false);
     const viewerSelectOptions = ref([]);
 
     const highlightViewer = (viewer) => {
-      viewer.$viewer.localContext.el.style.border = "2px solid red";
+      viewer.$viewer.localContext.el.style.boxShadow = "inset 0 0 0 2px var(--color-primary)";
+      viewer.$viewer.localContext.el.style.opacity = ".85";
     };
     const unhighlightViewer = (viewer) => {
-      viewer.$viewer.localContext.el.style.border = "";
+      viewer.$viewer.localContext.el.style.boxShadow = "";
+      viewer.$viewer.localContext.el.style.opacity = "";
     };
 
     const setCommentViewpoint = async () => {
-      viewerSelectOptions.value = Object.entries(getViewers()).map(
-        ([id, list]) => list.map((v, i) => ({ key: `${id}-${i}`, id, index: i, viewer: v }))
-      ).flat();
-      
       if (viewerSelectOptions.value.length === 1) {
         await createViewpoint(viewerSelectOptions.value[0]);
       } else if (viewerSelectOptions.value.length > 1) {
         viewerSelectVisible.value = true;
       }
     };
-
     const createViewpoint = async ({ id, viewer }) => {
       unhighlightViewer(viewer);
       viewerSelectVisible.value = false;
-      viewerSelectOptions.value = [];
+      // viewerSelectOptions.value = [];
 
       const [type] = Object.entries(VIEWPOINT_CONFIG).find(([, c]) => c.plugin === id);
-
-      viewpoint.value = Object.assign(
-        await viewer.getViewpoint(),
-        {
-          [VIEWPOINT_TYPE_FIELD]: type,
-          [VIEWPOINT_MODELS_FIELD]: viewer.getLoadedModels().map(m => m.id).join(",")
-        }
-      );
+      viewpoint.value = Object.assign(await viewer.getViewpoint(), {
+        [VIEWPOINT_TYPE_FIELD]: type,
+        [VIEWPOINT_MODELS_FIELD]: viewer
+          .getLoadedModels()
+          .map((m) => m.id)
+          .join(","),
+      });
     };
 
     const deleteViewpoint = () => {
@@ -178,7 +183,11 @@ export default {
       try {
         loading.value = true;
         if (viewpoint.value) {
-          viewpoint.value = await service.createViewpoint(props.project, props.topic, viewpoint.value);
+          viewpoint.value = await service.createViewpoint(
+            props.project,
+            props.topic,
+            viewpoint.value
+          );
         }
         const comment = await service.createComment(props.project, props.topic, {
           comment: text.value,
@@ -211,6 +220,36 @@ export default {
 
     watch(isOpen, () => setTimeout(() => isOpen.value && input.value.focus(), 50));
 
+    let pluginCreatedSubId;
+    let pluginDestroyedSubId;
+
+    onMounted(() => {
+      if ($viewer) {
+        viewerSelectOptions.value = Object.entries(getViewers())
+          .map(([id, list]) => list.map((v, i) => ({ key: `${id}-${i}`, id, index: i, viewer: v })))
+          .flat();
+        pluginCreatedSubId = $viewer.globalContext.hub.on("plugin-created", () => {
+          viewerSelectOptions.value = Object.entries(getViewers())
+            .map(([id, list]) =>
+              list.map((v, i) => ({ key: `${id}-${i}`, id, index: i, viewer: v }))
+            )
+            .flat();
+        });
+        pluginDestroyedSubId = $viewer.globalContext.hub.on("plugin-destroyed", () => {
+          viewerSelectOptions.value = Object.entries(getViewers())
+            .map(([id, list]) =>
+              list.map((v, i) => ({ key: `${id}-${i}`, id, index: i, viewer: v }))
+            )
+            .flat();
+        });
+      }
+    });
+
+    onBeforeUnmount(() => {
+      $viewer.globalContext.hub.off(pluginCreatedSubId);
+      $viewer.globalContext.hub.off(pluginDestroyedSubId);
+    });
+
     return {
       // References
       comments,
@@ -221,6 +260,7 @@ export default {
       viewerSelectOptions,
       viewerSelectVisible,
       viewpoint,
+      isViewer: Boolean($viewer),
       // Methods
       createViewpoint,
       deleteViewpoint,
@@ -230,7 +270,7 @@ export default {
       onCommentUpdated,
       setCommentViewpoint,
       submitComment,
-      unhighlightViewer
+      unhighlightViewer,
     };
   },
 };

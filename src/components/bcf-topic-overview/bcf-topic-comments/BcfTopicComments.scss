@@ -3,8 +3,10 @@
     font-weight: 700;
   }
 
-  &__post-comment__snapshot {
-    position: relative;
+  &__post-comment {
+    &__snapshot {
+      position: relative;
+      background-color: var(--color-silver-light);
 
       img {
         width: 100%;
@@ -17,6 +19,10 @@
         top: calc(50% - (32px / 2));
         left: calc(50% - (32px / 2));
       }
+    }
+    &__camera {
+      cursor: pointer;
+    }
   }
 
   ::v-deep .bimdata-textarea {
