@@ -163,7 +163,6 @@ export default {
     const createViewpoint = async ({ id, viewer }) => {
       unhighlightViewer(viewer);
       viewerSelectVisible.value = false;
-      // viewerSelectOptions.value = [];
 
       const [type] = Object.entries(VIEWPOINT_CONFIG).find(([, c]) => c.plugin === id);
       viewpoint.value = Object.assign(await viewer.getViewpoint(), {
