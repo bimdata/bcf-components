@@ -224,22 +224,15 @@ export default {
 
     onMounted(() => {
       if ($viewer) {
-        viewerSelectOptions.value = Object.entries(getViewers())
+        const listViewerOptions = Object.entries(getViewers())
           .map(([id, list]) => list.map((v, i) => ({ key: `${id}-${i}`, id, index: i, viewer: v })))
           .flat();
+        viewerSelectOptions.value = listViewerOptions
         pluginCreatedSubId = $viewer.globalContext.hub.on("plugin-created", () => {
-          viewerSelectOptions.value = Object.entries(getViewers())
-            .map(([id, list]) =>
-              list.map((v, i) => ({ key: `${id}-${i}`, id, index: i, viewer: v }))
-            )
-            .flat();
+          viewerSelectOptions.value = listViewerOptions
         });
         pluginDestroyedSubId = $viewer.globalContext.hub.on("plugin-destroyed", () => {
-          viewerSelectOptions.value = Object.entries(getViewers())
-            .map(([id, list]) =>
-              list.map((v, i) => ({ key: `${id}-${i}`, id, index: i, viewer: v }))
-            )
-            .flat();
+          viewerSelectOptions.value = listViewerOptions
         });
       }
     });
