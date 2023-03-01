@@ -103,7 +103,6 @@ import BIMDataLoading from "@bimdata/design-system/dist/js/BIMDataComponents/BIM
 import BIMDataTextarea from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataTextarea.js";
 import TopicComment from "./topic-comment/TopicComment.vue";
 
-
 export default {
   components: {
     BIMDataButton,
@@ -224,15 +223,19 @@ export default {
 
     onMounted(() => {
       if ($viewer) {
-        const listViewerOptions = Object.entries(getViewers())
-          .map(([id, list]) => list.map((v, i) => ({ key: `${id}-${i}`, id, index: i, viewer: v })))
-          .flat();
-        viewerSelectOptions.value = listViewerOptions
+        const listViewerOptions = () => {
+          return Object.entries(getViewers())
+            .map(([id, list]) =>
+              list.map((v, i) => ({ key: `${id}-${i}`, id, index: i, viewer: v }))
+            )
+            .flat();
+        };
+        viewerSelectOptions.value = listViewerOptions();
         pluginCreatedSubId = $viewer.globalContext.hub.on("plugin-created", () => {
-          viewerSelectOptions.value = listViewerOptions
+          viewerSelectOptions.value = listViewerOptions();
         });
         pluginDestroyedSubId = $viewer.globalContext.hub.on("plugin-destroyed", () => {
-          viewerSelectOptions.value = listViewerOptions
+          viewerSelectOptions.value = listViewerOptions();
         });
       }
     });
