@@ -41,7 +41,7 @@
               @element-click="createViewpoint"
               width="180px"
             >
-              <template #header>Prendre un snapshot</template>
+              <template #header>{{ $t("BcfComponents.BcfTopicComments.takeSnapshot") }}</template>
               <template #element="{ element }">
                 <div
                   style="width: 100%"
