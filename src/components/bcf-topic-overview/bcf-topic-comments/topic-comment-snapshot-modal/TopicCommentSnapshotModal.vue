@@ -5,15 +5,11 @@
 </template>
 
 <script>
-import { inject } from "vue";
 export default {
   props: {
     topic: {
       type: Object,
     },
-  },
-  setup(props) {
-    inject("$viewer");
   },
 };
 </script>
