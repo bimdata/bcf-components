@@ -75,6 +75,14 @@ function createService(apiClient, { fetchUsers }) {
     );
   };
 
+  const fetchTopicCommentViewpoint = async (project, topic, comment) => {
+    return await apiClient.bcfApi.getViewpoint(
+      comment.viewpoint_guid,
+      project.id,
+      topic.guid,
+    );
+  };
+
   const createViewpoint = async (project, topic, data) => {
     return await apiClient.bcfApi.createViewpoint(
       project.id,
@@ -179,6 +187,7 @@ function createService(apiClient, { fetchUsers }) {
     deleteTopic,
     loadTopicsViewpoints,
     fetchTopicViewpoints,
+    fetchTopicCommentViewpoint,
     createViewpoint,
     deleteViewpoint,
     fetchTopicComments,

@@ -3,8 +3,36 @@
     font-weight: 700;
   }
 
+  &__post-comment {
+    &__snapshot {
+      position: relative;
+      background-color: var(--color-silver-light);
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .btn-delete {
+        position: absolute;
+        top: calc(50% - (32px / 2));
+        left: calc(50% - (32px / 2));
+      }
+    }
+    &__camera {
+      cursor: pointer;
+    }
+  }
+
+  ::v-deep .submenu--down li {
+    padding: 0;
+  }
+  ::v-deep .submenu--down li > div {
+    padding: calc(var(--spacing-unit)/ 2);
+  }
+
   ::v-deep .bimdata-textarea {
-  // :deep(.bimdata-textarea) {
     width: 100%;
   }
 }

@@ -109,6 +109,7 @@
             "seeButton": "Voir"
         },
         "BcfTopicComments": {
+            "takeSnapshot": "Prendre un snapshot",
             "commentButton": "Poster un commentaire",
             "commentLabel": "Poster un commentaire",
             "commentText": "Commentaire",
