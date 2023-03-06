@@ -83,6 +83,33 @@
         :resizable="false"
         :readonly="!isEditing"
       />
+      <div v-if="isViewer && isEditing && !viewpoint" class="flex">
+        <div
+          class="topic-comment__content__camera m-r-12"
+          @click="setCommentViewpoint"
+          v-if="!viewerSelectVisible"
+        >
+          <BIMDataIcon name="camera" fill color="default" />
+        </div>
+        <BIMDataDropdownList
+          v-if="viewerSelectVisible"
+          :list="viewerSelectOptions"
+          elementKey="key"
+          @element-click="createViewpoint"
+          width="180px"
+        >
+          <template #header>{{ $t("BcfComponents.BcfTopicComments.takeSnapshot") }}</template>
+          <template #element="{ element }">
+            <div
+              style="width: 100%"
+              @mouseenter="highlightViewer(element.viewer)"
+              @mouseleave="unhighlightViewer(element.viewer)"
+            >
+              {{ `${element.id} (${element.index})` }}
+            </div>
+          </template>
+        </BIMDataDropdownList>
+      </div>
       <div class="topic-comment__content__snapshot" v-if="viewpoint && viewpoint.snapshot">
         <img :src="viewpoint.snapshot.snapshot_data" @click="openTopicSnapshot(viewpoint)" />
         <BIMDataButton
@@ -105,7 +132,12 @@
 </template>
 
 <script>
-import { inject, onMounted, ref } from "vue";
+import { inject, onMounted, ref, onBeforeUnmount } from "vue";
+import {
+  VIEWPOINT_CONFIG,
+  VIEWPOINT_MODELS_FIELD,
+  VIEWPOINT_TYPE_FIELD,
+} from "../../../../config.js";
 import { useService } from "../../../../service.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
@@ -145,6 +177,7 @@ export default {
   emits: ["comment-updated", "comment-deleted"],
 
   setup(props, { emit }) {
+    const getViewers = inject("getViewers", () => ({}));
     const $viewer = inject("$viewer");
 
     const service = useService();
@@ -165,11 +198,6 @@ export default {
         props.comment
       );
     };
-    onMounted(async () => {
-      if (props.comment.viewpoint_guid) {
-        await loadViewpoint();
-      }
-    });
 
     const isEditing = ref(false);
     const onOpenEdit = () => {
@@ -181,30 +209,67 @@ export default {
       text.value = props.comment.comment;
     };
     const deleteViewpoint = async () => {
-      await service.deleteViewpoint(props.project, props.topic, viewpoint.value);
+      if (viewpoint.value.guid) {
+        await service.deleteViewpoint(props.project, props.topic, viewpoint.value);
+      }
       viewpoint.value = null;
+    };
+    const viewerSelectVisible = ref(false);
+    const viewerSelectOptions = ref([]);
+
+    const highlightViewer = (viewer) => {
+      viewer.$viewer.localContext.el.style.boxShadow = "inset 0 0 0 2px var(--color-primary)";
+      viewer.$viewer.localContext.el.style.opacity = ".85";
+    };
+    const unhighlightViewer = (viewer) => {
+      viewer.$viewer.localContext.el.style.boxShadow = "";
+      viewer.$viewer.localContext.el.style.opacity = "";
+    };
+    const setCommentViewpoint = async () => {
+      if (viewerSelectOptions.value.length === 1) {
+        await createViewpoint(viewerSelectOptions.value[0]);
+      } else if (viewerSelectOptions.value.length > 1) {
+        viewerSelectVisible.value = true;
+      }
+    };
+    const createViewpoint = async ({ id, viewer }) => {
+      unhighlightViewer(viewer);
+      viewerSelectVisible.value = false;
+
+      const [type] = Object.entries(VIEWPOINT_CONFIG).find(([, c]) => c.plugin === id);
+
+      viewpoint.value = Object.assign(await viewer.getViewpoint(), {
+        [VIEWPOINT_TYPE_FIELD]: type,
+        [VIEWPOINT_MODELS_FIELD]: viewer
+          .getLoadedModels()
+          .map((m) => m.id)
+          .join(","),
+      });
     };
     const submitUpdate = async () => {
       try {
-        if (props.comment.comment !== text.value) {
+        if (props.comment.comment !== text.value || viewpoint.value) {
           loading.value = true;
-          if (viewpoint.value) {
-            const newComment = await service.updateComment(
-              props.project,
-              props.topic,
-              props.comment,
-              { comment: text.value, viewpoint_guid: viewpoint.value.guid }
-            );
-            emit("comment-updated", newComment);
-          } else {
-            const newComment = await service.updateComment(
-              props.project,
-              props.topic,
-              props.comment,
-              { comment: text.value, viewpoint_guid: null }
-            );
-            emit("comment-updated", newComment);
-          }
+          viewpoint.value = await service.createViewpoint(
+            props.project,
+            props.topic,
+            viewpoint.value
+          );
+          const newComment = await service.updateComment(
+            props.project,
+            props.topic,
+            props.comment,
+            { comment: text.value, viewpoint_guid: viewpoint.value?.guid }
+          );
+          emit("comment-updated", newComment);
+        } else {
+          const newComment = await service.updateComment(
+            props.project,
+            props.topic,
+            props.comment,
+            { comment: text.value, viewpoint_guid: null }
+          );
+          emit("comment-updated", newComment);
         }
         isEditing.value = false;
       } finally {
@@ -234,6 +299,37 @@ export default {
       }
     };
 
+    let pluginCreatedSubId;
+    let pluginDestroyedSubId;
+    onMounted(async () => {
+      if (props.comment.viewpoint_guid) {
+        await loadViewpoint();
+      }
+      if ($viewer) {
+        const listViewerOptions = () => {
+          return Object.entries(getViewers())
+            .map(([id, list]) =>
+              list.map((v, i) => ({ key: `${id}-${i}`, id, index: i, viewer: v }))
+            )
+            .flat();
+        };
+        viewerSelectOptions.value = listViewerOptions();
+        pluginCreatedSubId = $viewer.globalContext.hub.on("plugin-created", () => {
+          viewerSelectOptions.value = listViewerOptions();
+        });
+        pluginDestroyedSubId = $viewer.globalContext.hub.on("plugin-destroyed", () => {
+          viewerSelectOptions.value = listViewerOptions();
+        });
+      }
+    });
+
+    onBeforeUnmount(() => {
+      if ($viewer) {
+        $viewer.globalContext.hub.off(pluginCreatedSubId);
+        $viewer.globalContext.hub.off(pluginDestroyedSubId);
+      }
+    });
+
     return {
       // References
       isDeleting,
@@ -241,18 +337,25 @@ export default {
       loading,
       showMenu,
       text,
+      viewerSelectOptions,
+      viewerSelectVisible,
       viewpoint,
+      isViewer: Boolean($viewer),
       // Methods
       cancelUpdate,
       closeMenu,
+      createViewpoint,
       deleteViewpoint,
+      highlightViewer,
       onOpenDelete,
       onOpenEdit,
+      setCommentViewpoint,
       submitDelete,
       submitUpdate,
       toggleMenu,
       loadViewpoint,
       openTopicSnapshot,
+      unhighlightViewer,
     };
   },
 };
