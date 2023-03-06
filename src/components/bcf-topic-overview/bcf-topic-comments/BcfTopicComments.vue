@@ -197,6 +197,7 @@ export default {
         text.value = "";
       } finally {
         loading.value = false;
+        viewpoint.value = null;
       }
     };
 
@@ -241,8 +242,10 @@ export default {
     });
 
     onBeforeUnmount(() => {
-      $viewer.globalContext.hub.off(pluginCreatedSubId);
-      $viewer.globalContext.hub.off(pluginDestroyedSubId);
+      if ($viewer) {
+        $viewer.globalContext.hub.off(pluginCreatedSubId);
+        $viewer.globalContext.hub.off(pluginDestroyedSubId);
+      }
     });
 
     return {
