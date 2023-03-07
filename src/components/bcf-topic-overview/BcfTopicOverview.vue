@@ -1,12 +1,8 @@
 <template>
   <div class="bcf-topic-overview">
     <div class="bcf-topic-overview__header">
-      <BIMDataButton
-        v-if="uiConfig.backButton"
-        ghost rounded icon
-        @click="$emit('back')"
-      >
-        <BIMDataIcon name="arrow" size="xxs"  fill color="granite-light" />
+      <BIMDataButton v-if="uiConfig.backButton" ghost rounded icon @click="$emit('back')">
+        <BIMDataIcon name="arrow" size="xxs" fill color="granite-light" />
       </BIMDataButton>
       <div class="bcf-topic-overview__header__title">
         <BIMDataTextbox maxWidth="250px" :text="topic.title" />
@@ -14,23 +10,23 @@
       <div class="bcf-topic-overview__header__actions">
         <BIMDataButton
           v-if="uiConfig.editButton"
-          ghost rounded icon
+          ghost
+          rounded
+          icon
           @click="$emit('edit-topic', topic)"
         >
           <BIMDataIcon name="edit" size="xxs" />
         </BIMDataButton>
         <BIMDataButton
           v-if="uiConfig.deleteButton"
-          ghost rounded icon
+          ghost
+          rounded
+          icon
           @click="showDeleteModal = true"
         >
           <BIMDataIcon name="delete" size="xxs" />
         </BIMDataButton>
-        <BIMDataButton
-          v-if="uiConfig.closeButton"
-          ghost rounded icon
-          @click="$emit('close')"
-        >
+        <BIMDataButton v-if="uiConfig.closeButton" ghost rounded icon @click="$emit('close')">
           <BIMDataIcon name="close" size="xxs" fill color="granite-light" />
         </BIMDataButton>
       </div>
@@ -42,7 +38,7 @@
           class="bcf-topic-overview__content__head__index"
           :style="{
             backgroundColor: `#${priorityColor}`,
-            color: adjustTextColor(`#${priorityColor}`, '#FFF', '#2F374A')
+            color: adjustTextColor(`#${priorityColor}`, '#FFF', '#2F374A'),
           }"
         >
           {{ topic.index }}
@@ -60,7 +56,7 @@
 
       <BIMDataButton
         v-if="uiConfig.viewerMode"
-        width="100%" 
+        width="100%"
         fill
         radius
         :disabled="topicObjects.length === 0"
@@ -77,7 +73,7 @@
 
       <BIMDataButton
         v-else
-        width="100%" 
+        width="100%"
         color="primary"
         fill
         radius
@@ -196,13 +192,10 @@
         </div>
       </div>
 
-      <BcfTopicComments
-        :project="project"
-        :topic="topic"
-        @comment-created="$emit('comment-created', $event)"
-        @comment-updated="$emit('comment-updated', $event)"
-        @comment-deleted="$emit('comment-deleted', $event)"
-      />
+      <BcfTopicComments :project="project" :topic="topic" @comment-created="$emit('comment-created',
+      $event)" @comment-updated="$emit('comment-updated', $event)"
+      @comment-deleted="$emit('comment-deleted', $event)"
+      @view-comment-snapshot="$emit('view-comment-snapshot',$event)" />
     </div>
 
     <BIMDataSafeZoneModal v-if="showDeleteModal" class="delete-modal">
@@ -210,21 +203,10 @@
         {{ $t("BcfComponents.BcfTopicOverview.deleteText", { name: topic.title }) }}
       </template>
       <template #actions>
-        <BIMDataButton
-          class="m-r-12"
-          color="high"
-          fill
-          radius
-          @click="deleteTopic"
-        >
+        <BIMDataButton class="m-r-12" color="high" fill radius @click="deleteTopic">
           {{ $t("BcfComponents.BcfTopicOverview.deleteBcfButton") }}
         </BIMDataButton>
-        <BIMDataButton
-          color="primary"
-          outline
-          radius
-          @click="showDeleteModal = false"
-        >
+        <BIMDataButton color="primary" outline radius @click="showDeleteModal = false">
           {{ $t("BcfComponents.BcfTopicOverview.keepBcfButton") }}
         </BIMDataButton>
       </template>
@@ -270,21 +252,21 @@ export default {
         backButton: false,
         closeButton: false,
         editButton: false,
-        deleteButton: false
-      })
+        deleteButton: false,
+      }),
     },
     project: {
       type: Object,
-      required: true
+      required: true,
     },
     detailedExtensions: {
       type: Object,
-      required: true
+      required: true,
     },
     topic: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   emits: [
     "back",
@@ -295,9 +277,10 @@ export default {
     "edit-topic",
     "topic-deleted",
     "topic-delete-error",
+    "view-comment-snapshot",
     "view-topic",
     "view-topic-components",
-    "view-topic-viewpoint"
+    "view-topic-viewpoint",
   ],
   setup(props, { emit }) {
     const service = useService();
@@ -335,7 +318,7 @@ export default {
       adjustTextColor,
       deleteTopic,
     };
-  }
+  },
 };
 </script>
 
