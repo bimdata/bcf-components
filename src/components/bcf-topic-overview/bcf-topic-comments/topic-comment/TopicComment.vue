@@ -250,6 +250,10 @@ export default {
     };
     const submitUpdate = async () => {
       try {
+        if (props.comment.comment === text.value && !viewpoint.value) {
+          isEditing.value = false;
+          return
+        }
         if (viewpoint.value && !viewpoint.value.guid) {
           viewpoint.value = await service.createViewpoint(
             props.project,
@@ -257,8 +261,12 @@ export default {
             viewpoint.value
           );
         }
-        if (props.comment.comment !== text.value || props.comment.viewpoint_guid !== viewpoint.value.guid) {
+        if (
+          props.comment.comment !== text.value ||
+          props.comment.viewpoint_guid !== viewpoint.value.guid
+        ) {
           loading.value = true;
+
           const newComment = await service.updateComment(
             props.project,
             props.topic,
@@ -267,7 +275,6 @@ export default {
           );
           emit("comment-updated", newComment);
         }
-        
         isEditing.value = false;
       } finally {
         loading.value = false;
@@ -294,7 +301,7 @@ export default {
       if ($viewer) {
         $viewer.globalContext.modals.pushModal(TopicCommentSnapshotModal, { topic });
       } else {
-        emit('view-comment-snapshot', topic)
+        emit("view-comment-snapshot", topic);
       }
     };
 
