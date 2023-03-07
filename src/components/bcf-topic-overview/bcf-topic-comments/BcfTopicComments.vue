@@ -80,6 +80,7 @@
           :comment="comment"
           @comment-updated="onCommentUpdated"
           @comment-deleted="onCommentDeleted"
+          @view-comment-snapshot="$emit('view-comment-snapshot', $event)"
         />
       </div>
     </div>
@@ -122,7 +123,7 @@ export default {
       required: true,
     },
   },
-  emis: ["comment-created", "comment-updated", "comment-deleted"],
+  emis: ["comment-created", "comment-updated", "comment-deleted", "view-comment-snapshot"],
   setup(props, { emit }) {
     const service = useService();
 
@@ -144,11 +145,13 @@ export default {
     const viewerSelectOptions = ref([]);
 
     const highlightViewer = (viewer) => {
-      viewer.$viewer.localContext.el.style.boxShadow = "inset 0 0 0 2px var(--color-primary)";
+      viewer.$viewer.localContext.el.style.border = "2px solid var(--color-primary)";
+      viewer.$viewer.localContext.el.style.boxSizing = "border-box";
       viewer.$viewer.localContext.el.style.opacity = ".85";
     };
     const unhighlightViewer = (viewer) => {
-      viewer.$viewer.localContext.el.style.boxShadow = "";
+      viewer.$viewer.localContext.el.style.border = "";
+      viewer.$viewer.localContext.el.style.boxSizing = "";
       viewer.$viewer.localContext.el.style.opacity = "";
     };
 

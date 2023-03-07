@@ -174,7 +174,7 @@ export default {
       required: true,
     },
   },
-  emits: ["comment-updated", "comment-deleted"],
+  emits: ["comment-updated", "comment-deleted", "view-comment-snapshot"],
 
   setup(props, { emit }) {
     const getViewers = inject("getViewers", () => ({}));
@@ -218,11 +218,13 @@ export default {
     const viewerSelectOptions = ref([]);
 
     const highlightViewer = (viewer) => {
-      viewer.$viewer.localContext.el.style.boxShadow = "inset 0 0 0 2px var(--color-primary)";
+      viewer.$viewer.localContext.el.style.border = "2px solid var(--color-primary)";
+      viewer.$viewer.localContext.el.style.boxSizing = "border-box";
       viewer.$viewer.localContext.el.style.opacity = ".85";
     };
     const unhighlightViewer = (viewer) => {
-      viewer.$viewer.localContext.el.style.boxShadow = "";
+      viewer.$viewer.localContext.el.style.border = "";
+      viewer.$viewer.localContext.el.style.boxSizing = "";
       viewer.$viewer.localContext.el.style.opacity = "";
     };
     const setCommentViewpoint = async () => {
@@ -248,13 +250,15 @@ export default {
     };
     const submitUpdate = async () => {
       try {
-        if (props.comment.comment !== text.value || viewpoint.value) {
-          loading.value = true;
+        if (viewpoint.value && !viewpoint.value.guid) {
           viewpoint.value = await service.createViewpoint(
             props.project,
             props.topic,
             viewpoint.value
           );
+        }
+        if (props.comment.comment !== text.value || props.comment.viewpoint_guid !== viewpoint.value.guid) {
+          loading.value = true;
           const newComment = await service.updateComment(
             props.project,
             props.topic,
@@ -262,15 +266,8 @@ export default {
             { comment: text.value, viewpoint_guid: viewpoint.value?.guid }
           );
           emit("comment-updated", newComment);
-        } else {
-          const newComment = await service.updateComment(
-            props.project,
-            props.topic,
-            props.comment,
-            { comment: text.value, viewpoint_guid: null }
-          );
-          emit("comment-updated", newComment);
         }
+        
         isEditing.value = false;
       } finally {
         loading.value = false;
@@ -296,6 +293,8 @@ export default {
     const openTopicSnapshot = (topic) => {
       if ($viewer) {
         $viewer.globalContext.modals.pushModal(TopicCommentSnapshotModal, { topic });
+      } else {
+        emit('view-comment-snapshot', topic)
       }
     };
 
