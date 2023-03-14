@@ -61,8 +61,11 @@ function createService(apiClient, { fetchUsers }) {
   // --- BCF Topic Viewpoints API ---
 
   const loadTopicsViewpoints = async (project, topics) => {
-    await eachLimit(topics, 10, async topic => {
-      topic.viewpoints = await fetchTopicViewpoints(project, topic);
+    await eachLimit(topics, 10, (topic, cb) => {
+      fetchTopicViewpoints(project, topic).then(viewpoints => {
+        topic.viewpoints = viewpoints;
+        cb();
+      }, cb);
     });
     return topics;
   };
