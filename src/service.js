@@ -76,7 +76,7 @@ function createService(apiClient, { fetchUsers }) {
     const response = await apiClient.bcfApi.downloadBcfExport(
       project.id,
       undefined,
-      topics.value.map((t) => t.guid).join(",")
+      topics.map((t) => t.guid).join(",")
     );
     downloadBlobAs(`${project.name}.bcf`, response);
   };
