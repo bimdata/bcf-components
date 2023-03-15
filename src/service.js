@@ -2,6 +2,7 @@ import { getRandomHexColor } from "@bimdata/design-system/dist/colors.js";
 import eachLimit from "async/eachLimit";
 import { getExtensionField } from "./utils/extensions.js";
 import { getPriorityColor } from "./utils/topic.js";
+import { downloadBlobAs } from "./utils/download.js";
 
 let libService = null;
 
@@ -59,19 +60,6 @@ function createService(apiClient, { fetchUsers }) {
     });
   };
 
-  const downloadBlobAs = async (name, blob) => {
-    const { URL } = window;
-    const link = document.createElement("a");
-    link.rel = "noopener";
-    link.download = name;
-    // Create object url from blob
-    link.href = URL.createObjectURL(blob);
-
-    // Trigger "Save As" dialog
-    setTimeout(() => link.click(), 0);
-    // Revoke object url after 40 seconds
-    setTimeout(() => URL.revokeObjectURL(link.href), 4e4);
-  };
   const exportBcf = async (project, topics) => {
     const response = await apiClient.bcfApi.downloadBcfExport(
       project.id,
@@ -184,7 +172,6 @@ function createService(apiClient, { fetchUsers }) {
     createExtension,
     updateExtension,
     deleteExtension,
-    downloadBlobAs,
   };
 }
 
