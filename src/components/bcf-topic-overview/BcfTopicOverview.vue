@@ -301,6 +301,7 @@ export default {
         await service.deleteTopic(props.project, props.topic);
         emit("topic-deleted", props.topic);
       } catch (error) {
+        console.error(error);
         emit("topic-delete-error", error);
       } finally {
         loading.value = false;
