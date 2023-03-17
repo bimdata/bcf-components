@@ -47,8 +47,8 @@ import { computed } from "vue";
 import { getStatusColor } from "../../../utils/topic.js";
 import { getViewpointConfig } from "../../../utils/viewpoints.js"
 // Components
-import BIMDataCarousel from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataCarousel.js";
-import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataIcon.js";
+import BIMDataCarousel from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataCarousel.js";
+import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataIcon.js";
 import BcfTopicDefaultImage from "../../bcf-topic-card/BcfTopicDefaultImage.vue";
 
 export default {
