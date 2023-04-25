@@ -1,3 +1,26 @@
+# [4.1.0](https://github.com/bimdata/bcf-components/compare/v4.0.0...v4.1.0) (2023-04-25)
+
+
+### MINOR
+
+* add 'view-comment-snapshot' event for open snapshot in modal in Platform project (#17) ([9e7a63b](https://github.com/bimdata/bcf-components/commit/9e7a63bd65dcd68a6552b4a385c161d3c3e64d04)), closes [#17](https://github.com/bimdata/bcf-components/issues/17)
+* Feature/add import export bcf (#19) ([5296bd3](https://github.com/bimdata/bcf-components/commit/5296bd3502601b0ba682c11ba92d528ed9976b1b)), closes [#19](https://github.com/bimdata/bcf-components/issues/19)
+* Feature/snapshot comment bcf (#15) ([d6f73cb](https://github.com/bimdata/bcf-components/commit/d6f73cbbb4888937c196134664df93471d52111d)), closes [#15](https://github.com/bimdata/bcf-components/issues/15)
+* Fix/snapshot comment bcf (#16) ([5077dbe](https://github.com/bimdata/bcf-components/commit/5077dbec3bb155f078d404b2b15d1afe1861c731)), closes [#16](https://github.com/bimdata/bcf-components/issues/16)
+
+### PATCH
+
+* chore: update dependencies ([bab8262](https://github.com/bimdata/bcf-components/commit/bab8262c3d5216f890a1dd37e82105cb40d877e0))
+* display carriage return for topic description (#13) ([fab1271](https://github.com/bimdata/bcf-components/commit/fab1271c0c3685e8fc8ecdf247ec3a1977438af8)), closes [#13](https://github.com/bimdata/bcf-components/issues/13)
+* fix bcf snapshots into bcf topic comments view (#21) ([9d91643](https://github.com/bimdata/bcf-components/commit/9d91643a2eb1bd049b1fbd3b835b2ccfe436814f)), closes [#21](https://github.com/bimdata/bcf-components/issues/21)
+* fix DE translation ([9f5a26a](https://github.com/bimdata/bcf-components/commit/9f5a26aece45dfcd3cd70f2ef42021d964c813a2))
+* fix snapshot_type ([962dae8](https://github.com/bimdata/bcf-components/commit/962dae833fd70b7034d6b22994f484bfdbe8d845))
+* fix update comment when delete snapshot & update comment (#18) ([8e074e2](https://github.com/bimdata/bcf-components/commit/8e074e2879b4f4e75d9fe5070603d8db26fb4ff5)), closes [#18](https://github.com/bimdata/bcf-components/issues/18)
+* fix: bcf-topic-card styles ([eeea00e](https://github.com/bimdata/bcf-components/commit/eeea00e29c4b8a4455bb00b7bf7ed6d0f8336191))
+* fix: log error on topic deletion ([a7c4265](https://github.com/bimdata/bcf-components/commit/a7c4265b0f4970510c92859b96082e176a6e1fb2))
+* fix(#12): bcf-filters, put close click handler on button instead of icon ([66307bd](https://github.com/bimdata/bcf-components/commit/66307bd0d6584636e910e4007d49b08440df98ff))
+* fix(#14): use eachLimit callback form to ensure react/angular compatibility ([e1ad912](https://github.com/bimdata/bcf-components/commit/e1ad91283263e1cfab13480d471dc1497f5398de)), closes [#14](https://github.com/bimdata/bcf-components/issues/14)
+
 # [4.0.0](https://github.com/bimdata/bcf-components/compare/v3.1.0...v4.0.0) (2023-01-25)
 
 
