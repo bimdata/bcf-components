@@ -97,11 +97,20 @@ export default {
   setup(_, { emit }) {
     const createViewpoints = event => {
       [...event.target.files].forEach(file => {
+        let type;
+        if (file.type === "image/png") {
+          type = "png";
+        } else if (file.type === "image/jpeg") {
+          type = "jpg"; // `jpeg` is not a valid value, only `jpg` is
+        } else {
+          type = file.type;
+        }
+
         const reader = new FileReader();
         reader.addEventListener("load", () => {
           const viewpoint = {
             snapshot: {
-              snapshot_type: file.type,
+              snapshot_type: type,
               snapshot_data: reader.result
             }
           };

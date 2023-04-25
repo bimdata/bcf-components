@@ -1,5 +1,6 @@
 .bcf-filters {
   &__btn-toggle {
+    flex: 1;
     &:enabled {
       color: var(--color-primary);
     }
@@ -9,7 +10,6 @@
       color: var(--color-silver-dark);
     }
   }
-
 
   &__container {
     position: absolute;

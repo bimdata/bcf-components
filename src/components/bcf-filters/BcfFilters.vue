@@ -21,8 +21,8 @@
           <div class="bcf-filters__container__header__title">
             {{ $t("BcfComponents.BcfFilters.filtersTitle") }}
           </div>
-          <BIMDataButton color="primary" ghost rounded icon>
-            <BIMDataIcon name="close" size="xxs" fill color="primary" @click="close" />
+          <BIMDataButton color="primary" ghost rounded icon @click="close">
+            <BIMDataIcon name="close" size="xxs" fill color="primary" />
           </BIMDataButton>
         </div>
 
