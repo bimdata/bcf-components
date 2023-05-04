@@ -242,6 +242,7 @@
       </div>
 
       <BcfTopicComments
+        :currentUserEmail="currentUserEmail"
         :project="project"
         :topic="topic"
         @comment-created="$emit('comment-created',
@@ -333,6 +334,10 @@ export default {
     },
     topic: {
       type: Object,
+      required: true,
+    },
+    currentUserEmail: {
+      type: String,
       required: true,
     },
   },

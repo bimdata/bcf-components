@@ -122,6 +122,7 @@
           :project="project"
           :topic="topic"
           :comment="comment"
+          :currentUserEmail="currentUserEmail"
           @comment-updated="onCommentUpdated"
           @comment-deleted="onCommentDeleted"
           @view-comment-snapshot="$emit('view-comment-snapshot', $event)"
@@ -168,6 +169,10 @@ export default {
     },
     topic: {
       type: Object,
+      required: true,
+    },
+    currentUserEmail: {
+      type: String,
       required: true,
     },
   },
