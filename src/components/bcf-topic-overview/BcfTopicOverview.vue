@@ -1,66 +1,33 @@
 <template>
   <div class="bcf-topic-overview">
     <div class="bcf-topic-overview__header">
-      <BIMDataButton
-        v-if="uiConfig.backButton"
-        ghost
-        rounded
-        icon
-        @click="$emit('back')"
-      >
-        <BIMDataIcon
-          name="arrow"
-          size="xxs"
-          fill
-          color="granite-light"
-        />
+      <BIMDataButton v-if="uiConfig.backButton" ghost rounded icon @click="$emit('back')">
+        <BIMDataIcon name="arrow" size="xxs" fill color="granite-light" />
       </BIMDataButton>
       <div class="bcf-topic-overview__header__title">
-        <BIMDataTextbox
-          maxWidth="250px"
-          :text="topic.title"
-        />
+        <BIMDataTextbox maxWidth="250px" :text="topic.title" />
       </div>
       <div class="bcf-topic-overview__header__actions">
-        <template v-if="!project.isGuest">
-          <BIMDataButton
-            v-if="uiConfig.editButton"
-            ghost
-            rounded
-            icon
-            @click="$emit('edit-topic', topic)"
-          >
-            <BIMDataIcon
-              name="edit"
-              size="xxs"
-            />
-          </BIMDataButton>
-          <BIMDataButton
-            v-if="uiConfig.deleteButton"
-            ghost
-            rounded
-            icon
-            @click="showDeleteModal = true"
-          >
-            <BIMDataIcon
-              name="delete"
-              size="xxs"
-            />
-          </BIMDataButton>
-        </template>
         <BIMDataButton
-          v-if="uiConfig.closeButton"
+          v-if="uiConfig.editButton"
           ghost
           rounded
           icon
-          @click="$emit('close')"
+          @click="$emit('edit-topic', topic)"
         >
-          <BIMDataIcon
-            name="close"
-            size="xxs"
-            fill
-            color="granite-light"
-          />
+          <BIMDataIcon name="edit" size="xxs" />
+        </BIMDataButton>
+        <BIMDataButton
+          v-if="uiConfig.deleteButton"
+          ghost
+          rounded
+          icon
+          @click="showDeleteModal = true"
+        >
+          <BIMDataIcon name="delete" size="xxs" />
+        </BIMDataButton>
+        <BIMDataButton v-if="uiConfig.closeButton" ghost rounded icon @click="$emit('close')">
+          <BIMDataIcon name="close" size="xxs" fill color="granite-light" />
         </BIMDataButton>
       </div>
     </div>
@@ -95,11 +62,7 @@
         :disabled="topicObjects.length === 0"
         @click="$emit('view-topic-components', topic)"
       >
-        <BIMDataIcon
-          name="model3d"
-          size="xs"
-          margin="0 6px 0 0"
-        />
+        <BIMDataIcon name="model3d" size="xs" margin="0 6px 0 0" />
         <template v-if="topicObjects.length > 0">
           {{ $t("BcfComponents.BcfTopicOverview.elements", { count: topicObjects.length }) }}
         </template>
@@ -120,14 +83,8 @@
       </BIMDataButton>
 
       <div class="bcf-topic-overview__content__card">
-        <div
-          class="title"
-          v-if="!uiConfig.viewerMode"
-        >
-          <BIMDataIcon
-            name="model3d"
-            size="xs"
-          />
+        <div class="title" v-if="!uiConfig.viewerMode">
+          <BIMDataIcon name="model3d" size="xs" />
           <span>
             {{ $t("BcfComponents.BcfTopicOverview.elements", { count: topicObjects.length }) }}
           </span>
@@ -148,10 +105,7 @@
           <span class="label">
             {{ $t("BcfComponents.BcfTopicOverview.description") }}
           </span>
-          <span
-            class="value"
-            style="white-space: pre-line"
-          >
+          <span class="value" style="white-space: pre-line">
             {{
               topic.description
                 ? topic.description
@@ -212,10 +166,7 @@
           <span class="label">
             {{ $t("BcfComponents.BcfTopicOverview.priority") }}
           </span>
-          <span
-            class="value"
-            :style="{ color: `#${priorityColor}` }"
-          >
+          <span class="value" :style="{ color: `#${priorityColor}` }">
             {{ topic.priority || $t("BcfComponents.BcfTopicOverview.priorityNotDefined") }}
           </span>
         </div>
@@ -241,41 +192,21 @@
         </div>
       </div>
 
-      <BcfTopicComments
-        :currentUserEmail="currentUserEmail"
-        :project="project"
-        :topic="topic"
-        @comment-created="$emit('comment-created',
-      $event)"
-        @comment-updated="$emit('comment-updated', $event)"
-        @comment-deleted="$emit('comment-deleted', $event)"
-        @view-comment-snapshot="$emit('view-comment-snapshot',$event)"
-      />
+      <BcfTopicComments :project="project" :topic="topic" :currentUserEmail="currentUserEmail" @comment-created="$emit('comment-created',
+      $event)" @comment-updated="$emit('comment-updated', $event)"
+      @comment-deleted="$emit('comment-deleted', $event)"
+      @view-comment-snapshot="$emit('view-comment-snapshot',$event)" />
     </div>
 
-    <BIMDataSafeZoneModal
-      v-if="showDeleteModal"
-      class="delete-modal"
-    >
+    <BIMDataSafeZoneModal v-if="showDeleteModal" class="delete-modal">
       <template #text>
         {{ $t("BcfComponents.BcfTopicOverview.deleteText", { name: topic.title }) }}
       </template>
       <template #actions>
-        <BIMDataButton
-          class="m-r-12"
-          color="high"
-          fill
-          radius
-          @click="deleteTopic"
-        >
+        <BIMDataButton class="m-r-12" color="high" fill radius @click="deleteTopic">
           {{ $t("BcfComponents.BcfTopicOverview.deleteBcfButton") }}
         </BIMDataButton>
-        <BIMDataButton
-          color="primary"
-          outline
-          radius
-          @click="showDeleteModal = false"
-        >
+        <BIMDataButton color="primary" outline radius @click="showDeleteModal = false">
           {{ $t("BcfComponents.BcfTopicOverview.keepBcfButton") }}
         </BIMDataButton>
       </template>
@@ -361,17 +292,11 @@ export default {
     const loading = ref(false);
     const showDeleteModal = ref(false);
 
-    const priorityColor = computed(() =>
-      getPriorityColor(props.topic, props.detailedExtensions)
-    );
+    const priorityColor = computed(() => getPriorityColor(props.topic, props.detailedExtensions));
 
-    const topicObjects = computed(
-      () => props.topic.viewpoints?.[0]?.components?.selection ?? []
-    );
+    const topicObjects = computed(() => props.topic.viewpoints?.[0]?.components?.selection ?? []);
 
-    const topicLabels = computed(() =>
-      Array.from(props.topic.labels ?? []).sort()
-    );
+    const topicLabels = computed(() => Array.from(props.topic.labels ?? []).sort());
 
     const deleteTopic = async () => {
       try {
