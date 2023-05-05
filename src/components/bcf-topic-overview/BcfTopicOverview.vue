@@ -8,24 +8,26 @@
         <BIMDataTextbox maxWidth="250px" :text="topic.title" />
       </div>
       <div class="bcf-topic-overview__header__actions">
-        <BIMDataButton
-          v-if="uiConfig.editButton"
-          ghost
-          rounded
-          icon
-          @click="$emit('edit-topic', topic)"
-        >
-          <BIMDataIcon name="edit" size="xxs" />
-        </BIMDataButton>
-        <BIMDataButton
-          v-if="uiConfig.deleteButton"
-          ghost
-          rounded
-          icon
-          @click="showDeleteModal = true"
-        >
-          <BIMDataIcon name="delete" size="xxs" />
-        </BIMDataButton>
+        <template v-if="!project.isGuest">
+          <BIMDataButton
+            v-if="uiConfig.editButton"
+            ghost
+            rounded
+            icon
+            @click="$emit('edit-topic', topic)"
+          >
+            <BIMDataIcon name="edit" size="xxs" />
+          </BIMDataButton>
+          <BIMDataButton
+            v-if="uiConfig.deleteButton"
+            ghost
+            rounded
+            icon
+            @click="showDeleteModal = true"
+          >
+            <BIMDataIcon name="delete" size="xxs" />
+          </BIMDataButton>
+        </template>
         <BIMDataButton v-if="uiConfig.closeButton" ghost rounded icon @click="$emit('close')">
           <BIMDataIcon name="close" size="xxs" fill color="granite-light" />
         </BIMDataButton>
