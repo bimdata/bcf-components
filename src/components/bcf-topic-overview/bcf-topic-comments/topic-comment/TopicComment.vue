@@ -175,10 +175,6 @@ export default {
       type: Object,
       required: true,
     },
-    currentUserEmail: {
-      type: String,
-      required: true,
-    },
   },
   emits: ["comment-updated", "comment-deleted", "view-comment-snapshot"],
 
@@ -195,6 +191,11 @@ export default {
     const toggleMenu = () => (showMenu.value = !showMenu.value);
 
     const text = ref(props.comment.comment);
+
+    const currentUserEmail = ref("");
+    const loadCurrentUserEmail = async () => {
+      currentUserEmail.value = (await service.fetchCurrentUser()).email;
+    };
 
     const viewpoint = ref(null);
     const loadViewpoint = async () => {
@@ -314,6 +315,7 @@ export default {
     let pluginCreatedSubId;
     let pluginDestroyedSubId;
     onMounted(async () => {
+      await loadCurrentUserEmail();
       if (props.comment.viewpoint_guid) {
         await loadViewpoint();
       }
@@ -344,6 +346,7 @@ export default {
 
     return {
       // References
+      currentUserEmail,
       isDeleting,
       isEditing,
       loading,

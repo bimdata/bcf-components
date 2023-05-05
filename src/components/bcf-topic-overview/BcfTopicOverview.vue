@@ -8,26 +8,24 @@
         <BIMDataTextbox maxWidth="250px" :text="topic.title" />
       </div>
       <div class="bcf-topic-overview__header__actions">
-        <template v-if="!project.isGuest">
-          <BIMDataButton
-            v-if="uiConfig.editButton"
-            ghost
-            rounded
-            icon
-            @click="$emit('edit-topic', topic)"
-          >
-            <BIMDataIcon name="edit" size="xxs" />
-          </BIMDataButton>
-          <BIMDataButton
-            v-if="uiConfig.deleteButton"
-            ghost
-            rounded
-            icon
-            @click="showDeleteModal = true"
-          >
-            <BIMDataIcon name="delete" size="xxs" />
-          </BIMDataButton>
-        </template>
+        <BIMDataButton
+          v-if="uiConfig.editButton"
+          ghost
+          rounded
+          icon
+          @click="$emit('edit-topic', topic)"
+        >
+          <BIMDataIcon name="edit" size="xxs" />
+        </BIMDataButton>
+        <BIMDataButton
+          v-if="uiConfig.deleteButton"
+          ghost
+          rounded
+          icon
+          @click="showDeleteModal = true"
+        >
+          <BIMDataIcon name="delete" size="xxs" />
+        </BIMDataButton>
         <BIMDataButton v-if="uiConfig.closeButton" ghost rounded icon @click="$emit('close')">
           <BIMDataIcon name="close" size="xxs" fill color="granite-light" />
         </BIMDataButton>
@@ -194,7 +192,7 @@
         </div>
       </div>
 
-      <BcfTopicComments :project="project" :topic="topic" :currentUserEmail="currentUserEmail" @comment-created="$emit('comment-created',
+      <BcfTopicComments :project="project" :topic="topic" :uiConfig="uiConfig" @comment-created="$emit('comment-created',
       $event)" @comment-updated="$emit('comment-updated', $event)"
       @comment-deleted="$emit('comment-deleted', $event)"
       @view-comment-snapshot="$emit('view-comment-snapshot',$event)" />
@@ -255,6 +253,7 @@ export default {
         closeButton: false,
         editButton: false,
         deleteButton: false,
+        commentCreation: false,
       }),
     },
     project: {
@@ -267,10 +266,6 @@ export default {
     },
     topic: {
       type: Object,
-      required: true,
-    },
-    currentUserEmail: {
-      type: String,
       required: true,
     },
   },

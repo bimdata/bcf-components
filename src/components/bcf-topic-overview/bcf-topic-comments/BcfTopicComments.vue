@@ -1,6 +1,6 @@
 <template>
   <div class="bcf-topic-comments">
-    <template v-if="!project.isGuest">
+    <template v-if="uiConfig.commentCreation">
       <BIMDataButton v-if="!isOpen" width="100%" color="primary" fill radius @click="isOpen = true">
         {{ $t("BcfComponents.BcfTopicComments.commentButton") }}
       </BIMDataButton>
@@ -79,7 +79,6 @@
           :project="project"
           :topic="topic"
           :comment="comment"
-          :currentUserEmail="currentUserEmail"
           @comment-updated="onCommentUpdated"
           @comment-deleted="onCommentDeleted"
           @view-comment-snapshot="$emit('view-comment-snapshot', $event)"
@@ -124,8 +123,8 @@ export default {
       type: Object,
       required: true,
     },
-    currentUserEmail: {
-      type: String,
+    uiConfig: {
+      type: Object,
       required: true,
     },
   },
