@@ -1,70 +1,69 @@
 <template>
   <div class="bcf-topic-comments">
-    <BIMDataButton v-if="!isOpen" width="100%" color="primary" fill radius @click="isOpen = true">
-      {{ $t("BcfComponents.BcfTopicComments.commentButton") }}
-    </BIMDataButton>
+    <template v-if="uiConfig.commentCreation">
+      <BIMDataButton v-if="!isOpen" width="100%" color="primary" fill radius @click="isOpen = true">
+        {{ $t("BcfComponents.BcfTopicComments.commentButton") }}
+      </BIMDataButton>
 
-    <div v-else class="bcf-topic-comments__post-comment m-t-24">
-      <p class="color-granite m-b-24">
-        {{ $t("BcfComponents.BcfTopicComments.commentText") }}
-      </p>
-      <div class="bcf-comment-input m-t-24">
-        <BIMDataTextarea
-          ref="input"
-          width="100%"
-          :label="$t('BcfComponents.BcfTopicComments.commentLabel')"
-          v-model="text"
-          autofocus
-          resizable
-        />
-        <div class="bcf-topic-comments__post-comment__snapshot m-b-12" v-if="viewpoint">
-          <template>
+      <div v-else class="bcf-topic-comments__post-comment m-t-24">
+        <p class="color-granite m-b-24">
+          {{ $t("BcfComponents.BcfTopicComments.commentText") }}
+        </p>
+        <div class="bcf-comment-input m-t-24">
+          <BIMDataTextarea
+            ref="input"
+            width="100%"
+            :label="$t('BcfComponents.BcfTopicComments.commentLabel')"
+            v-model="text"
+            autofocus
+            resizable
+          />
+          <div class="bcf-topic-comments__post-comment__snapshot m-b-12" v-if="viewpoint">
             <img v-if="viewpoint.snapshot.snapshot_data" :src="viewpoint.snapshot.snapshot_data" />
             <BIMDataButton class="btn-delete" fill rounded icon @click="deleteViewpoint">
               <BIMDataIcon name="delete" size="xs" fill color="high" />
             </BIMDataButton>
-          </template>
-        </div>
-        <div class="flex items-center justify-between">
-          <div class="flex items-center">
-            <div
-              class="bcf-topic-comments__post-comment__camera m-r-12"
-              @click="setCommentViewpoint"
-              v-if="!viewerSelectVisible && isViewer"
-            >
-              <BIMDataIcon name="camera" fill color="default" />
-            </div>
-            <BIMDataDropdownList
-              v-if="viewerSelectVisible && isViewer"
-              :list="viewerSelectOptions"
-              elementKey="key"
-              @element-click="createViewpoint"
-              width="180px"
-            >
-              <template #header>{{ $t("BcfComponents.BcfTopicComments.takeSnapshot") }}</template>
-              <template #element="{ element }">
-                <div
-                  style="width: 100%"
-                  @mouseenter="highlightViewer(element.viewer)"
-                  @mouseleave="unhighlightViewer(element.viewer)"
-                >
-                  {{ `${element.id} (${element.index})` }}
-                </div>
-              </template>
-            </BIMDataDropdownList>
           </div>
-          <div class="flex items-center justify-end">
-            <BIMDataButton color="primary" ghost radius class="m-r-6" @click="isOpen = false">
-              {{ $t("BcfComponents.BcfTopicComments.cancelButton") }}
-            </BIMDataButton>
-            <BIMDataButton color="primary" fill radius width="135px" @click="submitComment">
-              {{ $t("BcfComponents.BcfTopicComments.publishButton") }}
-            </BIMDataButton>
+          <div class="flex items-center justify-between">
+            <div class="flex items-center">
+              <div
+                class="bcf-topic-comments__post-comment__camera m-r-12"
+                @click="setCommentViewpoint"
+                v-if="!viewerSelectVisible && isViewer"
+              >
+                <BIMDataIcon name="camera" fill color="default" />
+              </div>
+              <BIMDataDropdownList
+                v-if="viewerSelectVisible && isViewer"
+                :list="viewerSelectOptions"
+                elementKey="key"
+                @element-click="createViewpoint"
+                width="180px"
+              >
+                <template #header>{{ $t("BcfComponents.BcfTopicComments.takeSnapshot") }}</template>
+                <template #element="{ element }">
+                  <div
+                    style="width: 100%"
+                    @mouseenter="highlightViewer(element.viewer)"
+                    @mouseleave="unhighlightViewer(element.viewer)"
+                  >
+                    {{ `${element.id} (${element.index})` }}
+                  </div>
+                </template>
+              </BIMDataDropdownList>
+            </div>
+            <div class="flex items-center justify-end">
+              <BIMDataButton color="primary" ghost radius class="m-r-6" @click="isOpen = false">
+                {{ $t("BcfComponents.BcfTopicComments.cancelButton") }}
+              </BIMDataButton>
+              <BIMDataButton color="primary" fill radius width="135px" @click="submitComment">
+                {{ $t("BcfComponents.BcfTopicComments.publishButton") }}
+              </BIMDataButton>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-
+    </template>
     <div class="bcf-topic-comments__list m-t-18">
       <p class="color-granite">
         {{
@@ -78,6 +77,7 @@
           :project="project"
           :topic="topic"
           :comment="comment"
+          :currentUserEmail="currentUserEmail"
           @comment-updated="onCommentUpdated"
           @comment-deleted="onCommentDeleted"
           @view-comment-snapshot="$emit('view-comment-snapshot', $event)"
@@ -120,6 +120,14 @@ export default {
     },
     topic: {
       type: Object,
+      required: true,
+    },
+    uiConfig: {
+      type: Object,
+      required: true,
+    },
+    currentUserEmail: {
+      type: String,
       required: true,
     },
   },
