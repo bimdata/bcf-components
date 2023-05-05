@@ -19,12 +19,10 @@
             resizable
           />
           <div class="bcf-topic-comments__post-comment__snapshot m-b-12" v-if="viewpoint">
-            <template>
-              <img v-if="viewpoint.snapshot.snapshot_data" :src="viewpoint.snapshot.snapshot_data" />
-              <BIMDataButton class="btn-delete" fill rounded icon @click="deleteViewpoint">
-                <BIMDataIcon name="delete" size="xs" fill color="high" />
-              </BIMDataButton>
-            </template>
+            <img v-if="viewpoint.snapshot.snapshot_data" :src="viewpoint.snapshot.snapshot_data" />
+            <BIMDataButton class="btn-delete" fill rounded icon @click="deleteViewpoint">
+              <BIMDataIcon name="delete" size="xs" fill color="high" />
+            </BIMDataButton>
           </div>
           <div class="flex items-center justify-between">
             <div class="flex items-center">

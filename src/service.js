@@ -11,8 +11,8 @@ function createService(apiClient, { fetchUsers }) {
     ? (project) => fetchUsers(project)
     : (project) => apiClient.collaborationApi.getProjectUsers(project.cloud.id, project.id);
 
-    const fetchCurrentUser = async () =>  {
-      return apiClient.bcfApi.getUser()
+    const fetchCurrentUser = async () => {
+      return apiClient.bcfApi.getUser();
     };
 
   // --- BCF Topics API ---
