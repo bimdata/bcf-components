@@ -192,7 +192,7 @@
         </div>
       </div>
 
-      <BcfTopicComments :project="project" :topic="topic" :uiConfig="uiConfig" @comment-created="$emit('comment-created',
+      <BcfTopicComments :project="project" :topic="topic" :uiConfig="uiConfig" :currentUserEmail="currentUserEmail" @comment-created="$emit('comment-created',
       $event)" @comment-updated="$emit('comment-updated', $event)"
       @comment-deleted="$emit('comment-deleted', $event)"
       @view-comment-snapshot="$emit('view-comment-snapshot',$event)" />
@@ -220,7 +220,7 @@
 
 <script>
 import { adjustTextColor } from "@bimdata/design-system/dist/colors.js";
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useService } from "../../service.js";
 import { getPriorityColor } from "../../utils/topic.js";
 // Components
@@ -295,6 +295,11 @@ export default {
 
     const topicLabels = computed(() => Array.from(props.topic.labels ?? []).sort());
 
+    const currentUserEmail = ref("");
+    const loadCurrentUserEmail = async () => {
+      currentUserEmail.value = (await service.fetchCurrentUser()).email;
+    };
+
     const deleteTopic = async () => {
       try {
         showDeleteModal.value = false;
@@ -309,8 +314,11 @@ export default {
       }
     };
 
+    onMounted(() => loadCurrentUserEmail())
+
     return {
       // References
+      currentUserEmail,
       loading,
       priorityColor,
       showDeleteModal,
