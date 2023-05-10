@@ -1,3 +1,12 @@
+## [4.1.1](https://github.com/bimdata/bcf-components/compare/v4.1.0...v4.1.1) (2023-05-10)
+
+
+### PATCH
+
+* chore(deps): update dependencies ([1c74eff](https://github.com/bimdata/bcf-components/commit/1c74eff2eaa4a5f05d163ec271c110174ed0321c))
+* chore(i18n): Update en.json (POEditor.com) ([6ed27f6](https://github.com/bimdata/bcf-components/commit/6ed27f6f42dd9d41a098d3261f87319b35a56b3e))
+* rights UI enhancement ab (#22) ([27a9d10](https://github.com/bimdata/bcf-components/commit/27a9d100c8aa27e94bb57447e3c3ff72464d9d89)), closes [#22](https://github.com/bimdata/bcf-components/issues/22)
+
 # [4.1.0](https://github.com/bimdata/bcf-components/compare/v4.0.0...v4.1.0) (2023-04-25)
 
 
