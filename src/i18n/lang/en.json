@@ -36,7 +36,6 @@
             "noPriority": "None",
             "assignedTo": "Assigned to: ",
             "elements": "Elements",
-            "noElements": "0 Element",
             "notSpecified": "Not specified",
             "see": "See"
         },
@@ -117,7 +116,8 @@
             "publishButton": "Publish",
             "commentsText": "Comments",
             "deleteCommentText": "Delete this comment ?",
-            "deleteButton": "Delete"
+            "deleteButton": "Delete",
+            "takeSnapshot": "Take a snapshot"
         },
         "BcfTopicPriorityCell": {
             "noPriority": "None"

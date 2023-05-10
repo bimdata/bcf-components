@@ -26,49 +26,51 @@
       </div>
 
       <div class="topic-comment__header__right">
-        <div class="topic-comment__header__right__actions flex">
-          <template v-if="showMenu">
-            <BIMDataButton ghost rounded icon @click="onOpenEdit">
-              <BIMDataIcon name="edit" size="xxs" fill color="granite-light" />
-            </BIMDataButton>
-            <BIMDataButton ghost rounded icon @click="onOpenDelete">
-              <BIMDataIcon name="delete" size="xxs" fill color="granite-light" />
-            </BIMDataButton>
-            <BIMDataButton ghost rounded icon @click="toggleMenu">
-              <BIMDataIcon name="close" size="xxs" fill color="granite-light" />
-            </BIMDataButton>
-          </template>
-          <template v-if="isEditing">
-            <BIMDataButton ghost rounded icon @click="cancelUpdate">
-              <BIMDataIcon name="undo" size="xxs" fill color="granite-light" />
-            </BIMDataButton>
-            <BIMDataButton ghost rounded icon @click="submitUpdate">
-              <BIMDataIcon name="validate" size="xxs" fill color="granite-light" />
-            </BIMDataButton>
-          </template>
-        </div>
-        <div v-if="isDeleting" class="topic-comment__header__right__delete p-x-12">
-          <span>
-            {{ $t("BcfComponents.BcfTopicComments.deleteCommentText") }}
-          </span>
-          <div class="flex items-center">
-            <BIMDataButton class="m-r-6" color="high" fill radius @click="submitDelete">
-              {{ $t("BcfComponents.BcfTopicComments.deleteButton") }}
-            </BIMDataButton>
-            <BIMDataButton ghost rounded icon @click="isDeleting = false">
-              <BIMDataIcon name="close" size="xxs" fill color="primary" />
-            </BIMDataButton>
+        <template v-if="currentUserEmail === comment.author">
+          <div class="topic-comment__header__right__actions flex">
+            <template v-if="showMenu">
+              <BIMDataButton ghost rounded icon @click="onOpenEdit">
+                <BIMDataIcon name="edit" size="xxs" fill color="granite-light" />
+              </BIMDataButton>
+              <BIMDataButton ghost rounded icon @click="onOpenDelete">
+                <BIMDataIcon name="delete" size="xxs" fill color="granite-light" />
+              </BIMDataButton>
+              <BIMDataButton ghost rounded icon @click="toggleMenu">
+                <BIMDataIcon name="close" size="xxs" fill color="granite-light" />
+              </BIMDataButton>
+            </template>
+            <template v-if="isEditing">
+              <BIMDataButton ghost rounded icon @click="cancelUpdate">
+                <BIMDataIcon name="undo" size="xxs" fill color="granite-light" />
+              </BIMDataButton>
+              <BIMDataButton ghost rounded icon @click="submitUpdate">
+                <BIMDataIcon name="validate" size="xxs" fill color="granite-light" />
+              </BIMDataButton>
+            </template>
           </div>
-        </div>
-        <BIMDataButton
-          v-if="!showMenu && !isDeleting && !isEditing"
-          class="topic-comment__header__right__btn"
-          rounded
-          icon
-          @click="toggleMenu"
-        >
-          <BIMDataIcon name="ellipsis" size="l" fill color="granite-light" />
-        </BIMDataButton>
+          <div v-if="isDeleting" class="topic-comment__header__right__delete p-x-12">
+            <span>
+              {{ $t("BcfComponents.BcfTopicComments.deleteCommentText") }}
+            </span>
+            <div class="flex items-center">
+              <BIMDataButton class="m-r-6" color="high" fill radius @click="submitDelete">
+                {{ $t("BcfComponents.BcfTopicComments.deleteButton") }}
+              </BIMDataButton>
+              <BIMDataButton ghost rounded icon @click="isDeleting = false">
+                <BIMDataIcon name="close" size="xxs" fill color="primary" />
+              </BIMDataButton>
+            </div>
+          </div>
+          <BIMDataButton
+            v-if="!showMenu && !isDeleting && !isEditing"
+            class="topic-comment__header__right__btn"
+            rounded
+            icon
+            @click="toggleMenu"
+          >
+            <BIMDataIcon name="ellipsis" size="l" fill color="granite-light" />
+          </BIMDataButton>
+        </template>
       </div>
     </div>
 
@@ -171,6 +173,10 @@ export default {
     },
     comment: {
       type: Object,
+      required: true,
+    },
+    currentUserEmail: {
+      type: String,
       required: true,
     },
   },
