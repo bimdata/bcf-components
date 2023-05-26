@@ -91,7 +91,7 @@
             {{ $t("BcfComponents.BcfFilters.resetButton") }}
           </BIMDataButton>
           <BIMDataButton color="primary" fill radius @click="submitFilters">
-            <BIMDataIcon name="search" size="xxs" fill color="default" margin="0 6px 0 0" />
+            <BIMDataIcon name="search" size="xxs" margin="0 6px 0 0" />
             <span>
               {{ $t("BcfComponents.BcfFilters.searchButton") }}
             </span>
@@ -136,8 +136,6 @@ export default {
     const close = () => (isOpen.value = false);
     const toggle = () => (isOpen.value = !isOpen.value);
 
-    const toDate = ref(null);
-
     const { filters, filteredTopics, reset } = useBcfFilter(
       computed(() => props.topics)
     );
@@ -163,10 +161,7 @@ export default {
     );
 
     const submitFilters = () => {
-
-      if(filters.endDate) {
-        filters.endDate.setHours(23,59,59);
-      }
+      filters.endDate?.setHours(23,59,59);
 
       emit("submit", {
         filters: toRaw(filters),
@@ -187,7 +182,6 @@ export default {
       // References
       creatorOptions,
       filters,
-      toDate,
       isOpen,
       priorityOptions,
       statusOptions,

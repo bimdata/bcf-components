@@ -113,7 +113,7 @@
         </BIMDataDropdownList>
       </div>
       <div class="topic-comment__content__snapshot" v-if="viewpoint && viewpoint.snapshot">
-        <img :src="viewpoint.snapshot.snapshot_data" @click="openTopicSnapshot(viewpoint)" />
+        <img :src="viewpoint.snapshot.snapshot_data" @click="openCommentSnapshot(viewpoint)" />
         <BIMDataButton
           v-if="isEditing"
           class="btn-delete"
@@ -147,7 +147,6 @@ import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDat
 import BIMDataLoading from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataLoading.js";
 import BIMDataTextarea from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataTextarea.js";
 import BIMDataTextbox from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataTextbox.js";
-import TopicCommentSnapshotModal from "../topic-comment-snapshot-modal/TopicCommentSnapshotModal.vue";
 
 // TODO: should be imported from DS
 import UserAvatar from "../../../user-avatar/UserAvatar.vue";
@@ -160,7 +159,6 @@ export default {
     BIMDataTextarea,
     BIMDataTextbox,
     UserAvatar,
-    TopicCommentSnapshotModal,
   },
   props: {
     project: {
@@ -303,11 +301,22 @@ export default {
       }
     };
 
-    const openTopicSnapshot = (topic) => {
+    const openCommentSnapshot = (viewpoint) => {
       if ($viewer) {
-        $viewer.globalContext.modals.pushModal(TopicCommentSnapshotModal, { topic });
+        $viewer.globalContext.modals.pushModal(
+          {
+            template: `<img :src="viewpoint.snapshot.snapshot_data" />`,
+            props: {
+              viewpoint: {
+                type: Object,
+                required: true,
+              },
+            },
+          },
+          { viewpoint }
+        );
       } else {
-        emit("view-comment-snapshot", topic);
+        emit("view-comment-snapshot", viewpoint);
       }
     };
 
@@ -346,13 +355,13 @@ export default {
       // References
       isDeleting,
       isEditing,
+      isViewer: Boolean($viewer),
       loading,
       showMenu,
       text,
       viewerSelectOptions,
       viewerSelectVisible,
       viewpoint,
-      isViewer: Boolean($viewer),
       // Methods
       cancelUpdate,
       closeMenu,
@@ -361,12 +370,12 @@ export default {
       highlightViewer,
       onOpenDelete,
       onOpenEdit,
+      openCommentSnapshot,
       setCommentViewpoint,
       submitDelete,
       submitUpdate,
       toggleMenu,
       loadViewpoint,
-      openTopicSnapshot,
       unhighlightViewer,
     };
   },

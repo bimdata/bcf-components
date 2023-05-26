@@ -1,7 +1,11 @@
 <template>
   <div class="bcf-topic-overview">
     <div class="bcf-topic-overview__header">
-      <BIMDataButton v-if="uiConfig.backButton" ghost rounded icon @click="$emit('back')">
+      <BIMDataButton
+        v-if="uiConfig.backButton"
+        ghost rounded icon
+        @click="$emit('back')"
+      >
         <BIMDataIcon name="arrow" size="xxs" fill color="granite-light" />
       </BIMDataButton>
       <div class="bcf-topic-overview__header__title">
@@ -10,23 +14,23 @@
       <div class="bcf-topic-overview__header__actions">
         <BIMDataButton
           v-if="uiConfig.editButton"
-          ghost
-          rounded
-          icon
+          ghost rounded icon
           @click="$emit('edit-topic', topic)"
         >
           <BIMDataIcon name="edit" size="xxs" />
         </BIMDataButton>
         <BIMDataButton
           v-if="uiConfig.deleteButton"
-          ghost
-          rounded
-          icon
+          ghost rounded icon
           @click="showDeleteModal = true"
         >
           <BIMDataIcon name="delete" size="xxs" />
         </BIMDataButton>
-        <BIMDataButton v-if="uiConfig.closeButton" ghost rounded icon @click="$emit('close')">
+        <BIMDataButton
+          v-if="uiConfig.closeButton"
+          ghost rounded icon
+          @click="$emit('close')"
+        >
           <BIMDataIcon name="close" size="xxs" fill color="granite-light" />
         </BIMDataButton>
       </div>
@@ -192,10 +196,16 @@
         </div>
       </div>
 
-      <BcfTopicComments :project="project" :topic="topic" :uiConfig="uiConfig" :currentUserEmail="currentUserEmail" @comment-created="$emit('comment-created',
-      $event)" @comment-updated="$emit('comment-updated', $event)"
-      @comment-deleted="$emit('comment-deleted', $event)"
-      @view-comment-snapshot="$emit('view-comment-snapshot',$event)" />
+      <BcfTopicComments
+        :uiConfig="uiConfig"
+        :project="project"
+        :topic="topic"
+        :currentUserEmail="currentUserEmail"
+        @comment-created="$emit('comment-created', $event)"
+        @comment-updated="$emit('comment-updated', $event)"
+        @comment-deleted="$emit('comment-deleted', $event)"
+        @view-comment-snapshot="$emit('view-comment-snapshot',$event)"
+      />
     </div>
 
     <BIMDataSafeZoneModal v-if="showDeleteModal" class="delete-modal">
@@ -297,7 +307,7 @@ export default {
 
     const currentUserEmail = ref("");
     const loadCurrentUserEmail = async () => {
-      currentUserEmail.value = (await service.fetchCurrentUser()).email;
+      currentUserEmail.value = (await service.fetchCurrentUser()).email ?? "";
     };
 
     const deleteTopic = async () => {

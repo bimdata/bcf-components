@@ -100,41 +100,45 @@
           width="100%"
           :label="$t('BcfComponents.BcfTopicForm.typeLabel')"
           :options="extensions.topic_type"
+          :disabled="extensions.topic_type.length === 0"
           v-model="topicType"
         />
         <BIMDataSelect
           width="100%"
           :label="$t('BcfComponents.BcfTopicForm.priorityLabel')"
           :options="extensions.priority"
+          :disabled="extensions.priority.length === 0"
           v-model="topicPriority"
         />
         <BIMDataSelect
           width="100%"
           :label="$t('BcfComponents.BcfTopicForm.statusLabel')"
           :options="extensions.topic_status"
+          :disabled="extensions.topic_status.length === 0"
           v-model="topicStatus"
         />
         <BIMDataSelect
           width="100%"
           :label="$t('BcfComponents.BcfTopicForm.stageLabel')"
           :options="extensions.stage"
+          :disabled="extensions.stage.length === 0"
           v-model="topicStage"
         />
         <BIMDataSelect
           width="100%"
           :label="$t('BcfComponents.BcfTopicForm.assignedToLabel')"
           :options="extensions.user_id_type"
+          :disabled="extensions.user_id_type.length === 0"
           v-model="topicAssignedTo"
         />
         <div class="m-b-30">
           <BIMDataDatePicker
-            v-model="topicDueDate"
-            :value="topicDueDate"
-            :clearButton="true"
             width="100%"
             :placeholder="$t('BcfComponents.BcfTopicForm.dueDateLabel')"
-          >
-          </BIMDataDatePicker>
+            :value="topicDueDate"
+            v-model="topicDueDate"
+            :clearButton="true"
+          />
         </div>
         <BIMDataTextarea
           width="100%"
@@ -145,21 +149,22 @@
         />
         <BIMDataSelect
           width="100%"
-          :multi="true"
           :label="$t('BcfComponents.BcfTopicForm.labelsLabel')"
           :options="extensions.topic_label"
+          :disabled="extensions.topic_label.length === 0"
           v-model="topicLabels"
+          :multi="true"
         />
       </div>
     </div>
 
     <div class="bcf-topic-form__footer">
       <BIMDataButton
-        :disabled="!topicTitle"
         width="100%"
         color="primary"
         fill
         radius
+        :disabled="!topicTitle"
         @click="submit"
       >
         {{ $t(`BcfComponents.BcfTopicForm.${
