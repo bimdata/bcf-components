@@ -8,8 +8,8 @@ async function downloadBlobAs(name, blob) {
 
   // Trigger "Save As" dialog
   setTimeout(() => link.click(), 0);
-  // Revoke object url after 40 seconds
-  setTimeout(() => URL.revokeObjectURL(link.href), 4e4);
+  // Revoke object url after 30 seconds
+  setTimeout(() => URL.revokeObjectURL(link.href), 3e4);
 };
 
-export { downloadBlobAs }
+export { downloadBlobAs };

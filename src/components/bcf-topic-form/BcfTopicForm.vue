@@ -38,8 +38,8 @@
       <template v-if="uiConfig.viewerMode">
         <BcfTopicSnapshots
           :viewpoints="viewpointsToDisplay"
-          @add-viewpoint="addViewpoint"
-          @delete-viewpoint="delViewpoint"
+          @create-viewpoint="createViewpoint"
+          @delete-viewpoint="deleteViewpoint"
         />
         <div class="bcf-topic-form__content__actions">
           <BIMDataButton
@@ -83,8 +83,8 @@
       <template v-else>
         <BcfTopicImages
           :viewpoints="viewpointsToDisplay"
-          @add-viewpoint="addViewpoint"
-          @delete-viewpoint="delViewpoint"
+          @create-viewpoint="createViewpoint"
+          @delete-viewpoint="deleteViewpoint"
         />
       </template>
 
@@ -207,6 +207,7 @@
 <script>
 import { computed, ref, watch } from "vue";
 import { useService } from "../../service.js";
+import { setViewpointDefaults } from "../../utils/viewpoints.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
 import BIMDataDatePicker from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataDatePicker.js";
@@ -277,7 +278,7 @@ export default {
     topicModels: {
       /**
        * Models list to attach to this topic if it
-       * doesn't already have one (`models` field).
+       * doesn't have one already (`models` field).
        */
       type: Array,
       default: () => []
@@ -338,28 +339,9 @@ export default {
         .filter(v => v.snapshot)
     );
 
-    const loading = ref(false);
-    const isOpenModal = ref(false);
     const hasErrorTitle = ref(false);
-
-    watch(
-      () => props.topic,
-      topic => {
-        if (!isCreation.value) {
-          topicTitle.value = topic.title || "";
-          topicType.value = topic.topic_type || null;
-          topicPriority.value = topic.priority || null;
-          topicStatus.value = topic.topic_status || null;
-          topicStage.value = topic.stage || null;
-          topicAssignedTo.value = topic.assigned_to || null;
-          topicDueDate.value = topic.due_date;
-          topicDescription.value = topic.description || "";
-          topicLabels.value = topic.labels || [];
-          viewpoints.value = topic.viewpoints || [];
-        }
-      },
-      { immediate: true }
-    );
+    const isOpenModal = ref(false);
+    const loading = ref(false);
 
     const reset = () => {
       topicTitle.value = "";
@@ -375,16 +357,37 @@ export default {
       viewpointsToCreate.value = [];
       viewpointsToUpdate.value = [];
       viewpointsToDelete.value = [];
-      loading.value = false;
-      isOpenModal.value = false;
       hasErrorTitle.value = false;
+      isOpenModal.value = false;
+      loading.value = false;
     };
 
-    const addViewpoint = viewpoint => {
+    watch(
+      () => props.topic,
+      topic => {
+        if (topic) {
+          topicTitle.value = topic.title || "";
+          topicType.value = topic.topic_type || null;
+          topicPriority.value = topic.priority || null;
+          topicStatus.value = topic.topic_status || null;
+          topicStage.value = topic.stage || null;
+          topicAssignedTo.value = topic.assigned_to || null;
+          topicDueDate.value = topic.due_date;
+          topicDescription.value = topic.description || "";
+          topicLabels.value = topic.labels || [];
+          viewpoints.value = topic.viewpoints || [];
+        } else {
+          reset();
+        }
+      },
+      { immediate: true }
+    );
+
+    const createViewpoint = viewpoint => {
       viewpointsToCreate.value.push(viewpoint);
     };
 
-    const delViewpoint = viewpoint => {
+    const deleteViewpoint = viewpoint => {
       if (viewpoint.guid) {
         viewpointsToDelete.value.push(viewpoint);
       } else {
@@ -413,37 +416,20 @@ export default {
           viewpointsToCreate.value.sort((v1, v2) => (v1.order ?? Infinity) - (v2.order ?? Infinity));
         }
 
+        const allViewpoints = viewpointsToUpdate.value.concat(viewpointsToCreate.value);
+
         if (props.topicObjects) {
-          if (
-            viewpointsToUpdate.value.length > 0 ||
-            viewpointsToCreate.value.length > 0
-          ) {
-            [
-              ...viewpointsToUpdate.value,
-              ...viewpointsToCreate.value
-            ].forEach(viewpoint => {
+          if (allViewpoints.length > 0) {
+            // Set provided topic objects on all viewpoints.
+            allViewpoints.forEach(viewpoint => {
               Object.assign(viewpoint, {
                 components: props.topicObjects
               });
-              if (!viewpoint.components.selection) {
-                viewpoint.components.selection = [];
-              }
-              if (!viewpoint.components.visibility) {
-                viewpoint.components.visibility = {
-                  default_visibility: true,
-                  exceptions: [],
-                  view_setup_hints: {
-                    spaces_visible: false,
-                    space_boundaries_visible: false,
-                    openings_visible: false,
-                  },
-                };
-              }
+              setViewpointDefaults(viewpoint);
             });
           } else {
-            // If components selection is provided and no viewpoints
-            // are set then create a viewpoint without snapshot to hold
-            // components selection.
+            // If topic objects are provided and no viewpoints are set
+            // then create an 'empty' viewpoint to hold topic objects.
             viewpointsToCreate.value.push({
               components: props.topicObjects
             });
@@ -451,17 +437,14 @@ export default {
         }
 
         if (props.topicAnnotations) {
-          [
-            ...viewpointsToUpdate.value,
-            ...viewpointsToCreate.value
-          ].forEach(
+          // Set provided topic annotations on all viewpoints.
+          allViewpoints.forEach(
             viewpoint => viewpoint.pins = props.topicAnnotations
           );
         }
 
         const data = {
           guid: props.topic?.guid,
-          models: props.topic?.models || props.topicModels,
           title: topicTitle.value,
           topic_type: topicType.value,
           priority: topicPriority.value,
@@ -471,6 +454,9 @@ export default {
           due_date: topicDueDate.value,
           description: topicDescription.value,
           labels: topicLabels.value,
+          // Keep topic models unchanged if any, otherwise use provided topic models.
+          models: props.topic?.models || props.topicModels,
+          // Topic viewpoints will be updated with `updateFullTopic` API method.
           viewpoints: viewpointsToUpdate.value,
         };
 
@@ -499,7 +485,11 @@ export default {
           emit("topic-updated", newTopic);
         }
       } catch (error) {
-        emit(isCreation.value ? "topic-create-error" : "topic-update-error", error);
+        emit(isCreation.value
+          ? "topic-create-error"
+          : "topic-update-error", 
+          error
+        );
       } finally {
         loading.value = false;
       }
@@ -523,8 +513,8 @@ export default {
       topicType,
       viewpointsToDisplay,
       // Methods
-      addViewpoint,
-      delViewpoint,
+      createViewpoint,
+      deleteViewpoint,
       submit,
     };
   }

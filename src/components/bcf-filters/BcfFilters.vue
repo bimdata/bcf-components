@@ -183,9 +183,9 @@ export default {
       creatorOptions,
       filters,
       isOpen,
+      labelOptions,
       priorityOptions,
       statusOptions,
-      labelOptions,
       userOptions,
       // Methods
       close,

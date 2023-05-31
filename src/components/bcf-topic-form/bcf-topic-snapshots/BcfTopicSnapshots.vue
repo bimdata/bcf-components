@@ -52,7 +52,7 @@ export default {
     },
   },
   emits: [
-    "add-viewpoint",
+    "create-viewpoint",
     "delete-viewpoint"
   ],
   setup(_, { emit }) {
@@ -71,7 +71,7 @@ export default {
           viewpoint[VIEWPOINT_TYPE_FIELD] = type;
           viewpoint[VIEWPOINT_MODELS_FIELD] = viewer.getLoadedModels().map(m => m.id).join(",");
 
-          emit("add-viewpoint", viewpoint);
+          emit("create-viewpoint", viewpoint);
         });
       });
     };
