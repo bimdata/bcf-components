@@ -1,3 +1,12 @@
+## [4.1.2](https://github.com/bimdata/bcf-components/compare/v4.1.1...v4.1.2) (2023-06-16)
+
+
+### PATCH
+
+* fix: little rewrite + some fixes ([79f8d16](https://github.com/bimdata/bcf-components/commit/79f8d1699d3113624b86be05b96c6c7183c6d09f))
+* fix: use updateTopic instead of updateFullTopic api method ([4266e3a](https://github.com/bimdata/bcf-components/commit/4266e3a69bf8f3084cb23b434805e7254abba35d))
+* refactor: rewrite parts of bcf-topic-form and add some comments ([b34c354](https://github.com/bimdata/bcf-components/commit/b34c354ef6f2d1cef94bafa64fbe204156c3726b))
+
 ## [4.1.1](https://github.com/bimdata/bcf-components/compare/v4.1.0...v4.1.1) (2023-05-10)
 
 
