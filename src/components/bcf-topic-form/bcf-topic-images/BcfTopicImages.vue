@@ -75,6 +75,7 @@
 </template>
 
 <script>
+import { isTabletOrMobile } from "../../../utils/browser.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
 import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataIcon.js";
@@ -91,7 +92,7 @@ export default {
     },
   },
   emits: [
-    "add-viewpoint",
+    "create-viewpoint",
     "delete-viewpoint"
   ],
   setup(_, { emit }) {
@@ -114,7 +115,7 @@ export default {
               snapshot_data: reader.result
             }
           };
-          emit("add-viewpoint", viewpoint);
+          emit("create-viewpoint", viewpoint);
         });
         reader.readAsDataURL(file);
       });
@@ -124,17 +125,11 @@ export default {
       emit("delete-viewpoint", viewpoint);
     };
 
-    const userAgent = navigator.userAgent.toLowerCase();
-    const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
-    const isTablet = /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/.test(userAgent);
-
-    const isTabletOrMobile = isMobile || isTablet
-
     return {
-      isTabletOrMobile,
       // Methods
       createViewpoints,
       deleteViewpoint,
+      isTabletOrMobile,
     };
   }
 };
