@@ -456,8 +456,6 @@ export default {
           labels: topicLabels.value,
           // Keep topic models unchanged if any, otherwise use provided topic models.
           models: props.topic?.models || props.topicModels,
-          // Topic viewpoints will be updated with `updateFullTopic` API method.
-          viewpoints: viewpointsToUpdate.value,
         };
 
         let newTopic;
@@ -467,16 +465,17 @@ export default {
           newTopic = await service.updateTopic(props.project, data);
         }
 
-        await Promise.all(
-          viewpointsToCreate.value.map(viewpoint =>
+        await Promise.all([
+          ...viewpointsToCreate.value.map(viewpoint =>
             service.createViewpoint(props.project, newTopic, viewpoint)
-          )
-        );
-        await Promise.all(
-          viewpointsToDelete.value.map(viewpoint =>
+          ),
+          ...viewpointsToUpdate.value.map(viewpoint =>
+            service.updateViewpoint(props.project, newTopic, viewpoint)
+          ),
+          ...viewpointsToDelete.value.map(viewpoint =>
             service.deleteViewpoint(props.project, newTopic, viewpoint)
           )
-        );
+        ]);
 
         if (isCreation.value) {
           emit("topic-created", newTopic);

@@ -36,16 +36,16 @@ function createService(apiClient, { fetchUsers }) {
     return topic;
   };
 
-  const createTopic = async (project, topic) => {
-    return await apiClient.bcfApi.createFullTopic(project.id, topic);
+  const createTopic = (project, topic) => {
+    return apiClient.bcfApi.createTopic(project.id, topic);
   };
 
-  const updateTopic = async (project, topic) => {
-    return await apiClient.bcfApi.updateFullTopic(topic.guid, project.id, "url", topic);
+  const updateTopic = (project, topic) => {
+    return apiClient.bcfApi.updateTopic(topic.guid, project.id, topic);
   };
 
-  const deleteTopic = async (project, topic) => {
-    await apiClient.bcfApi.deleteTopic(topic.guid, project.id);
+  const deleteTopic = (project, topic) => {
+    return apiClient.bcfApi.deleteTopic(topic.guid, project.id);
   };
 
   const importBcf = async (project, file) => {
@@ -83,20 +83,24 @@ function createService(apiClient, { fetchUsers }) {
     return topics;
   };
 
-  const fetchTopicViewpoints = async (project, topic) => {
-    return await apiClient.bcfApi.getTopicViewpoints(project.id, topic.guid, "url");
+  const fetchTopicViewpoints = (project, topic) => {
+    return apiClient.bcfApi.getTopicViewpoints(project.id, topic.guid, "url");
   };
 
-  const fetchTopicCommentViewpoint = async (project, topic, comment) => {
-    return await apiClient.bcfApi.getViewpoint(comment.viewpoint_guid, project.id, topic.guid);
+  const fetchTopicCommentViewpoint = (project, topic, comment) => {
+    return apiClient.bcfApi.getViewpoint(comment.viewpoint_guid, project.id, topic.guid);
   };
 
-  const createViewpoint = async (project, topic, data) => {
-    return await apiClient.bcfApi.createViewpoint(project.id, topic.guid, "url", data);
+  const createViewpoint = (project, topic, viewpoint) => {
+    return apiClient.bcfApi.createViewpoint(project.id, topic.guid, "url", viewpoint);
   };
 
-  const deleteViewpoint = async (project, topic, viewpoint) => {
-    await apiClient.bcfApi.deleteViewpoint(viewpoint.guid, project.id, topic.guid);
+  const updateViewpoint = (project, topic, viewpoint) => {
+    return apiClient.bcfApi.updateViewpoint(viewpoint.guid, project.id, topic.guid, "url", viewpoint);
+  };
+
+  const deleteViewpoint = (project, topic, viewpoint) => {
+    return apiClient.bcfApi.deleteViewpoint(viewpoint.guid, project.id, topic.guid);
   };
 
   // --- BCF Topic Comments API ---
@@ -113,19 +117,20 @@ function createService(apiClient, { fetchUsers }) {
     return comments;
   };
 
-  const createComment = async (project, topic, data) => {
-    return await apiClient.bcfApi.createComment(project.id, topic.guid, data);
+  const createComment = (project, topic, data) => {
+    return apiClient.bcfApi.createComment(project.id, topic.guid, data);
   };
 
-  const updateComment = async (project, topic, comment, data) => {
-    return await apiClient.bcfApi.updateComment(comment.guid, project.id, topic.guid, data);
+  const updateComment = (project, topic, comment, data) => {
+    return apiClient.bcfApi.updateComment(comment.guid, project.id, topic.guid, data);
   };
 
-  const deleteComment = async (project, topic, comment) => {
-    await apiClient.bcfApi.deleteComment(comment.guid, project.id, topic.guid);
+  const deleteComment = (project, topic, comment) => {
+    return apiClient.bcfApi.deleteComment(comment.guid, project.id, topic.guid);
   };
 
   // --- BCF Extensions API ---
+
   const fetchExtensions = (project) => {
     return apiClient.bcfApi.getExtensions(project.id);
   };
@@ -165,6 +170,7 @@ function createService(apiClient, { fetchUsers }) {
     fetchTopicViewpoints,
     fetchTopicCommentViewpoint,
     createViewpoint,
+    updateViewpoint,
     deleteViewpoint,
     fetchTopicComments,
     createComment,
