@@ -85,10 +85,10 @@ import { ref, watch } from "vue";
 import { EXTENSION_WITH_COLOR } from "../../../config.js";
 import { getExtensionField } from "../../../utils/extensions.js";
 // Components
-import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataButton.js";
-import BIMDataColorSelector from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataColorSelector.js";
-import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataIcon.js";
-import BIMDataInput from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataInput.js";
+import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataButton.js";
+import BIMDataColorSelector from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataColorSelector.js";
+import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataIcon.js";
+import BIMDataInput from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataInput.js";
 
 export default {
   components: {

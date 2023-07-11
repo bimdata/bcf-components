@@ -39,7 +39,7 @@
   }
 
   &__content {
-    ::v-deep .bimdata-textarea {
+    :deep(.bimdata-textarea) {
       margin-bottom: calc(var(--spacing-unit) / 2);
 
       textarea {

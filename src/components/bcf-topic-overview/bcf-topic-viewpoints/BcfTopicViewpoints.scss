@@ -24,8 +24,7 @@
     gap: calc(var(--spacing-unit) / 2);
   }
 
-  ::v-deep .bimdata-carousel {
-  // :deep(.bimdata-carousel) {
+  :deep(.bimdata-carousel) {
     height: 100%;
 
     .bimdata-carousel__container {

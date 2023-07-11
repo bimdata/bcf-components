@@ -66,9 +66,9 @@
 import { computed } from "vue";
 import columnsDef from "./columns.js";
 // Components
-import BIMDataTable from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataTable.js";
-import BIMDataTextbox from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataTextbox.js";
-import BIMDataTooltip from "@bimdata/design-system/dist/js/BIMDataComponents/BIMDataTooltip.js";
+import BIMDataTable from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataTable.js";
+import BIMDataTextbox from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataTextbox.js";
+import BIMDataTooltip from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataTooltip.js";
 import BcfTopicActionsCell from "./bcf-topic-actions-cell/BcfTopicActionsCell.vue";
 import BcfTopicIndexCell from "./bcf-topic-index-cell/BcfTopicIndexCell.vue";
 import BcfTopicPriorityCell from "./bcf-topic-priority-cell/BcfTopicPriorityCell.vue";

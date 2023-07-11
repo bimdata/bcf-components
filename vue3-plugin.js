@@ -1,8 +1,8 @@
 import {
+  components,
   createService,
   setService,
-  components
-} from "./dist/vue3/bcf-components.mjs";
+} from "./dist/bcf-components.mjs";
 import messages from "./dist/i18n/index.js";
 
 /**
@@ -16,9 +16,7 @@ import messages from "./dist/i18n/index.js";
  *  {
  *    apiClient: Object,
  *    fetchUsers?: Promise,
- *    i18nPlugin: Object,
- *    includedComponents?: string[],
- *    excludedComponents?: string[],
+ *    i18nPlugin?: Object,
  *  } 
  * }
  */
@@ -26,8 +24,6 @@ const pluginFactory = ({
   apiClient,
   fetchUsers,
   i18nPlugin,
-  includedComponents = [],
-  excludedComponents = [],
 } = {}) => {
   return {
     install(app) {
@@ -54,21 +50,9 @@ const pluginFactory = ({
         );
       }
 
-      Object.entries(components)
-        .forEach(([name, component]) => {
-          // Do not register excluded components.
-          if (excludedComponents.includes(name)) {
-            return;
-          }
-          // Only register included components if any.
-          // Otherwise register all (non excluded) components.
-          if (
-            includedComponents.length === 0 ||
-            includedComponents.includes(name)
-          ) {
-            app.component(name, component);
-          }
-        });
+      Object.entries(components).forEach(([name, component]) => {
+        app.component(name, component);
+      });
     },
   };
 };

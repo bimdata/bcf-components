@@ -46,12 +46,11 @@
         }
       }
 
-      ::v-deep .bimdata-paginated-list {
-        // :deep(.bimdata-paginated-list) {
-          ul:first-child {
-            min-height: 144px;
-          }
+      :deep(.bimdata-paginated-list) {
+        ul:first-child {
+          min-height: 144px;
         }
+      }
     }
   }
 }

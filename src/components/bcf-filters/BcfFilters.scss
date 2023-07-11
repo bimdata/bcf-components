@@ -38,7 +38,7 @@
       }
     }
 
-    ::v-deep .bimdata-select.active {
+    :deep(.bimdata-select.active) {
       z-index: 3;
     }
 
@@ -47,7 +47,7 @@
         gap: calc(var(--spacing-unit) / 2);
       }
 
-      ::v-deep .bimdata-datepicker.error {
+      :deep(.bimdata-datepicker.error) {
         input {
           border-bottom: 1px solid var(--color-high);
         }
