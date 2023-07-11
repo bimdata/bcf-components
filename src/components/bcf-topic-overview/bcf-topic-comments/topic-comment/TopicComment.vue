@@ -135,11 +135,6 @@
 
 <script>
 import { inject, onMounted, ref, onBeforeUnmount } from "vue";
-import {
-  VIEWPOINT_CONFIG,
-  VIEWPOINT_MODELS_FIELD,
-  VIEWPOINT_TYPE_FIELD,
-} from "../../../../config.js";
 import { useService } from "../../../../service.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataButton.js";
@@ -177,11 +172,13 @@ export default {
       type: String,
       required: true,
     },
+    getViewers: {
+      type: Function,
+    },
   },
   emits: ["comment-updated", "comment-deleted", "view-comment-snapshot"],
 
   setup(props, { emit }) {
-    const getViewers = inject("getViewers", () => ({}));
     const $viewer = inject("$viewer");
 
     const service = useService();
@@ -231,6 +228,7 @@ export default {
       viewer.$viewer.localContext.el.style.boxSizing = "";
       viewer.$viewer.localContext.el.style.opacity = "";
     };
+
     const setCommentViewpoint = async () => {
       if (viewerSelectOptions.value.length === 1) {
         await createViewpoint(viewerSelectOptions.value[0]);
@@ -238,20 +236,13 @@ export default {
         viewerSelectVisible.value = true;
       }
     };
-    const createViewpoint = async ({ id, viewer }) => {
+
+    const createViewpoint = async ({ viewer }) => {
       unhighlightViewer(viewer);
       viewerSelectVisible.value = false;
-
-      const [type] = Object.entries(VIEWPOINT_CONFIG).find(([, c]) => c.plugin === id);
-
-      viewpoint.value = Object.assign(await viewer.getViewpoint(), {
-        [VIEWPOINT_TYPE_FIELD]: type,
-        [VIEWPOINT_MODELS_FIELD]: viewer
-          .getLoadedModels()
-          .map((m) => m.id)
-          .join(","),
-      });
+      viewpoint.value = await viewer.getViewpoint();
     };
+
     const submitUpdate = async () => {
       try {
         if (props.comment.comment === text.value && !viewpoint.value) {
@@ -328,7 +319,7 @@ export default {
       }
       if ($viewer) {
         const listViewerOptions = () => {
-          return Object.entries(getViewers())
+          return Object.entries(props.getViewers?.() ?? [])
             .map(([id, list]) =>
               list.map((v, i) => ({ key: `${id}-${i}`, id, index: i, viewer: v }))
             )

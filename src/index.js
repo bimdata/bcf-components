@@ -11,8 +11,6 @@ import {
 } from "./utils/topic.js";
 
 import {
-  getViewpointType,
-  getViewpointModels,
   getViewpointConfig
 } from "./utils/viewpoints.js";
 
@@ -46,8 +44,6 @@ export {
   useBcfSort,
   getPriorityColor,
   getStatusColor,
-  getViewpointType,
-  getViewpointModels,
   getViewpointConfig,
   components,
 

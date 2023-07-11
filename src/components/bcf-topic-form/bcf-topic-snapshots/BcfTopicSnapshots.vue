@@ -34,8 +34,6 @@
 </template>
 
 <script>
-import { inject } from "vue";
-import { VIEWPOINT_CONFIG, VIEWPOINT_MODELS_FIELD, VIEWPOINT_TYPE_FIELD } from "../../../config.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataButton.js";
 import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataIcon.js";
@@ -50,29 +48,20 @@ export default {
       type: Array,
       default: () => []
     },
+    getViewers: {
+      type: Function,
+    },
   },
   emits: [
     "create-viewpoint",
     "delete-viewpoint"
   ],
-  setup(_, { emit }) {
-    const getViewers = inject("getViewers", () => ({}));
-
-    const createViewpoints = async () => {
-      Object.entries(getViewers()).forEach(([id, viewers]) => {
-        const [type, config] =
-          Object.entries(VIEWPOINT_CONFIG).find(([, c]) => c.plugin === id);
-
-        viewers.forEach(async viewer => {
-          const viewpoint = await viewer.getViewpoint();
-
-          const { order } = config ?? {};
-          viewpoint.order = order;
-          viewpoint[VIEWPOINT_TYPE_FIELD] = type;
-          viewpoint[VIEWPOINT_MODELS_FIELD] = viewer.getLoadedModels().map(m => m.id).join(",");
-
-          emit("create-viewpoint", viewpoint);
-        });
+  setup(props, { emit }) {
+    const createViewpoints = () => {
+      const viewers = Object.values(props.getViewers?.() ?? {}).flat();
+      viewers.forEach(async viewer => {
+        const viewpoint = await viewer.getViewpoint();
+        emit("create-viewpoint", viewpoint);
       });
     };
 

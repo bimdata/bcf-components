@@ -93,7 +93,6 @@
 
 <script>
 import { onMounted, inject, ref, watch, onBeforeUnmount } from "vue";
-import { VIEWPOINT_CONFIG, VIEWPOINT_MODELS_FIELD, VIEWPOINT_TYPE_FIELD } from "../../../config.js";
 import { useService } from "../../../service.js";
 
 // Components
@@ -130,6 +129,9 @@ export default {
       type: String,
       required: true,
     },
+    getViewers: {
+      type: Function,
+    },
   },
   emis: ["comment-created", "comment-updated", "comment-deleted", "view-comment-snapshot"],
   setup(props, { emit }) {
@@ -146,7 +148,6 @@ export default {
       comments.value = await service.fetchTopicComments(props.project, props.topic);
     };
 
-    const getViewers = inject("getViewers", () => ({}));
     const $viewer = inject("$viewer");
 
     const viewerSelectVisible = ref(false);
@@ -170,18 +171,11 @@ export default {
         viewerSelectVisible.value = true;
       }
     };
-    const createViewpoint = async ({ id, viewer }) => {
+
+    const createViewpoint = async ({ viewer }) => {
       unhighlightViewer(viewer);
       viewerSelectVisible.value = false;
-
-      const [type] = Object.entries(VIEWPOINT_CONFIG).find(([, c]) => c.plugin === id);
-      viewpoint.value = Object.assign(await viewer.getViewpoint(), {
-        [VIEWPOINT_TYPE_FIELD]: type,
-        [VIEWPOINT_MODELS_FIELD]: viewer
-          .getLoadedModels()
-          .map((m) => m.id)
-          .join(","),
-      });
+      viewpoint.value = await viewer.getViewpoint();
     };
 
     const deleteViewpoint = () => {
@@ -236,7 +230,7 @@ export default {
     onMounted(() => {
       if ($viewer) {
         const listViewerOptions = () => {
-          return Object.entries(getViewers())
+          return Object.entries(props.getViewers?.() ?? [])
             .map(([id, list]) =>
               list.map((v, i) => ({ key: `${id}-${i}`, id, index: i, viewer: v }))
             )

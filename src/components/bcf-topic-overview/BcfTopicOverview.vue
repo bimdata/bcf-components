@@ -201,6 +201,7 @@
         :project="project"
         :topic="topic"
         :currentUserEmail="currentUserEmail"
+        :getViewers="getViewers"
         @comment-created="$emit('comment-created', $event)"
         @comment-updated="$emit('comment-updated', $event)"
         @comment-deleted="$emit('comment-deleted', $event)"
@@ -277,6 +278,9 @@ export default {
     topic: {
       type: Object,
       required: true,
+    },
+    getViewers: {
+      type: Function,
     },
   },
   emits: [

@@ -38,6 +38,7 @@
       <template v-if="uiConfig.viewerMode">
         <BcfTopicSnapshots
           :viewpoints="viewpointsToDisplay"
+          :getViewers="getViewers"
           @create-viewpoint="createViewpoint"
           @delete-viewpoint="deleteViewpoint"
         />
@@ -297,6 +298,9 @@ export default {
        */
       type: Array,
     },
+    getViewers: {
+      type: Function,
+    },
   },
   emits: [
     "back",
@@ -422,17 +426,13 @@ export default {
           if (allViewpoints.length > 0) {
             // Set provided topic objects on all viewpoints.
             allViewpoints.forEach(viewpoint => {
-              Object.assign(viewpoint, {
-                components: props.topicObjects
-              });
+              Object.assign(viewpoint, { components: props.topicObjects });
               setViewpointDefaults(viewpoint);
             });
           } else {
             // If topic objects are provided and no viewpoints are set
             // then create an 'empty' viewpoint to hold topic objects.
-            viewpointsToCreate.value.push({
-              components: props.topicObjects
-            });
+            viewpointsToCreate.value.push({ components: props.topicObjects });
           }
         }
 
