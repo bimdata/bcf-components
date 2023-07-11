@@ -1,3 +1,10 @@
+## [4.1.3](https://github.com/bimdata/bcf-components/compare/v4.1.2...v4.1.3) (2023-07-11)
+
+
+### PATCH
+
+* add panorama plugin ([c68c643](https://github.com/bimdata/bcf-components/commit/c68c64335f921685b8925d450a438560b286702a))
+
 ## [4.1.2](https://github.com/bimdata/bcf-components/compare/v4.1.1...v4.1.2) (2023-06-16)
 
 
