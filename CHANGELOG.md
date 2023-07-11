@@ -1,3 +1,10 @@
+# [5.0.0](https://github.com/bimdata/bcf-components/compare/v4.1.3...v5.0.0) (2023-07-11)
+
+
+### MAJOR
+
+* chore: vue3 migration (#20) ([007e76a](https://github.com/bimdata/bcf-components/commit/007e76aff086cb05578b5451a9f72501e0e5d475)), closes [#20](https://github.com/bimdata/bcf-components/issues/20)
+
 ## [4.1.3](https://github.com/bimdata/bcf-components/compare/v4.1.2...v4.1.3) (2023-07-11)
 
 
