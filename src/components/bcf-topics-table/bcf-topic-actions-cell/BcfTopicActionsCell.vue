@@ -7,18 +7,20 @@
       icon
       @click="$emit('open-topic', topic)"
     >
-      <BIMDataIcon name="show" size="xs" />
+      <BIMDataIconShow size="xs" />
     </BIMDataButton>
   </div>
 </template>
 
 <script>
 // Components
-import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataButton.js";
+import BIMDataButton from "@bimdata/design-system/src/BIMDataComponents/BIMDataButton/BIMDataButton.vue";
+import BIMDataIconShow from "@bimdata/design-system/src/BIMDataComponents/BIMDataIcon/BIMDataIconStandalone/BIMDataIconShow.vue";
 
 export default {
   components: {
     BIMDataButton,
+    BIMDataIconShow,
   },
   props: {
     topic: {

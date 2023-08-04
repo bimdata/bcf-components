@@ -1,37 +1,25 @@
 <template>
-  <div
-    class="bcf-topic-viewpoints"
-    :class="{ empty: viewpoints.length === 0 }"
-  >
+  <div class="bcf-topic-viewpoints" :class="{ empty: viewpoints.length === 0 }">
     <div
       v-if="topic.topic_status"
       class="status-badge"
       :style="{
         backgroundColor: `#${statusColor}`,
-        color: adjustTextColor(`#${statusColor}`, '#FFF', '#2F374A')
+        color: adjustTextColor(`#${statusColor}`, '#FFF', '#2F374A'),
       }"
     >
-      <BIMDataIcon name="information" fill color="default" />
+      <BIMDataIconInformation fill color="default" />
       <span>{{ topic.topic_status }}</span>
     </div>
     <template v-if="viewpoints.length > 0">
       <BIMDataCarousel :sliderPadding="0">
-        <div
-          class="snapshot-preview"
-          v-for="viewpoint in viewpoints"
-          :key="viewpoint.guid"
-        >
+        <div class="snapshot-preview" v-for="viewpoint in viewpoints" :key="viewpoint.guid">
           <img
             v-if="viewpoint.snapshot.snapshot_data"
             :src="viewpoint.snapshot.snapshot_data"
             @click="$emit('view-topic-viewpoint', viewpoint)"
           />
-          <BIMDataIcon
-            v-if="viewpoint.icon"
-            class="icon"
-            :name="viewpoint.icon"
-            size="xl"
-          />
+          <BIMDataIcon v-if="viewpoint.icon" class="icon" :name="viewpoint.icon" size="xl" />
         </div>
       </BIMDataCarousel>
     </template>
@@ -42,13 +30,14 @@
 </template>
 
 <script>
-import { adjustTextColor } from "@bimdata/design-system/dist/colors.js";
+import { adjustTextColor } from "@bimdata/design-system/src/BIMDataComponents/BIMDataColorSelector/colors.js";
 import { computed } from "vue";
 import { getStatusColor } from "../../../utils/topic.js";
-import { getViewpointConfig } from "../../../utils/viewpoints.js"
+import { getViewpointConfig } from "../../../utils/viewpoints.js";
 // Components
-import BIMDataCarousel from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataCarousel.js";
-import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataIcon.js";
+import BIMDataCarousel from "@bimdata/design-system/src/BIMDataComponents/BIMDataCarousel/BIMDataCarousel.vue";
+import BIMDataIconInformation from "@bimdata/design-system/src/BIMDataComponents/BIMDataIcon/BIMDataIconStandalone/BIMDataIconInformation.vue";
+import BIMDataIcon from "@bimdata/design-system/src/BIMDataComponents/BIMDataIcon/BIMDataIcon.vue";
 import BcfTopicDefaultImage from "../../bcf-topic-card/BcfTopicDefaultImage.vue";
 
 export default {
@@ -56,33 +45,30 @@ export default {
     BcfTopicDefaultImage,
     BIMDataCarousel,
     BIMDataIcon,
+    BIMDataIconInformation,
   },
   props: {
     detailedExtensions: {
       type: Object,
-      required: true
+      required: true,
     },
     topic: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
-  emits: [
-    "view-topic-viewpoint"
-  ],
+  emits: ["view-topic-viewpoint"],
   setup(props) {
     const viewpoints = computed(() =>
       (props.topic.viewpoints ?? [])
-        .filter(v => v.snapshot)
-        .map(viewpoint => ({
+        .filter((v) => v.snapshot)
+        .map((viewpoint) => ({
           ...viewpoint,
-          icon: getViewpointConfig(viewpoint)?.icon
+          icon: getViewpointConfig(viewpoint)?.icon,
         }))
     );
 
-    const statusColor = computed(() =>
-      getStatusColor(props.topic, props.detailedExtensions)
-    );
+    const statusColor = computed(() => getStatusColor(props.topic, props.detailedExtensions));
 
     return {
       // References
@@ -91,7 +77,7 @@ export default {
       // Methods
       adjustTextColor,
     };
-  }
+  },
 };
 </script>
 

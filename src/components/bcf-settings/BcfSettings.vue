@@ -9,7 +9,7 @@
         icon
         @click="$emit('back')"
       >
-        <BIMDataIcon name="arrow" size="xxs" />
+        <BIMDataIconArrow size="xxs" />
       </BIMDataButton>
       <span class="bcf-settings__header__title">
         {{ $t("BcfComponents.BcfSettings.title") }}
@@ -22,7 +22,7 @@
         icon
         @click="$emit('close')"
       >
-        <BIMDataIcon name="close" size="xxs" />
+        <BIMDataIconClose size="xxs" />
       </BIMDataButton>
     </div>
 
@@ -46,14 +46,19 @@
 import { EXTENSION_TYPES } from "../../config.js";
 import { useService } from "../../service.js";
 // Components
-import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataButton.js";
-import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataIcon.js";
+import BIMDataButton from "@bimdata/design-system/src/BIMDataComponents/BIMDataButton/BIMDataButton.vue";
+
+import {
+  BIMDataIconArrow,
+  BIMDataIconClose,
+} from "@bimdata/design-system/src/BIMDataComponents/BIMDataIcon/BIMDataIconStandalone/index.js";
 import SettingCard from "./setting-card/SettingCard.vue";
 
 export default {
   components: {
     BIMDataButton,
-    BIMDataIcon,
+    BIMDataIconArrow,
+    BIMDataIconClose,
     SettingCard,
   },
   props: {
@@ -62,37 +67,27 @@ export default {
       default: () => ({
         backButton: false,
         closeButton: false,
-      })
+      }),
     },
     project: {
       type: Object,
-      required: true
+      required: true,
     },
     detailedExtensions: {
       type: Object,
-      required: true
+      required: true,
     },
   },
-  emits: [
-    "back",
-    "close",
-    "extension-created",
-    "extension-updated",
-    "extension-deleted",
-  ],
+  emits: ["back", "close", "extension-created", "extension-updated", "extension-deleted"],
   setup(props, { emit }) {
     const service = useService();
 
-    const createExtension = async event => {
-      const ext = await service.createExtension(
-        props.project,
-        event.extensionType,
-        event.data
-      );
+    const createExtension = async (event) => {
+      const ext = await service.createExtension(props.project, event.extensionType, event.data);
       emit("extension-created", ext);
     };
 
-    const updateExtension = async event => {
+    const updateExtension = async (event) => {
       const ext = await service.updateExtension(
         props.project,
         event.extensionType,
@@ -102,12 +97,8 @@ export default {
       emit("extension-updated", ext);
     };
 
-    const deleteExtension = async event => {
-      await service.deleteExtension(
-        props.project,
-        event.extensionType,
-        event.extension
-      );
+    const deleteExtension = async (event) => {
+      await service.deleteExtension(props.project, event.extensionType, event.extension);
       emit("extension-deleted", event.extension);
     };
 
@@ -119,7 +110,7 @@ export default {
       updateExtension,
       deleteExtension,
     };
-  }
+  },
 };
 </script>
 

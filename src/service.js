@@ -1,4 +1,4 @@
-import { getRandomHexColor } from "@bimdata/design-system/dist/colors.js";
+import { getRandomHexColor } from "@bimdata/design-system/src/BIMDataComponents/BIMDataColorSelector/colors.js";
 import eachLimit from "async/eachLimit";
 import { getExtensionField } from "./utils/extensions.js";
 import { getPriorityColor } from "./utils/topic.js";

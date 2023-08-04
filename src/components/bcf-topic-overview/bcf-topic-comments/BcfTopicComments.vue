@@ -21,7 +21,7 @@
           <div class="bcf-topic-comments__post-comment__snapshot m-b-12" v-if="viewpoint">
             <img v-if="viewpoint.snapshot.snapshot_data" :src="viewpoint.snapshot.snapshot_data" />
             <BIMDataButton class="btn-delete" fill rounded icon @click="deleteViewpoint">
-              <BIMDataIcon name="delete" size="xs" fill color="high" />
+              <BIMDataIconDelete size="xs" fill color="high" />
             </BIMDataButton>
           </div>
           <div class="flex items-center justify-between">
@@ -31,7 +31,7 @@
                 @click="setCommentViewpoint"
                 v-if="!viewerSelectVisible && isViewer"
               >
-                <BIMDataIcon name="camera" fill color="default" />
+                <BIMDataIconCamera fill color="default" />
               </div>
               <BIMDataDropdownList
                 v-if="viewerSelectVisible && isViewer"
@@ -96,18 +96,22 @@ import { onMounted, inject, ref, watch, onBeforeUnmount } from "vue";
 import { useService } from "../../../service.js";
 
 // Components
-import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataButton.js";
-import BIMDataDropdownList from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataDropdownList.js";
-import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataIcon.js";
-import BIMDataLoading from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataLoading.js";
-import BIMDataTextarea from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataTextarea.js";
+import BIMDataButton from "@bimdata/design-system/src/BIMDataComponents/BIMDataButton/BIMDataButton.vue";
+import BIMDataDropdownList from "@bimdata/design-system/src/BIMDataComponents/BIMDataDropdownList/BIMDataDropdownList.vue";
+import {
+  BIMDataIconDelete,
+  BIMDataIconCamera,
+} from "@bimdata/design-system/src/BIMDataComponents/BIMDataIcon/BIMDataIconStandalone/index.js";
+import BIMDataLoading from "@bimdata/design-system/src/BIMDataComponents/BIMDataLoading/BIMDataLoading.vue";
+import BIMDataTextarea from "@bimdata/design-system/src/BIMDataComponents/BIMDataTextarea/BIMDataTextarea.vue";
 import TopicComment from "./topic-comment/TopicComment.vue";
 
 export default {
   components: {
     BIMDataButton,
     BIMDataDropdownList,
-    BIMDataIcon,
+    BIMDataIconDelete,
+    BIMDataIconCamera,
     BIMDataLoading,
     BIMDataTextarea,
     TopicComment,
