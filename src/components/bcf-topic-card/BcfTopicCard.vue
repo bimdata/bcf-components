@@ -22,7 +22,7 @@
         <BIMDataCheckbox
           v-show="selectable && hover"
           :modelValue="selected"
-          @update:modelValue="$emit('update:selected',  $event)"
+          @update:modelValue="$emit('update:selected', $event)"
         />
       </div>
     </div>
@@ -36,7 +36,7 @@
           color: adjustTextColor(`#${statusColor}`, '#FFF', 'var(--color-text)'),
         }"
       >
-        <BIMDataIcon name="information" fill color="default" />
+        <BIMDataIconInformation fill color="default" />
         <span class="m-l-6">{{ topic.topic_status }}</span>
       </div>
 
@@ -44,16 +44,8 @@
         {{ $d(topic.creation_date, "short") }}
       </div>
 
-      <img
-        v-if="topicImage"
-        :src="topicImage"
-        alt="topic viewpoint"
-        loading="lazy"
-      />
-      <BcfTopicDefaultImage
-        v-else 
-        class="img-default"
-      />
+      <img v-if="topicImage" :src="topicImage" alt="topic viewpoint" loading="lazy" />
+      <BcfTopicDefaultImage v-else class="img-default" />
     </div>
 
     <div class="bcf-topic-card__content">
@@ -75,7 +67,7 @@
       </div>
       <div class="flex justify-around m-t-12">
         <div class="flex items-center">
-          <BIMDataIcon name="model3d" fill color="default" size="xs"/>
+          <BIMDataIconModel3D fill color="default" size="xs" />
           <span class="m-l-6">
             {{ $t("BcfComponents.BcfTopicCard.elements", { n: topicObjects.length }) }}
           </span>
@@ -89,20 +81,24 @@
 </template>
 
 <script>
-import { adjustTextColor } from "@bimdata/design-system/dist/colors.js";
+import { adjustTextColor } from "@bimdata/design-system/src/BIMDataComponents/BIMDataColorSelector/colors.js";
 import { computed, ref } from "vue";
 import { getPriorityColor, getStatusColor } from "../../utils/topic.js";
 // Components
-import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataButton.js";
-import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataIcon.js";
-import BIMDataTextbox from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataTextbox.js";
+import BIMDataButton from "@bimdata/design-system/src/BIMDataComponents/BIMDataButton/BIMDataButton.vue";
+import {
+  BIMDataIconInformation,
+  BIMDataIconModel3D,
+} from "@bimdata/design-system/src/BIMDataComponents/BIMDataIcon/BIMDataIconStandalone/index.js";
+import BIMDataTextbox from "@bimdata/design-system/src/BIMDataComponents/BIMDataTextbox/BIMDataTextbox.vue";
 import BcfTopicDefaultImage from "./BcfTopicDefaultImage.vue";
 
 export default {
   components: {
     BcfTopicDefaultImage,
     BIMDataButton,
-    BIMDataIcon,
+    BIMDataIconInformation,
+    BIMDataIconModel3D,
     BIMDataTextbox,
   },
   props: {
@@ -131,7 +127,9 @@ export default {
 
     const statusColor = computed(() => getStatusColor(props.topic, props.detailedExtensions));
 
-    const topicImage = computed(() => props.topic.viewpoints?.filter(v => v.snapshot)[0]?.snapshot.snapshot_data);
+    const topicImage = computed(
+      () => props.topic.viewpoints?.filter((v) => v.snapshot)[0]?.snapshot.snapshot_data
+    );
 
     const topicObjects = computed(() => props.topic.viewpoints?.[0]?.components?.selection ?? []);
 

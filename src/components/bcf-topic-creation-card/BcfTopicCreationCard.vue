@@ -13,22 +13,22 @@
       icon
       @click="$emit('create-topic')"
     >
-      <BIMDataIcon name="plus" size="m" fill color="default" />
+      <BIMDataIconPlus size="m" fill color="default" />
     </BIMDataButton>
   </div>
 </template>
 
 <script>
 // Components
-import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataButton.js";
-import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataIcon.js";
+import BIMDataButton from "@bimdata/design-system/src/BIMDataComponents/BIMDataButton/BIMDataButton.vue";
+import BIMDataIconPlus from "@bimdata/design-system/src/BIMDataComponents/BIMDataIcon/BIMDataIconStandalone/BIMDataIconPlus.vue";
 import BcfTopicCreationCardImage from "./BcfTopicCreationCardImage.vue";
 
 export default {
   components: {
     BcfTopicCreationCardImage,
     BIMDataButton,
-    BIMDataIcon,
+    BIMDataIconPlus,
   },
   emits: ["create-topic"],
 };

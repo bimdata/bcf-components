@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { adjustTextColor } from "@bimdata/design-system/dist/colors.js";
+import { adjustTextColor } from "@bimdata/design-system/src/BIMDataComponents/BIMDataColorSelector/colors.js";
 import { computed } from "vue";
 import { getStatusColor } from "../../../utils/topic.js";
 

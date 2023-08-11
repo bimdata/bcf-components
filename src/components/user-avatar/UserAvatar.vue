@@ -5,7 +5,7 @@
     :style="{
       width: `${size}px`,
       height: `${size}px`,
-      fontSize: `${initialsSize ? initialsSize : +size * 0.382}px`
+      fontSize: `${initialsSize ? initialsSize : +size * 0.382}px`,
     }"
   >
     <template v-if="user.profile_picture">
@@ -15,7 +15,7 @@
       {{ initials }}
     </template>
     <template v-else>
-      <BIMDataIcon name="user" size="xs" />
+      <BIMDataIconUser size="xs" />
     </template>
   </div>
 </template>
@@ -23,39 +23,43 @@
 <script>
 import { computed } from "vue";
 
+import BIMDataIconUser from "@bimdata/design-system/src/BIMDataComponents/BIMDataIcon/BIMDataIconStandalone/BIMDataIconUser.vue";
+
 export default {
+  components: {
+    BIMDataIconUser,
+  },
   props: {
     user: {
       type: Object,
-      required: true
+      required: true,
     },
     size: {
       type: [Number, String],
       default: 32,
-      validate: value => value >= 32
+      validate: (value) => value >= 32,
     },
     initialsSize: {
-      type: [Number, String]
+      type: [Number, String],
     },
     color: {
       type: String,
       default: "primary",
-      validate: value =>
-        ["primary", "secondary", "silver-light"].includes(value)
-    }
+      validate: (value) => ["primary", "secondary", "silver-light"].includes(value),
+    },
   },
   setup(props) {
-    const initials = computed(
-      () => (
-        `${props.user.firstname && props.user.firstname[0] || ""}`
-        + `${props.user.lastname && props.user.lastname[0] || ""}`
+    const initials = computed(() =>
+      (
+        `${(props.user.firstname && props.user.firstname[0]) || ""}` +
+        `${(props.user.lastname && props.user.lastname[0]) || ""}`
       ).toUpperCase()
     );
 
     return {
-      initials
+      initials,
     };
-  }
+  },
 };
 </script>
 

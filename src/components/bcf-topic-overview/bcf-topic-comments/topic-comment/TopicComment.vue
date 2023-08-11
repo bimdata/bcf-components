@@ -15,7 +15,7 @@
           v-else
           class="topic-comment__header__left__user flex items-center justify-center m-r-12"
         >
-          <BIMDataIcon name="user" size="xxs" fill color="granite" />
+          <BIMDataIconUser size="xxs" fill color="granite" />
         </span>
 
         <BIMDataTextbox width="auto" maxWidth="150px" cutPosition="end" :text="comment.author" />
@@ -30,21 +30,21 @@
           <div class="topic-comment__header__right__actions flex">
             <template v-if="showMenu">
               <BIMDataButton ghost rounded icon @click="onOpenEdit">
-                <BIMDataIcon name="edit" size="xxs" fill color="granite-light" />
+                <BIMDataIconEdit size="xxs" fill color="granite-light" />
               </BIMDataButton>
               <BIMDataButton ghost rounded icon @click="onOpenDelete">
-                <BIMDataIcon name="delete" size="xxs" fill color="granite-light" />
+                <BIMDataIconDelete size="xxs" fill color="granite-light" />
               </BIMDataButton>
               <BIMDataButton ghost rounded icon @click="toggleMenu">
-                <BIMDataIcon name="close" size="xxs" fill color="granite-light" />
+                <BIMDataIconClose size="xxs" fill color="granite-light" />
               </BIMDataButton>
             </template>
             <template v-if="isEditing">
               <BIMDataButton ghost rounded icon @click="cancelUpdate">
-                <BIMDataIcon name="undo" size="xxs" fill color="granite-light" />
+                <BIMDataIconUndo size="xxs" fill color="granite-light" />
               </BIMDataButton>
               <BIMDataButton ghost rounded icon @click="submitUpdate">
-                <BIMDataIcon name="validate" size="xxs" fill color="granite-light" />
+                <BIMDataIconValidate size="xxs" fill color="granite-light" />
               </BIMDataButton>
             </template>
           </div>
@@ -57,7 +57,7 @@
                 {{ $t("BcfComponents.BcfTopicComments.deleteButton") }}
               </BIMDataButton>
               <BIMDataButton ghost rounded icon @click="isDeleting = false">
-                <BIMDataIcon name="close" size="xxs" fill color="primary" />
+                <BIMDataIconClose size="xxs" fill color="primary" />
               </BIMDataButton>
             </div>
           </div>
@@ -68,7 +68,7 @@
             icon
             @click="toggleMenu"
           >
-            <BIMDataIcon name="ellipsis" size="l" fill color="granite-light" />
+            <BIMDataIconEllipsis size="l" fill color="granite-light" />
           </BIMDataButton>
         </template>
       </div>
@@ -91,7 +91,7 @@
           @click="setCommentViewpoint"
           v-if="!viewerSelectVisible"
         >
-          <BIMDataIcon name="camera" fill color="default" />
+          <BIMDataIconCamera fill color="default" />
         </div>
         <BIMDataDropdownList
           v-if="viewerSelectVisible"
@@ -122,7 +122,7 @@
           icon
           @click="deleteViewpoint"
         >
-          <BIMDataIcon name="delete" size="xs" fill color="high" />
+          <BIMDataIconDelete size="xs" fill color="high" />
         </BIMDataButton>
       </div>
     </div>
@@ -137,11 +137,20 @@
 import { inject, onMounted, ref, onBeforeUnmount } from "vue";
 import { useService } from "../../../../service.js";
 // Components
-import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataButton.js";
-import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataIcon.js";
-import BIMDataLoading from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataLoading.js";
-import BIMDataTextarea from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataTextarea.js";
-import BIMDataTextbox from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataTextbox.js";
+import BIMDataButton from "@bimdata/design-system/src/BIMDataComponents/BIMDataButton/BIMDataButton.vue";
+import {
+  BIMDataIconUser,
+  BIMDataIconEdit,
+  BIMDataIconDelete,
+  BIMDataIconClose,
+  BIMDataIconUndo,
+  BIMDataIconValidate,
+  BIMDataIconEllipsis,
+  BIMDataIconCamera,
+} from "@bimdata/design-system/src/BIMDataComponents/BIMDataIcon/BIMDataIconStandalone/index.js";
+import BIMDataLoading from "@bimdata/design-system/src/BIMDataComponents/BIMDataLoading/BIMDataLoading.vue";
+import BIMDataTextarea from "@bimdata/design-system/src/BIMDataComponents/BIMDataTextarea/BIMDataTextarea.vue";
+import BIMDataTextbox from "@bimdata/design-system/src/BIMDataComponents/BIMDataTextbox/BIMDataTextbox.vue";
 
 // TODO: should be imported from DS
 import UserAvatar from "../../../user-avatar/UserAvatar.vue";
@@ -149,7 +158,14 @@ import UserAvatar from "../../../user-avatar/UserAvatar.vue";
 export default {
   components: {
     BIMDataButton,
-    BIMDataIcon,
+    BIMDataIconUser,
+    BIMDataIconEdit,
+    BIMDataIconDelete,
+    BIMDataIconClose,
+    BIMDataIconUndo,
+    BIMDataIconValidate,
+    BIMDataIconEllipsis,
+    BIMDataIconCamera,
     BIMDataLoading,
     BIMDataTextarea,
     BIMDataTextbox,
@@ -247,7 +263,7 @@ export default {
       try {
         if (props.comment.comment === text.value && !viewpoint.value) {
           isEditing.value = false;
-          return
+          return;
         }
         if (viewpoint.value && !viewpoint.value.guid) {
           viewpoint.value = await service.createViewpoint(
