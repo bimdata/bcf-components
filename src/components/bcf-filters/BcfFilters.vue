@@ -9,7 +9,7 @@
       icon
       @click="toggle"
     >
-      <BIMDataIconFilter size="xxs" fill color="default" margin="0 6px 0 0" />
+      <BIMDataIconFilterList size="xxs" fill color="default" margin="0 6px 0 0" />
       <span>
         {{ $t("BcfComponents.BcfFilters.filtersButton") }}
       </span>
