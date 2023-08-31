@@ -71,6 +71,15 @@ function createService(apiClient, { fetchUsers }) {
     downloadBlobAs(`${project.name}.bcf`, response);
   };
 
+  const exportBcfXLSX = async (project, topics) => {
+    const response = await apiClient.bcfApi.downloadBcfExport(
+      project.id,
+      undefined,
+      topics.map((t) => t.guid).join(",")
+    );
+    downloadBlobAs(`${project.name}.bcf`, response);
+  };
+
   // --- BCF Topic Viewpoints API ---
 
   const loadTopicsViewpoints = async (project, topics) => {
@@ -166,6 +175,7 @@ function createService(apiClient, { fetchUsers }) {
     deleteTopic,
     importBcf,
     exportBcf,
+    exportBcfXLSX,
     loadTopicsViewpoints,
     fetchTopicViewpoints,
     fetchTopicCommentViewpoint,
