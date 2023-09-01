@@ -77,7 +77,7 @@ function createService(apiClient, { fetchUsers }) {
       undefined,
       topics.map((t) => t.guid).join(",")
     );
-    downloadBlobAs(`${project.name}.bcf`, response);
+    downloadBlobAs(`${project.name}.xlsx`, response);
   };
 
   // --- BCF Topic Viewpoints API ---
