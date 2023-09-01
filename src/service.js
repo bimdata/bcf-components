@@ -72,7 +72,7 @@ function createService(apiClient, { fetchUsers }) {
   };
 
   const exportBcfXLSX = async (project, topics) => {
-    const response = await apiClient.bcfApi.downloadBcfExport(
+    const response = await apiClient.bcfApi.downloadBcfExportXlsx(
       project.id,
       undefined,
       topics.map((t) => t.guid).join(",")
