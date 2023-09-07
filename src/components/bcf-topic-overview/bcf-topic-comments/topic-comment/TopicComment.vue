@@ -195,7 +195,7 @@ export default {
   emits: ["comment-updated", "comment-deleted", "view-comment-snapshot"],
 
   setup(props, { emit }) {
-    const $viewer = inject("$viewer");
+    const $viewer = inject("$viewer", null);
 
     const service = useService();
 

@@ -152,7 +152,7 @@ export default {
       comments.value = await service.fetchTopicComments(props.project, props.topic);
     };
 
-    const $viewer = inject("$viewer");
+    const $viewer = inject("$viewer", null);
 
     const viewerSelectVisible = ref(false);
     const viewerSelectOptions = ref([]);
