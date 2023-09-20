@@ -35,6 +35,13 @@
           @delete-viewpoint="deleteViewpoint"
         />
         <div class="bcf-topic-form__content__actions">
+          <BcfTopicSnapshotsActions
+            v-if="viewpointsToDisplay.length > 0"
+            :isXs="true"
+            :viewpoints="viewpointsToDisplay"
+            :getViewers="getViewers"
+            @create-viewpoint="createViewpoint"
+          />
           <BIMDataButton
             fill
             radius
@@ -205,11 +212,13 @@ import BIMDataTextbox from "@bimdata/design-system/src/BIMDataComponents/BIMData
 import BIMDataTooltip from "@bimdata/design-system/src/BIMDataComponents/BIMDataTooltip/BIMDataTooltip.vue";
 import BcfTopicImages from "./bcf-topic-images/BcfTopicImages.vue";
 import BcfTopicSnapshots from "./bcf-topic-snapshots/BcfTopicSnapshots.vue";
+import BcfTopicSnapshotsActions from "./bcf-topic-snapshots-actions/BcfTopicSnapshotsActions.vue";
 
 export default {
   components: {
     BcfTopicImages,
     BcfTopicSnapshots,
+    BcfTopicSnapshotsActions,
     BIMDataButton,
     BIMDataDatePicker,
     BIMDataIconArrow,
@@ -373,6 +382,7 @@ export default {
     };
 
     const deleteViewpoint = (viewpoint) => {
+      console.log({ viewpoint });
       if (viewpoint.guid) {
         viewpointsToDelete.value.push(viewpoint);
       } else {
