@@ -382,7 +382,6 @@ export default {
     };
 
     const deleteViewpoint = (viewpoint) => {
-      console.log({ viewpoint });
       if (viewpoint.guid) {
         viewpointsToDelete.value.push(viewpoint);
       } else {
