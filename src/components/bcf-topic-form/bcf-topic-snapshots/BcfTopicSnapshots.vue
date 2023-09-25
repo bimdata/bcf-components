@@ -2,26 +2,16 @@
   <div class="bcf-topic-snapshots">
     <template v-if="viewpoints.length > 0">
       <div class="bcf-topic-snapshots__snapshots">
-        <div class="snapshot-preview" :class="{ single: viewpoints.length === 1 }">
-          <BIMDataCarousel :sliderPadding="0">
-            <div class="snapshot-preview" v-for="viewpoint in viewpoints" :key="viewpoint.guid">
-              <img
-                v-if="viewpoint.snapshot.snapshot_data"
-                :src="viewpoint.snapshot.snapshot_data"
-                @click="$emit('view-topic-viewpoint', viewpoint)"
-              />
-              <BIMDataIcon v-if="viewpoint.icon" class="icon" :name="viewpoint.icon" size="xl" />
-              <BIMDataButton
-                class="btn-delete"
-                fill
-                rounded
-                icon
-                @click="deleteViewpoint(viewpoint)"
-              >
-                <BIMDataIconDelete size="xs" fill color="high" />
-              </BIMDataButton>
-            </div>
-          </BIMDataCarousel>
+        <div
+          class="snapshot-preview"
+          :class="{ single: viewpoints.length === 1 }"
+          v-for="(viewpoint, i) in viewpoints.slice(0, 4)"
+          :key="viewpoint.guid || i"
+        >
+          <img v-if="viewpoint.snapshot.snapshot_data" :src="viewpoint.snapshot.snapshot_data" />
+          <BIMDataButton class="btn-delete" fill rounded icon @click="deleteViewpoint(viewpoint)">
+            <BIMDataIconDelete size="xs" fill color="high" />
+          </BIMDataButton>
         </div>
       </div>
     </template>
@@ -65,7 +55,6 @@ export default {
   },
   emits: ["create-viewpoint", "delete-viewpoint"],
   setup(props, { emit }) {
-
     const deleteViewpoint = (viewpoint) => {
       emit("delete-viewpoint", viewpoint);
     };
