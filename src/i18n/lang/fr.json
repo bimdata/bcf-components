@@ -65,7 +65,9 @@
             "updateButton": "Modifier ce BCF",
             "modalText": "Vous êtes sur le point de quitter l'édition de l'issue {name} mais il y'a des modifications non enregistrées.",
             "cancelButton": "Annuler les modifications",
-            "continueButton": "Continuer les modifications"
+            "continueButton": "Continuer les modifications",
+            "takeSnapshot": "Prendre un snapshot",
+            "importFile": "Importer un fichier"
         },
         "BcfTopicOverview": {
             "openViewer": "Ouvrir dans le viewer",

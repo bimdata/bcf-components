@@ -1,0 +1,7 @@
+.bcf-topic-snapshots-actions {
+  &:not(.bcf-topic-snapshots-actions__xs) {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+}

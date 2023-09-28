@@ -17,14 +17,19 @@
     </template>
 
     <template v-else>
-      <div class="bcf-topic-snapshots__create" @click="createViewpoints">
-        <BIMDataIconCamera size="xl" />
+      <div class="bcf-topic-snapshots__create">
+        <BcfTopicSnapshotsActions
+          :viewpoints="viewpoints"
+          :getViewers="getViewers"
+          @create-viewpoint="$emit('create-viewpoint', $event)"
+        />
       </div>
     </template>
   </div>
 </template>
 
 <script>
+import BcfTopicSnapshotsActions from "../bcf-topic-snapshots-actions/BcfTopicSnapshotsActions.vue";
 // Components
 import BIMDataButton from "@bimdata/design-system/src/BIMDataComponents/BIMDataButton/BIMDataButton.vue";
 import {
@@ -34,6 +39,7 @@ import {
 
 export default {
   components: {
+    BcfTopicSnapshotsActions,
     BIMDataButton,
     BIMDataIconDelete,
     BIMDataIconCamera,
@@ -49,21 +55,12 @@ export default {
   },
   emits: ["create-viewpoint", "delete-viewpoint"],
   setup(props, { emit }) {
-    const createViewpoints = () => {
-      const viewers = Object.values(props.getViewers?.() ?? {}).flat();
-      viewers.forEach(async (viewer) => {
-        const viewpoint = await viewer.getViewpoint();
-        emit("create-viewpoint", viewpoint);
-      });
-    };
-
     const deleteViewpoint = (viewpoint) => {
       emit("delete-viewpoint", viewpoint);
     };
 
     return {
       // Methods
-      createViewpoints,
       deleteViewpoint,
     };
   },
