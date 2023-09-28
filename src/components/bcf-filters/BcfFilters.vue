@@ -103,7 +103,7 @@
 </template>
 
 <script>
-import { computed, ref, toRaw } from "vue";
+import { computed, ref, toRaw, watch } from "vue";
 import { useBcfFilter } from "../../composables/filter.js";
 // Components
 import BIMDataButton from "@bimdata/design-system/src/BIMDataComponents/BIMDataButton/BIMDataButton.vue";
@@ -135,6 +135,9 @@ export default {
       type: Array,
       required: true,
     },
+    initFilters: {
+      type: Object,
+    }
   },
   emits: ["submit"],
   setup(props, { emit }) {
@@ -142,10 +145,23 @@ export default {
     const close = () => (isOpen.value = false);
     const toggle = () => (isOpen.value = !isOpen.value);
 
-    const { filters, filteredTopics, reset } = useBcfFilter(computed(() => props.topics));
+    const { filters, filteredTopics, reset, apply } = useBcfFilter(computed(() => props.topics));
 
-    const priorityOptions = computed(() =>
-      getSelectOptions(props.topics.map((topic) => topic.priority))
+    watch(
+      () => props.initFilters, 
+      () => {
+        if(props.initFilters) {
+          apply(props.initFilters);
+        } else {
+          filters
+        }
+      },
+      { deep: true }
+    )
+
+    const priorityOptions = computed(
+      () =>
+      getSelectOptions(props.topics.map((topic) => topic.priority)),
     );
 
     const statusOptions = computed(() =>
@@ -166,7 +182,6 @@ export default {
 
     const submitFilters = () => {
       filters.endDate?.setHours(23, 59, 59);
-
       emit("submit", {
         filters: toRaw(filters),
         topics: filteredTopics.value,
