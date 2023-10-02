@@ -65,7 +65,7 @@ function createService(apiClient, { fetchUsers }) {
   const exportBcf = async (project, topics) => {
     const response = await apiClient.bcfApi.downloadBcfExport(
       project.id,
-      undefined,
+      undefined, // Format
       topics.map((t) => t.guid).join(",")
     );
     downloadBlobAs(`${project.name}.bcf`, response);
@@ -74,7 +74,8 @@ function createService(apiClient, { fetchUsers }) {
   const exportBcfXLSX = async (project, topics) => {
     const response = await apiClient.bcfApi.downloadBcfExportXlsx(
       project.id,
-      undefined,
+      undefined, // Format
+      undefined, // Locale
       topics.map((t) => t.guid).join(",")
     );
     downloadBlobAs(`${project.name}.xlsx`, response);
