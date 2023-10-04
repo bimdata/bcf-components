@@ -9,7 +9,7 @@
           :key="viewpoint.guid || i"
         >
           <img v-if="viewpoint.snapshot.snapshot_data" :src="viewpoint.snapshot.snapshot_data" />
-          <BIMDataButton class="btn-delete" fill rounded icon @click="deleteViewpoint(viewpoint)">
+          <BIMDataButton class="btn-delete" fill rounded icon @click="$emit('delete-viewpoint', viewpoint)">
             <BIMDataIconDelete size="xs" fill color="high" />
           </BIMDataButton>
         </div>
@@ -18,7 +18,7 @@
 
     <template v-else>
       <div class="bcf-topic-snapshots__create">
-        <BIMDataButton color="primary" fill radius @click="createViewpoints">
+        <BIMDataButton color="primary" fill radius @click="$emit('create-viewpoint')">
           <BIMDataIconCamera size="s" margin="0 6px 0 0" />
           <span>{{ $t("BcfComponents.BcfTopicForm.takeSnapshot") }}</span>
         </BIMDataButton>
@@ -34,7 +34,7 @@
             type="file"
             multiple
             accept="image/png, image/jpeg"
-            @change="uploadViewpoints"
+            @change="$emit('upload-viewpoint', $event)"
           />
         </BIMDataButton>
       </div>
@@ -67,25 +67,7 @@ export default {
       type: Function,
     },
   },
-  emits: ["create-viewpoint", "delete-viewpoint"],
-  setup(props, { emit }) {
-    const createViewpoints = () => {
-      const viewers = Object.values(props.getViewers?.() ?? {}).flat();
-      viewers.forEach(async (viewer) => {
-        const viewpoint = await viewer.getViewpoint();
-        emit("create-viewpoint", viewpoint);
-      });
-    };
-    const deleteViewpoint = (viewpoint) => {
-      emit("delete-viewpoint", viewpoint);
-    };
-
-    return {
-      // Methods
-      createViewpoints,
-      deleteViewpoint,
-    };
-  },
+  emits: ["create-viewpoint", "upload-viewpoint", "delete-viewpoint"],
 };
 </script>
 

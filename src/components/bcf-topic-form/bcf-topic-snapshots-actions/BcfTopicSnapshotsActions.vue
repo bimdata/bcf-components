@@ -3,7 +3,7 @@
     class="bcf-topic-snapshots-actions flex"
   >
     <BIMDataTooltip
-      :disabled="viewpoints.length >= 4"
+      :disabled="snapshotedViewpoints.length > 0"
       :text="$t('BcfComponents.BcfTopicForm.takeSnapshot')"
       color="primary"
       position="right"
@@ -13,30 +13,28 @@
         ghost
         rounded
         icon
-        @click="createViewpoints"
-        :disabled="viewpoints.length >= 4"
+        @click="$emit('create-viewpoint')"
+        :disabled="snapshotedViewpoints.length > 0"
       >
         <BIMDataIconCamera size="s" />
       </BIMDataButton>
     </BIMDataTooltip>
     <BIMDataTooltip
-      :disabled="viewpoints.length >= 4"
       :text="$t('BcfComponents.BcfTopicForm.importFile')"
       color="primary"
       position="right"
     >
-      <BIMDataButton color="default" ghost rounded icon :disabled="viewpoints.length >= 4">
+      <BIMDataButton color="default" ghost rounded icon >
         <label for="files" class="flex items-center">
           <BIMDataIconUnarchive fill color="default" size="s" />
         </label>
         <input
-          :disabled="viewpoints.length >= 4"
           hidden
           id="files"
           type="file"
           multiple
           accept="image/png, image/jpeg"
-          @change="uploadViewpoints"
+          @change="$emit('upload-viewpoint', $event)"
         />
       </BIMDataButton>
     </BIMDataTooltip>
@@ -44,6 +42,7 @@
 </template>
 
 <script>
+import { computed } from "vue";
 export default {
   props: {
     viewpoints: {
@@ -54,46 +53,19 @@ export default {
       type: Function,
     },
   },
-  emits: ["create-viewpoint"],
-  setup(props, { emit }) {
-    const createViewpoints = () => {
-      const viewers = Object.values(props.getViewers?.() ?? {}).flat();
-      viewers.forEach(async (viewer) => {
-        const viewpoint = await viewer.getViewpoint();
-        emit("create-viewpoint", viewpoint);
-      });
-    };
+  emits: ["create-viewpoint", "upload-viewpoint"],
+  setup(props) {
 
-    const uploadViewpoints = (event) => {
-      [...event.target.files].forEach((file) => {
-        let type;
-        if (file.type === "image/png") {
-          type = "png";
-        } else if (file.type === "image/jpeg") {
-          type = "jpg"; // `jpeg` is not a valid value, only `jpg` is
-        } else {
-          type = file.type;
-        }
-
-        const reader = new FileReader();
-        reader.addEventListener("load", () => {
-          const viewpoint = {
-            snapshot: {
-              snapshot_type: type,
-              snapshot_data: reader.result,
-            },
-          };
-          emit("create-viewpoint", viewpoint);
-        });
-        reader.readAsDataURL(file);
-      });
-    };
+    // Computed filtering viewpoints on isUpload = false
+    const snapshotedViewpoints = computed(() =>
+      props.viewpoints.filter((viewpoint) => !viewpoint.isUpload)
+    );
 
     return {
-      // Methods
-      createViewpoints,
-      uploadViewpoints,
+      snapshotedViewpoints,
     };
   },
 };
 </script>
+
+<style scoped lang="scss" src="./BcfTopicSnapshotsActions.scss"></style>
