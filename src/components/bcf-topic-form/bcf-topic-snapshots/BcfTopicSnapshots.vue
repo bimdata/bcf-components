@@ -18,11 +18,25 @@
 
     <template v-else>
       <div class="bcf-topic-snapshots__create">
-        <BcfTopicSnapshotsActions
-          :viewpoints="viewpoints"
-          :getViewers="getViewers"
-          @create-viewpoint="$emit('create-viewpoint', $event)"
-        />
+        <BIMDataButton color="primary" fill radius @click="createViewpoints">
+          <BIMDataIconCamera size="s" margin="0 6px 0 0" />
+          <span>{{ $t("BcfComponents.BcfTopicForm.takeSnapshot") }}</span>
+        </BIMDataButton>
+        <BIMDataButton color="primary" outline radius class="m-t-12">
+          <label for="files" class="flex items-center">
+            <BIMDataIconUnarchive fill color="default" size="s" margin="0 6px 0 0" />
+            <span>{{ $t("BcfComponents.BcfTopicForm.importFile") }}</span>
+          </label>
+          <input
+            :disabled="viewpoints.length >= 4"
+            hidden
+            id="files"
+            type="file"
+            multiple
+            accept="image/png, image/jpeg"
+            @change="uploadViewpoints"
+          />
+        </BIMDataButton>
       </div>
     </template>
   </div>
@@ -55,12 +69,20 @@ export default {
   },
   emits: ["create-viewpoint", "delete-viewpoint"],
   setup(props, { emit }) {
+    const createViewpoints = () => {
+      const viewers = Object.values(props.getViewers?.() ?? {}).flat();
+      viewers.forEach(async (viewer) => {
+        const viewpoint = await viewer.getViewpoint();
+        emit("create-viewpoint", viewpoint);
+      });
+    };
     const deleteViewpoint = (viewpoint) => {
       emit("delete-viewpoint", viewpoint);
     };
 
     return {
       // Methods
+      createViewpoints,
       deleteViewpoint,
     };
   },
