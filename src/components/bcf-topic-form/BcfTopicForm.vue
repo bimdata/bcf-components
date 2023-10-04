@@ -32,15 +32,16 @@
           :viewpoints="viewpointsToDisplay"
           :getViewers="getViewers"
           @create-viewpoint="createViewpoint"
+          @upload-viewpoint="uploadViewpoint"
           @delete-viewpoint="deleteViewpoint"
         />
         <div class="bcf-topic-form__content__actions">
           <BcfTopicSnapshotsActions
             v-if="viewpointsToDisplay.length > 0"
-            :isXs="true"
             :viewpoints="viewpointsToDisplay"
             :getViewers="getViewers"
             @create-viewpoint="createViewpoint"
+            @upload-viewpoint="uploadViewpoint"
           />
           <BIMDataButton
             fill
@@ -377,8 +378,38 @@ export default {
       { immediate: true }
     );
 
-    const createViewpoint = (viewpoint) => {
-      viewpointsToCreate.value.push(viewpoint);
+    const createViewpoint = () => {
+      const viewers = Object.values(props.getViewers?.() ?? {}).flat();
+      viewers.forEach(async (viewer) => {
+        const viewpoint = await viewer.getViewpoint();
+        viewpointsToCreate.value.push(viewpoint);
+      });
+    };
+
+    const uploadViewpoint = (event) => {
+      [...event.target.files].forEach((file) => {
+        let type;
+        if (file.type === "image/png") {
+          type = "png";
+        } else if (file.type === "image/jpeg") {
+          type = "jpg"; // `jpeg` is not a valid value, only `jpg` is
+        } else {
+          type = file.type;
+        }
+
+        const reader = new FileReader();
+        reader.addEventListener("load", () => {
+          const viewpoint = {
+            isUpload: true,
+            snapshot: {
+              snapshot_type: type,
+              snapshot_data: reader.result,
+            },
+          };
+          viewpointsToCreate.value.push(viewpoint);
+        });
+        reader.readAsDataURL(file);
+      });
     };
 
     const deleteViewpoint = (viewpoint) => {
@@ -500,6 +531,7 @@ export default {
       viewpointsToDisplay,
       // Methods
       createViewpoint,
+      uploadViewpoint,
       deleteViewpoint,
       submit,
     };

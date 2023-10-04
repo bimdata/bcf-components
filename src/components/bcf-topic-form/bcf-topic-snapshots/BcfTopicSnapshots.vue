@@ -9,7 +9,7 @@
           :key="viewpoint.guid || i"
         >
           <img v-if="viewpoint.snapshot.snapshot_data" :src="viewpoint.snapshot.snapshot_data" />
-          <BIMDataButton class="btn-delete" fill rounded icon @click="deleteViewpoint(viewpoint)">
+          <BIMDataButton class="btn-delete" fill rounded icon @click="$emit('delete-viewpoint', viewpoint)">
             <BIMDataIconDelete size="xs" fill color="high" />
           </BIMDataButton>
         </div>
@@ -18,11 +18,25 @@
 
     <template v-else>
       <div class="bcf-topic-snapshots__create">
-        <BcfTopicSnapshotsActions
-          :viewpoints="viewpoints"
-          :getViewers="getViewers"
-          @create-viewpoint="$emit('create-viewpoint', $event)"
-        />
+        <BIMDataButton color="primary" fill radius @click="$emit('create-viewpoint')">
+          <BIMDataIconCamera size="s" margin="0 6px 0 0" />
+          <span>{{ $t("BcfComponents.BcfTopicForm.takeSnapshot") }}</span>
+        </BIMDataButton>
+        <BIMDataButton color="primary" outline radius class="m-t-12">
+          <label for="files" class="flex items-center">
+            <BIMDataIconUnarchive fill color="default" size="s" margin="0 6px 0 0" />
+            <span>{{ $t("BcfComponents.BcfTopicForm.importFile") }}</span>
+          </label>
+          <input
+            :disabled="viewpoints.length >= 4"
+            hidden
+            id="files"
+            type="file"
+            multiple
+            accept="image/png, image/jpeg"
+            @change="$emit('upload-viewpoint', $event)"
+          />
+        </BIMDataButton>
       </div>
     </template>
   </div>
@@ -53,17 +67,7 @@ export default {
       type: Function,
     },
   },
-  emits: ["create-viewpoint", "delete-viewpoint"],
-  setup(props, { emit }) {
-    const deleteViewpoint = (viewpoint) => {
-      emit("delete-viewpoint", viewpoint);
-    };
-
-    return {
-      // Methods
-      deleteViewpoint,
-    };
-  },
+  emits: ["create-viewpoint", "upload-viewpoint", "delete-viewpoint"],
 };
 </script>
 
