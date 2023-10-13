@@ -78,6 +78,7 @@
           :topic="topic"
           :comment="comment"
           :currentUserEmail="currentUserEmail"
+          :get-viewers="getViewers"
           @comment-updated="onCommentUpdated"
           @comment-deleted="onCommentDeleted"
           @view-comment-snapshot="$emit('view-comment-snapshot', $event)"
@@ -94,13 +95,14 @@
 <script>
 import { onMounted, inject, ref, watch, onBeforeUnmount } from "vue";
 import { useService } from "../../../service.js";
+import { getViewerOptions, highlightViewer, unhighlightViewer } from "../../../utils/viewer.js";
 
 // Components
 import BIMDataButton from "@bimdata/design-system/src/BIMDataComponents/BIMDataButton/BIMDataButton.vue";
 import BIMDataDropdownList from "@bimdata/design-system/src/BIMDataComponents/BIMDataDropdownList/BIMDataDropdownList.vue";
 import {
-  BIMDataIconDelete,
   BIMDataIconCamera,
+  BIMDataIconDelete,
 } from "@bimdata/design-system/src/BIMDataComponents/BIMDataIcon/BIMDataIconStandalone/index.js";
 import BIMDataLoading from "@bimdata/design-system/src/BIMDataComponents/BIMDataLoading/BIMDataLoading.vue";
 import BIMDataTextarea from "@bimdata/design-system/src/BIMDataComponents/BIMDataTextarea/BIMDataTextarea.vue";
@@ -110,8 +112,8 @@ export default {
   components: {
     BIMDataButton,
     BIMDataDropdownList,
-    BIMDataIconDelete,
     BIMDataIconCamera,
+    BIMDataIconDelete,
     BIMDataLoading,
     BIMDataTextarea,
     TopicComment,
@@ -135,37 +137,27 @@ export default {
     },
     getViewers: {
       type: Function,
+      required: true,
     },
   },
   emis: ["comment-created", "comment-updated", "comment-deleted", "view-comment-snapshot"],
   setup(props, { emit }) {
+    let pluginCreatedSub, pluginDestroyedSub;
+
     const service = useService();
-
-    const comments = ref([]);
-    const isOpen = ref(false);
-    const loading = ref(false);
-    const input = ref(null);
-    const text = ref("");
-    const viewpoint = ref(null);
-
-    const loadComments = async () => {
-      comments.value = await service.fetchTopicComments(props.project, props.topic);
-    };
-
     const $viewer = inject("$viewer", null);
 
+    const loading = ref(false);
+    const isOpen = ref(false);
+    const input = ref(null);
+    const comments = ref([]);
+    const text = ref("");
+    const viewpoint = ref(null);
     const viewerSelectVisible = ref(false);
     const viewerSelectOptions = ref([]);
 
-    const highlightViewer = (viewer) => {
-      viewer.$viewer.localContext.el.style.border = "2px solid var(--color-primary)";
-      viewer.$viewer.localContext.el.style.boxSizing = "border-box";
-      viewer.$viewer.localContext.el.style.opacity = ".85";
-    };
-    const unhighlightViewer = (viewer) => {
-      viewer.$viewer.localContext.el.style.border = "";
-      viewer.$viewer.localContext.el.style.boxSizing = "";
-      viewer.$viewer.localContext.el.style.opacity = "";
+    const loadComments = async () => {
+      comments.value = await service.fetchTopicComments(props.project, props.topic);
     };
 
     const setCommentViewpoint = async () => {
@@ -228,32 +220,22 @@ export default {
 
     watch(isOpen, () => setTimeout(() => isOpen.value && input.value.focus(), 50));
 
-    let pluginCreatedSubId;
-    let pluginDestroyedSubId;
-
     onMounted(() => {
       if ($viewer) {
-        const listViewerOptions = () => {
-          return Object.entries(props.getViewers?.() ?? [])
-            .map(([id, list]) =>
-              list.map((v, i) => ({ key: `${id}-${i}`, id, index: i, viewer: v }))
-            )
-            .flat();
-        };
-        viewerSelectOptions.value = listViewerOptions();
-        pluginCreatedSubId = $viewer.globalContext.hub.on("plugin-created", () => {
-          viewerSelectOptions.value = listViewerOptions();
+        viewerSelectOptions.value = getViewerOptions(props.getViewers());
+        pluginCreatedSub = $viewer.globalContext.hub.on("plugin-created", () => {
+          viewerSelectOptions.value = getViewerOptions(props.getViewers());
         });
-        pluginDestroyedSubId = $viewer.globalContext.hub.on("plugin-destroyed", () => {
-          viewerSelectOptions.value = listViewerOptions();
+        pluginDestroyedSub = $viewer.globalContext.hub.on("plugin-destroyed", () => {
+          viewerSelectOptions.value = getViewerOptions(props.getViewers());
         });
       }
     });
 
     onBeforeUnmount(() => {
       if ($viewer) {
-        $viewer.globalContext.hub.off(pluginCreatedSubId);
-        $viewer.globalContext.hub.off(pluginDestroyedSubId);
+        $viewer.globalContext.hub.off(pluginCreatedSub);
+        $viewer.globalContext.hub.off(pluginDestroyedSub);
       }
     });
 

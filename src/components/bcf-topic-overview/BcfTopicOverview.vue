@@ -281,6 +281,7 @@ export default {
     },
     getViewers: {
       type: Function,
+      default: () => () => ({})
     },
   },
   emits: [

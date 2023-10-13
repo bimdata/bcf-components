@@ -63,9 +63,6 @@ export default {
       type: Array,
       default: () => [],
     },
-    getViewers: {
-      type: Function,
-    },
   },
   emits: ["create-viewpoint", "upload-viewpoint", "delete-viewpoint"],
 };
