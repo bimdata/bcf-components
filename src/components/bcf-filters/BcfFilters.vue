@@ -86,9 +86,11 @@
           v-model="filters.labels"
         >
           <template #empty>
-            <span class="color-granite p-x-12">
-            {{$t('BcfComponents.BcfFilters.undefined')}}
-            </span>
+            <div class="p-x-12 p-t-12 p-b-6">
+              <BIMDataText fontSize="13px">
+                {{ $t("BcfComponents.BcfFilters.undefined") }}
+              </BIMDataText>
+            </div>
           </template>
         </BIMDataSelect>
 
@@ -120,6 +122,7 @@ import {
 } from "@bimdata/design-system/src/BIMDataComponents/BIMDataIcon/BIMDataIconStandalone/index.js";
 import BIMDataInput from "@bimdata/design-system/src/BIMDataComponents/BIMDataInput/BIMDataInput.vue";
 import BIMDataSelect from "@bimdata/design-system/src/BIMDataComponents/BIMDataSelect/BIMDataSelect.vue";
+import BIMDataText from "@bimdata/design-system/src/BIMDataComponents/BIMDataText/BIMDataText.vue";
 
 function getSelectOptions(list) {
   return Array.from(new Set(list)).sort((a, b) =>
@@ -135,6 +138,7 @@ export default {
     BIMDataIconSearch,
     BIMDataInput,
     BIMDataSelect,
+    BIMDataText
   },
   props: {
     topics: {
@@ -143,7 +147,7 @@ export default {
     },
     initFilters: {
       type: Object,
-    }
+    },
   },
   emits: ["submit"],
   setup(props, { emit }) {
@@ -154,20 +158,19 @@ export default {
     const { filters, filteredTopics, reset, apply } = useBcfFilter(computed(() => props.topics));
 
     watch(
-      () => props.initFilters, 
+      () => props.initFilters,
       () => {
-        if(props.initFilters) {
+        if (props.initFilters) {
           apply(props.initFilters);
         } else {
-          filters
+          filters;
         }
       },
       { deep: true }
-    )
+    );
 
-    const priorityOptions = computed(
-      () =>
-      getSelectOptions(props.topics.map((topic) => topic.priority)),
+    const priorityOptions = computed(() =>
+      getSelectOptions(props.topics.map((topic) => topic.priority))
     );
 
     const statusOptions = computed(() =>
