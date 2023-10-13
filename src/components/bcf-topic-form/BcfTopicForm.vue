@@ -135,7 +135,7 @@
           v-model="topicAssignedTo"
           :searchPlaceholder="$t('BcfComponents.BcfTopicForm.searchPlaceholder')"
         >
-          <template #empty> <span class="color-granite p-x-6">{{ $t('BcfComponents.BcfTopicForm.emptySearch') }}</span> </template>
+          <template #empty> <span class="color-granite p-x-12">{{ $t('BcfComponents.BcfTopicForm.emptySearch') }}</span> </template>
         </BIMDataSelect>
         <div class="m-b-30">
           <BIMDataDatePicker
