@@ -84,7 +84,13 @@
           :nullLabel="$t('BcfComponents.BcfFilters.undefined')"
           :options="labelOptions"
           v-model="filters.labels"
-        />
+        >
+          <template #empty>
+            <span class="color-granite p-x-12">
+            {{$t('BcfComponents.BcfFilters.undefined')}}
+            </span>
+          </template>
+        </BIMDataSelect>
 
         <div class="bcf-filters__container__actions">
           <BIMDataButton class="m-r-12" color="primary" ghost radius @click="resetFilters">
