@@ -65,7 +65,9 @@
             "cancelButton": "Discard changes",
             "continueButton": "Continue editing",
             "createTitle": "Report a problem",
-            "dragDropImageTextTablet": "Take a picture"
+            "dragDropImageTextTablet": "Take a picture",
+            "searchPlaceholder": "Search",
+            "emptySearch": "No result"
         },
         "BcfTopicOverview": {
             "openViewer": "Open in viewer",

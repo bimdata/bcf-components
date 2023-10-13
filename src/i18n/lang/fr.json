@@ -67,7 +67,9 @@
             "cancelButton": "Annuler les modifications",
             "continueButton": "Continuer les modifications",
             "takeSnapshot": "Prendre un snapshot",
-            "importFile": "Importer un fichier"
+            "importFile": "Importer un fichier",
+            "searchPlaceholder": "Rechercher",
+            "emptySearch": "Pas de résultat"
         },
         "BcfTopicOverview": {
             "openViewer": "Ouvrir dans le viewer",
