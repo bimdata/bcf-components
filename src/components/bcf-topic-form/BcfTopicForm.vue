@@ -127,11 +127,16 @@
         />
         <BIMDataSelect
           width="100%"
+          :search="true"
+          :clearSearchOnLeave="true"
           :label="$t('BcfComponents.BcfTopicForm.assignedToLabel')"
           :options="extensions.user_id_type"
           :disabled="extensions.user_id_type.length === 0"
           v-model="topicAssignedTo"
-        />
+          :searchPlaceholder="$t('BcfComponents.BcfTopicForm.searchPlaceholder')"
+        >
+          <template #empty> <span class="color-granite p-x-12">{{ $t('BcfComponents.BcfTopicForm.emptySearch') }}</span> </template>
+        </BIMDataSelect>
         <div class="m-b-30">
           <BIMDataDatePicker
             width="100%"

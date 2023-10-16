@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "@bimdata/components": "^1.0.6",
-    "@bimdata/design-system": "2.0.0-rc.36",
+    "@bimdata/design-system": "2.1.0-rc.6",
     "@bimdata/vite-plugin-libcss": "0.0.1",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/commit-analyzer": "^9.0.2",
