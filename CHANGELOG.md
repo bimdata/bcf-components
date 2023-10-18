@@ -1,3 +1,39 @@
+# [6.0.0](https://github.com/bimdata/bcf-components/compare/v5.0.0...v6.0.0) (2023-10-18)
+
+
+### ci
+
+* fix minor version node ([4762803](https://github.com/bimdata/bcf-components/commit/4762803239b4e5d99c79e151ea39e07b5d892ac2))
+* use common runners ([8b9c566](https://github.com/bimdata/bcf-components/commit/8b9c566aeba17259d32fc38b4818ff14dffd98e9))
+
+### MAJOR
+
+* feat: change the way viewpoints are taken ([2a1e746](https://github.com/bimdata/bcf-components/commit/2a1e746aa60e37ffa4f0b9df6ecc73bda85cd1d9))
+* refactor: remove build system (#34) ([995b81d](https://github.com/bimdata/bcf-components/commit/995b81dd9d920757dfed93beb76996e475f4d03e)), closes [#34](https://github.com/bimdata/bcf-components/issues/34)
+
+### MINOR
+
+* Add XLSXExport (#25) ([a0f4e0d](https://github.com/bimdata/bcf-components/commit/a0f4e0d1599e498bf917ff9bde5c76f7eb3ed495)), closes [#25](https://github.com/bimdata/bcf-components/issues/25)
+* Feature/upload file (#27) ([5e3d820](https://github.com/bimdata/bcf-components/commit/5e3d820addc1b2108edf099984dbc63578977874)), closes [#27](https://github.com/bimdata/bcf-components/issues/27)
+
+### PATCH
+
+* add cursor on upload file btn text (#29) ([1076b72](https://github.com/bimdata/bcf-components/commit/1076b7238eb4e7cd3257c62d209ebed2028f73c3)), closes [#29](https://github.com/bimdata/bcf-components/issues/29)
+* add search component into assigned to field of topic (#31) ([3ff58f2](https://github.com/bimdata/bcf-components/commit/3ff58f2fc62480366e1062e64a8a17709acd80a6)), closes [#31](https://github.com/bimdata/bcf-components/issues/31)
+* add watcher on initFilters (#28) ([6857a84](https://github.com/bimdata/bcf-components/commit/6857a8459bdf995decc64fc2e90c789bb5d2cb0a)), closes [#28](https://github.com/bimdata/bcf-components/issues/28)
+* add z-index for active bimdata-select into bcf form (#26) ([5a02e54](https://github.com/bimdata/bcf-components/commit/5a02e547b1036c2699149a1d902b52ecc45f03fd)), closes [#26](https://github.com/bimdata/bcf-components/issues/26)
+* fix bcf xlsx export parameters ([ac5a5f6](https://github.com/bimdata/bcf-components/commit/ac5a5f685557beb2e4449aec6a5df7a4d197f484))
+* fix exportXLSX ([31dc4de](https://github.com/bimdata/bcf-components/commit/31dc4deacbea3d582fdda574bc5e9e636b5982ad))
+* Fix make multiple snapshots (#30) ([a6b1200](https://github.com/bimdata/bcf-components/commit/a6b120077d172c6cbc2c07180664028903b0e7ff)), closes [#30](https://github.com/bimdata/bcf-components/issues/30)
+* fix xlsx download extension ([95bee28](https://github.com/bimdata/bcf-components/commit/95bee28fb7e04e34b8452f9b5ba4291ef740c4e9))
+* fix xlsx download extension ([735ea25](https://github.com/bimdata/bcf-components/commit/735ea25f9db8e383143779e313cbe352a1beaed7))
+* fix: bcf filter button icon ([e11a1c5](https://github.com/bimdata/bcf-components/commit/e11a1c53251ef1abdb8d2b113a6f5154f93c4b83))
+* fix: set topic models properly on topic creation (#32) ([492c0c3](https://github.com/bimdata/bcf-components/commit/492c0c3b329edf519b0876d7f0d901c8f6708026)), closes [#32](https://github.com/bimdata/bcf-components/issues/32)
+* fix: use null as default value for  when not injected ([211746d](https://github.com/bimdata/bcf-components/commit/211746de686236d62a2258756e7d489bdc19ae75))
+* Fix/add empty props (#33) ([4574cf6](https://github.com/bimdata/bcf-components/commit/4574cf67154b533292033c8341c425ae1861a113)), closes [#33](https://github.com/bimdata/bcf-components/issues/33)
+* Fix/use standalone icons (#24) ([3d79bf4](https://github.com/bimdata/bcf-components/commit/3d79bf4755454d3090db18def05c109b3955a735)), closes [#24](https://github.com/bimdata/bcf-components/issues/24)
+* update DS version ([0191b80](https://github.com/bimdata/bcf-components/commit/0191b8053dbb6f391813f40dd886c281c378b118))
+
 # [5.0.0](https://github.com/bimdata/bcf-components/compare/v4.1.3...v5.0.0) (2023-07-11)
 
 
