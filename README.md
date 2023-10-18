@@ -42,9 +42,3 @@ const app = createApp()
 It is also possible to provide your own translations for i18n by removing
 `i18nPlugin` from plugin config and adding translation keys from
 [`src/i18n/lang/fr.js`](./src/i18n/lang/fr.json) to the translation files of your app.
-
-## Build
-
-```bash
-npm run build
-```
