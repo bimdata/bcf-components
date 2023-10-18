@@ -9,7 +9,7 @@
           :key="viewpoint.guid || i"
         >
           <img v-if="viewpoint.snapshot.snapshot_data" :src="viewpoint.snapshot.snapshot_data" />
-          <BIMDataButton class="btn-delete" fill rounded icon @click="deleteViewpoint(viewpoint)">
+          <BIMDataButton class="btn-delete" fill rounded icon @click="$emit('delete-viewpoint', viewpoint)">
             <BIMDataIconDelete size="xs" fill color="high" />
           </BIMDataButton>
         </div>
@@ -34,7 +34,7 @@
           type="file"
           multiple
           accept="image/png, image/jpeg"
-          @change="createViewpoints"
+          @change="$emit('upload-viewpoint', $event)"
         />
       </BIMDataButton>
     </template>
@@ -57,7 +57,7 @@
             type="file"
             multiple
             accept="image/png, image/jpeg"
-            @change="createViewpoints"
+            @change="$emit('upload-viewpoint', $event)"
           />
         </BIMDataButton>
       </div>
@@ -88,41 +88,10 @@ export default {
       default: () => [],
     },
   },
-  emits: ["create-viewpoint", "delete-viewpoint"],
-  setup(_, { emit }) {
-    const createViewpoints = (event) => {
-      [...event.target.files].forEach((file) => {
-        let type;
-        if (file.type === "image/png") {
-          type = "png";
-        } else if (file.type === "image/jpeg") {
-          type = "jpg"; // `jpeg` is not a valid value, only `jpg` is
-        } else {
-          type = file.type;
-        }
-
-        const reader = new FileReader();
-        reader.addEventListener("load", () => {
-          const viewpoint = {
-            snapshot: {
-              snapshot_type: type,
-              snapshot_data: reader.result,
-            },
-          };
-          emit("create-viewpoint", viewpoint);
-        });
-        reader.readAsDataURL(file);
-      });
-    };
-
-    const deleteViewpoint = (viewpoint) => {
-      emit("delete-viewpoint", viewpoint);
-    };
-
+  emits: ["upload-viewpoint", "delete-viewpoint"],
+  setup() {
     return {
       // Methods
-      createViewpoints,
-      deleteViewpoint,
       isTabletOrMobile,
     };
   },

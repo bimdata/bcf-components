@@ -43,14 +43,12 @@
 
 <script>
 import { computed } from "vue";
+
 export default {
   props: {
     viewpoints: {
       type: Array,
       default: () => [],
-    },
-    getViewers: {
-      type: Function,
     },
   },
   emits: ["create-viewpoint", "upload-viewpoint"],

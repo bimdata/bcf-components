@@ -31,8 +31,8 @@
         <BcfTopicSnapshots
           :viewpoints="viewpointsToDisplay"
           :getViewers="getViewers"
-          @create-viewpoint="createViewpoint"
-          @upload-viewpoint="uploadViewpoint"
+          @create-viewpoint="createViewpoints"
+          @upload-viewpoint="uploadViewpoints"
           @delete-viewpoint="deleteViewpoint"
         />
         <div class="bcf-topic-form__content__actions">
@@ -40,8 +40,8 @@
             v-if="viewpointsToDisplay.length > 0"
             :viewpoints="viewpointsToDisplay"
             :getViewers="getViewers"
-            @create-viewpoint="createViewpoint"
-            @upload-viewpoint="uploadViewpoint"
+            @create-viewpoint="createViewpoints"
+            @upload-viewpoint="uploadViewpoints"
           />
           <BIMDataButton
             fill
@@ -84,7 +84,7 @@
       <template v-else>
         <BcfTopicImages
           :viewpoints="viewpointsToDisplay"
-          @create-viewpoint="createViewpoint"
+          @upload-viewpoint="uploadViewpoints"
           @delete-viewpoint="deleteViewpoint"
         />
       </template>
@@ -200,6 +200,7 @@
 <script>
 import { computed, ref, watch } from "vue";
 import { useService } from "../../service.js";
+import { getViewerList } from "../../utils/viewer.js";
 import { setViewpointDefaults } from "../../utils/viewpoints.js";
 // Components
 import BIMDataSafeZoneModal from "@bimdata/components/src/BIMDataSafeZoneModal/BIMDataSafeZoneModal.vue";
@@ -276,14 +277,6 @@ export default {
     topic: {
       type: Object,
     },
-    topicModels: {
-      /**
-       * Models list to attach to this topic if it
-       * doesn't have one already (`models` field).
-       */
-      type: Array,
-      default: () => [],
-    },
     topicObjects: {
       /**
        * Objects selection that will be set on each topic viewpoints
@@ -300,6 +293,7 @@ export default {
     },
     getViewers: {
       type: Function,
+      default: () => () => ({})
     },
   },
   emits: [
@@ -383,15 +377,15 @@ export default {
       { immediate: true }
     );
 
-    const createViewpoint = () => {
-      const viewers = Object.values(props.getViewers?.() ?? {}).flat();
-      viewers.forEach(async (viewer) => {
-        const viewpoint = await viewer.getViewpoint();
-        viewpointsToCreate.value.push(viewpoint);
-      });
+    const createViewpoints = () => {
+      Promise.all(
+        getViewerList(props.getViewers()).map(viewer =>
+          viewer.getViewpoint().then(viewpoint => viewpointsToCreate.value.push(viewpoint))
+        )
+      );
     };
 
-    const uploadViewpoint = (event) => {
+    const uploadViewpoints = (event) => {
       [...event.target.files].forEach((file) => {
         let type;
         if (file.type === "image/png") {
@@ -481,12 +475,12 @@ export default {
           due_date: topicDueDate.value,
           description: topicDescription.value,
           labels: topicLabels.value,
-          // Keep topic models unchanged if any, otherwise use provided topic models.
-          models: props.topic?.models || props.topicModels,
         };
 
         let newTopic;
         if (isCreation.value) {
+          data.models = getViewerList(props.getViewers())
+            .flatMap(v => v.getLoadedModels().map(m => m.id));
           newTopic = await service.createTopic(props.project, data);
         } else {
           newTopic = await service.updateTopic(props.project, data);
@@ -535,8 +529,8 @@ export default {
       topicType,
       viewpointsToDisplay,
       // Methods
-      createViewpoint,
-      uploadViewpoint,
+      createViewpoints,
+      uploadViewpoints,
       deleteViewpoint,
       submit,
     };
