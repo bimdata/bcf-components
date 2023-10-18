@@ -8,18 +8,9 @@
           v-for="(viewpoint, i) in viewpoints.slice(0, 4)"
           :key="viewpoint.guid || i"
         >
-          <img
-            v-if="viewpoint.snapshot.snapshot_data"
-            :src="viewpoint.snapshot.snapshot_data"
-          />
-          <BIMDataButton
-            class="btn-delete"
-            fill
-            rounded
-            icon
-            @click="deleteViewpoint(viewpoint)"
-          >
-            <BIMDataIcon name="delete" size="xs" fill color="high" />
+          <img v-if="viewpoint.snapshot.snapshot_data" :src="viewpoint.snapshot.snapshot_data" />
+          <BIMDataButton class="btn-delete" fill rounded icon @click="$emit('delete-viewpoint', viewpoint)">
+            <BIMDataIconDelete size="xs" fill color="high" />
           </BIMDataButton>
         </div>
       </div>
@@ -33,7 +24,7 @@
         radius
       >
         <label for="files">
-          <BIMDataIcon name="camera" size="xs" margin="0 6px 0 0" />
+          <BIMDataIconCamera size="xs" margin="0 6px 0 0" />
           {{ $t("BcfComponents.BcfTopicForm.addPictureButton") }}
         </label>
         <input
@@ -43,7 +34,7 @@
           type="file"
           multiple
           accept="image/png, image/jpeg"
-          @change="createViewpoints"
+          @change="$emit('upload-viewpoint', $event)"
         />
       </BIMDataButton>
     </template>
@@ -51,14 +42,14 @@
     <template v-else>
       <div class="bcf-topic-images__upload">
         <span class="icon">
-          <BIMDataIcon name="unarchive" size="m" />
+          <BIMDataIconUnarchive size="m" />
         </span>
         <BIMDataButton class="btn-upload" color="primary" outline radius>
           <label v-if="!isTabletOrMobile" for="files">
             {{ $t("BcfComponents.BcfTopicForm.dragDropImageText") }}
           </label>
           <label v-else for="files">
-             {{ $t("BcfComponents.BcfTopicForm.dragDropImageTextTablet") }}
+            {{ $t("BcfComponents.BcfTopicForm.dragDropImageTextTablet") }}
           </label>
           <input
             hidden
@@ -66,7 +57,7 @@
             type="file"
             multiple
             accept="image/png, image/jpeg"
-            @change="createViewpoints"
+            @change="$emit('upload-viewpoint', $event)"
           />
         </BIMDataButton>
       </div>
@@ -77,61 +68,33 @@
 <script>
 import { isTabletOrMobile } from "../../../utils/browser.js";
 // Components
-import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataButton.js";
-import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataIcon.js";
+import BIMDataButton from "@bimdata/design-system/src/BIMDataComponents/BIMDataButton/BIMDataButton.vue";
+import {
+  BIMDataIconDelete,
+  BIMDataIconCamera,
+  BIMDataIconUnarchive,
+} from "@bimdata/design-system/src/BIMDataComponents/BIMDataIcon/BIMDataIconStandalone/index.js";
 
 export default {
   components: {
     BIMDataButton,
-    BIMDataIcon,
+    BIMDataIconDelete,
+    BIMDataIconCamera,
+    BIMDataIconUnarchive,
   },
   props: {
     viewpoints: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
   },
-  emits: [
-    "create-viewpoint",
-    "delete-viewpoint"
-  ],
-  setup(_, { emit }) {
-    const createViewpoints = event => {
-      [...event.target.files].forEach(file => {
-        let type;
-        if (file.type === "image/png") {
-          type = "png";
-        } else if (file.type === "image/jpeg") {
-          type = "jpg"; // `jpeg` is not a valid value, only `jpg` is
-        } else {
-          type = file.type;
-        }
-
-        const reader = new FileReader();
-        reader.addEventListener("load", () => {
-          const viewpoint = {
-            snapshot: {
-              snapshot_type: type,
-              snapshot_data: reader.result
-            }
-          };
-          emit("create-viewpoint", viewpoint);
-        });
-        reader.readAsDataURL(file);
-      });
-    };
-
-    const deleteViewpoint = viewpoint => {
-      emit("delete-viewpoint", viewpoint);
-    };
-
+  emits: ["upload-viewpoint", "delete-viewpoint"],
+  setup() {
     return {
       // Methods
-      createViewpoints,
-      deleteViewpoint,
       isTabletOrMobile,
     };
-  }
+  },
 };
 </script>
 

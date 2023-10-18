@@ -21,7 +21,7 @@
           <div class="bcf-topic-comments__post-comment__snapshot m-b-12" v-if="viewpoint">
             <img v-if="viewpoint.snapshot.snapshot_data" :src="viewpoint.snapshot.snapshot_data" />
             <BIMDataButton class="btn-delete" fill rounded icon @click="deleteViewpoint">
-              <BIMDataIcon name="delete" size="xs" fill color="high" />
+              <BIMDataIconDelete size="xs" fill color="high" />
             </BIMDataButton>
           </div>
           <div class="flex items-center justify-between">
@@ -31,7 +31,7 @@
                 @click="setCommentViewpoint"
                 v-if="!viewerSelectVisible && isViewer"
               >
-                <BIMDataIcon name="camera" fill color="default" />
+                <BIMDataIconCamera fill color="default" />
               </div>
               <BIMDataDropdownList
                 v-if="viewerSelectVisible && isViewer"
@@ -78,6 +78,7 @@
           :topic="topic"
           :comment="comment"
           :currentUserEmail="currentUserEmail"
+          :get-viewers="getViewers"
           @comment-updated="onCommentUpdated"
           @comment-deleted="onCommentDeleted"
           @view-comment-snapshot="$emit('view-comment-snapshot', $event)"
@@ -93,22 +94,26 @@
 
 <script>
 import { onMounted, inject, ref, watch, onBeforeUnmount } from "vue";
-import { VIEWPOINT_CONFIG, VIEWPOINT_MODELS_FIELD, VIEWPOINT_TYPE_FIELD } from "../../../config.js";
 import { useService } from "../../../service.js";
+import { getViewerOptions, highlightViewer, unhighlightViewer } from "../../../utils/viewer.js";
 
 // Components
-import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataButton.js";
-import BIMDataDropdownList from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataDropdownList.js";
-import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataIcon.js";
-import BIMDataLoading from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataLoading.js";
-import BIMDataTextarea from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataTextarea.js";
+import BIMDataButton from "@bimdata/design-system/src/BIMDataComponents/BIMDataButton/BIMDataButton.vue";
+import BIMDataDropdownList from "@bimdata/design-system/src/BIMDataComponents/BIMDataDropdownList/BIMDataDropdownList.vue";
+import {
+  BIMDataIconCamera,
+  BIMDataIconDelete,
+} from "@bimdata/design-system/src/BIMDataComponents/BIMDataIcon/BIMDataIconStandalone/index.js";
+import BIMDataLoading from "@bimdata/design-system/src/BIMDataComponents/BIMDataLoading/BIMDataLoading.vue";
+import BIMDataTextarea from "@bimdata/design-system/src/BIMDataComponents/BIMDataTextarea/BIMDataTextarea.vue";
 import TopicComment from "./topic-comment/TopicComment.vue";
 
 export default {
   components: {
     BIMDataButton,
     BIMDataDropdownList,
-    BIMDataIcon,
+    BIMDataIconCamera,
+    BIMDataIconDelete,
     BIMDataLoading,
     BIMDataTextarea,
     TopicComment,
@@ -130,37 +135,29 @@ export default {
       type: String,
       required: true,
     },
+    getViewers: {
+      type: Function,
+      required: true,
+    },
   },
   emis: ["comment-created", "comment-updated", "comment-deleted", "view-comment-snapshot"],
   setup(props, { emit }) {
-    const service = useService();
+    let pluginCreatedSub, pluginDestroyedSub;
 
-    const comments = ref([]);
-    const isOpen = ref(false);
+    const service = useService();
+    const $viewer = inject("$viewer", null);
+
     const loading = ref(false);
+    const isOpen = ref(false);
     const input = ref(null);
+    const comments = ref([]);
     const text = ref("");
     const viewpoint = ref(null);
-
-    const loadComments = async () => {
-      comments.value = await service.fetchTopicComments(props.project, props.topic);
-    };
-
-    const getViewers = inject("getViewers", () => ({}));
-    const $viewer = inject("$viewer");
-
     const viewerSelectVisible = ref(false);
     const viewerSelectOptions = ref([]);
 
-    const highlightViewer = (viewer) => {
-      viewer.$viewer.localContext.el.style.border = "2px solid var(--color-primary)";
-      viewer.$viewer.localContext.el.style.boxSizing = "border-box";
-      viewer.$viewer.localContext.el.style.opacity = ".85";
-    };
-    const unhighlightViewer = (viewer) => {
-      viewer.$viewer.localContext.el.style.border = "";
-      viewer.$viewer.localContext.el.style.boxSizing = "";
-      viewer.$viewer.localContext.el.style.opacity = "";
+    const loadComments = async () => {
+      comments.value = await service.fetchTopicComments(props.project, props.topic);
     };
 
     const setCommentViewpoint = async () => {
@@ -170,18 +167,11 @@ export default {
         viewerSelectVisible.value = true;
       }
     };
-    const createViewpoint = async ({ id, viewer }) => {
+
+    const createViewpoint = async ({ viewer }) => {
       unhighlightViewer(viewer);
       viewerSelectVisible.value = false;
-
-      const [type] = Object.entries(VIEWPOINT_CONFIG).find(([, c]) => c.plugin === id);
-      viewpoint.value = Object.assign(await viewer.getViewpoint(), {
-        [VIEWPOINT_TYPE_FIELD]: type,
-        [VIEWPOINT_MODELS_FIELD]: viewer
-          .getLoadedModels()
-          .map((m) => m.id)
-          .join(","),
-      });
+      viewpoint.value = await viewer.getViewpoint();
     };
 
     const deleteViewpoint = () => {
@@ -230,32 +220,22 @@ export default {
 
     watch(isOpen, () => setTimeout(() => isOpen.value && input.value.focus(), 50));
 
-    let pluginCreatedSubId;
-    let pluginDestroyedSubId;
-
     onMounted(() => {
       if ($viewer) {
-        const listViewerOptions = () => {
-          return Object.entries(getViewers())
-            .map(([id, list]) =>
-              list.map((v, i) => ({ key: `${id}-${i}`, id, index: i, viewer: v }))
-            )
-            .flat();
-        };
-        viewerSelectOptions.value = listViewerOptions();
-        pluginCreatedSubId = $viewer.globalContext.hub.on("plugin-created", () => {
-          viewerSelectOptions.value = listViewerOptions();
+        viewerSelectOptions.value = getViewerOptions(props.getViewers());
+        pluginCreatedSub = $viewer.globalContext.hub.on("plugin-created", () => {
+          viewerSelectOptions.value = getViewerOptions(props.getViewers());
         });
-        pluginDestroyedSubId = $viewer.globalContext.hub.on("plugin-destroyed", () => {
-          viewerSelectOptions.value = listViewerOptions();
+        pluginDestroyedSub = $viewer.globalContext.hub.on("plugin-destroyed", () => {
+          viewerSelectOptions.value = getViewerOptions(props.getViewers());
         });
       }
     });
 
     onBeforeUnmount(() => {
       if ($viewer) {
-        $viewer.globalContext.hub.off(pluginCreatedSubId);
-        $viewer.globalContext.hub.off(pluginDestroyedSubId);
+        $viewer.globalContext.hub.off(pluginCreatedSub);
+        $viewer.globalContext.hub.off(pluginDestroyedSub);
       }
     });
 

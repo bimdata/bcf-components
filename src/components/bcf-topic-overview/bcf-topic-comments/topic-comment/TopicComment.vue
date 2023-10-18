@@ -15,7 +15,7 @@
           v-else
           class="topic-comment__header__left__user flex items-center justify-center m-r-12"
         >
-          <BIMDataIcon name="user" size="xxs" fill color="granite" />
+          <BIMDataIconUser size="xxs" fill color="granite" />
         </span>
 
         <BIMDataTextbox width="auto" maxWidth="150px" cutPosition="end" :text="comment.author" />
@@ -30,21 +30,21 @@
           <div class="topic-comment__header__right__actions flex">
             <template v-if="showMenu">
               <BIMDataButton ghost rounded icon @click="onOpenEdit">
-                <BIMDataIcon name="edit" size="xxs" fill color="granite-light" />
+                <BIMDataIconEdit size="xxs" fill color="granite-light" />
               </BIMDataButton>
               <BIMDataButton ghost rounded icon @click="onOpenDelete">
-                <BIMDataIcon name="delete" size="xxs" fill color="granite-light" />
+                <BIMDataIconDelete size="xxs" fill color="granite-light" />
               </BIMDataButton>
               <BIMDataButton ghost rounded icon @click="toggleMenu">
-                <BIMDataIcon name="close" size="xxs" fill color="granite-light" />
+                <BIMDataIconClose size="xxs" fill color="granite-light" />
               </BIMDataButton>
             </template>
             <template v-if="isEditing">
               <BIMDataButton ghost rounded icon @click="cancelUpdate">
-                <BIMDataIcon name="undo" size="xxs" fill color="granite-light" />
+                <BIMDataIconUndo size="xxs" fill color="granite-light" />
               </BIMDataButton>
               <BIMDataButton ghost rounded icon @click="submitUpdate">
-                <BIMDataIcon name="validate" size="xxs" fill color="granite-light" />
+                <BIMDataIconValidate size="xxs" fill color="granite-light" />
               </BIMDataButton>
             </template>
           </div>
@@ -57,7 +57,7 @@
                 {{ $t("BcfComponents.BcfTopicComments.deleteButton") }}
               </BIMDataButton>
               <BIMDataButton ghost rounded icon @click="isDeleting = false">
-                <BIMDataIcon name="close" size="xxs" fill color="primary" />
+                <BIMDataIconClose size="xxs" fill color="primary" />
               </BIMDataButton>
             </div>
           </div>
@@ -68,7 +68,7 @@
             icon
             @click="toggleMenu"
           >
-            <BIMDataIcon name="ellipsis" size="l" fill color="granite-light" />
+            <BIMDataIconEllipsis size="l" fill color="granite-light" />
           </BIMDataButton>
         </template>
       </div>
@@ -91,7 +91,7 @@
           @click="setCommentViewpoint"
           v-if="!viewerSelectVisible"
         >
-          <BIMDataIcon name="camera" fill color="default" />
+          <BIMDataIconCamera fill color="default" />
         </div>
         <BIMDataDropdownList
           v-if="viewerSelectVisible"
@@ -113,7 +113,10 @@
         </BIMDataDropdownList>
       </div>
       <div class="topic-comment__content__snapshot" v-if="viewpoint && viewpoint.snapshot">
-        <img :src="viewpoint.snapshot.snapshot_data" @click="openCommentSnapshot(viewpoint)" />
+        <img
+          :src="viewpoint.snapshot.snapshot_data"
+          @click="$emit('view-comment-snapshot', viewpoint)"
+        />
         <BIMDataButton
           v-if="isEditing"
           class="btn-delete"
@@ -122,7 +125,7 @@
           icon
           @click="deleteViewpoint"
         >
-          <BIMDataIcon name="delete" size="xs" fill color="high" />
+          <BIMDataIconDelete size="xs" fill color="high" />
         </BIMDataButton>
       </div>
     </div>
@@ -135,18 +138,24 @@
 
 <script>
 import { inject, onMounted, ref, onBeforeUnmount } from "vue";
-import {
-  VIEWPOINT_CONFIG,
-  VIEWPOINT_MODELS_FIELD,
-  VIEWPOINT_TYPE_FIELD,
-} from "../../../../config.js";
 import { useService } from "../../../../service.js";
+import { getViewerOptions, highlightViewer, unhighlightViewer } from "../../../../utils/viewer.js";
+
 // Components
-import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataButton.js";
-import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataIcon.js";
-import BIMDataLoading from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataLoading.js";
-import BIMDataTextarea from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataTextarea.js";
-import BIMDataTextbox from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataTextbox.js";
+import BIMDataButton from "@bimdata/design-system/src/BIMDataComponents/BIMDataButton/BIMDataButton.vue";
+import {
+  BIMDataIconCamera,
+  BIMDataIconClose,
+  BIMDataIconDelete,
+  BIMDataIconEdit,
+  BIMDataIconEllipsis,
+  BIMDataIconUndo,
+  BIMDataIconUser,
+  BIMDataIconValidate,
+} from "@bimdata/design-system/src/BIMDataComponents/BIMDataIcon/BIMDataIconStandalone/index.js";
+import BIMDataLoading from "@bimdata/design-system/src/BIMDataComponents/BIMDataLoading/BIMDataLoading.vue";
+import BIMDataTextarea from "@bimdata/design-system/src/BIMDataComponents/BIMDataTextarea/BIMDataTextarea.vue";
+import BIMDataTextbox from "@bimdata/design-system/src/BIMDataComponents/BIMDataTextbox/BIMDataTextbox.vue";
 
 // TODO: should be imported from DS
 import UserAvatar from "../../../user-avatar/UserAvatar.vue";
@@ -154,7 +163,14 @@ import UserAvatar from "../../../user-avatar/UserAvatar.vue";
 export default {
   components: {
     BIMDataButton,
-    BIMDataIcon,
+    BIMDataIconCamera,
+    BIMDataIconClose,
+    BIMDataIconDelete,
+    BIMDataIconEdit,
+    BIMDataIconEllipsis,
+    BIMDataIconUndo,
+    BIMDataIconUser,
+    BIMDataIconValidate,
     BIMDataLoading,
     BIMDataTextarea,
     BIMDataTextbox,
@@ -177,24 +193,30 @@ export default {
       type: String,
       required: true,
     },
+    getViewers: {
+      type: Function,
+      required: true,
+    },
   },
   emits: ["comment-updated", "comment-deleted", "view-comment-snapshot"],
-
   setup(props, { emit }) {
-    const getViewers = inject("getViewers", () => ({}));
-    const $viewer = inject("$viewer");
+    let pluginCreatedSub, pluginDestroyedSub;
 
     const service = useService();
+    const $viewer = inject("$viewer", null);
 
     const loading = ref(false);
+    const isEditing = ref(false);
+    const isDeleting = ref(false);
+    const text = ref(props.comment.comment);
+    const viewpoint = ref(null);
+    const viewerSelectVisible = ref(false);
+    const viewerSelectOptions = ref([]);
 
     const showMenu = ref(false);
     const closeMenu = () => (showMenu.value = false);
     const toggleMenu = () => (showMenu.value = !showMenu.value);
 
-    const text = ref(props.comment.comment);
-
-    const viewpoint = ref(null);
     const loadViewpoint = async () => {
       viewpoint.value = await service.fetchTopicCommentViewpoint(
         props.project,
@@ -203,7 +225,6 @@ export default {
       );
     };
 
-    const isEditing = ref(false);
     const onOpenEdit = () => {
       isEditing.value = true;
       closeMenu();
@@ -218,19 +239,7 @@ export default {
       }
       viewpoint.value = null;
     };
-    const viewerSelectVisible = ref(false);
-    const viewerSelectOptions = ref([]);
 
-    const highlightViewer = (viewer) => {
-      viewer.$viewer.localContext.el.style.border = "2px solid var(--color-primary)";
-      viewer.$viewer.localContext.el.style.boxSizing = "border-box";
-      viewer.$viewer.localContext.el.style.opacity = ".85";
-    };
-    const unhighlightViewer = (viewer) => {
-      viewer.$viewer.localContext.el.style.border = "";
-      viewer.$viewer.localContext.el.style.boxSizing = "";
-      viewer.$viewer.localContext.el.style.opacity = "";
-    };
     const setCommentViewpoint = async () => {
       if (viewerSelectOptions.value.length === 1) {
         await createViewpoint(viewerSelectOptions.value[0]);
@@ -238,25 +247,18 @@ export default {
         viewerSelectVisible.value = true;
       }
     };
-    const createViewpoint = async ({ id, viewer }) => {
+
+    const createViewpoint = async ({ viewer }) => {
       unhighlightViewer(viewer);
       viewerSelectVisible.value = false;
-
-      const [type] = Object.entries(VIEWPOINT_CONFIG).find(([, c]) => c.plugin === id);
-
-      viewpoint.value = Object.assign(await viewer.getViewpoint(), {
-        [VIEWPOINT_TYPE_FIELD]: type,
-        [VIEWPOINT_MODELS_FIELD]: viewer
-          .getLoadedModels()
-          .map((m) => m.id)
-          .join(","),
-      });
+      viewpoint.value = await viewer.getViewpoint();
     };
+
     const submitUpdate = async () => {
       try {
         if (props.comment.comment === text.value && !viewpoint.value) {
           isEditing.value = false;
-          return
+          return;
         }
         if (viewpoint.value && !viewpoint.value.guid) {
           viewpoint.value = await service.createViewpoint(
@@ -285,7 +287,6 @@ export default {
       }
     };
 
-    const isDeleting = ref(false);
     const onOpenDelete = () => {
       isDeleting.value = true;
       closeMenu();
@@ -301,53 +302,25 @@ export default {
       }
     };
 
-    const openCommentSnapshot = (viewpoint) => {
-      if ($viewer) {
-        $viewer.globalContext.modals.pushModal(
-          {
-            template: `<img :src="viewpoint.snapshot.snapshot_data" />`,
-            props: {
-              viewpoint: {
-                type: Object,
-                required: true,
-              },
-            },
-          },
-          { viewpoint }
-        );
-      } else {
-        emit("view-comment-snapshot", viewpoint);
-      }
-    };
-
-    let pluginCreatedSubId;
-    let pluginDestroyedSubId;
     onMounted(async () => {
       if (props.comment.viewpoint_guid) {
         await loadViewpoint();
       }
       if ($viewer) {
-        const listViewerOptions = () => {
-          return Object.entries(getViewers())
-            .map(([id, list]) =>
-              list.map((v, i) => ({ key: `${id}-${i}`, id, index: i, viewer: v }))
-            )
-            .flat();
-        };
-        viewerSelectOptions.value = listViewerOptions();
-        pluginCreatedSubId = $viewer.globalContext.hub.on("plugin-created", () => {
-          viewerSelectOptions.value = listViewerOptions();
+        viewerSelectOptions.value = getViewerOptions(props.getViewers());
+        pluginCreatedSub = $viewer.globalContext.hub.on("plugin-created", () => {
+          viewerSelectOptions.value = getViewerOptions(props.getViewers());
         });
-        pluginDestroyedSubId = $viewer.globalContext.hub.on("plugin-destroyed", () => {
-          viewerSelectOptions.value = listViewerOptions();
+        pluginDestroyedSub = $viewer.globalContext.hub.on("plugin-destroyed", () => {
+          viewerSelectOptions.value = getViewerOptions(props.getViewers());
         });
       }
     });
 
     onBeforeUnmount(() => {
       if ($viewer) {
-        $viewer.globalContext.hub.off(pluginCreatedSubId);
-        $viewer.globalContext.hub.off(pluginDestroyedSubId);
+        $viewer.globalContext.hub.off(pluginCreatedSub);
+        $viewer.globalContext.hub.off(pluginDestroyedSub);
       }
     });
 
@@ -370,7 +343,6 @@ export default {
       highlightViewer,
       onOpenDelete,
       onOpenEdit,
-      openCommentSnapshot,
       setCommentViewpoint,
       submitDelete,
       submitUpdate,

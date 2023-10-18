@@ -83,6 +83,9 @@
       .bimdata-select {
         margin: 30px 0;
         font-size: 13px;
+        &.active {
+          z-index: 3;
+        }
       }
       :deep(.bimdata-input) {
         input {

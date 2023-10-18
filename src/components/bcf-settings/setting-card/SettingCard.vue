@@ -1,9 +1,6 @@
 <template>
   <div class="setting-card">
-    <div
-      class="setting-card__header"
-      @click="toggle"
-    >
+    <div class="setting-card__header" @click="toggle">
       <div class="setting-card__header__text">
         {{ $t(`BcfComponents.SettingCard.title.${extensionType}`) }}
       </div>
@@ -11,23 +8,14 @@
         <div v-if="availableExtensions" class="count">
           {{ availableExtensions.length }}
         </div>
-        <BIMDataIcon
-          name="chevron"
-          size="xxs"
-          :rotate="isOpen ? 90 : 0"
-        />
+        <BIMDataIconChevron size="xxs" :rotate="isOpen ? 90 : 0" />
       </div>
     </div>
     <div v-show="isOpen">
       <div class="setting-card__subheader">
         {{ $t(`BcfComponents.SettingCard.text.${extensionType}`) }}
         <BIMDataButton fill radius @click="toggleForm">
-          <BIMDataIcon
-            margin="0 6px 0 0"
-            name="plus"
-            size="xxxs"
-            fill
-          />
+          <BIMDataIconPlus margin="0 6px 0 0" size="xxxs" fill />
           <span>
             {{ $t("BcfComponents.SettingCard.addButton") }}
           </span>
@@ -72,15 +60,19 @@
 import { computed, ref } from "vue";
 import { getAvailableExtensions } from "../../../utils/extensions.js";
 // Compopnents
-import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataButton.js";
-import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataIcon.js";
-import BIMDataInput from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataInput.js";
+import BIMDataButton from "@bimdata/design-system/src/BIMDataComponents/BIMDataButton/BIMDataButton.vue";
+import {
+  BIMDataIconChevron,
+  BIMDataIconPlus,
+} from "@bimdata/design-system/src/BIMDataComponents/BIMDataIcon/BIMDataIconStandalone/index.js";
+import BIMDataInput from "@bimdata/design-system/src/BIMDataComponents/BIMDataInput/BIMDataInput.vue";
 import SettingCardItem from "./SettingCardItem.vue";
 
 export default {
   components: {
     BIMDataButton,
-    BIMDataIcon,
+    BIMDataIconChevron,
+    BIMDataIconPlus,
     BIMDataInput,
     SettingCardItem,
   },
@@ -94,23 +86,19 @@ export default {
       required: true,
     },
   },
-  emits: [
-    "create-extension",
-    "update-extension",
-    "delete-extension"
-  ],
+  emits: ["create-extension", "update-extension", "delete-extension"],
   setup(props, { emit }) {
-    const availableExtensions = computed(
-      () => getAvailableExtensions(props.extensionType, props.detailedExtensions)
+    const availableExtensions = computed(() =>
+      getAvailableExtensions(props.extensionType, props.detailedExtensions)
     );
 
     const input = ref(null);
     const name = ref("");
 
     const isOpen = ref(false);
-    const close = () => isOpen.value = false;
-    const toggle = () => isOpen.value = !isOpen.value;
-    
+    const close = () => (isOpen.value = false);
+    const toggle = () => (isOpen.value = !isOpen.value);
+
     const isOpenForm = ref(false);
     const closeForm = () => {
       name.value = "";
@@ -126,7 +114,7 @@ export default {
     const addExtension = async () => {
       emit("create-extension", {
         extensionType: props.extensionType,
-        data: { value: name.value }
+        data: { value: name.value },
       });
       closeForm();
     };
@@ -145,7 +133,7 @@ export default {
       toggle,
       toggleForm,
     };
-  }
+  },
 };
 </script>
 

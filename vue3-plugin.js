@@ -2,12 +2,12 @@ import {
   components,
   createService,
   setService,
-} from "./dist/bcf-components.mjs";
-import messages from "./dist/i18n/index.js";
+} from "./src/index.js";
+import messages from "./src/i18n/index.js";
 
 /**
  * BCF Components library plugin for Vue 3.
- * Here are the actions the plugin will perform:
+ * The plugin will perform the following actions in order:
  *  - initialize library service
  *  - register components translations
  *  - globally register BCF components
@@ -33,8 +33,7 @@ const pluginFactory = ({
       } else {
         console.error(
           "[BCF Components Plugin] No api client provided. " +
-          "You must provide an api client for the components " +
-          "to work properly."
+          "You must provide an api client for the components to work properly."
         );
       }
 

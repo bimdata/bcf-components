@@ -1,4 +1,4 @@
-import { getRandomHexColor } from "@bimdata/design-system/dist/colors.js";
+import { getRandomHexColor } from "@bimdata/design-system/src/BIMDataComponents/BIMDataColorSelector/colors.js";
 import eachLimit from "async/eachLimit";
 import { getExtensionField } from "./utils/extensions.js";
 import { getPriorityColor } from "./utils/topic.js";
@@ -65,10 +65,20 @@ function createService(apiClient, { fetchUsers }) {
   const exportBcf = async (project, topics) => {
     const response = await apiClient.bcfApi.downloadBcfExport(
       project.id,
-      undefined,
+      undefined, // Format
       topics.map((t) => t.guid).join(",")
     );
     downloadBlobAs(`${project.name}.bcf`, response);
+  };
+
+  const exportBcfXLSX = async (project, topics) => {
+    const response = await apiClient.bcfApi.downloadBcfExportXlsx(
+      project.id,
+      undefined, // Format
+      undefined, // Locale
+      topics.map((t) => t.guid).join(",")
+    );
+    downloadBlobAs(`${project.name}.xlsx`, response);
   };
 
   // --- BCF Topic Viewpoints API ---
@@ -166,6 +176,7 @@ function createService(apiClient, { fetchUsers }) {
     deleteTopic,
     importBcf,
     exportBcf,
+    exportBcfXLSX,
     loadTopicsViewpoints,
     fetchTopicViewpoints,
     fetchTopicCommentViewpoint,

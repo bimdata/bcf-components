@@ -1,35 +1,31 @@
 {
   "name": "@bimdata/bcf-components",
-  "version": "5.0.0",
+  "version": "6.0.0-rc.18",
   "files": [
-    "dist",
+    "src",
     "vue3-plugin.js"
   ],
-  "main": "./dist/bcf-components.mjs",
-  "module": "./dist/bcf-components.mjs",
+  "main": "./src/index.js",
+  "module": "./src/index.js",
   "scripts": {
-    "build": "vite build --config build.config.js",
-    "prepublishOnly": "npm run build",
     "release": "semantic-release"
   },
+  "dependencies": {
+    "async": "^3.2.4"
+  },
   "peerDependencies": {
+    "@bimdata/design-system": "*",
+    "@bimdata/components": "*",
     "vue": "^3.0"
   },
   "devDependencies": {
-    "@bimdata/design-system": "2.0.0-rc.11",
-    "@bimdata/vite-plugin-libcss": "0.0.1",
     "@semantic-release/changelog": "^6.0.3",
-    "@semantic-release/commit-analyzer": "^9.0.2",
+    "@semantic-release/commit-analyzer": "^11.0.0",
     "@semantic-release/git": "^10.0.1",
-    "@semantic-release/github": "^8.0.7",
-    "@semantic-release/npm": "^10.0.3",
-    "@semantic-release/release-notes-generator": "^11.0.1",
-    "@vitejs/plugin-vue": "^4.2.1",
-    "async": "^3.2.4",
-    "conventional-changelog-eslint": "^3.0.9",
-    "sass": "^1.62.1",
-    "semantic-release": "^21.0.2",
-    "vite": "^4.3.5",
-    "vite-plugin-static-copy": "^0.16.0"
+    "@semantic-release/github": "^9.2.1",
+    "@semantic-release/npm": "^11.0.0",
+    "@semantic-release/release-notes-generator": "^12.0.0",
+    "conventional-changelog-eslint": "^5.0.0",
+    "semantic-release": "^22.0.5"
   }
 }

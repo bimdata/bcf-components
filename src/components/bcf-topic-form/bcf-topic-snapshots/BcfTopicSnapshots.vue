@@ -8,84 +8,63 @@
           v-for="(viewpoint, i) in viewpoints.slice(0, 4)"
           :key="viewpoint.guid || i"
         >
-          <img
-            v-if="viewpoint.snapshot.snapshot_data"
-            :src="viewpoint.snapshot.snapshot_data"
-          />
-          <BIMDataButton
-            class="btn-delete"
-            fill
-            rounded
-            icon
-            @click="deleteViewpoint(viewpoint)"
-          >
-            <BIMDataIcon name="delete" size="xs" fill color="high" />
+          <img v-if="viewpoint.snapshot.snapshot_data" :src="viewpoint.snapshot.snapshot_data" />
+          <BIMDataButton class="btn-delete" fill rounded icon @click="$emit('delete-viewpoint', viewpoint)">
+            <BIMDataIconDelete size="xs" fill color="high" />
           </BIMDataButton>
         </div>
       </div>
     </template>
 
     <template v-else>
-      <div class="bcf-topic-snapshots__create" @click="createViewpoints">
-        <BIMDataIcon name="camera" size="xl" />
+      <div class="bcf-topic-snapshots__create">
+        <BIMDataButton color="primary" fill radius @click="$emit('create-viewpoint')">
+          <BIMDataIconCamera size="s" margin="0 6px 0 0" />
+          <span>{{ $t("BcfComponents.BcfTopicForm.takeSnapshot") }}</span>
+        </BIMDataButton>
+        <BIMDataButton color="primary" outline radius class="m-t-12">
+          <label for="files" class="flex items-center">
+            <BIMDataIconUnarchive fill color="default" size="s" margin="0 6px 0 0" />
+            <span>{{ $t("BcfComponents.BcfTopicForm.importFile") }}</span>
+          </label>
+          <input
+            :disabled="viewpoints.length >= 4"
+            hidden
+            id="files"
+            type="file"
+            multiple
+            accept="image/png, image/jpeg"
+            @change="$emit('upload-viewpoint', $event)"
+          />
+        </BIMDataButton>
       </div>
     </template>
   </div>
 </template>
 
 <script>
-import { inject } from "vue";
-import { VIEWPOINT_CONFIG, VIEWPOINT_MODELS_FIELD, VIEWPOINT_TYPE_FIELD } from "../../../config.js";
+import BcfTopicSnapshotsActions from "../bcf-topic-snapshots-actions/BcfTopicSnapshotsActions.vue";
 // Components
-import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataButton.js";
-import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataIcon.js";
+import BIMDataButton from "@bimdata/design-system/src/BIMDataComponents/BIMDataButton/BIMDataButton.vue";
+import {
+  BIMDataIconDelete,
+  BIMDataIconCamera,
+} from "@bimdata/design-system/src/BIMDataComponents/BIMDataIcon/BIMDataIconStandalone/index.js";
 
 export default {
   components: {
+    BcfTopicSnapshotsActions,
     BIMDataButton,
-    BIMDataIcon,
+    BIMDataIconDelete,
+    BIMDataIconCamera,
   },
   props: {
     viewpoints: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
   },
-  emits: [
-    "create-viewpoint",
-    "delete-viewpoint"
-  ],
-  setup(_, { emit }) {
-    const getViewers = inject("getViewers", () => ({}));
-
-    const createViewpoints = async () => {
-      Object.entries(getViewers()).forEach(([id, viewers]) => {
-        const [type, config] =
-          Object.entries(VIEWPOINT_CONFIG).find(([, c]) => c.plugin === id);
-
-        viewers.forEach(async viewer => {
-          const viewpoint = await viewer.getViewpoint();
-
-          const { order } = config ?? {};
-          viewpoint.order = order;
-          viewpoint[VIEWPOINT_TYPE_FIELD] = type;
-          viewpoint[VIEWPOINT_MODELS_FIELD] = viewer.getLoadedModels().map(m => m.id).join(",");
-
-          emit("create-viewpoint", viewpoint);
-        });
-      });
-    };
-
-    const deleteViewpoint = viewpoint => {
-      emit("delete-viewpoint", viewpoint);
-    };
-
-    return {
-      // Methods
-      createViewpoints,
-      deleteViewpoint,
-    };
-  }
+  emits: ["create-viewpoint", "upload-viewpoint", "delete-viewpoint"],
 };
 </script>
 

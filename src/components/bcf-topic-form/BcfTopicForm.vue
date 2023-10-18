@@ -1,12 +1,8 @@
 <template>
   <div class="bcf-topic-form">
     <div class="bcf-topic-form__header">
-      <BIMDataButton
-        v-if="uiConfig.backButton"
-        ghost rounded icon
-        @click="$emit('back')"
-      >
-        <BIMDataIcon name="arrow" size="xxs"  fill color="granite-light" />
+      <BIMDataButton v-if="uiConfig.backButton" ghost rounded icon @click="$emit('back')">
+        <BIMDataIconArrow size="xxs" fill color="granite-light" />
       </BIMDataButton>
       <div class="bcf-topic-form__header__title">
         <template v-if="isCreation">
@@ -16,12 +12,8 @@
           <BIMDataTextbox maxWidth="250px" :text="topic.title" />
         </template>
       </div>
-      <BIMDataButton
-        v-if="uiConfig.closeButton"
-        ghost rounded icon
-        @click="$emit('close')"
-      >
-        <BIMDataIcon name="close" size="xxs"  fill color="granite-light" />
+      <BIMDataButton v-if="uiConfig.closeButton" ghost rounded icon @click="$emit('close')">
+        <BIMDataIconClose size="xxs" fill color="granite-light" />
       </BIMDataButton>
     </div>
 
@@ -38,17 +30,26 @@
       <template v-if="uiConfig.viewerMode">
         <BcfTopicSnapshots
           :viewpoints="viewpointsToDisplay"
-          @create-viewpoint="createViewpoint"
+          :getViewers="getViewers"
+          @create-viewpoint="createViewpoints"
+          @upload-viewpoint="uploadViewpoints"
           @delete-viewpoint="deleteViewpoint"
         />
         <div class="bcf-topic-form__content__actions">
+          <BcfTopicSnapshotsActions
+            v-if="viewpointsToDisplay.length > 0"
+            :viewpoints="viewpointsToDisplay"
+            :getViewers="getViewers"
+            @create-viewpoint="createViewpoints"
+            @upload-viewpoint="uploadViewpoints"
+          />
           <BIMDataButton
             fill
             radius
             :disabled="!objectsEditEnabled"
             @click="$emit('edit-topic-objects', topic)"
           >
-            <BIMDataIcon name="plus" size="xxxs" margin="0 6px 0 0" />
+            <BIMDataIconPlus size="xxxs" margin="0 6px 0 0" />
             <span>
               {{ $t("BcfComponents.BcfTopicForm.addObjectButton") }}
             </span>
@@ -69,7 +70,7 @@
               :disabled="!annotationsEditEnabled || viewpointsToDisplay.length === 0"
               @click="$emit('edit-topic-annotations', topic)"
             >
-              <BIMDataIcon name="plus" size="xxxs" margin="0 6px 0 0" />
+              <BIMDataIconPlus size="xxxs" margin="0 6px 0 0" />
               <span>
                 {{ $t("BcfComponents.BcfTopicForm.addAnnotationButton") }}
               </span>
@@ -83,7 +84,7 @@
       <template v-else>
         <BcfTopicImages
           :viewpoints="viewpointsToDisplay"
-          @create-viewpoint="createViewpoint"
+          @upload-viewpoint="uploadViewpoints"
           @delete-viewpoint="deleteViewpoint"
         />
       </template>
@@ -126,11 +127,16 @@
         />
         <BIMDataSelect
           width="100%"
+          :search="true"
+          :clearSearchOnLeave="true"
           :label="$t('BcfComponents.BcfTopicForm.assignedToLabel')"
           :options="extensions.user_id_type"
           :disabled="extensions.user_id_type.length === 0"
           v-model="topicAssignedTo"
-        />
+          :searchPlaceholder="$t('BcfComponents.BcfTopicForm.searchPlaceholder')"
+        >
+          <template #empty> <span class="color-granite p-x-12">{{ $t('BcfComponents.BcfTopicForm.emptySearch') }}</span> </template>
+        </BIMDataSelect>
         <div class="m-b-30">
           <BIMDataDatePicker
             width="100%"
@@ -167,9 +173,7 @@
         :disabled="!topicTitle"
         @click="submit"
       >
-        {{ $t(`BcfComponents.BcfTopicForm.${
-            isCreation ? 'createButton' : 'updateButton'
-        }`) }}
+        {{ $t(`BcfComponents.BcfTopicForm.${isCreation ? "createButton" : "updateButton"}`) }}
       </BIMDataButton>
     </div>
 
@@ -182,21 +186,10 @@
         {{ $t("BcfComponents.BcfTopicForm.modalText", { name: topic.title }) }}
       </template>
       <template #actions>
-        <BIMDataButton
-          class="m-r-12"
-          color="high"
-          fill
-          radius
-          @click="$emit('close')"
-        >
+        <BIMDataButton class="m-r-12" color="high" fill radius @click="$emit('close')">
           {{ $t("BcfComponents.BcfTopicForm.cancelButton") }}
         </BIMDataButton>
-        <BIMDataButton
-          color="primary"
-          outline
-          radius
-          @click="isOpenModal = false"
-        >
+        <BIMDataButton color="primary" outline radius @click="isOpenModal = false">
           {{ $t("BcfComponents.BcfTopicForm.continueButton") }}
         </BIMDataButton>
       </template>
@@ -207,28 +200,37 @@
 <script>
 import { computed, ref, watch } from "vue";
 import { useService } from "../../service.js";
+import { getViewerList } from "../../utils/viewer.js";
 import { setViewpointDefaults } from "../../utils/viewpoints.js";
 // Components
-import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataButton.js";
-import BIMDataDatePicker from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataDatePicker.js";
-import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataIcon.js";
-import BIMDataInput from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataInput.js";
-import BIMDataLoading from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataLoading.js";
-import BIMDataSafeZoneModal from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataSafeZoneModal.js";
-import BIMDataSelect from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataSelect.js";
-import BIMDataTextarea from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataTextarea.js";
-import BIMDataTextbox from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataTextbox.js";
-import BIMDataTooltip from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataTooltip.js";
+import BIMDataSafeZoneModal from "@bimdata/components/src/BIMDataSafeZoneModal/BIMDataSafeZoneModal.vue";
+import BIMDataButton from "@bimdata/design-system/src/BIMDataComponents/BIMDataButton/BIMDataButton.vue";
+import BIMDataDatePicker from "@bimdata/design-system/src/BIMDataComponents/BIMDataDatePicker/BIMDataDatePicker.vue";
+import {
+  BIMDataIconArrow,
+  BIMDataIconClose,
+  BIMDataIconPlus,
+} from "@bimdata/design-system/src/BIMDataComponents/BIMDataIcon/BIMDataIconStandalone/index.js";
+import BIMDataInput from "@bimdata/design-system/src/BIMDataComponents/BIMDataInput/BIMDataInput.vue";
+import BIMDataLoading from "@bimdata/design-system/src/BIMDataComponents/BIMDataLoading/BIMDataLoading.vue";
+import BIMDataSelect from "@bimdata/design-system/src/BIMDataComponents/BIMDataSelect/BIMDataSelect.vue";
+import BIMDataTextarea from "@bimdata/design-system/src/BIMDataComponents/BIMDataTextarea/BIMDataTextarea.vue";
+import BIMDataTextbox from "@bimdata/design-system/src/BIMDataComponents/BIMDataTextbox/BIMDataTextbox.vue";
+import BIMDataTooltip from "@bimdata/design-system/src/BIMDataComponents/BIMDataTooltip/BIMDataTooltip.vue";
 import BcfTopicImages from "./bcf-topic-images/BcfTopicImages.vue";
 import BcfTopicSnapshots from "./bcf-topic-snapshots/BcfTopicSnapshots.vue";
+import BcfTopicSnapshotsActions from "./bcf-topic-snapshots-actions/BcfTopicSnapshotsActions.vue";
 
 export default {
   components: {
     BcfTopicImages,
     BcfTopicSnapshots,
+    BcfTopicSnapshotsActions,
     BIMDataButton,
     BIMDataDatePicker,
-    BIMDataIcon,
+    BIMDataIconArrow,
+    BIMDataIconClose,
+    BIMDataIconPlus,
     BIMDataInput,
     BIMDataLoading,
     BIMDataSafeZoneModal,
@@ -244,7 +246,7 @@ export default {
         viewerMode: false, // set this to true when used in BIMData Viewer
         backButton: false,
         closeButton: false,
-      })
+      }),
     },
     objectsEditEnabled: {
       /**
@@ -262,26 +264,18 @@ export default {
     },
     project: {
       type: Object,
-      required: true
+      required: true,
     },
     extensions: {
       type: Object,
-      reuiqred: true
+      reuiqred: true,
     },
     topics: {
       type: Array,
-      required: true
+      required: true,
     },
     topic: {
       type: Object,
-    },
-    topicModels: {
-      /**
-       * Models list to attach to this topic if it
-       * doesn't have one already (`models` field).
-       */
-      type: Array,
-      default: () => []
     },
     topicObjects: {
       /**
@@ -297,6 +291,10 @@ export default {
        */
       type: Array,
     },
+    getViewers: {
+      type: Function,
+      default: () => () => ({})
+    },
   },
   emits: [
     "back",
@@ -311,12 +309,8 @@ export default {
   setup(props, { emit }) {
     const service = useService();
 
-    const isCreation = computed(
-      () => !props.topic
-    );
-    const nextIndex = computed(
-      () => Math.max(0, ...props.topics.map(t => t.index)) + 1
-    );
+    const isCreation = computed(() => !props.topic);
+    const nextIndex = computed(() => Math.max(0, ...props.topics.map((t) => t.index)) + 1);
 
     const topicTitle = ref("");
     const topicType = ref(null);
@@ -335,8 +329,8 @@ export default {
     const viewpointsToDisplay = computed(() =>
       viewpoints.value
         .concat(viewpointsToCreate.value)
-        .filter(v => !viewpointsToDelete.value.some(x => x.guid === v.guid))
-        .filter(v => v.snapshot)
+        .filter((v) => !viewpointsToDelete.value.some((x) => x.guid === v.guid))
+        .filter((v) => v.snapshot)
     );
 
     const hasErrorTitle = ref(false);
@@ -364,7 +358,7 @@ export default {
 
     watch(
       () => props.topic,
-      topic => {
+      (topic) => {
         if (topic) {
           topicTitle.value = topic.title || "";
           topicType.value = topic.topic_type || null;
@@ -383,11 +377,41 @@ export default {
       { immediate: true }
     );
 
-    const createViewpoint = viewpoint => {
-      viewpointsToCreate.value.push(viewpoint);
+    const createViewpoints = () => {
+      Promise.all(
+        getViewerList(props.getViewers()).map(viewer =>
+          viewer.getViewpoint().then(viewpoint => viewpointsToCreate.value.push(viewpoint))
+        )
+      );
     };
 
-    const deleteViewpoint = viewpoint => {
+    const uploadViewpoints = (event) => {
+      [...event.target.files].forEach((file) => {
+        let type;
+        if (file.type === "image/png") {
+          type = "png";
+        } else if (file.type === "image/jpeg") {
+          type = "jpg"; // `jpeg` is not a valid value, only `jpg` is
+        } else {
+          type = file.type;
+        }
+
+        const reader = new FileReader();
+        reader.addEventListener("load", () => {
+          const viewpoint = {
+            isUpload: true,
+            snapshot: {
+              snapshot_type: type,
+              snapshot_data: reader.result,
+            },
+          };
+          viewpointsToCreate.value.push(viewpoint);
+        });
+        reader.readAsDataURL(file);
+      });
+    };
+
+    const deleteViewpoint = (viewpoint) => {
       if (viewpoint.guid) {
         viewpointsToDelete.value.push(viewpoint);
       } else {
@@ -406,14 +430,17 @@ export default {
 
         // Avoid updating snapshots as it is not possible
         // (you can only create/delete snapshots).
-        viewpointsToUpdate.value = viewpoints.value.map(
-          viewpoint => ({ ...viewpoint, snapshot: undefined })
-        );
+        viewpointsToUpdate.value = viewpoints.value.map((viewpoint) => ({
+          ...viewpoint,
+          snapshot: undefined,
+        }));
 
         if (viewpointsToUpdate.value.length === 0) {
           // If topic has no viewpoints yet make sure 3D viewpoints
           // comes first in the list of viewpoints to create.
-          viewpointsToCreate.value.sort((v1, v2) => (v1.order ?? Infinity) - (v2.order ?? Infinity));
+          viewpointsToCreate.value.sort(
+            (v1, v2) => (v1.order ?? Infinity) - (v2.order ?? Infinity)
+          );
         }
 
         const allViewpoints = viewpointsToUpdate.value.concat(viewpointsToCreate.value);
@@ -421,26 +448,20 @@ export default {
         if (props.topicObjects) {
           if (allViewpoints.length > 0) {
             // Set provided topic objects on all viewpoints.
-            allViewpoints.forEach(viewpoint => {
-              Object.assign(viewpoint, {
-                components: props.topicObjects
-              });
+            allViewpoints.forEach((viewpoint) => {
+              Object.assign(viewpoint, { components: props.topicObjects });
               setViewpointDefaults(viewpoint);
             });
           } else {
             // If topic objects are provided and no viewpoints are set
             // then create an 'empty' viewpoint to hold topic objects.
-            viewpointsToCreate.value.push({
-              components: props.topicObjects
-            });
+            viewpointsToCreate.value.push({ components: props.topicObjects });
           }
         }
 
         if (props.topicAnnotations) {
           // Set provided topic annotations on all viewpoints.
-          allViewpoints.forEach(
-            viewpoint => viewpoint.pins = props.topicAnnotations
-          );
+          allViewpoints.forEach((viewpoint) => (viewpoint.pins = props.topicAnnotations));
         }
 
         const data = {
@@ -454,27 +475,27 @@ export default {
           due_date: topicDueDate.value,
           description: topicDescription.value,
           labels: topicLabels.value,
-          // Keep topic models unchanged if any, otherwise use provided topic models.
-          models: props.topic?.models || props.topicModels,
         };
 
         let newTopic;
         if (isCreation.value) {
+          data.models = getViewerList(props.getViewers())
+            .flatMap(v => v.getLoadedModels().map(m => m.id));
           newTopic = await service.createTopic(props.project, data);
         } else {
           newTopic = await service.updateTopic(props.project, data);
         }
 
         await Promise.all([
-          ...viewpointsToCreate.value.map(viewpoint =>
+          ...viewpointsToCreate.value.map((viewpoint) =>
             service.createViewpoint(props.project, newTopic, viewpoint)
           ),
-          ...viewpointsToUpdate.value.map(viewpoint =>
+          ...viewpointsToUpdate.value.map((viewpoint) =>
             service.updateViewpoint(props.project, newTopic, viewpoint)
           ),
-          ...viewpointsToDelete.value.map(viewpoint =>
+          ...viewpointsToDelete.value.map((viewpoint) =>
             service.deleteViewpoint(props.project, newTopic, viewpoint)
-          )
+          ),
         ]);
 
         if (isCreation.value) {
@@ -484,11 +505,7 @@ export default {
           emit("topic-updated", newTopic);
         }
       } catch (error) {
-        emit(isCreation.value
-          ? "topic-create-error"
-          : "topic-update-error", 
-          error
-        );
+        emit(isCreation.value ? "topic-create-error" : "topic-update-error", error);
       } finally {
         loading.value = false;
       }
@@ -512,11 +529,12 @@ export default {
       topicType,
       viewpointsToDisplay,
       // Methods
-      createViewpoint,
+      createViewpoints,
+      uploadViewpoints,
       deleteViewpoint,
       submit,
     };
-  }
+  },
 };
 </script>
 

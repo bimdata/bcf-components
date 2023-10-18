@@ -34,50 +34,41 @@ const DEFAULT_STATUS_COLOR = "D8D8D8";
  * Viewpoint config
  */
 
-const VIEWPOINT_TYPE_FIELD = "originating_system";
-const VIEWPOINT_MODELS_FIELD = "authoring_tool_id";
-
 const VIEWPOINT_TYPES = Object.freeze({
-  V3D: "ifc3d",
-  PTC: "pointCloud",
-  V2D: "ifc2d",
+  IFC3D: "ifc3d",
+  POINT_CLOUD: "pointCloud",
+  IFC2D: "ifc2d",
   DWG: "dwg",
   PLAN: "plan",
   PANORAMA: "panorama",
 });
 
 const VIEWPOINT_CONFIG = Object.freeze({
-  [VIEWPOINT_TYPES.V3D]: {
-    order: 1,
+  [VIEWPOINT_TYPES.IFC3D]: {
     window: "3d",
     plugin: "viewer3d",
     icon: "fileIfcPolychrome",
   },
-  [VIEWPOINT_TYPES.PTC]: {
-    order: 2,
+  [VIEWPOINT_TYPES.POINT_CLOUD]: {
     window: "pointCloud",
     plugin: "pointCloud",
   },
-  [VIEWPOINT_TYPES.V2D]: {
-    order: 3,
+  [VIEWPOINT_TYPES.IFC2D]: {
     window: "2d",
     plugin: "viewer2d",
     icon: "fileIfcPolychrome",
   },
   [VIEWPOINT_TYPES.DWG]: {
-    order: 4,
     window: "dwg",
     plugin: "dwg",
     icon: "fileDwgPolychrome",
   },
   [VIEWPOINT_TYPES.PLAN]: {
-    order: 5,
     window: "plan",
     plugin: "plan",
     icon: "filePlanPolychrome",
   },
   [VIEWPOINT_TYPES.PANORAMA]: {
-    order: 6,
     window: "panorama",
     plugin: "panorama",
     icon: "filePlanPolychrome",
@@ -92,7 +83,5 @@ export {
   EXTENSION_TYPES,
   EXTENSION_WITH_COLOR,
   VIEWPOINT_CONFIG,
-  VIEWPOINT_MODELS_FIELD,
   VIEWPOINT_TYPES,
-  VIEWPOINT_TYPE_FIELD,
 };

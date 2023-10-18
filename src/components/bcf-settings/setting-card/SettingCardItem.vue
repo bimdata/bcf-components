@@ -4,27 +4,14 @@
       {{ extension[getExtensionField(extensionType)] }}
     </span>
 
-    <BIMDataInput
-      v-else
-      ref="input"
-      v-model="extensionName"
-      @keyup.enter.stop="submitValue"
-    />
+    <BIMDataInput v-else ref="input" v-model="extensionName" @keyup.enter.stop="submitValue" />
 
     <div class="setting-card-item__actions">
-      <BIMDataButton
-        color="primary"
-        ghost rounded icon
-        @click="editMode = !editMode"
-      >
+      <BIMDataButton color="primary" ghost rounded icon @click="editMode = !editMode">
         <BIMDataIcon :name="editMode ? 'close' : 'edit'" size="xxs" />
       </BIMDataButton>
-      <BIMDataButton
-        color="high"
-        ghost rounded icon
-        @click="isOpenDeleteGuard = true"
-      >
-        <BIMDataIcon name="delete" size="xxs" />
+      <BIMDataButton color="high" ghost rounded icon @click="isOpenDeleteGuard = true">
+        <BIMDataIconDelete size="xxs" />
       </BIMDataButton>
 
       <template v-if="EXTENSION_WITH_COLOR.includes(extensionType)">
@@ -47,10 +34,7 @@
       </template>
     </div>
 
-    <div
-      v-if="isOpenDeleteGuard"
-      class="setting-card-item__delete-guard"
-    >
+    <div v-if="isOpenDeleteGuard" class="setting-card-item__delete-guard">
       <p>
         {{ $t("BcfComponents.SettingCard.deleteExtensionText") }}
       </p>
@@ -65,14 +49,8 @@
         >
           {{ $t("BcfComponents.SettingCard.deleteButton") }}
         </BIMDataButton>
-        <BIMDataButton
-          color="primary"
-          ghost
-          rounded
-          icon
-          @click="isOpenDeleteGuard = false"
-        >
-          <BIMDataIcon name="close" size="xxxs" />
+        <BIMDataButton color="primary" ghost rounded icon @click="isOpenDeleteGuard = false">
+          <BIMDataIconClose size="xxxs" />
         </BIMDataButton>
       </div>
     </div>
@@ -80,76 +58,70 @@
 </template>
 
 <script>
-import { adjustBorderColor } from "@bimdata/design-system/dist/colors.js";
+import { adjustBorderColor } from "@bimdata/design-system/src/BIMDataComponents/BIMDataColorSelector/colors.js";
 import { ref, watch } from "vue";
 import { EXTENSION_WITH_COLOR } from "../../../config.js";
 import { getExtensionField } from "../../../utils/extensions.js";
 // Components
-import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataButton.js";
-import BIMDataColorSelector from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataColorSelector.js";
-import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataIcon.js";
-import BIMDataInput from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataInput.js";
+import BIMDataButton from "@bimdata/design-system/src/BIMDataComponents/BIMDataButton/BIMDataButton.vue";
+import BIMDataColorSelector from "@bimdata/design-system/src/BIMDataComponents/BIMDataColorSelector/BIMDataColorSelector.vue";
+import {
+  BIMDataIconDelete,
+  BIMDataIconClose,
+} from "@bimdata/design-system/src/BIMDataComponents/BIMDataIcon/BIMDataIconStandalone/index.js";
+import BIMDataInput from "@bimdata/design-system/src/BIMDataComponents/BIMDataInput/BIMDataInput.vue";
 
 export default {
   components: {
     BIMDataButton,
     BIMDataColorSelector,
-    BIMDataIcon,
+    BIMDataIconDelete,
+    BIMDataIconClose,
     BIMDataInput,
   },
   props: {
     extensionType: {
-      type: String
+      type: String,
     },
     extension: {
-      type: Object
+      type: Object,
     },
   },
-  emits: [
-    "update-extension",
-    "delete-extension"
-  ],
+  emits: ["update-extension", "delete-extension"],
   setup(props, { emit }) {
     const editMode = ref(false);
     const isOpenColorSelector = ref(false);
     const isOpenDeleteGuard = ref(false);
 
-    const extensionName = ref(
-      props.extension[getExtensionField(props.extensionType)]
-    );
+    const extensionName = ref(props.extension[getExtensionField(props.extensionType)]);
     const extensionColor = ref(props.extension.color);
 
     const input = ref(null);
-    watch(editMode, () =>
-      setTimeout(() => editMode.value && input.value.focus(), 50)
-    );
+    watch(editMode, () => setTimeout(() => editMode.value && input.value.focus(), 50));
 
     const submitValue = async () => {
-      if (
-        extensionName.value !==
-        props.extension[getExtensionField(props.extensionType)]
-      ) {
+      if (extensionName.value !== props.extension[getExtensionField(props.extensionType)]) {
         emit("update-extension", {
           extensionType: props.extensionType,
           extension: props.extension,
-          data: { value: extensionName.value }
+          data: { value: extensionName.value },
         });
         editMode.value = false;
       }
     };
 
-    const submitColor = async colorValue => {
+    const submitColor = async (colorValue) => {
       if (colorValue !== props.extension.color) {
         emit("update-extension", {
           extensionType: props.extensionType,
           extension: props.extension,
-          data: { color: colorValue }
+          data: { color: colorValue },
         });
         extensionColor.value = colorValue;
       }
     };
 
-    const submitDelete = async extension => {
+    const submitDelete = async (extension) => {
       emit("delete-extension", {
         extensionType: props.extensionType,
         extension,
@@ -172,7 +144,7 @@ export default {
       submitDelete,
       submitValue,
     };
-  }
+  },
 };
 </script>
 

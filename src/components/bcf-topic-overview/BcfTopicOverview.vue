@@ -6,7 +6,7 @@
         ghost rounded icon
         @click="$emit('back')"
       >
-        <BIMDataIcon name="arrow" size="xxs" fill color="granite-light" />
+        <BIMDataIconArrow size="xxs" fill color="granite-light" />
       </BIMDataButton>
       <div class="bcf-topic-overview__header__title">
         <BIMDataTextbox maxWidth="250px" :text="topic.title" />
@@ -17,21 +17,21 @@
           ghost rounded icon
           @click="$emit('edit-topic', topic)"
         >
-          <BIMDataIcon name="edit" size="xxs" />
+          <BIMDataIconEdit size="xxs" />
         </BIMDataButton>
         <BIMDataButton
           v-if="uiConfig.deleteButton"
           ghost rounded icon
           @click="showDeleteModal = true"
         >
-          <BIMDataIcon name="delete" size="xxs" />
+          <BIMDataIconDelete size="xxs" />
         </BIMDataButton>
         <BIMDataButton
           v-if="uiConfig.closeButton"
           ghost rounded icon
           @click="$emit('close')"
         >
-          <BIMDataIcon name="close" size="xxs" fill color="granite-light" />
+          <BIMDataIconClose size="xxs" fill color="granite-light" />
         </BIMDataButton>
       </div>
     </div>
@@ -66,7 +66,7 @@
         :disabled="topicObjects.length === 0"
         @click="$emit('view-topic-components', topic)"
       >
-        <BIMDataIcon name="model3d" size="xs" margin="0 6px 0 0" />
+        <BIMDataIconModel3D size="xs" margin="0 6px 0 0" />
         <template v-if="topicObjects.length > 0">
           {{ $t("BcfComponents.BcfTopicOverview.elements", { count: topicObjects.length }) }}
         </template>
@@ -88,7 +88,7 @@
 
       <div class="bcf-topic-overview__content__card">
         <div class="title" v-if="!uiConfig.viewerMode">
-          <BIMDataIcon name="model3d" size="xs" />
+          <BIMDataIconModel3D size="xs" />
           <span>
             {{ $t("BcfComponents.BcfTopicOverview.elements", { count: topicObjects.length }) }}
           </span>
@@ -145,7 +145,7 @@
 
       <div class="bcf-topic-overview__content__card">
         <div class="title">
-          <BIMDataIcon name="bcf" />
+          <BIMDataIconBcf />
           <span>
             {{ $t("BcfComponents.BcfTopicOverview.informations") }}
           </span>
@@ -201,6 +201,7 @@
         :project="project"
         :topic="topic"
         :currentUserEmail="currentUserEmail"
+        :getViewers="getViewers"
         @comment-created="$emit('comment-created', $event)"
         @comment-updated="$emit('comment-updated', $event)"
         @comment-deleted="$emit('comment-deleted', $event)"
@@ -229,16 +230,16 @@
 </template>
 
 <script>
-import { adjustTextColor } from "@bimdata/design-system/dist/colors.js";
+import { adjustTextColor } from "@bimdata/design-system/src/BIMDataComponents/BIMDataColorSelector/colors.js";
 import { computed, onMounted, ref } from "vue";
 import { useService } from "../../service.js";
 import { getPriorityColor } from "../../utils/topic.js";
 // Components
-import BIMDataButton from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataButton.js";
-import BIMDataIcon from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataIcon.js";
-import BIMDataLoading from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataLoading.js";
-import BIMDataSafeZoneModal from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataSafeZoneModal.js";
-import BIMDataTextbox from "@bimdata/design-system/dist/js/BIMDataComponents/vue3/BIMDataTextbox.js";
+import BIMDataSafeZoneModal from "@bimdata/components/src/BIMDataSafeZoneModal/BIMDataSafeZoneModal.vue";
+import BIMDataButton from "@bimdata/design-system/src/BIMDataComponents/BIMDataButton/BIMDataButton.vue";
+import {BIMDataIconArrow,BIMDataIconEdit, BIMDataIconDelete, BIMDataIconClose, BIMDataIconModel3D } from "@bimdata/design-system/src/BIMDataComponents/BIMDataIcon/BIMDataIconStandalone/index.js";
+import BIMDataLoading from "@bimdata/design-system/src/BIMDataComponents/BIMDataLoading/BIMDataLoading.vue";
+import BIMDataTextbox from "@bimdata/design-system/src/BIMDataComponents/BIMDataTextbox/BIMDataTextbox.vue";
 import BcfTopicComments from "./bcf-topic-comments/BcfTopicComments.vue";
 import BcfTopicDefaultImage from "../bcf-topic-card/BcfTopicDefaultImage.vue";
 import BcfTopicViewpoints from "./bcf-topic-viewpoints/BcfTopicViewpoints.vue";
@@ -249,7 +250,7 @@ export default {
     BcfTopicDefaultImage,
     BcfTopicViewpoints,
     BIMDataButton,
-    BIMDataIcon,
+    BIMDataIconArrow,BIMDataIconEdit, BIMDataIconDelete, BIMDataIconClose, BIMDataIconModel3D,
     BIMDataLoading,
     BIMDataSafeZoneModal,
     BIMDataTextbox,
@@ -277,6 +278,10 @@ export default {
     topic: {
       type: Object,
       required: true,
+    },
+    getViewers: {
+      type: Function,
+      default: () => () => ({})
     },
   },
   emits: [
