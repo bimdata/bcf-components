@@ -141,39 +141,11 @@ import { inject, onMounted, ref, onBeforeUnmount } from "vue";
 import { useService } from "../../../../service.js";
 import { getViewerOptions, highlightViewer, unhighlightViewer } from "../../../../utils/viewer.js";
 
-// Components
-import BIMDataButton from "@bimdata/design-system/src/BIMDataComponents/BIMDataButton/BIMDataButton.vue";
-import {
-  BIMDataIconCamera,
-  BIMDataIconClose,
-  BIMDataIconDelete,
-  BIMDataIconEdit,
-  BIMDataIconEllipsis,
-  BIMDataIconUndo,
-  BIMDataIconUser,
-  BIMDataIconValidate,
-} from "@bimdata/design-system/src/BIMDataComponents/BIMDataIcon/BIMDataIconStandalone/index.js";
-import BIMDataLoading from "@bimdata/design-system/src/BIMDataComponents/BIMDataLoading/BIMDataLoading.vue";
-import BIMDataTextarea from "@bimdata/design-system/src/BIMDataComponents/BIMDataTextarea/BIMDataTextarea.vue";
-import BIMDataTextbox from "@bimdata/design-system/src/BIMDataComponents/BIMDataTextbox/BIMDataTextbox.vue";
-
 // TODO: should be imported from DS
 import UserAvatar from "../../../user-avatar/UserAvatar.vue";
 
 export default {
   components: {
-    BIMDataButton,
-    BIMDataIconCamera,
-    BIMDataIconClose,
-    BIMDataIconDelete,
-    BIMDataIconEdit,
-    BIMDataIconEllipsis,
-    BIMDataIconUndo,
-    BIMDataIconUser,
-    BIMDataIconValidate,
-    BIMDataLoading,
-    BIMDataTextarea,
-    BIMDataTextbox,
     UserAvatar,
   },
   props: {

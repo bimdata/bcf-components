@@ -44,19 +44,10 @@
 
 <script>
 import BcfTopicSnapshotsActions from "../bcf-topic-snapshots-actions/BcfTopicSnapshotsActions.vue";
-// Components
-import BIMDataButton from "@bimdata/design-system/src/BIMDataComponents/BIMDataButton/BIMDataButton.vue";
-import {
-  BIMDataIconDelete,
-  BIMDataIconCamera,
-} from "@bimdata/design-system/src/BIMDataComponents/BIMDataIcon/BIMDataIconStandalone/index.js";
 
 export default {
   components: {
     BcfTopicSnapshotsActions,
-    BIMDataButton,
-    BIMDataIconDelete,
-    BIMDataIconCamera,
   },
   props: {
     viewpoints: {

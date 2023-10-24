@@ -46,19 +46,10 @@
 import { EXTENSION_TYPES } from "../../config.js";
 import { useService } from "../../service.js";
 // Components
-import BIMDataButton from "@bimdata/design-system/src/BIMDataComponents/BIMDataButton/BIMDataButton.vue";
-
-import {
-  BIMDataIconArrow,
-  BIMDataIconClose,
-} from "@bimdata/design-system/src/BIMDataComponents/BIMDataIcon/BIMDataIconStandalone/index.js";
 import SettingCard from "./setting-card/SettingCard.vue";
 
 export default {
   components: {
-    BIMDataButton,
-    BIMDataIconArrow,
-    BIMDataIconClose,
     SettingCard,
   },
   props: {

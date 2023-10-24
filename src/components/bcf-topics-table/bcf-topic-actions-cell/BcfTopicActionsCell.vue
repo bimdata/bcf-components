@@ -13,15 +13,7 @@
 </template>
 
 <script>
-// Components
-import BIMDataButton from "@bimdata/design-system/src/BIMDataComponents/BIMDataButton/BIMDataButton.vue";
-import BIMDataIconShow from "@bimdata/design-system/src/BIMDataComponents/BIMDataIcon/BIMDataIconStandalone/BIMDataIconShow.vue";
-
 export default {
-  components: {
-    BIMDataButton,
-    BIMDataIconShow,
-  },
   props: {
     topic: {
       type: Object,

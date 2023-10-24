@@ -98,24 +98,10 @@ import { useService } from "../../../service.js";
 import { getViewerOptions, highlightViewer, unhighlightViewer } from "../../../utils/viewer.js";
 
 // Components
-import BIMDataButton from "@bimdata/design-system/src/BIMDataComponents/BIMDataButton/BIMDataButton.vue";
-import BIMDataDropdownList from "@bimdata/design-system/src/BIMDataComponents/BIMDataDropdownList/BIMDataDropdownList.vue";
-import {
-  BIMDataIconCamera,
-  BIMDataIconDelete,
-} from "@bimdata/design-system/src/BIMDataComponents/BIMDataIcon/BIMDataIconStandalone/index.js";
-import BIMDataLoading from "@bimdata/design-system/src/BIMDataComponents/BIMDataLoading/BIMDataLoading.vue";
-import BIMDataTextarea from "@bimdata/design-system/src/BIMDataComponents/BIMDataTextarea/BIMDataTextarea.vue";
 import TopicComment from "./topic-comment/TopicComment.vue";
 
 export default {
   components: {
-    BIMDataButton,
-    BIMDataDropdownList,
-    BIMDataIconCamera,
-    BIMDataIconDelete,
-    BIMDataLoading,
-    BIMDataTextarea,
     TopicComment,
   },
   props: {

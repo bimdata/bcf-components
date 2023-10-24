@@ -113,16 +113,6 @@
 <script>
 import { computed, ref, toRaw, watch } from "vue";
 import { useBcfFilter } from "../../composables/filter.js";
-// Components
-import BIMDataButton from "@bimdata/design-system/src/BIMDataComponents/BIMDataButton/BIMDataButton.vue";
-import {
-  BIMDataIconClose,
-  BIMDataIconFilterList,
-  BIMDataIconSearch,
-} from "@bimdata/design-system/src/BIMDataComponents/BIMDataIcon/BIMDataIconStandalone/index.js";
-import BIMDataInput from "@bimdata/design-system/src/BIMDataComponents/BIMDataInput/BIMDataInput.vue";
-import BIMDataSelect from "@bimdata/design-system/src/BIMDataComponents/BIMDataSelect/BIMDataSelect.vue";
-import BIMDataText from "@bimdata/design-system/src/BIMDataComponents/BIMDataText/BIMDataText.vue";
 
 function getSelectOptions(list) {
   return Array.from(new Set(list)).sort((a, b) =>
@@ -131,15 +121,6 @@ function getSelectOptions(list) {
 }
 
 export default {
-  components: {
-    BIMDataButton,
-    BIMDataIconClose,
-    BIMDataIconFilterList,
-    BIMDataIconSearch,
-    BIMDataInput,
-    BIMDataSelect,
-    BIMDataText
-  },
   props: {
     topics: {
       type: Array,

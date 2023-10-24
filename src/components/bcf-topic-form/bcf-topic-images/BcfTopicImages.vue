@@ -67,21 +67,8 @@
 
 <script>
 import { isTabletOrMobile } from "../../../utils/browser.js";
-// Components
-import BIMDataButton from "@bimdata/design-system/src/BIMDataComponents/BIMDataButton/BIMDataButton.vue";
-import {
-  BIMDataIconDelete,
-  BIMDataIconCamera,
-  BIMDataIconUnarchive,
-} from "@bimdata/design-system/src/BIMDataComponents/BIMDataIcon/BIMDataIconStandalone/index.js";
 
 export default {
-  components: {
-    BIMDataButton,
-    BIMDataIconDelete,
-    BIMDataIconCamera,
-    BIMDataIconUnarchive,
-  },
   props: {
     viewpoints: {
       type: Array,
