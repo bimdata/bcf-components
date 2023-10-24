@@ -30,7 +30,6 @@
       <template v-if="uiConfig.viewerMode">
         <BcfTopicSnapshots
           :viewpoints="viewpointsToDisplay"
-          :getViewers="getViewers"
           @create-viewpoint="createViewpoints"
           @upload-viewpoint="uploadViewpoints"
           @delete-viewpoint="deleteViewpoint"
@@ -39,7 +38,6 @@
           <BcfTopicSnapshotsActions
             v-if="viewpointsToDisplay.length > 0"
             :viewpoints="viewpointsToDisplay"
-            :getViewers="getViewers"
             @create-viewpoint="createViewpoints"
             @upload-viewpoint="uploadViewpoints"
           />
@@ -307,8 +305,6 @@ export default {
     "topic-update-error",
   ],
   setup(props, { emit }) {
-    const service = useService();
-
     const isCreation = computed(() => !props.topic);
     const nextIndex = computed(() => Math.max(0, ...props.topics.map((t) => t.index)) + 1);
 
@@ -421,6 +417,8 @@ export default {
     };
 
     const submit = async () => {
+      const service = useService();
+
       if (!topicTitle.value) {
         hasErrorTitle.value = true;
         return;
@@ -505,6 +503,7 @@ export default {
           emit("topic-updated", newTopic);
         }
       } catch (error) {
+        console.error(error);
         emit(isCreation.value ? "topic-create-error" : "topic-update-error", error);
       } finally {
         loading.value = false;

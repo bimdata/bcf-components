@@ -202,7 +202,6 @@ export default {
   setup(props, { emit }) {
     let pluginCreatedSub, pluginDestroyedSub;
 
-    const service = useService();
     const $viewer = inject("$viewer", null);
 
     const loading = ref(false);
@@ -218,7 +217,7 @@ export default {
     const toggleMenu = () => (showMenu.value = !showMenu.value);
 
     const loadViewpoint = async () => {
-      viewpoint.value = await service.fetchTopicCommentViewpoint(
+      viewpoint.value = await useService().fetchTopicCommentViewpoint(
         props.project,
         props.topic,
         props.comment
@@ -235,7 +234,7 @@ export default {
     };
     const deleteViewpoint = async () => {
       if (viewpoint.value.guid) {
-        await service.deleteViewpoint(props.project, props.topic, viewpoint.value);
+        await useService().deleteViewpoint(props.project, props.topic, viewpoint.value);
       }
       viewpoint.value = null;
     };
@@ -261,7 +260,7 @@ export default {
           return;
         }
         if (viewpoint.value && !viewpoint.value.guid) {
-          viewpoint.value = await service.createViewpoint(
+          viewpoint.value = await useService().createViewpoint(
             props.project,
             props.topic,
             viewpoint.value
@@ -273,7 +272,7 @@ export default {
         ) {
           loading.value = true;
 
-          const newComment = await service.updateComment(
+          const newComment = await useService().updateComment(
             props.project,
             props.topic,
             props.comment,
@@ -294,7 +293,7 @@ export default {
     const submitDelete = async () => {
       try {
         loading.value = true;
-        await service.deleteComment(props.project, props.topic, props.comment);
+        await useService().deleteComment(props.project, props.topic, props.comment);
         emit("comment-deleted", props.comment);
         isDeleting.value = false;
       } finally {
@@ -347,7 +346,6 @@ export default {
       submitDelete,
       submitUpdate,
       toggleMenu,
-      loadViewpoint,
       unhighlightViewer,
     };
   },

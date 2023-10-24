@@ -80,15 +80,13 @@ export default {
   },
   emits: ["back", "close", "extension-created", "extension-updated", "extension-deleted"],
   setup(props, { emit }) {
-    const service = useService();
-
     const createExtension = async (event) => {
-      const ext = await service.createExtension(props.project, event.extensionType, event.data);
+      const ext = await useService().createExtension(props.project, event.extensionType, event.data);
       emit("extension-created", ext);
     };
 
     const updateExtension = async (event) => {
-      const ext = await service.updateExtension(
+      const ext = await useService().updateExtension(
         props.project,
         event.extensionType,
         event.extension,
@@ -98,7 +96,7 @@ export default {
     };
 
     const deleteExtension = async (event) => {
-      await service.deleteExtension(props.project, event.extensionType, event.extension);
+      await useService().deleteExtension(props.project, event.extensionType, event.extension);
       emit("extension-deleted", event.extension);
     };
 
