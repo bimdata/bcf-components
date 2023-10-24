@@ -1,4 +1,5 @@
 import * as config from "./config.js";
+import service from "./service.js";
 import { getPriorityColor, getStatusColor } from "./utils/topic.js";
 import { getViewpointConfig } from "./utils/viewpoints.js";
 
@@ -28,6 +29,7 @@ const components = {
 
 export {
   config,
+  service,
   getPriorityColor,
   getStatusColor,
   getViewpointConfig,
