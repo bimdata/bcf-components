@@ -144,7 +144,6 @@ export default {
   setup(props, { emit }) {
     let pluginCreatedSub, pluginDestroyedSub;
 
-    const service = useService();
     const $viewer = inject("$viewer", null);
 
     const loading = ref(false);
@@ -157,7 +156,7 @@ export default {
     const viewerSelectOptions = ref([]);
 
     const loadComments = async () => {
-      comments.value = await service.fetchTopicComments(props.project, props.topic);
+      comments.value = await useService().fetchTopicComments(props.project, props.topic);
     };
 
     const setCommentViewpoint = async () => {
@@ -180,6 +179,7 @@ export default {
 
     const submitComment = async () => {
       try {
+        const service = useService();
         loading.value = true;
         if (viewpoint.value) {
           viewpoint.value = await service.createViewpoint(

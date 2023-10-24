@@ -299,8 +299,6 @@ export default {
     "view-topic-viewpoint",
   ],
   setup(props, { emit }) {
-    const service = useService();
-
     const loading = ref(false);
     const showDeleteModal = ref(false);
 
@@ -312,14 +310,14 @@ export default {
 
     const currentUserEmail = ref("");
     const loadCurrentUserEmail = async () => {
-      currentUserEmail.value = (await service.fetchCurrentUser()).email ?? "";
+      currentUserEmail.value = (await useService().fetchCurrentUser()).email ?? "";
     };
 
     const deleteTopic = async () => {
       try {
         showDeleteModal.value = false;
         loading.value = true;
-        await service.deleteTopic(props.project, props.topic);
+        await useService().deleteTopic(props.project, props.topic);
         emit("topic-deleted", props.topic);
       } catch (error) {
         console.error(error);
