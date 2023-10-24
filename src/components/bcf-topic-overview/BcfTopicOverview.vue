@@ -232,7 +232,7 @@
 <script>
 import { adjustTextColor } from "@bimdata/design-system/src/BIMDataComponents/BIMDataColorSelector/colors.js";
 import { computed, onMounted, ref } from "vue";
-import { useService } from "../../service.js";
+import service from "../../service.js";
 import { getPriorityColor } from "../../utils/topic.js";
 // Components
 import BcfTopicComments from "./bcf-topic-comments/BcfTopicComments.vue";
@@ -300,14 +300,14 @@ export default {
 
     const currentUserEmail = ref("");
     const loadCurrentUserEmail = async () => {
-      currentUserEmail.value = (await useService().fetchCurrentUser()).email ?? "";
+      currentUserEmail.value = (await service.fetchCurrentUser()).email ?? "";
     };
 
     const deleteTopic = async () => {
       try {
         showDeleteModal.value = false;
         loading.value = true;
-        await useService().deleteTopic(props.project, props.topic);
+        await service.deleteTopic(props.project, props.topic);
         emit("topic-deleted", props.topic);
       } catch (error) {
         console.error(error);

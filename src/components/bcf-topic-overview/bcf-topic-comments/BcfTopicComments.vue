@@ -94,7 +94,7 @@
 
 <script>
 import { onMounted, inject, ref, watch, onBeforeUnmount } from "vue";
-import { useService } from "../../../service.js";
+import service from "../../../service.js";
 import { getViewerOptions, highlightViewer, unhighlightViewer } from "../../../utils/viewer.js";
 
 // Components
@@ -142,7 +142,7 @@ export default {
     const viewerSelectOptions = ref([]);
 
     const loadComments = async () => {
-      comments.value = await useService().fetchTopicComments(props.project, props.topic);
+      comments.value = await service.fetchTopicComments(props.project, props.topic);
     };
 
     const setCommentViewpoint = async () => {
@@ -165,7 +165,6 @@ export default {
 
     const submitComment = async () => {
       try {
-        const service = useService();
         loading.value = true;
         if (viewpoint.value) {
           viewpoint.value = await service.createViewpoint(

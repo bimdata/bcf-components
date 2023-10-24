@@ -197,7 +197,7 @@
 
 <script>
 import { computed, ref, watch } from "vue";
-import { useService } from "../../service.js";
+import service from "../../service.js";
 import { getViewerList } from "../../utils/viewer.js";
 import { setViewpointDefaults } from "../../utils/viewpoints.js";
 // Components
@@ -391,8 +391,6 @@ export default {
     };
 
     const submit = async () => {
-      const service = useService();
-
       if (!topicTitle.value) {
         hasErrorTitle.value = true;
         return;
