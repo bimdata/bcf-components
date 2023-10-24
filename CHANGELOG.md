@@ -1,3 +1,10 @@
+## [6.0.1](https://github.com/bimdata/bcf-components/compare/v6.0.0...v6.0.1) (2023-10-24)
+
+
+### PATCH
+
+* fix service injection ([752195e](https://github.com/bimdata/bcf-components/commit/752195ead09003e704de38c07aa45d72375d25cf))
+
 # [6.0.0](https://github.com/bimdata/bcf-components/compare/v5.0.0...v6.0.0) (2023-10-18)
 
 
