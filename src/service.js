@@ -5,15 +5,20 @@ import { getPriorityColor } from "./utils/topic.js";
 import { downloadBlobAs } from "./utils/download.js";
 
 class Service {
+  constructor () {
+    if (!Service.instance) Service.instance = this;
+    return Service.instance;
+  }
+
   setup({ apiClient, fetchUsers }) {
     this.apiClient = apiClient;
     this.fetchUsers = fetchUsers;
   }
 
-  _getUsers() {
+  _getUsers(project) {
     return this.fetchUsers
-      ? (project) => this.fetchUsers(project)
-      : (project) => this.apiClient.collaborationApi.getProjectUsers(project.cloud.id, project.id);
+      ? this.fetchUsers(project)
+      : this.apiClient.collaborationApi.getProjectUsers(project.cloud.id, project.id);
   }
 
   fetchCurrentUser() {
