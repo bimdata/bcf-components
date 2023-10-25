@@ -5,16 +5,30 @@ import { getPriorityColor } from "./utils/topic.js";
 import { downloadBlobAs } from "./utils/download.js";
 
 class Service {
+  /**
+   * Define service `apiClient` instance and `fetchUsers` promise.
+   *
+   * @param {Object} param setup options
+   */
   setup({ apiClient, fetchUsers }) {
     this.apiClient = apiClient;
     this.fetchUsers = fetchUsers;
   }
 
+  // --- Users API ---
+
+  /**
+   * Internal user list getter
+   * This is a "private" method  that is not intended to be used outside of Service class.
+   * Use `fetchUsers` promise if defined, fallback to BIMData API otherwise.
+   *
+   * @param {Object} project
+   * @returns {Promise<Object[]>}
+   */
   _getUsers(project) {
-    return (
-      this.fetchUsers?.(project) ??
-      this.apiClient.collaborationApi.getProjectUsers(project.cloud.id, project.id)
-    );
+    return this.fetchUsers
+      ? this.fetchUsers(project)
+      : this.apiClient.collaborationApi.getProjectUsers(project.cloud.id, project.id);
   }
 
   fetchCurrentUser() {
@@ -23,6 +37,16 @@ class Service {
 
   // --- BCF Topics API ---
 
+  /**
+   * Fetch project topics.
+   * You can provide a prefetched list of extensions/users as options.
+   * If not provided `fetchUsers` promise and BIMData API are used to
+   * fetch the project extensions/users.
+   * 
+   * @param {Object} project
+   * @param {Object} options
+   * @returns 
+   */
   async fetchTopics(project, { extensions, users } = {}) {
     const _extensions = extensions ?? (await this.apiClient.bcfApi.getDetailedExtensions(project.id));
     const _users = users ?? (await this._getUsers(project));
