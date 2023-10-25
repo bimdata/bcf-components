@@ -117,7 +117,7 @@ class Service {
 
   async loadTopicsViewpoints(project, topics) {
     await eachLimit(topics, 10, (topic, done) => {
-      fetchTopicViewpoints(project, topic).then(viewpoints => {
+      this.fetchTopicViewpoints(project, topic).then(viewpoints => {
         topic.viewpoints = viewpoints;
         done();
       }, done);
