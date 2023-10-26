@@ -1,3 +1,19 @@
+## [6.0.2](https://github.com/bimdata/bcf-components/compare/v6.0.1...v6.0.2) (2023-10-26)
+
+
+### chore
+
+* add some comments in service.js ([4afa9b9](https://github.com/bimdata/bcf-components/commit/4afa9b95968ccb84645da31beab9dfba9447386b))
+
+### PATCH
+
+* fix: add service to package export ([84821e7](https://github.com/bimdata/bcf-components/commit/84821e70ee59fe758bc22018a2bc64d1cc8528b7))
+* fix: remove service constructor ([67c20c6](https://github.com/bimdata/bcf-components/commit/67c20c6b08eb3038ea3a075c75453b2c0781eec0))
+* fix: service.loadTopicsViewpoints method ([746f0f5](https://github.com/bimdata/bcf-components/commit/746f0f5a965b5d474c1d91a04248beaf839f5dce))
+* fix: try to service singleton via constructor + fix getUsers ([e32fdd6](https://github.com/bimdata/bcf-components/commit/e32fdd684c0933ea282d487010d50191bb99846a))
+* fix: use es6 class to have a singleton service ([80241c3](https://github.com/bimdata/bcf-components/commit/80241c3f953840ceefbb935f91bc570ffceec85f))
+* remove design-system imports ([47d42a1](https://github.com/bimdata/bcf-components/commit/47d42a19ae60dfc41590f8fd0919c8568e7ecf1b))
+
 ## [6.0.1](https://github.com/bimdata/bcf-components/compare/v6.0.0...v6.0.1) (2023-10-24)
 
 
