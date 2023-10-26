@@ -62,23 +62,8 @@ import { adjustBorderColor } from "@bimdata/design-system/src/BIMDataComponents/
 import { ref, watch } from "vue";
 import { EXTENSION_WITH_COLOR } from "../../../config.js";
 import { getExtensionField } from "../../../utils/extensions.js";
-// Components
-import BIMDataButton from "@bimdata/design-system/src/BIMDataComponents/BIMDataButton/BIMDataButton.vue";
-import BIMDataColorSelector from "@bimdata/design-system/src/BIMDataComponents/BIMDataColorSelector/BIMDataColorSelector.vue";
-import {
-  BIMDataIconDelete,
-  BIMDataIconClose,
-} from "@bimdata/design-system/src/BIMDataComponents/BIMDataIcon/BIMDataIconStandalone/index.js";
-import BIMDataInput from "@bimdata/design-system/src/BIMDataComponents/BIMDataInput/BIMDataInput.vue";
 
 export default {
-  components: {
-    BIMDataButton,
-    BIMDataColorSelector,
-    BIMDataIconDelete,
-    BIMDataIconClose,
-    BIMDataInput,
-  },
   props: {
     extensionType: {
       type: String,

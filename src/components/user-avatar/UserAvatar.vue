@@ -23,12 +23,7 @@
 <script>
 import { computed } from "vue";
 
-import BIMDataIconUser from "@bimdata/design-system/src/BIMDataComponents/BIMDataIcon/BIMDataIconStandalone/BIMDataIconUser.vue";
-
 export default {
-  components: {
-    BIMDataIconUser,
-  },
   props: {
     user: {
       type: Object,

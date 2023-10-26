@@ -138,42 +138,14 @@
 
 <script>
 import { inject, onMounted, ref, onBeforeUnmount } from "vue";
-import { useService } from "../../../../service.js";
+import service from "../../../../service.js";
 import { getViewerOptions, highlightViewer, unhighlightViewer } from "../../../../utils/viewer.js";
-
-// Components
-import BIMDataButton from "@bimdata/design-system/src/BIMDataComponents/BIMDataButton/BIMDataButton.vue";
-import {
-  BIMDataIconCamera,
-  BIMDataIconClose,
-  BIMDataIconDelete,
-  BIMDataIconEdit,
-  BIMDataIconEllipsis,
-  BIMDataIconUndo,
-  BIMDataIconUser,
-  BIMDataIconValidate,
-} from "@bimdata/design-system/src/BIMDataComponents/BIMDataIcon/BIMDataIconStandalone/index.js";
-import BIMDataLoading from "@bimdata/design-system/src/BIMDataComponents/BIMDataLoading/BIMDataLoading.vue";
-import BIMDataTextarea from "@bimdata/design-system/src/BIMDataComponents/BIMDataTextarea/BIMDataTextarea.vue";
-import BIMDataTextbox from "@bimdata/design-system/src/BIMDataComponents/BIMDataTextbox/BIMDataTextbox.vue";
 
 // TODO: should be imported from DS
 import UserAvatar from "../../../user-avatar/UserAvatar.vue";
 
 export default {
   components: {
-    BIMDataButton,
-    BIMDataIconCamera,
-    BIMDataIconClose,
-    BIMDataIconDelete,
-    BIMDataIconEdit,
-    BIMDataIconEllipsis,
-    BIMDataIconUndo,
-    BIMDataIconUser,
-    BIMDataIconValidate,
-    BIMDataLoading,
-    BIMDataTextarea,
-    BIMDataTextbox,
     UserAvatar,
   },
   props: {
@@ -217,7 +189,7 @@ export default {
     const toggleMenu = () => (showMenu.value = !showMenu.value);
 
     const loadViewpoint = async () => {
-      viewpoint.value = await useService().fetchTopicCommentViewpoint(
+      viewpoint.value = await service.fetchTopicCommentViewpoint(
         props.project,
         props.topic,
         props.comment
@@ -234,7 +206,7 @@ export default {
     };
     const deleteViewpoint = async () => {
       if (viewpoint.value.guid) {
-        await useService().deleteViewpoint(props.project, props.topic, viewpoint.value);
+        await service.deleteViewpoint(props.project, props.topic, viewpoint.value);
       }
       viewpoint.value = null;
     };
@@ -260,7 +232,7 @@ export default {
           return;
         }
         if (viewpoint.value && !viewpoint.value.guid) {
-          viewpoint.value = await useService().createViewpoint(
+          viewpoint.value = await service.createViewpoint(
             props.project,
             props.topic,
             viewpoint.value
@@ -272,7 +244,7 @@ export default {
         ) {
           loading.value = true;
 
-          const newComment = await useService().updateComment(
+          const newComment = await service.updateComment(
             props.project,
             props.topic,
             props.comment,
@@ -293,7 +265,7 @@ export default {
     const submitDelete = async () => {
       try {
         loading.value = true;
-        await useService().deleteComment(props.project, props.topic, props.comment);
+        await service.deleteComment(props.project, props.topic, props.comment);
         emit("comment-deleted", props.comment);
         isDeleting.value = false;
       } finally {

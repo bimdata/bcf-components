@@ -53,7 +53,6 @@ export default {
   },
   emits: ["create-viewpoint", "upload-viewpoint"],
   setup(props) {
-
     // Computed filtering viewpoints on isUpload = false
     const snapshotedViewpoints = computed(() =>
       props.viewpoints.filter((viewpoint) => !viewpoint.isUpload)

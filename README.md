@@ -24,8 +24,11 @@ and make all components available globally.
 import { createApp } from "vue";
 import { createI18n } from "vue-i18n"; // v9.x
 import { makeBIMDataApiClient } from "@bimdata/typescript-fetch-api-client"; // v8.2+
+import DesignSystem from "@bimdata/design-system/vue3-plugin.js"; // v2+
+import BIMDataComponents from "@bimdata/components/vue3-plugin.js"; // v1+
+
 // Import Vue 3 plugin factory
-import BIMDataBcfComponents from "@bimdata/bcf-components/vue3-plugin.js";
+import BcfComponents from "@bimdata/bcf-components/vue3-plugin.js";
 
 // Instanciate i18n plugin
 const i18nPlugin = createI18n({ ... });
@@ -34,8 +37,10 @@ const apiClient = makeBIMDataApiClient({ ... });
 
 const app = createApp()
   .use(i18nPlugin)
+  .use(DesignSystem())
+  .use(BIMDataComponents())
   // Provide both i18n plugin and API client as plugin config
-  .use(BIMDataBcfComponents({ i18nPlugin, apiClient }));
+  .use(BcfComponents({ i18nPlugin, apiClient }));
 ...
 ```
 

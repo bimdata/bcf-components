@@ -53,15 +53,8 @@
 import { computed } from "vue";
 import { DEFAULT_PRIORITY_COLOR } from "../../config.js";
 import { getAvailableExtensions, getExtensionField } from "../../utils/extensions.js";
-// Components
-import BIMDataPaginatedList from "@bimdata/design-system/src/BIMDataComponents/BIMDataPaginatedList/BIMDataPaginatedList.vue";
-import BIMDataSimplePieChart from "@bimdata/design-system/src/BIMDataComponents/BIMDataSimplePieChart/BIMDataSimplePieChart.vue";
 
 export default {
-  components: {
-    BIMDataPaginatedList,
-    BIMDataSimplePieChart,
-  },
   props: {
     detailedExtensions: {
       type: Object,

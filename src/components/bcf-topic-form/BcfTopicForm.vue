@@ -197,24 +197,10 @@
 
 <script>
 import { computed, ref, watch } from "vue";
-import { useService } from "../../service.js";
+import service from "../../service.js";
 import { getViewerList } from "../../utils/viewer.js";
 import { setViewpointDefaults } from "../../utils/viewpoints.js";
 // Components
-import BIMDataSafeZoneModal from "@bimdata/components/src/BIMDataSafeZoneModal/BIMDataSafeZoneModal.vue";
-import BIMDataButton from "@bimdata/design-system/src/BIMDataComponents/BIMDataButton/BIMDataButton.vue";
-import BIMDataDatePicker from "@bimdata/design-system/src/BIMDataComponents/BIMDataDatePicker/BIMDataDatePicker.vue";
-import {
-  BIMDataIconArrow,
-  BIMDataIconClose,
-  BIMDataIconPlus,
-} from "@bimdata/design-system/src/BIMDataComponents/BIMDataIcon/BIMDataIconStandalone/index.js";
-import BIMDataInput from "@bimdata/design-system/src/BIMDataComponents/BIMDataInput/BIMDataInput.vue";
-import BIMDataLoading from "@bimdata/design-system/src/BIMDataComponents/BIMDataLoading/BIMDataLoading.vue";
-import BIMDataSelect from "@bimdata/design-system/src/BIMDataComponents/BIMDataSelect/BIMDataSelect.vue";
-import BIMDataTextarea from "@bimdata/design-system/src/BIMDataComponents/BIMDataTextarea/BIMDataTextarea.vue";
-import BIMDataTextbox from "@bimdata/design-system/src/BIMDataComponents/BIMDataTextbox/BIMDataTextbox.vue";
-import BIMDataTooltip from "@bimdata/design-system/src/BIMDataComponents/BIMDataTooltip/BIMDataTooltip.vue";
 import BcfTopicImages from "./bcf-topic-images/BcfTopicImages.vue";
 import BcfTopicSnapshots from "./bcf-topic-snapshots/BcfTopicSnapshots.vue";
 import BcfTopicSnapshotsActions from "./bcf-topic-snapshots-actions/BcfTopicSnapshotsActions.vue";
@@ -224,18 +210,6 @@ export default {
     BcfTopicImages,
     BcfTopicSnapshots,
     BcfTopicSnapshotsActions,
-    BIMDataButton,
-    BIMDataDatePicker,
-    BIMDataIconArrow,
-    BIMDataIconClose,
-    BIMDataIconPlus,
-    BIMDataInput,
-    BIMDataLoading,
-    BIMDataSafeZoneModal,
-    BIMDataSelect,
-    BIMDataTextarea,
-    BIMDataTextbox,
-    BIMDataTooltip,
   },
   props: {
     uiConfig: {
@@ -417,8 +391,6 @@ export default {
     };
 
     const submit = async () => {
-      const service = useService();
-
       if (!topicTitle.value) {
         hasErrorTitle.value = true;
         return;

@@ -66,9 +66,6 @@
 import { computed } from "vue";
 import columnsDef from "./columns.js";
 // Components
-import BIMDataTable from "@bimdata/design-system/src/BIMDataComponents/BIMDataTable/BIMDataTable.vue";
-import BIMDataTextbox from "@bimdata/design-system/src/BIMDataComponents/BIMDataTextbox/BIMDataTextbox.vue";
-import BIMDataTooltip from "@bimdata/design-system/src/BIMDataComponents/BIMDataTooltip/BIMDataTooltip.vue";
 import BcfTopicActionsCell from "./bcf-topic-actions-cell/BcfTopicActionsCell.vue";
 import BcfTopicIndexCell from "./bcf-topic-index-cell/BcfTopicIndexCell.vue";
 import BcfTopicPriorityCell from "./bcf-topic-priority-cell/BcfTopicPriorityCell.vue";
@@ -83,9 +80,6 @@ export default {
     BcfTopicIndexCell,
     BcfTopicPriorityCell,
     BcfTopicStatusCell,
-    BIMDataTable,
-    BIMDataTextbox,
-    BIMDataTooltip,
     UserAvatar
   },
   props: {

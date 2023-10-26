@@ -85,21 +85,11 @@ import { adjustTextColor } from "@bimdata/design-system/src/BIMDataComponents/BI
 import { computed, ref } from "vue";
 import { getPriorityColor, getStatusColor } from "../../utils/topic.js";
 // Components
-import BIMDataButton from "@bimdata/design-system/src/BIMDataComponents/BIMDataButton/BIMDataButton.vue";
-import {
-  BIMDataIconInformation,
-  BIMDataIconModel3D,
-} from "@bimdata/design-system/src/BIMDataComponents/BIMDataIcon/BIMDataIconStandalone/index.js";
-import BIMDataTextbox from "@bimdata/design-system/src/BIMDataComponents/BIMDataTextbox/BIMDataTextbox.vue";
 import BcfTopicDefaultImage from "./BcfTopicDefaultImage.vue";
 
 export default {
   components: {
     BcfTopicDefaultImage,
-    BIMDataButton,
-    BIMDataIconInformation,
-    BIMDataIconModel3D,
-    BIMDataTextbox,
   },
   props: {
     detailedExtensions: {

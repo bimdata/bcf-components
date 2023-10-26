@@ -4,22 +4,54 @@ import { getExtensionField } from "./utils/extensions.js";
 import { getPriorityColor } from "./utils/topic.js";
 import { downloadBlobAs } from "./utils/download.js";
 
-let libService = null;
+class Service {
+  /**
+   * Define service `apiClient` instance and `fetchUsers` promise.
+   *
+   * @param {Object} param setup options
+   */
+  setup({ apiClient, fetchUsers }) {
+    this.apiClient = apiClient;
+    this.fetchUsers = fetchUsers;
+  }
 
-function createService(apiClient, { fetchUsers }) {
-  const getUsers = fetchUsers
-    ? (project) => fetchUsers(project)
-    : (project) => apiClient.collaborationApi.getProjectUsers(project.cloud.id, project.id);
+  // --- Users API ---
 
-  const fetchCurrentUser = () => apiClient.bcfApi.getUser();
+  /**
+   * Internal user list getter
+   * This is a "private" method  that is not intended to be used outside of Service class.
+   * Use `fetchUsers` promise if defined, fallback to BIMData API otherwise.
+   *
+   * @param {Object} project
+   * @returns {Promise<Object[]>}
+   */
+  _getUsers(project) {
+    return this.fetchUsers
+      ? this.fetchUsers(project)
+      : this.apiClient.collaborationApi.getProjectUsers(project.cloud.id, project.id);
+  }
+
+  fetchCurrentUser() {
+    return this.apiClient.bcfApi.getUser();
+  }
 
   // --- BCF Topics API ---
 
-  const fetchTopics = async (project, { extensions, users } = {}) => {
-    const _extensions = extensions ?? (await apiClient.bcfApi.getDetailedExtensions(project.id));
-    const _users = users ?? (await getUsers(project));
+  /**
+   * Fetch project topics.
+   * You can provide a prefetched list of extensions/users as options.
+   * If not provided `fetchUsers` promise and BIMData API are used to
+   * fetch the project extensions/users.
+   * 
+   * @param {Object} project
+   * @param {Object} options
+   * @returns 
+   */
+  async fetchTopics(project, { extensions, users } = {}) {
+    const _extensions = extensions ?? (await this.apiClient.bcfApi.getDetailedExtensions(project.id));
+    const _users = users ?? (await this._getUsers(project));
 
-    const topics = await apiClient.bcfApi.getTopics(project.id);
+    const topics = await this.apiClient.bcfApi.getTopics(project.id);
     topics.sort((a, b) => b.index - a.index);
     topics.forEach((topic) => {
       topic.color = getPriorityColor(topic, _extensions);
@@ -27,180 +59,147 @@ function createService(apiClient, { fetchUsers }) {
     });
 
     return topics;
-  };
+  }
 
-  const fecthTopicByGuid = async (project, guid) => {
-    const extensions = await apiClient.bcfApi.getDetailedExtensions(project.id);
-    const topic = await apiClient.bcfApi.getFullTopic(guid, project.id, "url");
+  async fecthTopicByGuid(project, guid) {
+    const extensions = await this.apiClient.bcfApi.getDetailedExtensions(project.id);
+    const topic = await this.apiClient.bcfApi.getFullTopic(guid, project.id, "url");
     topic.color = getPriorityColor(topic, extensions);
     return topic;
-  };
+  }
 
-  const createTopic = (project, topic) => {
-    return apiClient.bcfApi.createTopic(project.id, topic);
-  };
+  createTopic(project, topic) {
+    return this.apiClient.bcfApi.createTopic(project.id, topic);
+  }
 
-  const updateTopic = (project, topic) => {
-    return apiClient.bcfApi.updateTopic(topic.guid, project.id, topic);
-  };
+  updateTopic(project, topic) {
+    return this.apiClient.bcfApi.updateTopic(topic.guid, project.id, topic);
+  }
 
-  const deleteTopic = (project, topic) => {
-    return apiClient.bcfApi.deleteTopic(topic.guid, project.id);
-  };
+  deleteTopic(project, topic) {
+    return this.apiClient.bcfApi.deleteTopic(topic.guid, project.id);
+  }
 
-  const importBcf = async (project, file) => {
+  async importBcf(project, file) {
     const formData = new FormData();
     formData.append("name", file.name);
     formData.append("file", file);
-    await fetch(`${apiClient.config.basePath}/bcf/2.1/projects/${project.id}/import`, {
+    await fetch(`${this.apiClient.config.basePath}/bcf/2.1/projects/${project.id}/import`, {
       method: "POST",
       credentials: "include",
       headers: {
-        ...apiClient.authHeader,
+        ...this.apiClient.authHeader,
       },
       body: formData,
     });
-  };
+  }
 
-  const exportBcf = async (project, topics) => {
-    const response = await apiClient.bcfApi.downloadBcfExport(
+  async exportBcf(project, topics) {
+    const response = await this.apiClient.bcfApi.downloadBcfExport(
       project.id,
       undefined, // Format
       topics.map((t) => t.guid).join(",")
     );
     downloadBlobAs(`${project.name}.bcf`, response);
-  };
+  }
 
-  const exportBcfXLSX = async (project, topics) => {
-    const response = await apiClient.bcfApi.downloadBcfExportXlsx(
+  async exportBcfXLSX(project, topics) {
+    const response = await this.apiClient.bcfApi.downloadBcfExportXlsx(
       project.id,
       undefined, // Format
       undefined, // Locale
       topics.map((t) => t.guid).join(",")
     );
     downloadBlobAs(`${project.name}.xlsx`, response);
-  };
+  }
 
   // --- BCF Topic Viewpoints API ---
 
-  const loadTopicsViewpoints = async (project, topics) => {
-    await eachLimit(topics, 10, (topic, cb) => {
-      fetchTopicViewpoints(project, topic).then(viewpoints => {
+  async loadTopicsViewpoints(project, topics) {
+    await eachLimit(topics, 10, (topic, done) => {
+      this.fetchTopicViewpoints(project, topic).then(viewpoints => {
         topic.viewpoints = viewpoints;
-        cb();
-      }, cb);
+        done();
+      }, done);
     });
     return topics;
-  };
+  }
 
-  const fetchTopicViewpoints = (project, topic) => {
-    return apiClient.bcfApi.getTopicViewpoints(project.id, topic.guid, "url");
-  };
+  fetchTopicViewpoints(project, topic) {
+    return this.apiClient.bcfApi.getTopicViewpoints(project.id, topic.guid, "url");
+  }
 
-  const fetchTopicCommentViewpoint = (project, topic, comment) => {
-    return apiClient.bcfApi.getViewpoint(comment.viewpoint_guid, project.id, topic.guid);
-  };
+  fetchTopicCommentViewpoint(project, topic, comment) {
+    return this.apiClient.bcfApi.getViewpoint(comment.viewpoint_guid, project.id, topic.guid);
+  }
 
-  const createViewpoint = (project, topic, viewpoint) => {
-    return apiClient.bcfApi.createViewpoint(project.id, topic.guid, "url", viewpoint);
-  };
+  createViewpoint(project, topic, viewpoint) {
+    return this.apiClient.bcfApi.createViewpoint(project.id, topic.guid, "url", viewpoint);
+  }
 
-  const updateViewpoint = (project, topic, viewpoint) => {
-    return apiClient.bcfApi.updateViewpoint(viewpoint.guid, project.id, topic.guid, "url", viewpoint);
-  };
+  updateViewpoint(project, topic, viewpoint) {
+    return this.apiClient.bcfApi.updateViewpoint(viewpoint.guid, project.id, topic.guid, "url", viewpoint);
+  }
 
-  const deleteViewpoint = (project, topic, viewpoint) => {
-    return apiClient.bcfApi.deleteViewpoint(viewpoint.guid, project.id, topic.guid);
-  };
+  deleteViewpoint(project, topic, viewpoint) {
+    return this.apiClient.bcfApi.deleteViewpoint(viewpoint.guid, project.id, topic.guid);
+  }
 
   // --- BCF Topic Comments API ---
 
-  const fetchTopicComments = async (project, topic) => {
-    const users = await getUsers(project);
+  async fetchTopicComments(project, topic) {
+    const users = await this._getUsers(project);
 
-    const comments = await apiClient.bcfApi.getComments(project.id, topic.guid);
+    const comments = await this.apiClient.bcfApi.getComments(project.id, topic.guid);
     comments.sort((a, b) => (a.date > b.date ? -1 : 1));
     comments.forEach((c) => {
       c.user = users.find((u) => u.email === c.author);
     });
 
     return comments;
-  };
+  }
 
-  const createComment = (project, topic, data) => {
-    return apiClient.bcfApi.createComment(project.id, topic.guid, data);
-  };
+  createComment(project, topic, data) {
+    return this.apiClient.bcfApi.createComment(project.id, topic.guid, data);
+  }
 
-  const updateComment = (project, topic, comment, data) => {
-    return apiClient.bcfApi.updateComment(comment.guid, project.id, topic.guid, data);
-  };
+  updateComment(project, topic, comment, data) {
+    return this.apiClient.bcfApi.updateComment(comment.guid, project.id, topic.guid, data);
+  }
 
-  const deleteComment = (project, topic, comment) => {
-    return apiClient.bcfApi.deleteComment(comment.guid, project.id, topic.guid);
-  };
+  deleteComment(project, topic, comment) {
+    return this.apiClient.bcfApi.deleteComment(comment.guid, project.id, topic.guid);
+  }
 
   // --- BCF Extensions API ---
 
-  const fetchExtensions = (project) => {
-    return apiClient.bcfApi.getExtensions(project.id);
-  };
+  fetchExtensions(project) {
+    return this.apiClient.bcfApi.getExtensions(project.id);
+  }
 
-  const fetchDetailedExtensions = (project) => {
-    return apiClient.bcfApi.getDetailedExtensions(project.id);
-  };
+  fetchDetailedExtensions(project) {
+    return this.apiClient.bcfApi.getDetailedExtensions(project.id);
+  }
 
-  const createExtension = async (project, type, data) => {
-    return await apiClient.bcfApi[`createExtension${type}`](project.id, {
+  createExtension(project, type, data) {
+    return this.apiClient.bcfApi[`createExtension${type}`](project.id, {
       [getExtensionField(type)]: data.value,
       color: getRandomHexColor(),
     });
-  };
+  }
 
-  const updateExtension = async (project, type, extension, data) => {
-    return await apiClient.bcfApi[`updateExtension${type}`](extension.id, project.id, {
+  updateExtension(project, type, extension, data) {
+    return this.apiClient.bcfApi[`updateExtension${type}`](extension.id, project.id, {
       [getExtensionField(type)]: data.value,
       color: data.color,
     });
-  };
+  }
 
-  const deleteExtension = async (project, type, extension) => {
-    await apiClient.bcfApi[`deleteExtension${type}`](extension.id, project.id);
-  };
-
-  return {
-    fetchCurrentUser,
-    fetchTopics,
-    fecthTopicByGuid,
-    createTopic,
-    updateTopic,
-    deleteTopic,
-    importBcf,
-    exportBcf,
-    exportBcfXLSX,
-    loadTopicsViewpoints,
-    fetchTopicViewpoints,
-    fetchTopicCommentViewpoint,
-    createViewpoint,
-    updateViewpoint,
-    deleteViewpoint,
-    fetchTopicComments,
-    createComment,
-    updateComment,
-    deleteComment,
-    fetchExtensions,
-    fetchDetailedExtensions,
-    createExtension,
-    updateExtension,
-    deleteExtension,
-  };
+  deleteExtension(project, type, extension) {
+    return this.apiClient.bcfApi[`deleteExtension${type}`](extension.id, project.id);
+  }
 }
 
-function setService(service) {
-  libService = service;
-}
+const service = new Service();
 
-function useService() {
-  return libService;
-}
-
-export { createService, setService, useService };
+export default service;

@@ -20,15 +20,11 @@
 
 <script>
 // Components
-import BIMDataButton from "@bimdata/design-system/src/BIMDataComponents/BIMDataButton/BIMDataButton.vue";
-import BIMDataIconPlus from "@bimdata/design-system/src/BIMDataComponents/BIMDataIcon/BIMDataIconStandalone/BIMDataIconPlus.vue";
 import BcfTopicCreationCardImage from "./BcfTopicCreationCardImage.vue";
 
 export default {
   components: {
     BcfTopicCreationCardImage,
-    BIMDataButton,
-    BIMDataIconPlus,
   },
   emits: ["create-topic"],
 };

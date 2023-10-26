@@ -232,14 +232,9 @@
 <script>
 import { adjustTextColor } from "@bimdata/design-system/src/BIMDataComponents/BIMDataColorSelector/colors.js";
 import { computed, onMounted, ref } from "vue";
-import { useService } from "../../service.js";
+import service from "../../service.js";
 import { getPriorityColor } from "../../utils/topic.js";
 // Components
-import BIMDataSafeZoneModal from "@bimdata/components/src/BIMDataSafeZoneModal/BIMDataSafeZoneModal.vue";
-import BIMDataButton from "@bimdata/design-system/src/BIMDataComponents/BIMDataButton/BIMDataButton.vue";
-import {BIMDataIconArrow,BIMDataIconEdit, BIMDataIconDelete, BIMDataIconClose, BIMDataIconModel3D } from "@bimdata/design-system/src/BIMDataComponents/BIMDataIcon/BIMDataIconStandalone/index.js";
-import BIMDataLoading from "@bimdata/design-system/src/BIMDataComponents/BIMDataLoading/BIMDataLoading.vue";
-import BIMDataTextbox from "@bimdata/design-system/src/BIMDataComponents/BIMDataTextbox/BIMDataTextbox.vue";
 import BcfTopicComments from "./bcf-topic-comments/BcfTopicComments.vue";
 import BcfTopicDefaultImage from "../bcf-topic-card/BcfTopicDefaultImage.vue";
 import BcfTopicViewpoints from "./bcf-topic-viewpoints/BcfTopicViewpoints.vue";
@@ -249,11 +244,6 @@ export default {
     BcfTopicComments,
     BcfTopicDefaultImage,
     BcfTopicViewpoints,
-    BIMDataButton,
-    BIMDataIconArrow,BIMDataIconEdit, BIMDataIconDelete, BIMDataIconClose, BIMDataIconModel3D,
-    BIMDataLoading,
-    BIMDataSafeZoneModal,
-    BIMDataTextbox,
   },
   props: {
     uiConfig: {
@@ -310,14 +300,14 @@ export default {
 
     const currentUserEmail = ref("");
     const loadCurrentUserEmail = async () => {
-      currentUserEmail.value = (await useService().fetchCurrentUser()).email ?? "";
+      currentUserEmail.value = (await service.fetchCurrentUser()).email ?? "";
     };
 
     const deleteTopic = async () => {
       try {
         showDeleteModal.value = false;
         loading.value = true;
-        await useService().deleteTopic(props.project, props.topic);
+        await service.deleteTopic(props.project, props.topic);
         emit("topic-deleted", props.topic);
       } catch (error) {
         console.error(error);

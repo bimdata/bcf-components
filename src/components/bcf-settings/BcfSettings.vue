@@ -44,21 +44,12 @@
 
 <script>
 import { EXTENSION_TYPES } from "../../config.js";
-import { useService } from "../../service.js";
+import service from "../../service.js";
 // Components
-import BIMDataButton from "@bimdata/design-system/src/BIMDataComponents/BIMDataButton/BIMDataButton.vue";
-
-import {
-  BIMDataIconArrow,
-  BIMDataIconClose,
-} from "@bimdata/design-system/src/BIMDataComponents/BIMDataIcon/BIMDataIconStandalone/index.js";
 import SettingCard from "./setting-card/SettingCard.vue";
 
 export default {
   components: {
-    BIMDataButton,
-    BIMDataIconArrow,
-    BIMDataIconClose,
     SettingCard,
   },
   props: {
@@ -81,12 +72,12 @@ export default {
   emits: ["back", "close", "extension-created", "extension-updated", "extension-deleted"],
   setup(props, { emit }) {
     const createExtension = async (event) => {
-      const ext = await useService().createExtension(props.project, event.extensionType, event.data);
+      const ext = await service.createExtension(props.project, event.extensionType, event.data);
       emit("extension-created", ext);
     };
 
     const updateExtension = async (event) => {
-      const ext = await useService().updateExtension(
+      const ext = await service.updateExtension(
         props.project,
         event.extensionType,
         event.extension,
@@ -96,7 +87,7 @@ export default {
     };
 
     const deleteExtension = async (event) => {
-      await useService().deleteExtension(props.project, event.extensionType, event.extension);
+      await service.deleteExtension(props.project, event.extensionType, event.extension);
       emit("extension-deleted", event.extension);
     };
 

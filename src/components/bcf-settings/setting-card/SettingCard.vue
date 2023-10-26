@@ -60,20 +60,10 @@
 import { computed, ref } from "vue";
 import { getAvailableExtensions } from "../../../utils/extensions.js";
 // Compopnents
-import BIMDataButton from "@bimdata/design-system/src/BIMDataComponents/BIMDataButton/BIMDataButton.vue";
-import {
-  BIMDataIconChevron,
-  BIMDataIconPlus,
-} from "@bimdata/design-system/src/BIMDataComponents/BIMDataIcon/BIMDataIconStandalone/index.js";
-import BIMDataInput from "@bimdata/design-system/src/BIMDataComponents/BIMDataInput/BIMDataInput.vue";
 import SettingCardItem from "./SettingCardItem.vue";
 
 export default {
   components: {
-    BIMDataButton,
-    BIMDataIconChevron,
-    BIMDataIconPlus,
-    BIMDataInput,
     SettingCardItem,
   },
   props: {

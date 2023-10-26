@@ -1,9 +1,6 @@
-import {
-  components,
-  createService,
-  setService,
-} from "./src/index.js";
+import { components } from "./src/index.js";
 import messages from "./src/i18n/index.js";
+import service from "./src/service.js";
 
 /**
  * BCF Components library plugin for Vue 3.
@@ -28,8 +25,7 @@ const pluginFactory = ({
   return {
     install(app) {
       if (apiClient) {
-        const service = createService(apiClient, { fetchUsers });
-        setService(service);
+        service.setup({ apiClient, fetchUsers });
       } else {
         console.error(
           "[BCF Components Plugin] No api client provided. " +

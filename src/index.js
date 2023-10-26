@@ -1,18 +1,11 @@
 import * as config from "./config.js";
-import { createService, setService, useService } from "./service.js";
+import service from "./service.js";
+import { getPriorityColor, getStatusColor } from "./utils/topic.js";
+import { getViewpointConfig } from "./utils/viewpoints.js";
 
 import { useBcfFilter } from "./composables/filter.js";
 import { useBcfSearch } from "./composables/search.js";
 import { useBcfSort } from "./composables/sort.js";
-
-import {
-  getPriorityColor,
-  getStatusColor
-} from "./utils/topic.js";
-
-import {
-  getViewpointConfig
-} from "./utils/viewpoints.js";
 
 import BcfFilters from "./components/bcf-filters/BcfFilters.vue";
 import BcfSettings from "./components/bcf-settings/BcfSettings.vue";
@@ -36,15 +29,13 @@ const components = {
 
 export {
   config,
-  createService,
-  setService,
-  useService,
-  useBcfFilter,
-  useBcfSearch,
-  useBcfSort,
+  service,
   getPriorityColor,
   getStatusColor,
   getViewpointConfig,
+  useBcfFilter,
+  useBcfSearch,
+  useBcfSort,
   components,
 
   // Export components individually
