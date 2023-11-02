@@ -196,9 +196,8 @@
 </template>
 
 <script>
-import { computed, ref, watch } from "vue";
+import { computed, inject, ref, watch } from "vue";
 import service from "../../service.js";
-import { getViewerList } from "../../utils/viewer.js";
 import { setViewpointDefaults } from "../../utils/viewpoints.js";
 // Components
 import BcfTopicImages from "./bcf-topic-images/BcfTopicImages.vue";
@@ -263,10 +262,6 @@ export default {
        */
       type: Array,
     },
-    getViewers: {
-      type: Function,
-      default: () => () => ({})
-    },
   },
   emits: [
     "back",
@@ -279,6 +274,8 @@ export default {
     "topic-update-error",
   ],
   setup(props, { emit }) {
+    const $viewer = inject("$viewer", null);
+
     const isCreation = computed(() => !props.topic);
     const nextIndex = computed(() => Math.max(0, ...props.topics.map((t) => t.index)) + 1);
 
@@ -349,7 +346,7 @@ export default {
 
     const createViewpoints = () => {
       Promise.all(
-        getViewerList(props.getViewers()).map(viewer =>
+        ($viewer?.globalContext.getViewers() ?? []).map(viewer =>
           viewer.getViewpoint().then(viewpoint => viewpointsToCreate.value.push(viewpoint))
         )
       );
@@ -449,8 +446,10 @@ export default {
 
         let newTopic;
         if (isCreation.value) {
-          data.models = getViewerList(props.getViewers())
-            .flatMap(v => v.getLoadedModels().map(m => m.id));
+          if ($viewer) {
+            data.models = $viewer.globalContext.getViewers()
+              .flatMap(v => v.getLoadedModels().map(m => m.id));
+          }
           newTopic = await service.createTopic(props.project, data);
         } else {
           newTopic = await service.updateTopic(props.project, data);

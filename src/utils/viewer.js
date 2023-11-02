@@ -1,11 +1,6 @@
-export function getViewerList(viewers) {
-  return Object.values(viewers).flat();
-}
-
-export function getViewerOptions(viewers) {
-  return Object.entries(viewers)
-    .map(([id, list]) => list.map((v, i) => ({ key: `${id}-${i}`, id, index: i, viewer: v })))
-    .flat();
+export function getViewerOptions($viewer) {
+  return $viewer.globalContext.getViewers()
+    .map((v, i) => ({ key: `${i}-${v.plugin.name}`, index: i, name: v.plugin.name, viewer: v }));
 }
 
 export function highlightViewer(viewer) {
