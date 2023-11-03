@@ -1,3 +1,14 @@
+# [6.1.0](https://github.com/bimdata/bcf-components/compare/v6.0.2...v6.1.0) (2023-11-03)
+
+
+### MINOR
+
+* feat: use globalContext.getViewers() ([454b006](https://github.com/bimdata/bcf-components/commit/454b0067948c37eef2b14385170f9df03563561f))
+
+### PATCH
+
+* fix: avoid taking snapshot for empty viewers ([d3aac09](https://github.com/bimdata/bcf-components/commit/d3aac0912570571cfa7f121ba318a0b29d2519c0))
+
 ## [6.0.2](https://github.com/bimdata/bcf-components/compare/v6.0.1...v6.0.2) (2023-10-26)
 
 
