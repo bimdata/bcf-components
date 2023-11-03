@@ -346,9 +346,11 @@ export default {
 
     const createViewpoints = () => {
       Promise.all(
-        ($viewer?.globalContext.getViewers() ?? []).map(viewer =>
-          viewer.getViewpoint().then(viewpoint => viewpointsToCreate.value.push(viewpoint))
-        )
+        ($viewer?.globalContext.getViewers() ?? [])
+          .filter(viewer => viewer.getLoadedModels().length > 0)
+          .map(viewer =>
+            viewer.getViewpoint().then(viewpoint => viewpointsToCreate.value.push(viewpoint))
+          )
       );
     };
 
