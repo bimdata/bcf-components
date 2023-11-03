@@ -107,7 +107,7 @@
               @mouseenter="highlightViewer(element.viewer)"
               @mouseleave="unhighlightViewer(element.viewer)"
             >
-              {{ `${element.id} (${element.index})` }}
+              {{ `(${element.index}) ${element.name}` }}
             </div>
           </template>
         </BIMDataDropdownList>
@@ -163,10 +163,6 @@ export default {
     },
     currentUserEmail: {
       type: String,
-      required: true,
-    },
-    getViewers: {
-      type: Function,
       required: true,
     },
   },
@@ -278,12 +274,12 @@ export default {
         await loadViewpoint();
       }
       if ($viewer) {
-        viewerSelectOptions.value = getViewerOptions(props.getViewers());
+        viewerSelectOptions.value = getViewerOptions($viewer);
         pluginCreatedSub = $viewer.globalContext.hub.on("plugin-created", () => {
-          viewerSelectOptions.value = getViewerOptions(props.getViewers());
+          viewerSelectOptions.value = getViewerOptions($viewer);
         });
         pluginDestroyedSub = $viewer.globalContext.hub.on("plugin-destroyed", () => {
-          viewerSelectOptions.value = getViewerOptions(props.getViewers());
+          viewerSelectOptions.value = getViewerOptions($viewer);
         });
       }
     });

@@ -27,27 +27,29 @@
           <div class="flex items-center justify-between">
             <div class="flex items-center">
               <div
+                v-if="isViewer && !viewerSelectVisible"
                 class="bcf-topic-comments__post-comment__camera m-r-12"
                 @click="setCommentViewpoint"
-                v-if="!viewerSelectVisible && isViewer"
               >
                 <BIMDataIconCamera fill color="default" />
               </div>
               <BIMDataDropdownList
-                v-if="viewerSelectVisible && isViewer"
+                v-if="isViewer && viewerSelectVisible"
                 :list="viewerSelectOptions"
                 elementKey="key"
                 @element-click="createViewpoint"
                 width="180px"
               >
-                <template #header>{{ $t("BcfComponents.BcfTopicComments.takeSnapshot") }}</template>
+                <template #header>
+                  {{ $t("BcfComponents.BcfTopicComments.takeSnapshot") }}
+                </template>
                 <template #element="{ element }">
                   <div
                     style="width: 100%"
                     @mouseenter="highlightViewer(element.viewer)"
                     @mouseleave="unhighlightViewer(element.viewer)"
                   >
-                    {{ `${element.id} (${element.index})` }}
+                    {{ `(${element.index}) ${element.name}` }}
                   </div>
                 </template>
               </BIMDataDropdownList>
@@ -78,7 +80,6 @@
           :topic="topic"
           :comment="comment"
           :currentUserEmail="currentUserEmail"
-          :get-viewers="getViewers"
           @comment-updated="onCommentUpdated"
           @comment-deleted="onCommentDeleted"
           @view-comment-snapshot="$emit('view-comment-snapshot', $event)"
@@ -119,10 +120,6 @@ export default {
     },
     currentUserEmail: {
       type: String,
-      required: true,
-    },
-    getViewers: {
-      type: Function,
       required: true,
     },
   },
@@ -207,12 +204,12 @@ export default {
 
     onMounted(() => {
       if ($viewer) {
-        viewerSelectOptions.value = getViewerOptions(props.getViewers());
+        viewerSelectOptions.value = getViewerOptions($viewer);
         pluginCreatedSub = $viewer.globalContext.hub.on("plugin-created", () => {
-          viewerSelectOptions.value = getViewerOptions(props.getViewers());
+          viewerSelectOptions.value = getViewerOptions($viewer);
         });
         pluginDestroyedSub = $viewer.globalContext.hub.on("plugin-destroyed", () => {
-          viewerSelectOptions.value = getViewerOptions(props.getViewers());
+          viewerSelectOptions.value = getViewerOptions($viewer);
         });
       }
     });
@@ -229,12 +226,12 @@ export default {
       comments,
       input,
       isOpen,
+      isViewer: Boolean($viewer),
       loading,
       text,
       viewerSelectOptions,
       viewerSelectVisible,
       viewpoint,
-      isViewer: Boolean($viewer),
       // Methods
       createViewpoint,
       deleteViewpoint,
