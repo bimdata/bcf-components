@@ -120,7 +120,7 @@ export default {
     },
     currentUserEmail: {
       type: String,
-      required: true,
+      required: false,
     },
   },
   emis: ["comment-created", "comment-updated", "comment-deleted", "view-comment-snapshot"],
