@@ -225,7 +225,7 @@ export default {
       if (!props.currentUserEmail) {
         return false;
       }
-      return currentUserEmail === comment.author;
+      return props.currentUserEmail === comment.author;
     }
 
     const submitUpdate = async () => {
