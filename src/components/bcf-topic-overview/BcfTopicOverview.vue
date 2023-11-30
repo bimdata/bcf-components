@@ -268,6 +268,10 @@ export default {
       type: Object,
       required: true,
     },
+    currentUserEmail: {
+      type: String,
+      required: false,
+    },
   },
   emits: [
     "back",
@@ -293,11 +297,6 @@ export default {
 
     const topicLabels = computed(() => Array.from(props.topic.labels ?? []).sort());
 
-    const currentUserEmail = ref("");
-    const loadCurrentUserEmail = async () => {
-      currentUserEmail.value = (await service.fetchCurrentUser()).email ?? "";
-    };
-
     const deleteTopic = async () => {
       try {
         showDeleteModal.value = false;
@@ -312,11 +311,8 @@ export default {
       }
     };
 
-    onMounted(() => loadCurrentUserEmail())
-
     return {
       // References
-      currentUserEmail,
       loading,
       priorityColor,
       showDeleteModal,
