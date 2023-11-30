@@ -61,7 +61,7 @@
             "descriptionLabel": "Beschreibung",
             "labelsLabel": "Tags",
             "createButton": "Bestätigen",
-            "updateButton": "Diesen BCF bearbeiten",
+            "updateButton": "Änderungen übernehmen",
             "modalText": "Sie sind dabei, die Bearbeitung der Ausgabe {Name} zu beenden, aber es gibt noch ungespeicherte Änderungen.",
             "cancelButton": "Änderungen verwerfen",
             "continueButton": "Änderungen fortsetzen",
