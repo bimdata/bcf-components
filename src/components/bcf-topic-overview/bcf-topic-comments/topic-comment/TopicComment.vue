@@ -26,7 +26,7 @@
       </div>
 
       <div class="topic-comment__header__right">
-        <template v-if="currentUserEmail === comment.author">
+        <template v-if="canEditComment(comment)">
           <div class="topic-comment__header__right__actions flex">
             <template v-if="showMenu">
               <BIMDataButton ghost rounded icon @click="onOpenEdit">
@@ -163,7 +163,7 @@ export default {
     },
     currentUserEmail: {
       type: String,
-      required: true,
+      required: false,
     },
   },
   emits: ["comment-updated", "comment-deleted", "view-comment-snapshot"],
@@ -220,6 +220,13 @@ export default {
       viewerSelectVisible.value = false;
       viewpoint.value = await viewer.getViewpoint();
     };
+
+    const canEditComment = comment => {
+      if (!props.currentUserEmail) {
+        return false;
+      }
+      return props.currentUserEmail === comment.author;
+    }
 
     const submitUpdate = async () => {
       try {
@@ -307,6 +314,7 @@ export default {
       closeMenu,
       createViewpoint,
       deleteViewpoint,
+      canEditComment,
       highlightViewer,
       onOpenDelete,
       onOpenEdit,

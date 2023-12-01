@@ -66,6 +66,8 @@
             "continueButton": "Continue editing",
             "createTitle": "Report a problem",
             "dragDropImageTextTablet": "Take a picture",
+            "takeSnapshot": "Take a snapshot",
+            "importFile": "Import a file",
             "searchPlaceholder": "Search",
             "emptySearch": "No result"
         },
