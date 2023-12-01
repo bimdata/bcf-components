@@ -1,3 +1,17 @@
+# [6.2.0](https://github.com/bimdata/bcf-components/compare/v6.1.0...v6.2.0) (2023-12-01)
+
+
+### MINOR
+
+* rework comment permissions (#36) ([01fb8f3](https://github.com/bimdata/bcf-components/commit/01fb8f3e1e132183c3dd19699994b1355248ad6b)), closes [#36](https://github.com/bimdata/bcf-components/issues/36)
+
+### PATCH
+
+* canEditComment typo ([2e2c07c](https://github.com/bimdata/bcf-components/commit/2e2c07c5572ab9b566275ccee40904a189731a46))
+* chore(i18n): update de, en and es translations ([bca487c](https://github.com/bimdata/bcf-components/commit/bca487c656c67e192a94d3e03c94df2c88f4c563))
+* fix german trad (#35) ([eef493e](https://github.com/bimdata/bcf-components/commit/eef493e056c4b5331901710dfa619f7b6fb93571)), closes [#35](https://github.com/bimdata/bcf-components/issues/35)
+* fix(i18n): Update de.json (POEditor.com) ([365637e](https://github.com/bimdata/bcf-components/commit/365637eb59883534df70c91ee318a9d4ef7329cc))
+
 # [6.1.0](https://github.com/bimdata/bcf-components/compare/v6.0.2...v6.1.0) (2023-11-03)
 
 
