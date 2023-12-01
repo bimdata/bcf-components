@@ -5,13 +5,13 @@
             "filtersTitle": "Filter",
             "priorityLabel": "Priorität",
             "statusLabel": "Status",
-            "datePlaceholder": "Erstellungsdatum",
             "assignedToLabel": "Zugewiesen an",
             "creatorsLabel": "Erstellt von",
             "tagsLabel": "Tags",
             "resetButton": "Zurücksetzen",
             "searchButton": "Suchen",
-            "undefined": "Nicht definiert"
+            "undefined": "Nicht definiert",
+            "datePlaceholder": ""
         },
         "BcfSettings": {
             "goBackButton": "Zurück",
@@ -36,13 +36,12 @@
             "noPriority": "Keine",
             "assignedTo": "Zugewiesen an :",
             "elements": "Elemente",
-            "noElements": "0 Elemente",
             "notSpecified": "Nicht definiert",
             "see": "Anzeigen"
         },
         "BcfTopicCreationCard": {
             "text": "Ein neues BCF-Thema erstellen",
-            "createBcfSideTitle": "Ein Thema erstellen"
+            "createBcfSideTitle": "Ein Problem melden"
         },
         "BcfTopicForm": {
             "dragDropImageText": "Bitte wählen Sie eine Datei aus.",
@@ -57,7 +56,7 @@
             "statusLabel": "Status",
             "stageLabel": "Phase",
             "assignedToLabel": "Zugewiesen an",
-            "dueDateLabel": "Fälligkeitsdatum",
+            "dueDateLabel": "Fälligkeitsdatum (TT.MM.JJJJ)",
             "descriptionLabel": "Beschreibung",
             "labelsLabel": "Tags",
             "createButton": "Bestätigen",
@@ -65,7 +64,12 @@
             "modalText": "Sie sind dabei, die Bearbeitung der Ausgabe {Name} zu beenden, aber es gibt noch ungespeicherte Änderungen.",
             "cancelButton": "Änderungen verwerfen",
             "continueButton": "Änderungen fortsetzen",
-            "createTitle": "Ein Thema erstellen"
+            "createTitle": "Ein Problem melden",
+            "dragDropImageTextTablet": "",
+            "takeSnapshot": "",
+            "importFile": "Eine Datei importieren",
+            "searchPlaceholder": "Suchen",
+            "emptySearch": ""
         },
         "BcfTopicOverview": {
             "openViewer": "Im Viewer öffnen",
@@ -116,7 +120,8 @@
             "publishButton": "Veröffentlichen",
             "commentsText": "Kommentare",
             "deleteCommentText": "Diesen Kommentar löschen?",
-            "deleteButton": "Löschen"
+            "deleteButton": "Löschen",
+            "takeSnapshot": ""
         },
         "BcfTopicPriorityCell": {
             "noPriority": "Keine"

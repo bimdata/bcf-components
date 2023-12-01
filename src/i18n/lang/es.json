@@ -5,13 +5,13 @@
             "filtersTitle": "Filtros",
             "priorityLabel": "Prioridad",
             "statusLabel": "Estado",
-            "datePlaceholder": "Fecha de creación",
             "assignedToLabel": "Asignado a",
             "creatorsLabel": "Creado por",
             "tagsLabel": "Etiquetas:",
             "resetButton": "Restablecer",
             "searchButton": "Buscar en",
-            "undefined": "No definido"
+            "undefined": "No definido",
+            "datePlaceholder": "Fecha de creación"
         },
         "BcfSettings": {
             "goBackButton": "Volver",
@@ -36,7 +36,6 @@
             "noPriority": "Sin",
             "assignedTo": "Asignado a :",
             "elements": "Elementos",
-            "noElements": "0 Elemento",
             "notSpecified": "No definido",
             "see": "Ver"
         },
@@ -57,7 +56,7 @@
             "statusLabel": "Estado",
             "stageLabel": "Fase",
             "assignedToLabel": "Asignado a",
-            "dueDateLabel": "Fecha de vencimiento",
+            "dueDateLabel": "Fecha de vencimiento (DD/MM/AAAA)",
             "descriptionLabel": "Descripción",
             "labelsLabel": "Etiquetas",
             "createButton": "Validar",
@@ -65,7 +64,12 @@
             "modalText": "Está a punto de salir de la edición del problema de {name} pero hay cambios sin guardar.",
             "cancelButton": "Cancelar los cambios",
             "continueButton": "Continuar con los cambios",
-            "createTitle": "Informar de un problema"
+            "createTitle": "Informar de un problema",
+            "dragDropImageTextTablet": "Tomar una fotografía",
+            "takeSnapshot": "Tomar un snapshot",
+            "importFile": "Importar un archivo",
+            "searchPlaceholder": "Buscar",
+            "emptySearch": "No hay resultados"
         },
         "BcfTopicOverview": {
             "openViewer": "Abrir en el visor",
@@ -116,7 +120,8 @@
             "publishButton": "Publicar",
             "commentsText": "comentarios",
             "deleteCommentText": "¿Borrar este comentario?",
-            "deleteButton": "Borrar"
+            "deleteButton": "Borrar",
+            "takeSnapshot": "Tomar un snapshot"
         },
         "BcfTopicPriorityCell": {
             "noPriority": "Sin"
