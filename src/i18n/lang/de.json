@@ -11,7 +11,7 @@
             "resetButton": "Zurücksetzen",
             "searchButton": "Suchen",
             "undefined": "Nicht definiert",
-            "datePlaceholder": ""
+            "datePlaceholder": "Erstellungsdatum"
         },
         "BcfSettings": {
             "goBackButton": "Zurück",
@@ -65,11 +65,11 @@
             "cancelButton": "Änderungen verwerfen",
             "continueButton": "Änderungen fortsetzen",
             "createTitle": "Ein Problem melden",
-            "dragDropImageTextTablet": "",
-            "takeSnapshot": "",
+            "dragDropImageTextTablet": "Foto machen",
+            "takeSnapshot": "Mach einen Schnappschuss",
             "importFile": "Eine Datei importieren",
             "searchPlaceholder": "Suchen",
-            "emptySearch": ""
+            "emptySearch": "kein Ergebnis"
         },
         "BcfTopicOverview": {
             "openViewer": "Im Viewer öffnen",
@@ -121,7 +121,7 @@
             "commentsText": "Kommentare",
             "deleteCommentText": "Diesen Kommentar löschen?",
             "deleteButton": "Löschen",
-            "takeSnapshot": ""
+            "takeSnapshot": "Mach einen Schnappschuss"
         },
         "BcfTopicPriorityCell": {
             "noPriority": "Keine"
