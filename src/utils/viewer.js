@@ -1,16 +1,17 @@
 export function getViewerOptions($viewer) {
-  return $viewer.globalContext.getViewers()
-    .map((v, i) => ({ key: `${i}-${v.plugin.name}`, index: i, name: v.plugin.name, viewer: v }));
+  return $viewer.globalContext.localContexts
+    .filter(ctx => ctx.viewer)
+    .map((ctx, i) => ({ key: ctx.id, index: i, name: ctx.viewer.$plugin.name, context: ctx }));
 }
 
-export function highlightViewer(viewer) {
-  viewer.$viewer.localContext.el.style.boxSizing = "border-box";
-  viewer.$viewer.localContext.el.style.border = "2px solid var(--color-primary)";
-  viewer.$viewer.localContext.el.style.opacity = ".85";
+export function highlightViewer(context) {
+  context.el.style.boxSizing = "border-box";
+  context.el.style.border = "2px solid var(--color-primary)";
+  context.el.style.opacity = ".85";
 }
 
-export function unhighlightViewer(viewer) {
-  viewer.$viewer.localContext.el.style.boxSizing = "";
-  viewer.$viewer.localContext.el.style.border = "";
-  viewer.$viewer.localContext.el.style.opacity = "";
+export function unhighlightViewer(context) {
+  context.el.style.boxSizing = "";
+  context.el.style.border = "";
+  context.el.style.opacity = "";
 }

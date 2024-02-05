@@ -215,10 +215,10 @@ export default {
       }
     };
 
-    const createViewpoint = async ({ viewer }) => {
-      unhighlightViewer(viewer);
+    const createViewpoint = async ({ context }) => {
+      unhighlightViewer(context);
       viewerSelectVisible.value = false;
-      viewpoint.value = await viewer.getViewpoint();
+      viewpoint.value = await context.getViewpoint();
     };
 
     const canEditComment = comment => {

@@ -346,10 +346,10 @@ export default {
 
     const createViewpoints = () => {
       Promise.all(
-        ($viewer?.globalContext.getViewers() ?? [])
-          .filter(viewer => viewer.getLoadedModels().length > 0)
-          .map(viewer =>
-            viewer.getViewpoint().then(viewpoint => viewpointsToCreate.value.push(viewpoint))
+        ($viewer?.globalContext.localContexts ?? [])
+          .filter(ctx => ctx.viewer && ctx.loadedModels.length > 0)
+          .map(ctx =>
+            ctx.getViewpoint().then(viewpoint => viewpointsToCreate.value.push(viewpoint))
           )
       );
     };
@@ -449,8 +449,9 @@ export default {
         let newTopic;
         if (isCreation.value) {
           if ($viewer) {
-            data.models = $viewer.globalContext.getViewers()
-              .flatMap(v => v.getLoadedModels().map(m => m.id));
+            data.models = $viewer.globalContext.localContexts
+              .filter(ctx => ctx.viewer)
+              .flatMap(ctx => ctx.loadedModelIds);
           }
           newTopic = await service.createTopic(props.project, data);
         } else {
