@@ -46,8 +46,8 @@
                 <template #element="{ element }">
                   <div
                     style="width: 100%"
-                    @mouseenter="highlightViewer(element.viewer)"
-                    @mouseleave="unhighlightViewer(element.viewer)"
+                    @mouseenter="highlightViewer(element.context)"
+                    @mouseleave="unhighlightViewer(element.context)"
                   >
                     {{ `(${element.index}) ${element.name}` }}
                   </div>
