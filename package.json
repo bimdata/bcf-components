@@ -1,6 +1,6 @@
 {
   "name": "@bimdata/bcf-components",
-  "version": "6.2.1-rc.2",
+  "version": "6.2.1-rc.3",
   "files": [
     "src",
     "vue3-plugin.js"
