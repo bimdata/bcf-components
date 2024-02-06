@@ -46,8 +46,8 @@
                 <template #element="{ element }">
                   <div
                     style="width: 100%"
-                    @mouseenter="highlightViewer(element.viewer)"
-                    @mouseleave="unhighlightViewer(element.viewer)"
+                    @mouseenter="highlightViewer(element.context)"
+                    @mouseleave="unhighlightViewer(element.context)"
                   >
                     {{ `(${element.index}) ${element.name}` }}
                   </div>
@@ -96,7 +96,7 @@
 <script>
 import { onMounted, inject, ref, watch, onBeforeUnmount } from "vue";
 import service from "../../../service.js";
-import { getViewerOptions, highlightViewer, unhighlightViewer } from "../../../utils/viewer.js";
+import { getViewerOptions, getViewerViewpoint, highlightViewer, unhighlightViewer } from "../../../utils/viewer.js";
 
 // Components
 import TopicComment from "./topic-comment/TopicComment.vue";
@@ -150,10 +150,10 @@ export default {
       }
     };
 
-    const createViewpoint = async ({ viewer }) => {
-      unhighlightViewer(viewer);
+    const createViewpoint = async ({ context }) => {
+      unhighlightViewer(context);
       viewerSelectVisible.value = false;
-      viewpoint.value = await viewer.getViewpoint();
+      viewpoint.value = await getViewerViewpoint(context);
     };
 
     const deleteViewpoint = () => {
