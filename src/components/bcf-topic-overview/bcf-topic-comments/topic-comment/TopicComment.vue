@@ -219,7 +219,7 @@ export default {
       unhighlightViewer(context);
       viewerSelectVisible.value = false;
       const vpt = context.getViewpoint();
-      vpt.snapshot = await context.viewer.getSnapshot();
+      vpt.snapshot = await context.getSnapshot();
       viewpoint.value =  vpt;
     };
 

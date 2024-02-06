@@ -350,7 +350,7 @@ export default {
           .filter(ctx => ctx.viewer && ctx.loadedModels.length > 0)
           .map(async ctx => {
             const viewpoint = ctx.getViewpoint();
-            viewpoint.snapshot = await ctx.viewer.getSnapshot();
+            viewpoint.snapshot = await ctx.getSnapshot();
             viewpointsToCreate.value.push(viewpoint);
           })
       );
