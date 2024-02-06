@@ -96,7 +96,7 @@
 <script>
 import { onMounted, inject, ref, watch, onBeforeUnmount } from "vue";
 import service from "../../../service.js";
-import { getViewerOptions, highlightViewer, unhighlightViewer } from "../../../utils/viewer.js";
+import { getViewerOptions, getViewerViewpoint, highlightViewer, unhighlightViewer } from "../../../utils/viewer.js";
 
 // Components
 import TopicComment from "./topic-comment/TopicComment.vue";
@@ -153,9 +153,7 @@ export default {
     const createViewpoint = async ({ context }) => {
       unhighlightViewer(context);
       viewerSelectVisible.value = false;
-      const vpt = context.getViewpoint();
-      vpt.snapshot = await context.getSnapshot();
-      viewpoint.value =  vpt;
+      viewpoint.value = await getViewerViewpoint(context);
     };
 
     const deleteViewpoint = () => {

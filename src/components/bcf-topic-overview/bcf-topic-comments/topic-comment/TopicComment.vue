@@ -139,7 +139,7 @@
 <script>
 import { inject, onMounted, ref, onBeforeUnmount } from "vue";
 import service from "../../../../service.js";
-import { getViewerOptions, highlightViewer, unhighlightViewer } from "../../../../utils/viewer.js";
+import { getViewerOptions, getViewerViewpoint, highlightViewer, unhighlightViewer } from "../../../../utils/viewer.js";
 
 // TODO: should be imported from DS
 import UserAvatar from "../../../user-avatar/UserAvatar.vue";
@@ -218,9 +218,7 @@ export default {
     const createViewpoint = async ({ context }) => {
       unhighlightViewer(context);
       viewerSelectVisible.value = false;
-      const vpt = context.getViewpoint();
-      vpt.snapshot = await context.getSnapshot();
-      viewpoint.value =  vpt;
+      viewpoint.value = await getViewerViewpoint(context);
     };
 
     const canEditComment = comment => {

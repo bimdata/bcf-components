@@ -4,16 +4,24 @@ export function getViewerOptions($viewer) {
     .map((ctx, i) => ({ key: ctx.id, index: i, name: ctx.viewer.$plugin.name, context: ctx }));
 }
 
+export async function getViewerViewpoint(context) {
+  const ctx = context.viewer.$viewer.localContext;
+  return {
+    ...ctx.getViewpoint(),
+    snapshot: await ctx.getSnapshot()
+  };
+}
+
 export function highlightViewer(context) {
-  const el = context.viewer.$viewer.localContext.el;
-  el.style.boxSizing = "border-box";
-  el.style.border = "2px solid var(--color-primary)";
-  el.style.opacity = ".85";
+  const ctx = context.viewer.$viewer.localContext;
+  ctx.el.style.boxSizing = "border-box";
+  ctx.el.style.border = "2px solid var(--color-primary)";
+  ctx.el.style.opacity = ".85";
 }
 
 export function unhighlightViewer(context) {
-  const el = context.viewer.$viewer.localContext.el;
-  el.style.boxSizing = "";
-  el.style.border = "";
-  el.style.opacity = "";
+  const ctx = context.viewer.$viewer.localContext;
+  ctx.el.style.boxSizing = "";
+  ctx.el.style.border = "";
+  ctx.el.style.opacity = "";
 }
