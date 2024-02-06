@@ -348,9 +348,11 @@ export default {
       Promise.all(
         ($viewer?.globalContext.localContexts ?? [])
           .filter(ctx => ctx.viewer && ctx.loadedModels.length > 0)
-          .map(ctx =>
-            ctx.getViewpoint().then(viewpoint => viewpointsToCreate.value.push(viewpoint))
-          )
+          .map(async ctx => {
+            const viewpoint = ctx.getViewpoint();
+            viewpoint.snapshot = await ctx.viewer.getSnapshot();
+            viewpointsToCreate.value.push(viewpoint);
+          })
       );
     };
 

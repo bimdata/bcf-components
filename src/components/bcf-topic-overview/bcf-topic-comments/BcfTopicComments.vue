@@ -150,10 +150,12 @@ export default {
       }
     };
 
-    const createViewpoint = async ({ viewer }) => {
-      unhighlightViewer(viewer);
+    const createViewpoint = async ({ context }) => {
+      unhighlightViewer(context);
       viewerSelectVisible.value = false;
-      viewpoint.value = await viewer.getViewpoint();
+      const vpt = context.getViewpoint();
+      vpt.snapshot = await context.viewer.getSnapshot();
+      viewpoint.value =  vpt;
     };
 
     const deleteViewpoint = () => {

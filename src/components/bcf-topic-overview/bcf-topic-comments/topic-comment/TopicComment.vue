@@ -218,7 +218,9 @@ export default {
     const createViewpoint = async ({ context }) => {
       unhighlightViewer(context);
       viewerSelectVisible.value = false;
-      viewpoint.value = await context.getViewpoint();
+      const vpt = context.getViewpoint();
+      vpt.snapshot = await context.viewer.getSnapshot();
+      viewpoint.value =  vpt;
     };
 
     const canEditComment = comment => {
