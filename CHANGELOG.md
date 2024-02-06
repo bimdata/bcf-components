@@ -1,3 +1,15 @@
+## [6.2.1](https://github.com/bimdata/bcf-components/compare/v6.2.0...v6.2.1) (2024-02-06)
+
+
+### PATCH
+
+* fix: call getSnapshot on localContext instead of viewer ([035d229](https://github.com/bimdata/bcf-components/commit/035d229191ea2aedb0aa9a67e3a14d59a50dc3e5))
+* fix: highlight/unhighlight viewer methods ([0395792](https://github.com/bimdata/bcf-components/commit/03957927033e04086253c1628603b8fb977dd5bb))
+* fix: topic comment viewer selector highlight ([5d9bc52](https://github.com/bimdata/bcf-components/commit/5d9bc526b51f7a0ed474462eea8eed2395cec0d6))
+* fix: use new viewer apis to handle viewpoints ([1b71111](https://github.com/bimdata/bcf-components/commit/1b711118bc0991e28a476241e8615acd088e6969))
+* fix: use viewer.getSnapshot to set viewpoint snapshot ([3d8f7ee](https://github.com/bimdata/bcf-components/commit/3d8f7ee7b311656ca7f9875b85537ec20967ff1f))
+* fix(snapshot): access localContext from viewer instance ([c2560e4](https://github.com/bimdata/bcf-components/commit/c2560e45477b5398bec32c992a6d1b1ba757166a))
+
 # [6.2.0](https://github.com/bimdata/bcf-components/compare/v6.1.0...v6.2.0) (2023-12-01)
 
 
