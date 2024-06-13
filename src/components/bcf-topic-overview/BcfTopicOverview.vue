@@ -56,6 +56,7 @@
         :detailedExtensions="detailedExtensions"
         :topic="topic"
         @view-topic-viewpoint="$emit('view-topic-viewpoint', $event)"
+        :warning="warning"
       />
 
       <BIMDataButton
@@ -271,6 +272,10 @@ export default {
     currentUserEmail: {
       type: String,
       required: false,
+    },
+    warning: {
+      type: Boolean,
+      default: false,
     },
   },
   emits: [
