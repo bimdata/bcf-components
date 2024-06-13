@@ -1,13 +1,13 @@
 <template>
   <div class="bcf-topic-actions-cell">
     <BIMDataButton
-      color="primary"
+      :color="warning ? 'secondary' : 'primary'"
       outline
       radius
       icon
       @click="$emit('open-topic', topic)"
     >
-      <BIMDataIconShow size="xs" />
+      <BIMDataIconShow size="xs" :color="warning ? 'warning' : 'primary'" fill/>
     </BIMDataButton>
   </div>
 </template>
@@ -18,6 +18,10 @@ export default {
     topic: {
       type: Object,
       required: true
+    },
+    warning: {
+      type: Boolean,
+      default: false
     }
   },
   emits: [
