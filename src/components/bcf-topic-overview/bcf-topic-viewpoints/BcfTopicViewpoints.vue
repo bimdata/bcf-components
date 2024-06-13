@@ -14,6 +14,9 @@
     <template v-if="viewpoints.length > 0">
       <BIMDataCarousel :sliderPadding="0">
         <div class="snapshot-preview" v-for="viewpoint in viewpoints" :key="viewpoint.guid">
+          <div class="warning" v-if="warning">
+            <BIMDataIconWarning fill color="warning" size="xxs"/>
+          </div>
           <img
             v-if="viewpoint.snapshot.snapshot_data"
             :src="viewpoint.snapshot.snapshot_data"
@@ -49,6 +52,10 @@ export default {
     topic: {
       type: Object,
       required: true,
+    },
+    warning: {
+      type: Boolean,
+      default: false,
     },
   },
   emits: ["view-topic-viewpoint"],
