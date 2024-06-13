@@ -51,20 +51,10 @@
       </BIMDataTooltip>
     </template>
     <template #cell-date="{ row: topic }">
-      <div class="bcf-topics-table__date">
-        {{ toShortDateFormat(topic.creation_date) }}
-        <div class="bcf-topics-table__warning" v-if="warningCallback(topic)">
-          <div class="bcf-topics-table__warning__white-gradient"></div>
-          <BIMDataTooltip :message="warningTooltipMessage" position="left" >
-            <div class="bcf-topics-table__warning__icon">
-              <BIMDataIconWarning fill color="warning" />
-            </div>
-          </BIMDataTooltip>
-        </div>
-      </div>
+      {{ toShortDateFormat(topic.creation_date) }}
     </template>
     <template #cell-actions="{ row: topic }">
-      <BcfTopicActionsCell :topic="topic" @open-topic="$emit('open-topic', $event)" :warning="warningCallback(topic)" />
+      <BcfTopicActionsCell :topic="topic" @open-topic="$emit('open-topic', $event)" :warning="warningCallback(topic)" :warningTooltipMessage="warningTooltipMessage" />
     </template>
   </BIMDataTable>
 </template>
@@ -155,45 +145,3 @@ export default {
   }
 };
 </script>
-
-<style scoped lang="scss">
-.bcf-topics-table {
-  &__date {
-    height: 42px;
-    position: relative;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  &__warning {
-    position: absolute;
-    top: 0;
-    right: -16px;
-
-    display: flex;
-    justify-content: flex-end;
-    
-    &__white-gradient {      
-      background: linear-gradient(90deg, transparent, var(--color-white) 90%);
-  
-      width: 350px;
-      height: 42px;
-    }
-
-    &__icon {
-      box-shadow: var(--box-shadow);
-
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      width: 42px;
-      height: 42px;
-
-      background-color: var(--color-white);
-    }
-  }
-}
-</style>
