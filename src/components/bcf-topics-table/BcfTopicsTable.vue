@@ -54,10 +54,7 @@
       {{ toShortDateFormat(topic.creation_date) }}
     </template>
     <template #cell-actions="{ row: topic }">
-      <BcfTopicActionsCell
-        :topic="topic"
-        @open-topic="$emit('open-topic', $event)"
-      />
+      <BcfTopicActionsCell :topic="topic" @open-topic="$emit('open-topic', $event)" :warning="warningCallback(topic)" :warningTooltipMessage="warningTooltipMessage" />
     </template>
   </BIMDataTable>
 </template>
@@ -110,6 +107,14 @@ export default {
       type: Map,
       default: () => new Map(),
     },
+    warningCallback: {
+      type: Function,
+      default: () => false
+    },
+    warningTooltipMessage: {
+      type: String,
+      default: ""
+    }
   },
   emits: [
     "open-topic",
