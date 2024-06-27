@@ -40,7 +40,7 @@ const VIEWPOINT_TYPES = Object.freeze({
   IFC2D: "ifc2d",
   DWG: "dwg",
   PLAN: "plan",
-  PANORAMA: "panorama",
+  PHOTOSPHERE: "photosphere",
 });
 
 const VIEWPOINT_CONFIG = Object.freeze({
@@ -68,9 +68,9 @@ const VIEWPOINT_CONFIG = Object.freeze({
     plugin: "plan",
     icon: "filePlanPolychrome",
   },
-  [VIEWPOINT_TYPES.PANORAMA]: {
-    window: "panorama",
-    plugin: "panorama",
+  [VIEWPOINT_TYPES.PHOTOSPHERE]: {
+    window: "photosphere",
+    plugin: "photosphere",
     icon: "filePlanPolychrome",
   },
 });

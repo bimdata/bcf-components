@@ -6,10 +6,9 @@ export function getViewerOptions($viewer) {
 
 export async function getViewerViewpoint(context) {
   const ctx = context.viewer.$viewer.localContext;
-  return {
-    ...ctx.getViewpoint(),
-    snapshot: await ctx.getSnapshot()
-  };
+  const viewpoint = await ctx.getViewpoint();
+  viewpoint.snapshot = await ctx.getSnapshot();
+  return viewpoint;
 }
 
 export function highlightViewer(context) {

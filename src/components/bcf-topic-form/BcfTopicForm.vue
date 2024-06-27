@@ -199,6 +199,7 @@
 import { computed, inject, ref, watch } from "vue";
 import service from "../../service.js";
 import { setViewpointDefaults } from "../../utils/viewpoints.js";
+import { getViewerViewpoint } from "../../utils/viewer.js";
 // Components
 import BcfTopicImages from "./bcf-topic-images/BcfTopicImages.vue";
 import BcfTopicSnapshots from "./bcf-topic-snapshots/BcfTopicSnapshots.vue";
@@ -349,8 +350,7 @@ export default {
         ($viewer?.globalContext.localContexts ?? [])
           .filter(ctx => ctx.viewer && ctx.loadedModels.length > 0)
           .map(async ctx => {
-            const viewpoint = ctx.getViewpoint();
-            viewpoint.snapshot = await ctx.getSnapshot();
+            const viewpoint = await getViewerViewpoint(ctx);
             viewpointsToCreate.value.push(viewpoint);
           })
       );
