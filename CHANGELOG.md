@@ -1,3 +1,19 @@
+# [6.3.0](https://github.com/bimdata/bcf-components/compare/v6.2.1...v6.3.0) (2024-06-27)
+
+
+### feature
+
+* add topics list element warning (#37) ([41cff80](https://github.com/bimdata/bcf-components/commit/41cff802adb4d12d21b7d415f81b5b2dd86dfce9)), closes [#37](https://github.com/bimdata/bcf-components/issues/37)
+
+### MINOR
+
+* add bcf overview warning feature (#38) ([ee5decd](https://github.com/bimdata/bcf-components/commit/ee5decd1d771d4c2d515220af9f3c72cb86acb5b)), closes [#38](https://github.com/bimdata/bcf-components/issues/38)
+
+### PATCH
+
+* fix: handle async getViewpoint method ([4711958](https://github.com/bimdata/bcf-components/commit/4711958563a649eede3c4119a86b8c3cfabcd2b5))
+* fix: rename 'panorama' viewpoint type to 'photosphere' ([bd3bce4](https://github.com/bimdata/bcf-components/commit/bd3bce40376c2f330e5366f2c6b8bb4a83426400))
+
 ## [6.2.1](https://github.com/bimdata/bcf-components/compare/v6.2.0...v6.2.1) (2024-02-06)
 
 
