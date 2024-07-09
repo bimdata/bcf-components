@@ -301,6 +301,8 @@ export default {
         .filter((v) => v.snapshot)
     );
 
+    let viewerLayout = null;
+
     const hasErrorTitle = ref(false);
     const isOpenModal = ref(false);
     const loading = ref(false);
@@ -345,15 +347,21 @@ export default {
       { immediate: true }
     );
 
-    const createViewpoints = () => {
-      Promise.all(
-        ($viewer?.globalContext.localContexts ?? [])
-          .filter(ctx => ctx.viewer && ctx.loadedModels.length > 0)
+    const createViewpoints = async () => {
+      const contexts = ($viewer?.globalContext.localContexts ?? [])
+        .filter(ctx => ctx.viewer && ctx.loadedModels.length > 0);
+      await Promise.all(
+          contexts
           .map(async ctx => {
             const viewpoint = await getViewerViewpoint(ctx);
             viewpointsToCreate.value.push(viewpoint);
           })
       );
+      if (contexts.length > 1) {
+        viewerLayout = JSON.stringify($viewer?.globalContext.layout);
+      } else {
+        viewerLayout = null;
+      }
     };
 
     const uploadViewpoints = (event) => {
@@ -446,6 +454,7 @@ export default {
           due_date: topicDueDate.value,
           description: topicDescription.value,
           labels: topicLabels.value,
+          bimdata_viewer_layout: viewpointsToCreate.value.length > 1 && viewerLayout ? viewerLayout : null,
         };
 
         let newTopic;
