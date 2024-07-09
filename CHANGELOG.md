@@ -1,3 +1,10 @@
+# [6.4.0](https://github.com/bimdata/bcf-components/compare/v6.3.0...v6.4.0) (2024-07-09)
+
+
+### MINOR
+
+* Add Topic viewer layout if multi viewpoints (#40) ([9f78694](https://github.com/bimdata/bcf-components/commit/9f786947010f0ef44650aaae840a03bff89e90ad)), closes [#40](https://github.com/bimdata/bcf-components/issues/40)
+
 # [6.3.0](https://github.com/bimdata/bcf-components/compare/v6.2.1...v6.3.0) (2024-06-27)
 
 
