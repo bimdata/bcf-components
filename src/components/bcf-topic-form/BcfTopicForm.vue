@@ -454,7 +454,7 @@ export default {
           due_date: topicDueDate.value,
           description: topicDescription.value,
           labels: topicLabels.value,
-          bimdata_viewer_layout: viewpointsToCreate.value.length > 1 && viewerLayout ? viewerLayout : null,
+          bimdata_viewer_layout: viewpointsToCreate.value.length > 1 && viewerLayout ? viewerLayout : props.topic?.bimdata_viewer_layout,
         };
 
         let newTopic;
