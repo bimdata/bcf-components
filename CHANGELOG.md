@@ -1,3 +1,10 @@
+## [6.4.1](https://github.com/bimdata/bcf-components/compare/v6.4.0...v6.4.1) (2024-07-18)
+
+
+### PATCH
+
+* fix missing layout on topic update (#41) ([4c8d253](https://github.com/bimdata/bcf-components/commit/4c8d253708c8e74773e77f02d1c48334ffdcf8ee)), closes [#41](https://github.com/bimdata/bcf-components/issues/41)
+
 # [6.4.0](https://github.com/bimdata/bcf-components/compare/v6.3.0...v6.4.0) (2024-07-09)
 
 
