@@ -1,3 +1,10 @@
+## [6.4.2](https://github.com/bimdata/bcf-components/compare/v6.4.1...v6.4.2) (2024-07-23)
+
+
+### PATCH
+
+* delete viewpoint (#42) ([675d00c](https://github.com/bimdata/bcf-components/commit/675d00cae4816cc1f029dec3575876f6a3f2b7d3)), closes [#42](https://github.com/bimdata/bcf-components/issues/42)
+
 ## [6.4.1](https://github.com/bimdata/bcf-components/compare/v6.4.0...v6.4.1) (2024-07-18)
 
 
