@@ -409,7 +409,9 @@ export default {
 
         // Avoid updating snapshots as it is not possible
         // (you can only create/delete snapshots).
-        viewpointsToUpdate.value = viewpoints.value.map((viewpoint) => ({
+        viewpointsToUpdate.value = viewpoints.value
+          .filter(viewpoint => !viewpointsToDelete.value.some(v => v.guid && v.guid === viewpoint.guid))
+          .map(viewpoint => ({
           ...viewpoint,
           snapshot: undefined,
         }));
