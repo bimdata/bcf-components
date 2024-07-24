@@ -1,3 +1,10 @@
+## [6.4.3](https://github.com/bimdata/bcf-components/compare/v6.4.2...v6.4.3) (2024-07-24)
+
+
+### PATCH
+
+* chore: update dependencies ([128236e](https://github.com/bimdata/bcf-components/commit/128236e80da7eaece84ffe241954a3b305192f8d))
+
 ## [6.4.2](https://github.com/bimdata/bcf-components/compare/v6.4.1...v6.4.2) (2024-07-23)
 
 
