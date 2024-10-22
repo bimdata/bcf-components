@@ -16,7 +16,8 @@
   "peerDependencies": {
     "@bimdata/design-system": "*",
     "@bimdata/components": "*",
-    "vue": "^3.0"
+    "vue": "^3.0",
+    "vue-i18n": "*"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.3",
