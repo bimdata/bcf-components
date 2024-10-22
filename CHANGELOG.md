@@ -1,3 +1,14 @@
+## [6.4.4](https://github.com/bimdata/bcf-components/compare/v6.4.3...v6.4.4) (2024-10-22)
+
+
+### chore
+
+* update release.config.js ([d7d590c](https://github.com/bimdata/bcf-components/commit/d7d590c17b36dc8ffe72c64d2603898a7ca9ae7c))
+
+### PATCH
+
+* chore: update dependencies ([92c4421](https://github.com/bimdata/bcf-components/commit/92c4421024c9875ae853fac3591ab9a7e7a24690))
+
 ## [6.4.3](https://github.com/bimdata/bcf-components/compare/v6.4.2...v6.4.3) (2024-07-24)
 
 
