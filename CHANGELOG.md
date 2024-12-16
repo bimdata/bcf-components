@@ -1,3 +1,10 @@
+## [6.4.6](https://github.com/bimdata/bcf-components/compare/v6.4.5...v6.4.6) (2024-12-16)
+
+
+### PATCH
+
+* fix: lazy load viewpoints when topic card is displayed ([9e699ab](https://github.com/bimdata/bcf-components/commit/9e699abf0d392c5ba2c0857a3294120d256a2855))
+
 ## [6.4.5](https://github.com/bimdata/bcf-components/compare/v6.4.4...v6.4.5) (2024-12-16)
 
 
