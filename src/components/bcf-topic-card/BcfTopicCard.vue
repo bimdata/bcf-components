@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="visible"
     class="bcf-topic-card"
     :class="{ selected }"
     @mouseover="hover = true"
@@ -78,11 +79,13 @@
       </div>
     </div>
   </div>
+
+  <div v-else ref="placeholder" class="bcf-topic-card-placeholder"></div>
 </template>
 
 <script>
 import { adjustTextColor } from "@bimdata/design-system/src/BIMDataComponents/BIMDataColorSelector/colors.js";
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { getPriorityColor, getStatusColor } from "../../utils/topic.js";
 // Components
 import BcfTopicDefaultImage from "./BcfTopicDefaultImage.vue";
@@ -111,6 +114,8 @@ export default {
   },
   emits: ["open-topic", "update:selected"],
   setup(props) {
+    const visible = ref(false);
+    const placeholder = ref(null);
     const hover = ref(false);
 
     const priorityColor = computed(() => getPriorityColor(props.topic, props.detailedExtensions));
@@ -123,13 +128,30 @@ export default {
 
     const topicObjects = computed(() => props.topic.viewpoints?.[0]?.components?.selection ?? []);
 
+    onMounted(() => {
+      const observer = new IntersectionObserver(
+        ([{ isIntersecting }]) => {
+          if (!isIntersecting) return;
+          visible.value = true;
+          observer.disconnect();
+        },
+        {
+          rootMargin: `${placeholder.value.clientHeight}px`
+        }
+      );
+
+      observer.observe(placeholder.value);
+    });
+
     return {
       // References
       hover,
+      placeholder,
       priorityColor,
       statusColor,
       topicImage,
       topicObjects,
+      visible,
       // Methods
       adjustTextColor,
     };
