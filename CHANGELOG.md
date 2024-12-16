@@ -1,3 +1,14 @@
+## [6.4.5](https://github.com/bimdata/bcf-components/compare/v6.4.4...v6.4.5) (2024-12-16)
+
+
+### chore
+
+* update dependencies ([c498809](https://github.com/bimdata/bcf-components/commit/c4988098c0bf1006e7e016c58e4504e2b0f549f8))
+
+### PATCH
+
+* feat: lazy load topic card when they appear in viewport (#45) ([02061f9](https://github.com/bimdata/bcf-components/commit/02061f99e970c572bd55caafd531fd42cc71d315)), closes [#45](https://github.com/bimdata/bcf-components/issues/45)
+
 ## [6.4.4](https://github.com/bimdata/bcf-components/compare/v6.4.3...v6.4.4) (2024-10-22)
 
 
