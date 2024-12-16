@@ -80,12 +80,15 @@
     </div>
   </div>
 
-  <div v-else ref="placeholder" class="bcf-topic-card-placeholder"></div>
+  <div v-else ref="placeholder" class="bcf-topic-card-placeholder">
+    <BIMDataSpinner v-if="loading" />
+  </div>
 </template>
 
 <script>
 import { adjustTextColor } from "@bimdata/design-system/src/BIMDataComponents/BIMDataColorSelector/colors.js";
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, onUnmounted, ref, watch } from "vue";
+import service from "../../service.js";
 import { getPriorityColor, getStatusColor } from "../../utils/topic.js";
 // Components
 import BcfTopicDefaultImage from "./BcfTopicDefaultImage.vue";
@@ -95,6 +98,10 @@ export default {
     BcfTopicDefaultImage,
   },
   props: {
+    project: {
+      type: Object,
+      required: true,
+    },
     detailedExtensions: {
       type: Object,
       required: true,
@@ -115,6 +122,7 @@ export default {
   emits: ["open-topic", "update:selected"],
   setup(props) {
     const visible = ref(false);
+    const loading = ref(false);
     const placeholder = ref(null);
     const hover = ref(false);
 
@@ -128,11 +136,24 @@ export default {
 
     const topicObjects = computed(() => props.topic.viewpoints?.[0]?.components?.selection ?? []);
 
+    let unwatchTopic;
+
     onMounted(() => {
       const observer = new IntersectionObserver(
         ([{ isIntersecting }]) => {
           if (!isIntersecting) return;
-          visible.value = true;
+
+          unwatchTopic = watch(
+            () => props.topic,
+            async topic => {
+              loading.value = true;
+              topic.viewpoints = await service.fetchTopicViewpoints(props.project, topic);
+              loading.value = false;
+              visible.value = true;
+            },
+            { immediate: true }
+          );
+
           observer.disconnect();
         },
         {
@@ -143,9 +164,14 @@ export default {
       observer.observe(placeholder.value);
     });
 
+    onUnmounted(() => {
+      unwatchTopic?.();
+    });
+
     return {
       // References
       hover,
+      loading,
       placeholder,
       priorityColor,
       statusColor,
