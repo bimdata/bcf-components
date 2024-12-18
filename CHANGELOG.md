@@ -1,3 +1,10 @@
+## [6.4.7](https://github.com/bimdata/bcf-components/compare/v6.4.6...v6.4.7) (2024-12-18)
+
+
+### PATCH
+
+* fix: load topic viewpoints if they are not loaded yet ([6e3a7d7](https://github.com/bimdata/bcf-components/commit/6e3a7d77e322e3d32169c13dbe2e127d3d01a4db))
+
 ## [6.4.6](https://github.com/bimdata/bcf-components/compare/v6.4.5...v6.4.6) (2024-12-16)
 
 
