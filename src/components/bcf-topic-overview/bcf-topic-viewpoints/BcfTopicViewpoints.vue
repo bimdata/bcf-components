@@ -34,7 +34,8 @@
 
 <script>
 import { adjustTextColor } from "@bimdata/design-system/src/BIMDataComponents/BIMDataColorSelector/colors.js";
-import { computed } from "vue";
+import { computed, watch } from "vue";
+import service from "../../../service.js";
 import { getStatusColor } from "../../../utils/topic.js";
 import { getViewpointConfig } from "../../../utils/viewpoints.js";
 // Components
@@ -45,6 +46,10 @@ export default {
     BcfTopicDefaultImage,
   },
   props: {
+    project: {
+      type: Object,
+      required: true,
+    },
     detailedExtensions: {
       type: Object,
       required: true,
@@ -62,14 +67,25 @@ export default {
   setup(props) {
     const viewpoints = computed(() =>
       (props.topic.viewpoints ?? [])
-        .filter((v) => v.snapshot)
-        .map((viewpoint) => ({
+        .filter(v => v.snapshot)
+        .map(viewpoint => ({
           ...viewpoint,
           icon: getViewpointConfig(viewpoint)?.icon,
         }))
     );
 
     const statusColor = computed(() => getStatusColor(props.topic, props.detailedExtensions));
+
+    watch(
+      () => props.topic,
+      async () => {
+        if (!props.topic.viewpoints) {
+          // Load topic viewpoints if they are not loaded yet
+          props.topic.viewpoints = await service.fetchTopicViewpoints(props.project, props.topic);
+        }
+      },
+      { immediate: true }
+    );
 
     return {
       // References

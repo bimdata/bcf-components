@@ -53,6 +53,7 @@
       </div>
 
       <BcfTopicViewpoints
+        :project="project"
         :detailedExtensions="detailedExtensions"
         :topic="topic"
         @view-topic-viewpoint="$emit('view-topic-viewpoint', $event)"
