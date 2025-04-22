@@ -103,11 +103,11 @@ class Service {
     downloadBlobAs(`${project.name}.bcf`, response);
   }
 
-  async exportBcfXLSX(project, topics) {
+  async exportBcfXLSX(project, topics, locale) {
     const response = await this.apiClient.bcfApi.downloadBcfExportXlsx(
       project.id,
       undefined, // Format
-      undefined, // Locale
+      locale,
       topics.map((t) => t.guid).join(",")
     );
     downloadBlobAs(`${project.name}.xlsx`, response);
