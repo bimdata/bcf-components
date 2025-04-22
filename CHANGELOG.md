@@ -1,3 +1,10 @@
+# [6.5.0](https://github.com/bimdata/bcf-components/compare/v6.4.8...v6.5.0) (2025-04-22)
+
+
+### MINOR
+
+* add locale param for bcf export xlsx ([f419777](https://github.com/bimdata/bcf-components/commit/f4197773bf37f1f78dbabe40f9072f116229379e))
+
 ## [6.4.8](https://github.com/bimdata/bcf-components/compare/v6.4.7...v6.4.8) (2025-02-17)
 
 
