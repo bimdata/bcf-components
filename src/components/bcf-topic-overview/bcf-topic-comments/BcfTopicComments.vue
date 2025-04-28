@@ -94,7 +94,7 @@
 </template>
 
 <script>
-import { onMounted, inject, ref, watch, onBeforeUnmount } from "vue";
+import { onMounted, inject, ref, watch, onBeforeUnmount, shallowRef } from "vue";
 import service from "../../../service.js";
 import { getViewerOptions, getViewerViewpoint, highlightViewer, unhighlightViewer } from "../../../utils/viewer.js";
 
@@ -136,7 +136,7 @@ export default {
     const text = ref("");
     const viewpoint = ref(null);
     const viewerSelectVisible = ref(false);
-    const viewerSelectOptions = ref([]);
+    const viewerSelectOptions = shallowRef([]);
 
     const loadComments = async () => {
       comments.value = await service.fetchTopicComments(props.project, props.topic);
