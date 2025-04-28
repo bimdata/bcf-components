@@ -49,7 +49,7 @@
                     @mouseenter="highlightViewer(element.context)"
                     @mouseleave="unhighlightViewer(element.context)"
                   >
-                    {{ `(${element.index}) ${element.name}` }}
+                    {{ `(${element.index + 1}) ${element.name}` }}
                   </div>
                 </template>
               </BIMDataDropdownList>
