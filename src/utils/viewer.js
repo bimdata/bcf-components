@@ -1,7 +1,9 @@
+import { markRaw } from "vue";
+
 export function getViewerOptions($viewer) {
   return $viewer.globalContext.localContexts
     .filter(ctx => ctx.viewer && ctx.loadedModels.length > 0)
-    .map((ctx, i) => ({ key: ctx.id, index: i, name: ctx.viewer.$plugin.name, context: ctx }));
+    .map((ctx, i) => ({ key: ctx.id, index: i, name: ctx.viewer.$plugin.name, context: markRaw(ctx) }));
 }
 
 export async function getViewerViewpoint(context) {
