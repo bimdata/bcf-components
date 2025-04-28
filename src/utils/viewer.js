@@ -13,14 +13,14 @@ export async function getViewerViewpoint(context) {
 
 export function highlightViewer(context) {
   const ctx = context.viewer.$viewer.localContext;
-  ctx.el.style.boxSizing = "border-box";
-  ctx.el.style.border = "2px solid var(--color-primary)";
+  ctx.el.style.outlineOffset = "-2px";
+  ctx.el.style.outline = "2px solid var(--color-primary)";
   ctx.el.style.opacity = ".85";
 }
 
 export function unhighlightViewer(context) {
   const ctx = context.viewer.$viewer.localContext;
-  ctx.el.style.boxSizing = "";
-  ctx.el.style.border = "";
+  ctx.el.style.outlineOffset = "";
+  ctx.el.style.outline = "";
   ctx.el.style.opacity = "";
 }

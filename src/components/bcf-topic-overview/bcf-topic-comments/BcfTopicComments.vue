@@ -49,7 +49,7 @@
                     @mouseenter="highlightViewer(element.context)"
                     @mouseleave="unhighlightViewer(element.context)"
                   >
-                    {{ `(${element.index}) ${element.name}` }}
+                    {{ `(${element.index + 1}) ${element.name}` }}
                   </div>
                 </template>
               </BIMDataDropdownList>
@@ -125,7 +125,7 @@ export default {
   },
   emis: ["comment-created", "comment-updated", "comment-deleted", "view-comment-snapshot"],
   setup(props, { emit }) {
-    let pluginCreatedSub, pluginDestroyedSub;
+    let windowOpenSub, windowCloseSub;
 
     const $viewer = inject("$viewer", null);
 
@@ -143,6 +143,8 @@ export default {
     };
 
     const setCommentViewpoint = async () => {
+      viewerSelectOptions.value = getViewerOptions($viewer);
+
       if (viewerSelectOptions.value.length === 1) {
         await createViewpoint(viewerSelectOptions.value[0]);
       } else if (viewerSelectOptions.value.length > 1) {
@@ -204,20 +206,18 @@ export default {
 
     onMounted(() => {
       if ($viewer) {
-        viewerSelectOptions.value = getViewerOptions($viewer);
-        pluginCreatedSub = $viewer.globalContext.hub.on("plugin-created", () => {
-          viewerSelectOptions.value = getViewerOptions($viewer);
-        });
-        pluginDestroyedSub = $viewer.globalContext.hub.on("plugin-destroyed", () => {
-          viewerSelectOptions.value = getViewerOptions($viewer);
-        });
+        const hideViewerSelect = () => {
+          viewerSelectVisible.value = false;
+        };
+        windowOpenSub = $viewer.globalContext.hub.on("window-open", hideViewerSelect);
+        windowCloseSub = $viewer.globalContext.hub.on("window-close", hideViewerSelect);
       }
     });
 
     onBeforeUnmount(() => {
       if ($viewer) {
-        $viewer.globalContext.hub.off(pluginCreatedSub);
-        $viewer.globalContext.hub.off(pluginDestroyedSub);
+        $viewer.globalContext.hub.off(windowOpenSub);
+        $viewer.globalContext.hub.off(windowCloseSub);
       }
     });
 
