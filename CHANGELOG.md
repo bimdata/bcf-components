@@ -1,3 +1,10 @@
+## [6.5.2](https://github.com/bimdata/bcf-components/compare/v6.5.1...v6.5.2) (2025-04-28)
+
+
+### PATCH
+
+* comment viewer select options (#48) ([548b067](https://github.com/bimdata/bcf-components/commit/548b067c224d8ea197695c23bc083e43fc6a73d7)), closes [#48](https://github.com/bimdata/bcf-components/issues/48)
+
 ## [6.5.1](https://github.com/bimdata/bcf-components/compare/v6.5.0...v6.5.1) (2025-04-28)
 
 
