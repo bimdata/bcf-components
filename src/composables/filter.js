@@ -3,6 +3,7 @@ import { computed, reactive } from "vue";
 const EMPTY_FILTERS = {
   priorities: [],
   statuses: [],
+  stages: [],
   users: [],
   creators: [],
   labels: [],
@@ -20,6 +21,9 @@ function useBcfFilter(topics) {
     }
     if (filters.statuses.length > 0) {
       list = list.filter(t => filters.statuses.includes(t.topic_status));
+    }
+    if (filters.stages.length > 0) {
+      list = list.filter(t => filters.stages.includes(t.stage));
     }
     if (filters.users.length > 0) {
       list = list.filter(t => filters.users.includes(t.assigned_to));

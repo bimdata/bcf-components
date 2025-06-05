@@ -44,6 +44,15 @@
           v-model="filters.statuses"
         />
 
+        <BIMDataSelect
+          width="100%"
+          :multi="true"
+          :label="$t('BcfComponents.BcfFilters.stageLabel')"
+          :nullLabel="$t('BcfComponents.BcfFilters.undefined')"
+          :options="stageOptions"
+          v-model="filters.stages"
+        />
+
         <div class="bcf-filters__container__date">
           <BIMDataDatePicker
             v-model="filters.startDate"
@@ -158,6 +167,10 @@ export default {
       getSelectOptions(props.topics.map((topic) => topic.topic_status))
     );
 
+    const stageOptions = computed(() =>
+      getSelectOptions(props.topics.map((topic) => topic.stage))
+    );
+
     const userOptions = computed(() =>
       getSelectOptions(props.topics.map((topic) => topic.assigned_to))
     );
@@ -195,6 +208,7 @@ export default {
       labelOptions,
       priorityOptions,
       statusOptions,
+      stageOptions,
       userOptions,
       // Methods
       close,
