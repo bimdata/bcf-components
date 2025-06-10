@@ -1,3 +1,14 @@
+## [6.5.3](https://github.com/bimdata/bcf-components/compare/v6.5.2...v6.5.3) (2025-06-10)
+
+
+### chore
+
+* update dependencies ([7a0da43](https://github.com/bimdata/bcf-components/commit/7a0da43bd7e1517b3b71ba887996599c22ed0fa5))
+
+### PATCH
+
+* add 'stage' filters (#49) ([a5260db](https://github.com/bimdata/bcf-components/commit/a5260dbd4ca8fbfbad5f5398895332cd351b5ce5)), closes [#49](https://github.com/bimdata/bcf-components/issues/49)
+
 ## [6.5.2](https://github.com/bimdata/bcf-components/compare/v6.5.1...v6.5.2) (2025-04-28)
 
 
