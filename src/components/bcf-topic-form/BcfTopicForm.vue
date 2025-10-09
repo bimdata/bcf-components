@@ -159,6 +159,11 @@
           v-model="topicLabels"
           :multi="true"
         />
+        <BcfTopicDocumentsSelector
+          :project="project"
+          :documents="topicDocuments"
+          @selection-change="topicDocuments = $event"
+        />
       </div>
     </div>
 
@@ -201,12 +206,14 @@ import service from "../../service.js";
 import { setViewpointDefaults } from "../../utils/viewpoints.js";
 import { getViewerViewpoint } from "../../utils/viewer.js";
 // Components
+import BcfTopicDocumentsSelector from "./bcf-topic-documents-selector/BcfTopicDocumentsSelector.vue";
 import BcfTopicImages from "./bcf-topic-images/BcfTopicImages.vue";
 import BcfTopicSnapshots from "./bcf-topic-snapshots/BcfTopicSnapshots.vue";
 import BcfTopicSnapshotsActions from "./bcf-topic-snapshots-actions/BcfTopicSnapshotsActions.vue";
 
 export default {
   components: {
+    BcfTopicDocumentsSelector,
     BcfTopicImages,
     BcfTopicSnapshots,
     BcfTopicSnapshotsActions,
@@ -289,6 +296,7 @@ export default {
     const topicDueDate = ref(null);
     const topicDescription = ref("");
     const topicLabels = ref([]);
+    const topicDocuments = ref([]);
     const viewpoints = ref([]);
 
     const viewpointsToCreate = ref([]);
@@ -304,8 +312,8 @@ export default {
     let viewerLayout = null;
 
     const hasErrorTitle = ref(false);
-    const isOpenModal = ref(false);
     const loading = ref(false);
+    const isOpenModal = ref(false);
 
     const reset = () => {
       topicTitle.value = "";
@@ -317,6 +325,7 @@ export default {
       topicDueDate.value = null;
       topicDescription.value = "";
       topicLabels.value = [];
+      topicDocuments.value = [];
       viewpoints.value = [];
       viewpointsToCreate.value = [];
       viewpointsToUpdate.value = [];
@@ -339,6 +348,7 @@ export default {
           topicDueDate.value = topic.due_date;
           topicDescription.value = topic.description || "";
           topicLabels.value = topic.labels || [];
+          topicDocuments.value = topic.documents || [];
           viewpoints.value = topic.viewpoints || [];
         } else {
           reset();
@@ -471,6 +481,8 @@ export default {
           newTopic = await service.updateTopic(props.project, data);
         }
 
+        await service.updateTopicDocuments(props.project, newTopic, topicDocuments.value);
+
         await Promise.all([
           ...viewpointsToCreate.value.map((viewpoint) =>
             service.createViewpoint(props.project, newTopic, viewpoint)
@@ -506,6 +518,7 @@ export default {
       nextIndex,
       topicAssignedTo,
       topicDescription,
+      topicDocuments,
       topicDueDate,
       topicPriority,
       topicStage,

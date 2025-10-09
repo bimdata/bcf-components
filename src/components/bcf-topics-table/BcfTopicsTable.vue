@@ -6,7 +6,7 @@
       displayedColumns
         .map(col => ({
           ...col,
-          label: col.label || $t(`BcfComponents.BcfTopicsTable.headers.${col.id}`)
+          label: col.label ?? $t(`BcfComponents.BcfTopicsTable.headers.${col.id}`)
         }))
     "
     :rows="topics"
@@ -54,7 +54,12 @@
       {{ toShortDateFormat(topic.creation_date) }}
     </template>
     <template #cell-actions="{ row: topic }">
-      <BcfTopicActionsCell :topic="topic" @open-topic="$emit('open-topic', $event)" :warning="warningCallback(topic)" :warningTooltipMessage="warningTooltipMessage" />
+      <BcfTopicActionsCell
+        :topic="topic"
+        @open-topic="$emit('open-topic', $event)"
+        :warning="warningCallback(topic)"
+        :warningTooltipMessage="warningTooltipMessage"
+      />
     </template>
   </BIMDataTable>
 </template>

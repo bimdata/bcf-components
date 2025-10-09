@@ -42,7 +42,7 @@
           class="bcf-topic-overview__content__head__index"
           :style="{
             backgroundColor: `#${priorityColor}`,
-            color: adjustTextColor(`#${priorityColor}`, '#FFF', '#2F374A'),
+            color: adjustTextColor(`#${priorityColor}`, '#FFF', 'var(--color-text)'),
           }"
         >
           {{ topic.index }}
@@ -198,6 +198,12 @@
         </div>
       </div>
 
+      <BcfTopicDocuments
+        :project="project"
+        :topic="topic"
+        @view-topic-document="$emit('view-topic-document', $event)"
+      />
+
       <BcfTopicComments
         :uiConfig="uiConfig"
         :project="project"
@@ -232,18 +238,20 @@
 
 <script>
 import { adjustTextColor } from "@bimdata/design-system/src/BIMDataComponents/BIMDataColorSelector/colors.js";
-import { computed, onMounted, ref } from "vue";
+import { computed, ref } from "vue";
 import service from "../../service.js";
 import { getPriorityColor } from "../../utils/topic.js";
 // Components
 import BcfTopicComments from "./bcf-topic-comments/BcfTopicComments.vue";
 import BcfTopicDefaultImage from "../bcf-topic-card/BcfTopicDefaultImage.vue";
+import BcfTopicDocuments from "./bcf-topic-documents/BcfTopicDocuments.vue";
 import BcfTopicViewpoints from "./bcf-topic-viewpoints/BcfTopicViewpoints.vue";
 
 export default {
   components: {
     BcfTopicComments,
     BcfTopicDefaultImage,
+    BcfTopicDocuments,
     BcfTopicViewpoints,
   },
   props: {
@@ -291,6 +299,7 @@ export default {
     "view-comment-snapshot",
     "view-topic",
     "view-topic-components",
+    "view-topic-document",
     "view-topic-viewpoint",
   ],
   setup(props, { emit }) {

@@ -70,7 +70,9 @@
             "takeSnapshot": "Prendre un snapshot",
             "importFile": "Importer un fichier",
             "searchPlaceholder": "Rechercher",
-            "emptySearch": "Pas de résultat"
+            "emptySearch": "Pas de résultat",
+            "documentsLabel": "Documents",
+            "documentsCount": "Documents - {count} documents sélectionnés"
         },
         "BcfTopicOverview": {
             "openViewer": "Ouvrir dans le viewer",
