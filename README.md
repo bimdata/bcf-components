@@ -1,7 +1,6 @@
 <h1 align="center">BIMData BCF components library</h1>
 
-A set (library) of Vue components to manage BCF and build BCF related
-features into your app.
+A set of Vue components to manage BCF and build BCF related features into your app.
 
 Made with :heart: by [BIMData.io](https://bimdata.io/).
 

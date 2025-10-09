@@ -113,6 +113,20 @@ class Service {
     downloadBlobAs(`${project.name}.xlsx`, response);
   }
 
+  // --- BCF Topic Documents API
+
+  fetchTopicDocuments(project, topic) {
+    return this.apiClient.bcfApi.getDocumentReferences(topic.guid, project.id);
+  }
+
+  createTopicDocument(project, topic, document) {
+    return this.apiClient.bcfApi.createDocumentReference(topic.guid, project.id, document);
+  }
+
+  updateTopicDocuments(project, topic, documents) {
+    return this.apiClient.bcfApi.fullUpdateDocumentReference(topic.guid, project.id, documents);
+  }
+
   // --- BCF Topic Viewpoints API ---
 
   async loadTopicsViewpoints(project, topics) {

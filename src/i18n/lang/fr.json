@@ -1,5 +1,6 @@
 {
     "BcfComponents": {
+        "back": "Retour",
         "BcfFilters": {
             "filtersButton": "Filtres",
             "filtersTitle": "Filtres",
@@ -15,7 +16,6 @@
             "datePlaceholder": "Date de création"
         },
         "BcfSettings": {
-            "goBackButton": "Retour",
             "title": "Paramètres BCF",
             "text": "Créez, renseignez et listez les paramètres BCF que vous souhaitez avoir sur ce projet",
             "validateButton": "Valider les paramètres BCF"
@@ -70,7 +70,10 @@
             "takeSnapshot": "Prendre un snapshot",
             "importFile": "Importer un fichier",
             "searchPlaceholder": "Rechercher",
-            "emptySearch": "Pas de résultat"
+            "emptySearch": "Pas de résultat",
+            "documentsLabel": "Documents",
+            "documentsCount": "Documents - {count} documents sélectionnés",
+            "validateDocuments": "Valider"
         },
         "BcfTopicOverview": {
             "openViewer": "Ouvrir dans le viewer",

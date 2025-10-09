@@ -3,7 +3,7 @@
     class="bcf-topic-status-cell"
     :style="{
       backgroundColor: `#${statusColor}`,
-      color: adjustTextColor(statusColor, '#ffffff', 'var(--color-text)')
+      color: adjustTextColor(statusColor, '#FFF', 'var(--color-text)')
     }"
   >
     {{ topic.topic_status }}

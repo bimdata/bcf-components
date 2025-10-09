@@ -1,5 +1,6 @@
 {
     "BcfComponents": {
+        "back": "Zurück",
         "BcfFilters": {
             "filtersButton": "Filter",
             "filtersTitle": "Filter",
@@ -14,7 +15,6 @@
             "datePlaceholder": "Erstellungsdatum"
         },
         "BcfSettings": {
-            "goBackButton": "Zurück",
             "title": "BCF-Parameter",
             "text": "Erstellen, füllen und listen Sie die BCF-Einstellungen auf, die Sie für dieses Projekt haben möchten.",
             "validateButton": "Die BCF-Parameter anerkennen"

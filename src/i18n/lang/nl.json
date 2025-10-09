@@ -1,5 +1,6 @@
 {
     "BcfComponents": {
+        "back": "Terug",
         "BcfFilters": {
             "filtersButton": "Filters",
             "filtersTitle": "Filters",
@@ -14,7 +15,6 @@
             "undefined": "Niet gedefinieerd"
         },
         "BcfSettings": {
-            "goBackButton": "Terug",
             "title": "BCF-instellingen",
             "text": "De voor dit project gewenste BCF-instellingen maken, invoeren en in een lijst plaatsen",
             "validateButton": "BCF-instellingen valideren"

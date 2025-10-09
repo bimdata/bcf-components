@@ -5,7 +5,7 @@
       class="status-badge"
       :style="{
         backgroundColor: `#${statusColor}`,
-        color: adjustTextColor(`#${statusColor}`, '#FFF', '#2F374A'),
+        color: adjustTextColor(`#${statusColor}`, '#FFF', 'var(--color-text)'),
       }"
     >
       <BIMDataIconInformation fill color="default" />
