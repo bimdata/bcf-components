@@ -1,5 +1,6 @@
 {
     "BcfComponents": {
+        "back": "Tilbake",
         "BcfFilters": {
             "filtersButton": "Filtre",
             "filtersTitle": "Filtre",
@@ -14,7 +15,6 @@
             "undefined": "Ikke definert"
         },
         "BcfSettings": {
-            "goBackButton": "Tilbake",
             "title": "BCF-innstillinger",
             "text": "Opprett, fyll inn og list opp BCF-innstillingene du vil ha til dette prosjektet",
             "validateButton": "Valider BCF-innstillinger"

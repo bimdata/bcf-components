@@ -1,5 +1,6 @@
 {
     "BcfComponents": {
+        "back": "Back",
         "BcfFilters": {
             "filtersButton": "Filters",
             "filtersTitle": "Filters",
@@ -14,7 +15,6 @@
             "datePlaceholder": "Creation date"
         },
         "BcfSettings": {
-            "goBackButton": "Back",
             "title": "BCF Settings",
             "text": "Create, enter in, and list the BCF settings you would like to have for this project",
             "validateButton": "Validate BCF settings"
@@ -71,7 +71,8 @@
             "searchPlaceholder": "Search",
             "emptySearch": "No result",
             "documentsLabel": "Add a file",
-            "documentsCount": "Files - {count} selected files"
+            "documentsCount": "Files - {count} selected files",
+            "validateDocuments": "Validate"
         },
         "BcfTopicOverview": {
             "openViewer": "Open in viewer",

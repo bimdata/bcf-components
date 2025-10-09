@@ -1,5 +1,6 @@
 {
     "BcfComponents": {
+        "back": "Indietro",
         "BcfFilters": {
             "filtersButton": "Filtri",
             "filtersTitle": "Filtri",
@@ -14,7 +15,6 @@
             "undefined": "Non definito"
         },
         "BcfSettings": {
-            "goBackButton": "Indietro",
             "title": "Parametri BCF",
             "text": "Creare, notificare e elencare i parametri BCF che si desidera avere su questo progetto",
             "validateButton": "Conferma i parametri BCF"

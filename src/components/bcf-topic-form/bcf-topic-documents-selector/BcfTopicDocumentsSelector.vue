@@ -15,7 +15,7 @@
   <div v-if="isOpenDMS" class="bcf-topic-form__dms">
     <BIMDataButton ghost radius @click="isOpenDMS = false">
       <BIMDataIconArrow size="xxs" />
-      <span class="m-l-6">{{ "Back" }}</span>
+      <span class="m-l-6">{{ "BcfComponents.back" }}</span>
     </BIMDataButton>
     <BIMDataFileManager
       :locale="$i18n.locale"
@@ -37,7 +37,7 @@
       radius
       @click="isOpenDMS = false, $emit('selection-change', topicDocuments)"
     >
-      {{ $t("BcfComponents.BcfTopicForm.validateFiles") }}
+      {{ $t("BcfComponents.BcfTopicForm.validateDocuments") }}
     </BIMDataButton>
   </div>
 </template>
