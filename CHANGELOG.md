@@ -1,3 +1,14 @@
+# [6.6.0](https://github.com/bimdata/bcf-components/compare/v6.5.3...v6.6.0) (2025-10-09)
+
+
+### chore
+
+* add dependabot version update config ([9e98997](https://github.com/bimdata/bcf-components/commit/9e989979dd41e9238e76a87f384a914a7ccdef9a))
+
+### MINOR
+
+* feat: add topic documents feature (#61) ([fa18f78](https://github.com/bimdata/bcf-components/commit/fa18f78a92281a19be87242c5597acc94d24af8a)), closes [#61](https://github.com/bimdata/bcf-components/issues/61)
+
 ## [6.5.3](https://github.com/bimdata/bcf-components/compare/v6.5.2...v6.5.3) (2025-06-10)
 
 
