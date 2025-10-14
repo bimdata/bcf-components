@@ -18,7 +18,7 @@
           <BIMDataIconUser size="xxs" fill color="granite" />
         </span>
 
-        <BIMDataTextbox width="auto" maxWidth="150px" cutPosition="end" :text="comment.author" />
+        <BIMDataTextbox width="auto" maxWidth="150px" cutPosition="end" :text="comment.modified_author" />
         <span class="color-granite m-x-6"> • </span>
         <span class="color-granite">
           {{ $d(comment.modified_date, "long") }}
