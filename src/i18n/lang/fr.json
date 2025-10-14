@@ -125,7 +125,8 @@
             "commentsText": "commentaires",
             "deleteCommentText": "Supprimer ce commentaire ?",
             "deleteButton": "Supprimer",
-            "takeSnapshot": "Prendre un snapshot"
+            "takeSnapshot": "Prendre un snapshot",
+            "edited": "edité"
         },
         "BcfTopicPriorityCell": {
             "noPriority": "Aucune"

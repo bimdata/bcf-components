@@ -124,7 +124,8 @@
             "commentsText": "Comments",
             "deleteCommentText": "Delete this comment ?",
             "deleteButton": "Delete",
-            "takeSnapshot": "Take a snapshot"
+            "takeSnapshot": "Take a snapshot",
+            "edited": "edited"
         },
         "BcfTopicPriorityCell": {
             "noPriority": "None"
