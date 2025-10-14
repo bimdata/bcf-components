@@ -12,6 +12,15 @@
         height: 32px;
         border-radius: 50px;
         background-color: var(--color-silver-light);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .edited {
+        position: absolute;
+        bottom: -0.75em;
+        left: 44px;
       }
     }
 

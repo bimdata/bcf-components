@@ -13,15 +13,19 @@
         />
         <span
           v-else
-          class="topic-comment__header__left__user flex items-center justify-center m-r-12"
+          class="topic-comment__header__left__user m-r-12"
         >
           <BIMDataIconUser size="xxs" fill color="granite" />
         </span>
 
         <BIMDataTextbox width="auto" maxWidth="150px" cutPosition="end" :text="comment.author" />
-        <span class="color-granite m-x-6"> • </span>
-        <span class="color-granite">
-          {{ $d(comment.date, "long") }}
+        <span v-if="comment.date !== comment.modified_date" class="edited">
+          ({{ $t("BcfComponents.BcfTopicComments.edited") }})
+        </span>
+
+        <span class="color-granite m-l-6"> • </span>
+        <span class="color-granite m-l-6">
+          {{ $d(comment.modified_date, "long") }}
         </span>
       </div>
 
