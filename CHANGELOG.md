@@ -1,3 +1,10 @@
+## [6.6.1](https://github.com/bimdata/bcf-components/compare/v6.6.0...v6.6.1) (2025-10-14)
+
+
+### PATCH
+
+* fix(comment): show modif date instaed of creation date (#62) ([6902010](https://github.com/bimdata/bcf-components/commit/69020105d154ff9b89b3e2b10033e5902b96965f)), closes [#62](https://github.com/bimdata/bcf-components/issues/62)
+
 # [6.6.0](https://github.com/bimdata/bcf-components/compare/v6.5.3...v6.6.0) (2025-10-09)
 
 
