@@ -21,7 +21,7 @@
         <BIMDataTextbox width="auto" maxWidth="150px" cutPosition="end" :text="comment.author" />
         <span class="color-granite m-x-6"> • </span>
         <span class="color-granite">
-          {{ $d(comment.date, "long") }}
+          {{ $d(comment.modified_date, "long") }}
         </span>
       </div>
 
