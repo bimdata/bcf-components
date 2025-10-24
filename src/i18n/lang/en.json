@@ -72,6 +72,8 @@
             "emptySearch": "No result",
             "documentsLabel": "Add a file",
             "documentsCount": "Files - {count} selected files",
+            "groupsLabel": "Permissions",
+            "groupsCount": "Permissions - {count} selected groups",
             "validateDocuments": "Validate"
         },
         "BcfTopicOverview": {

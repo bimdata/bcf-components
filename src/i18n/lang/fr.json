@@ -73,6 +73,8 @@
             "emptySearch": "Pas de résultat",
             "documentsLabel": "Documents",
             "documentsCount": "Documents - {count} documents sélectionnés",
+            "groupsLabel": "Permissions",
+            "groupsCount": "Permissions - {count} groupes sélectionnés",
             "validateDocuments": "Valider"
         },
         "BcfTopicOverview": {

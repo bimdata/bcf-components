@@ -164,6 +164,11 @@
           :documents="topicDocuments"
           @selection-change="topicDocuments = $event"
         />
+        <BcfTopicGroups
+          :project="project"
+          :groups="topicGroups"
+          @selection-change="topicGroups = $event"
+        />
       </div>
     </div>
 
@@ -210,6 +215,7 @@ import BcfTopicDocumentsSelector from "./bcf-topic-documents-selector/BcfTopicDo
 import BcfTopicImages from "./bcf-topic-images/BcfTopicImages.vue";
 import BcfTopicSnapshots from "./bcf-topic-snapshots/BcfTopicSnapshots.vue";
 import BcfTopicSnapshotsActions from "./bcf-topic-snapshots-actions/BcfTopicSnapshotsActions.vue";
+import BcfTopicGroups from "./bcf-topic-groups/BcfTopicGroups.vue";
 
 export default {
   components: {
@@ -297,6 +303,7 @@ export default {
     const topicDescription = ref("");
     const topicLabels = ref([]);
     const topicDocuments = ref([]);
+    const topicGroups = ref([]);
     const viewpoints = ref([]);
 
     const viewpointsToCreate = ref([]);
@@ -326,6 +333,7 @@ export default {
       topicDescription.value = "";
       topicLabels.value = [];
       topicDocuments.value = [];
+      topicGroups.value = [];
       viewpoints.value = [];
       viewpointsToCreate.value = [];
       viewpointsToUpdate.value = [];
@@ -349,6 +357,7 @@ export default {
           topicDescription.value = topic.description || "";
           topicLabels.value = topic.labels || [];
           topicDocuments.value = topic.documents || [];
+          topicGroups.value = topic.groups || [];
           viewpoints.value = topic.viewpoints || [];
         } else {
           reset();
@@ -466,6 +475,7 @@ export default {
           due_date: topicDueDate.value,
           description: topicDescription.value,
           labels: topicLabels.value,
+          groups: topicGroups.value,
           bimdata_viewer_layout: viewpointsToCreate.value.length > 1 && viewerLayout ? viewerLayout : props.topic?.bimdata_viewer_layout,
         };
 
@@ -520,6 +530,7 @@ export default {
       topicDescription,
       topicDocuments,
       topicDueDate,
+      topicGroups,
       topicPriority,
       topicStage,
       topicStatus,
