@@ -6,6 +6,7 @@
             "filtersTitle": "Filters",
             "priorityLabel": "Prioriteit",
             "statusLabel": "Status",
+            "stageLabel": "Fase",
             "datePlaceholder": "Aanmaakdatum",
             "assignedToLabel": "Toegewezen aan",
             "creatorsLabel": "Gemaakt door",

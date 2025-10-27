@@ -6,6 +6,7 @@
             "filtersTitle": "Filters",
             "priorityLabel": "Priority",
             "statusLabel": "Status",
+            "stageLabel": "Stage",
             "assignedToLabel": "Assigned to",
             "creatorsLabel": "Created by",
             "tagsLabel": "Tags",

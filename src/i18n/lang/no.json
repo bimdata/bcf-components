@@ -6,6 +6,7 @@
             "filtersTitle": "Filtre",
             "priorityLabel": "Prioritet",
             "statusLabel": "Status",
+            "stageLabel": "Nivå",
             "datePlaceholder": "Opprettelsesdato",
             "assignedToLabel": "Tilegnet",
             "creatorsLabel": "Laget av",
