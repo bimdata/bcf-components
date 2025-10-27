@@ -6,6 +6,7 @@
             "filtersTitle": "Filtre",
             "priorityLabel": "Prioritet",
             "statusLabel": "Status",
+            "stageLabel": "Nivå",
             "datePlaceholder": "Opprettelsesdato",
             "assignedToLabel": "Tilegnet",
             "creatorsLabel": "Laget av",
@@ -32,9 +33,9 @@
             }
         },
         "BcfTopicCard": {
-            "priority": "Prioritet:",
+            "priority": "Prioritet",
             "noPriority": "Ingen",
-            "assignedTo": "Tilegnet:",
+            "assignedTo": "Tilegnet",
             "elements": "Elementer",
             "noElements": "0 Element",
             "notSpecified": "Ikke spesifisert",

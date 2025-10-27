@@ -6,6 +6,7 @@
             "filtersTitle": "Filtros",
             "priorityLabel": "Prioridad",
             "statusLabel": "Estado",
+            "stageLabel": "Fase",
             "assignedToLabel": "Asignado a",
             "creatorsLabel": "Creado por",
             "tagsLabel": "Etiquetas:",
@@ -32,9 +33,9 @@
             }
         },
         "BcfTopicCard": {
-            "priority": "Prioridad :",
+            "priority": "Prioridad",
             "noPriority": "Sin",
-            "assignedTo": "Asignado a :",
+            "assignedTo": "Asignado a",
             "elements": "Elementos",
             "notSpecified": "No definido",
             "see": "Ver"

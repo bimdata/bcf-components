@@ -52,7 +52,7 @@
     <div class="bcf-topic-card__content">
       <div>
         <strong>
-          {{ $t("BcfComponents.BcfTopicCard.priority") }}
+          {{ `${$t("BcfComponents.BcfTopicCard.priority")}: ` }}
         </strong>
         <span :style="{ color: `#${priorityColor}` }">
           {{ topic.priority || $t("BcfComponents.BcfTopicCard.noPriority") }}
@@ -60,7 +60,7 @@
       </div>
       <div>
         <strong>
-          {{ $t("BcfComponents.BcfTopicCard.assignedTo") }}
+          {{ `${$t("BcfComponents.BcfTopicCard.assignedTo")}: ` }}
         </strong>
         <span>
           {{ topic.assigned_to || $t("BcfComponents.BcfTopicCard.notSpecified") }}
