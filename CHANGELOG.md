@@ -1,3 +1,14 @@
+## [6.6.2](https://github.com/bimdata/bcf-components/compare/v6.6.1...v6.6.2) (2025-10-27)
+
+
+### chore
+
+* update dependencies ([e083eaf](https://github.com/bimdata/bcf-components/commit/e083eaf161cfb44c1326ce418a60c3e7f274a0bd))
+
+### PATCH
+
+* fix: bcf components i18n (#65) ([8487143](https://github.com/bimdata/bcf-components/commit/848714356a2d29166f328ab6ede9998aedd10441)), closes [#65](https://github.com/bimdata/bcf-components/issues/65)
+
 ## [6.6.1](https://github.com/bimdata/bcf-components/compare/v6.6.0...v6.6.1) (2025-10-14)
 
 
