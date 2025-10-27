@@ -33,9 +33,9 @@
             }
         },
         "BcfTopicCard": {
-            "priority": "Prioriteit:",
+            "priority": "Prioriteit",
             "noPriority": "Geen",
-            "assignedTo": "Toegewezen aan:",
+            "assignedTo": "Toegewezen aan",
             "elements": "Elementen",
             "noElements": "0 Element",
             "notSpecified": "Niet gespecificeerd",

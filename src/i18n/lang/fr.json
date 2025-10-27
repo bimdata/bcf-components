@@ -33,9 +33,9 @@
             }
         },
         "BcfTopicCard": {
-            "priority": "Priorité : ",
+            "priority": "Priorité",
             "noPriority": "Aucune",
-            "assignedTo": "Assigné à : ",
+            "assignedTo": "Assigné à",
             "elements": "{n} Élements",
             "notSpecified": "Non défini",
             "see": "Voir"
