@@ -58,4 +58,35 @@ export default {
 };
 </script>
 
-<style scoped lang="scss" src="./UserAvatar.scss"></style>
+<style scoped>
+.user-avatar {
+  min-width: 32px;
+  min-height: 32px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+
+  &.user-avatar--primary {
+    background-color: var(--color-primary);
+    color: var(--color-silver-light);
+  }
+
+  &.user-avatar--secondary {
+    background-color: var(--color-secondary);
+    color: var(--color-primary);
+  }
+
+  &.user-avatar--silver-light {
+    background-color: var(--color-silver-light);
+    color: var(--color-primary);
+  }
+}
+</style>

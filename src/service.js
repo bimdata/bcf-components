@@ -35,6 +35,10 @@ class Service {
     return this.apiClient.bcfApi.getUser();
   }
 
+  fetchProjectGroups(project) {
+    return this.apiClient.collaborationApi.getManageGroups(project.cloud.id, project.id);
+  }
+
   // --- BCF Topics API ---
 
   /**

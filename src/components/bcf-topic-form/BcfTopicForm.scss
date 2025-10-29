@@ -101,6 +101,10 @@
           resize: vertical;
         }
       }
+
+      :deep(.bcf-topic-documents-selector) {
+        margin-bottom: 30px;
+      }
     }
   }
 

@@ -73,7 +73,10 @@
             "emptySearch": "Pas de résultat",
             "documentsLabel": "Documents",
             "documentsCount": "Documents - {count} documents sélectionnés",
-            "validateDocuments": "Valider"
+            "groupsLabel": "Permissions",
+            "groupsCount": "Permissions - {count} groupes sélectionnés",
+            "groupsText": "Sélectionner les groupes utilisateur qui peuvent voir ce topic et intéragir avec.",
+            "validate": "Valider"
         },
         "BcfTopicOverview": {
             "openViewer": "Ouvrir dans le viewer",
