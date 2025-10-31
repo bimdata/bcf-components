@@ -73,7 +73,10 @@
             "emptySearch": "No result",
             "documentsLabel": "Add a file",
             "documentsCount": "Files - {count} selected files",
-            "validateDocuments": "Validate"
+            "groupsLabel": "Permissions",
+            "groupsCount": "Permissions - {count} selected groups",
+            "groupsText": "You are now setting the access rights: choose the user group(s) that will be exclusively authorized to see and interact with this topic.",
+            "validate": "Validate"
         },
         "BcfTopicOverview": {
             "openViewer": "Open in viewer",

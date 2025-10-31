@@ -37,7 +37,7 @@
       radius
       @click="isOpenDMS = false, $emit('selection-change', topicDocuments)"
     >
-      {{ $t("BcfComponents.BcfTopicForm.validateDocuments") }}
+      {{ $t("BcfComponents.BcfTopicForm.validate") }}
     </BIMDataButton>
   </div>
 </template>
