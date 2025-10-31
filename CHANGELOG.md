@@ -1,3 +1,10 @@
+# [6.7.0](https://github.com/bimdata/bcf-components/compare/v6.6.2...v6.7.0) (2025-10-31)
+
+
+### MINOR
+
+* feat: add topic groups (#66) ([58e5cd6](https://github.com/bimdata/bcf-components/commit/58e5cd6c8f552ca88112b5bb02ee59acb7d8dbe6)), closes [#66](https://github.com/bimdata/bcf-components/issues/66)
+
 ## [6.6.2](https://github.com/bimdata/bcf-components/compare/v6.6.1...v6.6.2) (2025-10-27)
 
 
