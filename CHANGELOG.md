@@ -1,3 +1,10 @@
+## [6.7.1](https://github.com/bimdata/bcf-components/compare/v6.7.0...v6.7.1) (2025-11-06)
+
+
+### PATCH
+
+* fix(i181n): fix 'back' buttons translation ([64db86b](https://github.com/bimdata/bcf-components/commit/64db86becd66e1a48c0226109939d87ad5132b48))
+
 # [6.7.0](https://github.com/bimdata/bcf-components/compare/v6.6.2...v6.7.0) (2025-10-31)
 
 
