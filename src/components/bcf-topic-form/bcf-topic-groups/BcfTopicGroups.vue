@@ -15,7 +15,7 @@
   <div v-if="isOpenGroups" class="bcf-topic-groups__selector">
     <BIMDataButton ghost radius @click="isOpenGroups = false">
       <BIMDataIconArrow size="xxs" />
-      <span class="m-l-6">{{ "BcfComponents.back" }}</span>
+      <span class="m-l-6">{{ $t("BcfComponents.back") }}</span>
     </BIMDataButton>
     <div class="body">
       <div class="text">

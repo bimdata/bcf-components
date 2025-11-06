@@ -15,7 +15,7 @@
   <div v-if="isOpenDMS" class="bcf-topic-form__dms">
     <BIMDataButton ghost radius @click="isOpenDMS = false">
       <BIMDataIconArrow size="xxs" />
-      <span class="m-l-6">{{ "BcfComponents.back" }}</span>
+      <span class="m-l-6">{{ $t("BcfComponents.back") }}</span>
     </BIMDataButton>
     <BIMDataFileManager
       :locale="$i18n.locale"
