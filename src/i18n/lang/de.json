@@ -70,7 +70,13 @@
             "takeSnapshot": "Mach einen Schnappschuss",
             "importFile": "Eine Datei importieren",
             "searchPlaceholder": "Suchen",
-            "emptySearch": "kein Ergebnis"
+            "emptySearch": "kein Ergebnis",
+            "documentsLabel": "Dokumente",
+            "documentsCount": "Dokumente – {count} ausgewählte Dokumente",
+            "groupsLabel": "Berechtigungen",
+            "groupsCount": "Berechtigungen – {count} ausgewählte Gruppen",
+            "groupsText": "Wählen Sie die Benutzergruppen aus, die dieses Thema sehen und damit interagieren dürfen.",
+            "validate": "Bestätigen"
         },
         "BcfTopicOverview": {
             "openViewer": "Im Viewer öffnen",
@@ -122,7 +128,8 @@
             "commentsText": "Kommentare",
             "deleteCommentText": "Diesen Kommentar löschen?",
             "deleteButton": "Löschen",
-            "takeSnapshot": "Mach einen Schnappschuss"
+            "takeSnapshot": "Mach einen Schnappschuss",
+            "edited": "bearbeitet"
         },
         "BcfTopicPriorityCell": {
             "noPriority": "Keine"
