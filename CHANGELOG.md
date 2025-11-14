@@ -1,3 +1,10 @@
+## [6.7.2](https://github.com/bimdata/bcf-components/compare/v6.7.1...v6.7.2) (2025-11-14)
+
+
+### PATCH
+
+* i18n: update german translations ([c319f6d](https://github.com/bimdata/bcf-components/commit/c319f6df20d98e7b14a6a5ce7970458b9d0c3aec))
+
 ## [6.7.1](https://github.com/bimdata/bcf-components/compare/v6.7.0...v6.7.1) (2025-11-06)
 
 
