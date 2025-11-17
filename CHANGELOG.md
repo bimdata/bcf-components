@@ -1,3 +1,10 @@
+## [6.7.3](https://github.com/bimdata/bcf-components/compare/v6.7.2...v6.7.3) (2025-11-17)
+
+
+### PATCH
+
+* chore(deps-dev): bump js-yaml from 4.1.0 to 4.1.1 (#69) ([0b82b46](https://github.com/bimdata/bcf-components/commit/0b82b46c8bae2d314551a4aa2d57fc9e26f8cd4e)), closes [#69](https://github.com/bimdata/bcf-components/issues/69)
+
 ## [6.7.2](https://github.com/bimdata/bcf-components/compare/v6.7.1...v6.7.2) (2025-11-14)
 
 
