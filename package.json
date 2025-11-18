@@ -7,6 +7,9 @@
   ],
   "main": "./src/index.js",
   "module": "./src/index.js",
+  "repository": {
+    "url": "https://github.com/bimdata/bcf-components"
+  },
   "scripts": {
     "release": "semantic-release"
   },
