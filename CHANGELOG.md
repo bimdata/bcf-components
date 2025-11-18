@@ -1,3 +1,10 @@
+## [6.7.4](https://github.com/bimdata/bcf-components/compare/v6.7.3...v6.7.4) (2025-11-18)
+
+
+### PATCH
+
+* chore(ci): setup trusted publishing ([6d58469](https://github.com/bimdata/bcf-components/commit/6d5846914bf22e68cb678501df072afa05875e29))
+
 ## [6.7.3](https://github.com/bimdata/bcf-components/compare/v6.7.2...v6.7.3) (2025-11-17)
 
 
