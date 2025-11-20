@@ -1,3 +1,10 @@
+## [6.7.5](https://github.com/bimdata/bcf-components/compare/v6.7.4...v6.7.5) (2025-11-20)
+
+
+### PATCH
+
+* fix(export): handle undefined topics list in exportBcf and exportBcfXlsx methods ([5322f96](https://github.com/bimdata/bcf-components/commit/5322f96a060e55a9a4732217cf657d2d235754d4))
+
 ## [6.7.4](https://github.com/bimdata/bcf-components/compare/v6.7.3...v6.7.4) (2025-11-18)
 
 
