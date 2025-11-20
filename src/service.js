@@ -102,7 +102,7 @@ class Service {
     const response = await this.apiClient.bcfApi.downloadBcfExport(
       project.id,
       undefined, // Format
-      topics.map((t) => t.guid).join(",")
+      topics?.map((t) => t.guid).join(",")
     );
     downloadBlobAs(`${project.name}.bcf`, response);
   }
@@ -112,7 +112,7 @@ class Service {
       project.id,
       undefined, // Format
       locale,
-      topics.map((t) => t.guid).join(",")
+      topics?.map((t) => t.guid).join(",")
     );
     downloadBlobAs(`${project.name}.xlsx`, response);
   }
