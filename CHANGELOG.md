@@ -1,3 +1,10 @@
+## [6.7.6](https://github.com/bimdata/bcf-components/compare/v6.7.5...v6.7.6) (2026-01-22)
+
+
+### PATCH
+
+* chore(deps): bump lodash from 4.17.21 to 4.17.23 (#75) ([31c5425](https://github.com/bimdata/bcf-components/commit/31c542535f06625d11c283dc4fe5c726f2091c3e)), closes [#75](https://github.com/bimdata/bcf-components/issues/75)
+
 ## [6.7.5](https://github.com/bimdata/bcf-components/compare/v6.7.4...v6.7.5) (2025-11-20)
 
 
