@@ -1,3 +1,10 @@
+## [6.7.7](https://github.com/bimdata/bcf-components/compare/v6.7.6...v6.7.7) (2026-02-26)
+
+
+### PATCH
+
+* fix: use new post method for topics export ([9a0d807](https://github.com/bimdata/bcf-components/commit/9a0d80744c4e4bf10befed1101b671f47555590a))
+
 ## [6.7.6](https://github.com/bimdata/bcf-components/compare/v6.7.5...v6.7.6) (2026-01-22)
 
 
