@@ -99,20 +99,22 @@ class Service {
   }
 
   async exportBcf(project, topics) {
-    const response = await this.apiClient.bcfApi.downloadBcfExport(
+    const response = await this.apiClient.bcfApi.downloadBcfExportPost(
       project.id,
-      undefined, // Format
-      topics?.map((t) => t.guid).join(",")
+      {
+        topics: topics?.map((t) => t.guid),
+      }
     );
     downloadBlobAs(`${project.name}.bcf`, response);
   }
 
   async exportBcfXLSX(project, topics, locale) {
-    const response = await this.apiClient.bcfApi.downloadBcfExportXlsx(
+    const response = await this.apiClient.bcfApi.downloadBcfExportXlsxPost(
       project.id,
-      undefined, // Format
       locale,
-      topics?.map((t) => t.guid).join(",")
+      {
+        topics: topics?.map((t) => t.guid),
+      }
     );
     downloadBlobAs(`${project.name}.xlsx`, response);
   }
