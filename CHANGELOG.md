@@ -1,3 +1,10 @@
+## [6.7.8](https://github.com/bimdata/bcf-components/compare/v6.7.7...v6.7.8) (2026-07-27)
+
+
+### PATCH
+
+* chore(deps-dev): bump the major-updates group with 2 updates (#102) ([042a920](https://github.com/bimdata/bcf-components/commit/042a920037cf50ec05741415d49d99a5a406da4f)), closes [#102](https://github.com/bimdata/bcf-components/issues/102)
+
 ## [6.7.7](https://github.com/bimdata/bcf-components/compare/v6.7.6...v6.7.7) (2026-02-26)
 
 
